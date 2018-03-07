@@ -6,11 +6,15 @@
 
 	It is generated from these files:
 		base.proto
+		market_data.proto
 
 	It has these top-level messages:
 		Symbol
 		Kline
 		KlineSeries
+		OrderBook
+		MarketDataSnapshot
+		MdsList
 */
 package aproto
 
