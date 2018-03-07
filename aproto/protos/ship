@@ -1,0 +1,2 @@
+./protoc -I=. --gogofaster_out=.. ./*.proto
+#./protoc -I=./protos --gogofaster_out=plugins=grpc:. ./protos/*
