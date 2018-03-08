@@ -63,8 +63,10 @@ message Kline {
   double close = 5;
   // 成交量
   double volume = 6;
+  // 成交额
+  double amount = 7;
   // 持仓量
-  double position = 7;
+  double position = 8;
 }
 
 // KlineSeries K线序列
