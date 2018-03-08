@@ -1,13 +1,17 @@
 package realtime
 
 import (
+	"bytes"
 	"errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
 
-	"git.bitconst.com/mineralres/alps/base"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
+
+	"github.com/mineralres/goshare/pkg/base"
 
 	"github.com/mineralres/goshare/aproto"
 )
@@ -86,7 +90,10 @@ func getRawTickString(exstr string, symbol string) []string {
 		if err == nil {
 			tickArr := strings.Split(string(body), "~")
 			if len(tickArr) > 1 {
-				tickArr[1] = base.Decode(tickArr[1])
+				data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[1])), simplifiedchinese.GBK.NewDecoder()))
+				if err == nil {
+					tickArr[1] = string(data)
+				}
 			}
 			return tickArr
 		}
