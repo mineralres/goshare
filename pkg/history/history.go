@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -23,8 +24,11 @@ period：周期
 retryCount：当网络异常后重试次数，默认为3
 */
 func GetKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate, endDate, retryCount int) (*aproto.KlineSeries, error) {
-	if symbol.Exchange == aproto.ExchangeType_SSE || symbol.Exchange == aproto.ExchangeType_SZE {
+	ex := symbol.Exchange
+	if ex == aproto.ExchangeType_SSE || ex == aproto.ExchangeType_SZE {
 		return getCNStockKData(symbol, period, startDate, endDate, retryCount)
+	} else if ex == aproto.ExchangeType_SHFE || ex == aproto.ExchangeType_CZCE || ex == aproto.ExchangeType_DCE || ex == aproto.ExchangeType_CFFEX {
+		return getCNFutureKData(symbol, period, startDate, endDate, retryCount)
 	}
 	var ret aproto.KlineSeries
 	return &ret, nil
@@ -89,5 +93,94 @@ func getCNStockKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate,
 		}
 	}
 	log.Println(ret, err)
+	return &ret, nil
+}
+
+func adaptCZCE(value string) string {
+	if strings.Index(value, "D-") >= 0 {
+		value = value[2:]
+	}
+	for i := 0; i < len(value); i++ {
+		if value[i] >= '0' && value[i] <= '9' && i > 0 {
+			if len(value)-i == 3 {
+				return value[0:i] + "1" + value[i:]
+			}
+			break
+		}
+	}
+	return value
+}
+
+func getCNFutureKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate, endDate, retryCount int) (*aproto.KlineSeries, error) {
+	var ret aproto.KlineSeries
+	type SinaKline struct {
+		ClosePrice string `json:"c"`
+		Day        string `json:"d"`
+		MaxPrice   string `json:"h"`
+		MinPrice   string `json:"l"`
+		NowVolume  string `json:"v"`
+		OpenPrice  string `json:"o"`
+	}
+
+	isDaily := false
+	ktype := "5m"
+	switch period {
+	case aproto.PeriodType_D1:
+		isDaily = true
+		ktype = ""
+	case aproto.PeriodType_M1:
+		ktype = "1m"
+	case aproto.PeriodType_M5:
+		ktype = "5m"
+	}
+	code := symbol.Code
+	qapi := "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getFewMinLine?symbol=" + adaptCZCE(code) + "&type=" + ktype
+	if ktype == "" {
+		tradingDay := time.Now().Format("20060102")
+		qapi = "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getDailyKLine?symbol=" + adaptCZCE(code) + "&_=" + tradingDay
+		isDaily = true
+	}
+	resp, err := http.Get(qapi)
+	if err != nil {
+		return &ret, err
+	}
+
+	v, err := ioutil.ReadAll(resp.Body)
+	xl := len(v)
+	if xl > 2 && err == nil {
+		dataStr := string(v[1 : xl-2])
+		var sinaks []SinaKline
+		dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
+		dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
+		dataStr = strings.Replace(dataStr, "h:", "\"h\":", -1)
+		dataStr = strings.Replace(dataStr, "l:", "\"l\":", -1)
+		dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
+		dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
+		err = json.Unmarshal([]byte(dataStr), &sinaks)
+		// fmt.Println(err)
+		for i := len(sinaks) - 1; i >= 0; i-- {
+			v := sinaks[i]
+			var kx aproto.Kline
+			// day := strings.Split(v.Day, " ")[0]
+			if isDaily {
+				tm, err := time.Parse("2006-01-02", v.Day)
+				if err == nil {
+					kx.Time = tm.Unix() * 1000
+				}
+			} else {
+				t, err := time.Parse("2006-01-02 15:04:05", v.Day)
+				if err == nil {
+					kx.Time = t.Unix() * 1000
+				}
+			}
+			v.Day = strings.Split(v.Day, " ")[0]
+			kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
+			kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
+			kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
+			kx.Low, _ = strconv.ParseFloat(v.MinPrice, 64)
+			kx.Volume, _ = strconv.ParseFloat(v.NowVolume, 64)
+			ret.List = append(ret.List, kx)
+		}
+	}
 	return &ret, nil
 }
