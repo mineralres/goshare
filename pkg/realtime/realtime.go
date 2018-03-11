@@ -16,8 +16,12 @@ import (
 	"github.com/mineralres/goshare/aproto"
 )
 
+// RProvider RProvider
+type RProvider struct {
+}
+
 // GetLastTick 取最新行情
-func GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
+func (p *RProvider) GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
 	if symbol.Exchange == aproto.ExchangeType_SSE || symbol.Exchange == aproto.ExchangeType_SZE {
 		return getStockLastTick(symbol)
 	}
