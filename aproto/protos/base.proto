@@ -18,6 +18,8 @@ enum ExchangeType {
 	HKG =6;
 	/// 香港期货交易所
 	HKFE = 7;
+  /// 各类指数
+  INDEX = 8;
 }
 
 enum PeriodType {

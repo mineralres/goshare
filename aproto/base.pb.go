@@ -54,6 +54,8 @@ const (
 	ExchangeType_HKG ExchangeType = 6
 	// / 香港期货交易所
 	ExchangeType_HKFE ExchangeType = 7
+	// / 各类指数
+	ExchangeType_INDEX ExchangeType = 8;
 )
 
 var ExchangeType_name = map[int32]string{
@@ -65,6 +67,7 @@ var ExchangeType_name = map[int32]string{
 	5: "SZE",
 	6: "HKG",
 	7: "HKFE",
+	8: "INDEX",
 }
 var ExchangeType_value = map[string]int32{
 	"SHFE":  0,
@@ -75,6 +78,7 @@ var ExchangeType_value = map[string]int32{
 	"SZE":   5,
 	"HKG":   6,
 	"HKFE":  7,
+	"INDEX":  8,
 }
 
 func (x ExchangeType) String() string {

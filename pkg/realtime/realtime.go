@@ -25,6 +25,11 @@ func (p *RProvider) GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapsh
 	if symbol.Exchange == aproto.ExchangeType_SSE || symbol.Exchange == aproto.ExchangeType_SZE {
 		return getStockLastTick(symbol)
 	}
+
+	if symbol.Exchange == aproto.ExchangeType_INDEX{
+		return getIndexLastTick(symbol)
+	}
+
 	return nil, errors.New("不支持的交易所类型")
 }
 
@@ -34,7 +39,7 @@ func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 	if symbol.Exchange == aproto.ExchangeType_SZE {
 		exstr = "sz"
 	}
-	tickArr := getRawTickString(exstr, symbol.Code)
+	tickArr := getRawTickString(exstr, symbol.Code)	
 	if tickArr == nil || len(tickArr) < 38 {
 		return nil, errors.New("ErrGetStockTick")
 	}
@@ -55,7 +60,6 @@ func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 		ret.Amount = float64(base.ParseInt(tickArr[37]) * 10000)
 		ret.UpperLimitPrice = base.ParseFloat(tickArr[47])
 		ret.LowerLimitPrice = base.ParseFloat(tickArr[48])
-
 		var ob5 aproto.OrderBook
 		ob5.BidVolume = base.ParseFloat(tickArr[18])
 		ob5.Bid = base.ParseFloat(tickArr[17])
@@ -87,7 +91,7 @@ func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 }
 
 func getRawTickString(exstr string, symbol string) []string {
-	resp, err := http.Get("http://web.sqt.gtimg.cn/q=" + exstr + symbol)
+	resp, err := http.Get("http://web.sqt.gtimg.cn/q=" + exstr + symbol)	
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
@@ -103,4 +107,23 @@ func getRawTickString(exstr string, symbol string) []string {
 		}
 	}
 	return nil
+}
+
+
+func getIndexLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
+	ret := &aproto.MarketDataSnapshot{}	
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)	
+	if err == nil {
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err == nil {						
+			tickArr := strings.Split(string(body), ",")
+			//sym := strings.Split(string(tickArr[0]), "=")			
+			ret.Symbol = *symbol
+			ret.Price = base.ParseFloat(tickArr[1])
+			ret.Close = ret.Price			
+		return ret, nil
+		}
+	}
+	return nil, errors.New("ErrGetIndex")
 }
