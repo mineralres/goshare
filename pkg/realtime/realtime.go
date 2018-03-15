@@ -152,13 +152,10 @@ func getOptionSSETick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 			ret.Open = base.ParseFloat(tickArr[9])
 			ret.High = base.ParseFloat(tickArr[39])
 			ret.Low = base.ParseFloat(tickArr[40])
-
 			ret.Volume = (base.ParseFloat(tickArr[41]))
 			ret.Amount = float64(base.ParseInt(tickArr[42]))
-
 			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
 			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
-
 			var ob5 aproto.OrderBook
 			ob5.BidVolume = base.ParseFloat(tickArr[12])
 			ob5.Bid = base.ParseFloat(tickArr[13])
@@ -195,3 +192,23 @@ func getOptionSSETick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 func Log(sd string) (){
 	log.Printf(sd)
   }
+
+// 获取50ETF期权合约列表，sina代码
+func (p *RProvider)GetSina50EtfSym(sym string) (slice []string){	
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)	
+	if err == nil {
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		tickArr := strings.Split(string(body), ",")
+		i := len(tickArr)
+		if err == nil{
+			slice = make([]string,i-2)
+			for j := 1; j < i-1; j++ {
+				slice[j-1] = tickArr[j]		
+			}
+			return slice
+		}
+	}
+	return nil
+}
+
