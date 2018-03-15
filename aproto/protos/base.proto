@@ -20,6 +20,8 @@ enum ExchangeType {
 	HKFE = 7;
   /// 各类指数
   INDEX = 8;
+  /// 上证期权
+  OPTION_SSE = 9;
 }
 
 enum PeriodType {
