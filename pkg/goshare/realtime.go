@@ -1,4 +1,4 @@
-package realtime
+package goshare
 
 import (
 	"bytes"
@@ -17,12 +17,8 @@ import (
 	"github.com/mineralres/goshare/aproto"
 )
 
-// RProvider RProvider
-type RProvider struct {
-}
-
 // GetLastTick 取最新行情
-func (p *RProvider) GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
+func (p *Service) GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
 	if symbol.Exchange == aproto.ExchangeType_SSE || symbol.Exchange == aproto.ExchangeType_SZE {
 		return getStockLastTick(symbol)
 	}
@@ -193,7 +189,7 @@ func Log(sd string) {
 }
 
 // 获取50ETF期权合约列表，sina代码
-func (p *RProvider) GetSina50EtfSym(sym string) (slice []string) {
+func (p *Service) GetSina50EtfSym(sym string) (slice []string) {
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
 	if err == nil {
 		defer resp.Body.Close()

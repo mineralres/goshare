@@ -1,4 +1,4 @@
-package realtime
+package goshare
 
 import (
 	"log"
@@ -11,12 +11,9 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-var (
-	p RProvider
-)
-
 // TestGetLastTick TestGetLastTick
-func TestGetLastTick(t *testing.T) {
+func TestGetLastTick2(t *testing.T) {
+	var p Service
 	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "600000"}
 	md, err := p.GetLastTick(&symbol)
 	if err != nil {
@@ -28,7 +25,7 @@ func TestGetLastTick(t *testing.T) {
 	log.Printf("Tick[%s], Open[%.2f], High[%.2f], Low[%.2f], Close[%.2f]", md.Symbol.Code, md.Open, md.High, md.Low, md.Close)
 }
 
-func TestIndexTick(t *testing.T) {
+func TestIndexTick2(t *testing.T) {
 	//测试获取sina各种指数
 	log.Printf("测试获取sina各种指数")
 
@@ -40,7 +37,7 @@ func TestIndexTick(t *testing.T) {
 		"日经指数":  "b_TWSE",
 		"新加坡指数": "b_FSSTI",
 	}
-
+	var p Service
 	for key, views := range m_index {
 		symbol := aproto.Symbol{Exchange: aproto.ExchangeType_INDEX, Code: views}
 		md, err := p.GetLastTick(&symbol)
