@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 	"time"
-	"log"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
@@ -27,15 +27,15 @@ func (p *RProvider) GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapsh
 		return getStockLastTick(symbol)
 	}
 
-	if symbol.Exchange == aproto.ExchangeType_INDEX{
+	if symbol.Exchange == aproto.ExchangeType_INDEX {
 		return getIndexLastTick(symbol)
 	}
 
-	if symbol.Exchange == aproto.ExchangeType_OPTION_SSE{
+	if symbol.Exchange == aproto.ExchangeType_OPTION_SSE {
 		return getOptionSSETick(symbol)
 	}
 
-	return nil, errors.New("不支持的交易所类型")
+	return nil, base.ErrUnsupported
 }
 
 func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
@@ -44,7 +44,7 @@ func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 	if symbol.Exchange == aproto.ExchangeType_SZE {
 		exstr = "sz"
 	}
-	tickArr := getRawTickString(exstr, symbol.Code)	
+	tickArr := getRawTickString(exstr, symbol.Code)
 	if tickArr == nil || len(tickArr) < 38 {
 		return nil, errors.New("ErrGetStockTick")
 	}
@@ -96,7 +96,7 @@ func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 }
 
 func getRawTickString(exstr string, symbol string) []string {
-	resp, err := http.Get("http://web.sqt.gtimg.cn/q=" + exstr + symbol)	
+	resp, err := http.Get("http://web.sqt.gtimg.cn/q=" + exstr + symbol)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
@@ -114,37 +114,36 @@ func getRawTickString(exstr string, symbol string) []string {
 	return nil
 }
 
-
 func getIndexLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
-	ret := &aproto.MarketDataSnapshot{}	
-	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)	
+	ret := &aproto.MarketDataSnapshot{}
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
-		if err == nil {						
+		if err == nil {
 			tickArr := strings.Split(string(body), ",")
-			//sym := strings.Split(string(tickArr[0]), "=")			
+			//sym := strings.Split(string(tickArr[0]), "=")
 			ret.Symbol = *symbol
 			ret.Price = base.ParseFloat(tickArr[1])
-			ret.Close = ret.Price			
-		return ret, nil
+			ret.Close = ret.Price
+			return ret, nil
 		}
 	}
 	return nil, errors.New("ErrGetIndex")
 }
 
 func getOptionSSETick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
-	ret := &aproto.MarketDataSnapshot{}	
-	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)	
+	ret := &aproto.MarketDataSnapshot{}
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		tickArr := strings.Split(string(body), ",")
-		if err == nil && len(tickArr) >= 42{
+		if err == nil && len(tickArr) >= 42 {
 			data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
 			if err == nil {
 				symbol.Code = string(data)
-			}	
+			}
 			ret.Symbol = *symbol
 			ret.Price = base.ParseFloat(tickArr[2])
 			ret.Close = ret.Price
@@ -181,34 +180,33 @@ func getOptionSSETick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 			ob1.Bid = base.ParseFloat(tickArr[21])
 			ob1.AskVolume = base.ParseFloat(tickArr[22])
 			ob1.Ask = base.ParseFloat(tickArr[23])
-			//Log(symbol.Code)			
-		return ret, nil
+			//Log(symbol.Code)
+			return ret, nil
 		}
 	}
 	return nil, errors.New("ErrGetIndex")
 }
 
 // 统一日志打印
-func Log(sd string) (){
+func Log(sd string) {
 	log.Printf(sd)
-  }
+}
 
 // 获取50ETF期权合约列表，sina代码
-func (p *RProvider)GetSina50EtfSym(sym string) (slice []string){	
-	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)	
+func (p *RProvider) GetSina50EtfSym(sym string) (slice []string) {
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		tickArr := strings.Split(string(body), ",")
 		i := len(tickArr)
-		if err == nil{
-			slice = make([]string,i-2)
+		if err == nil {
+			slice = make([]string, i-2)
 			for j := 1; j < i-1; j++ {
-				slice[j-1] = tickArr[j]		
+				slice[j-1] = tickArr[j]
 			}
 			return slice
 		}
 	}
 	return nil
 }
-

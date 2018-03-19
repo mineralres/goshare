@@ -21,7 +21,7 @@ type HisProvider struct {
 
 // GetKData 请求历史K线数据
 /*
-symbol：股票代码，即6位数字代码，或者指数代码（sh=上证指数 sz=深圳成指 hs300=沪深300指数 sz50=上证50 zxb=中小板 cyb=创业板）
+symbol：股票代码，即6位数字代码，或者指数代码
 startDate：开始日期，格式20180307
 endDate：结束日期，格式20180307
 period：周期
@@ -35,7 +35,7 @@ func (p *HisProvider) GetKData(symbol *aproto.Symbol, period aproto.PeriodType, 
 		return getCNFutureKData(symbol, period, startDate, endDate, retryCount)
 	}
 	var ret aproto.KlineSeries
-	return &ret, nil
+	return &ret, base.ErrUnsupported
 }
 
 func getCNStockKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate, endDate, retryCount int) (*aproto.KlineSeries, error) {

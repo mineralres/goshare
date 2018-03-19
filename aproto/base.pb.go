@@ -7,6 +7,7 @@
 	It is generated from these files:
 		base.proto
 		market_data.proto
+		others.proto
 
 	It has these top-level messages:
 		Symbol
@@ -15,6 +16,9 @@
 		OrderBook
 		MarketDataSnapshot
 		MdsList
+		NetInAmountDetail
+		RealtimeMoneyTrendItem
+		RealtimeMoneyTrendItemList
 */
 package aproto
 
