@@ -37,10 +37,12 @@ func getIndexMem(symbol *aproto.Symbol) ([]aproto.Symbol, error) {
 			if i > 0 {
 				b_empty = false
 				code := s.Find("div").Eq(0).Text()
-				s := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: code}
-				// log.Println(code)
-				ret = append(ret, s)
-				member_number += 1
+				// fmt.Println(code)
+				s, err := formatSymbol(code);
+				if err == nil{
+					ret = append(ret, s)
+					member_number += 1
+				}
 			}
 		})
 		if b_empty == true || doc.Find("#page_form").Length() == 0 {
@@ -50,4 +52,22 @@ func getIndexMem(symbol *aproto.Symbol) ([]aproto.Symbol, error) {
 
 	// log.Println(ret)
 	return ret, nil
+}
+
+func formatSymbol(code string) (aproto.Symbol, error) {
+	var ret aproto.Symbol
+	if len(code) < 6{
+		return ret, fmt.Errorf("error code %s", code)
+	}
+
+	switch code[0] {
+	case '6':
+		return aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: code}, nil
+	case '0':
+		return aproto.Symbol{Exchange: aproto.ExchangeType_SZE, Code: code}, nil
+	case '3':
+		return aproto.Symbol{Exchange: aproto.ExchangeType_SZE, Code: code}, nil
+	default:
+		return ret, fmt.Errorf("error code %s", code)
+	}
 }

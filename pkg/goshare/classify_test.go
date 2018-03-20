@@ -15,7 +15,7 @@ func init() {
 func TestIndexMemberData(t *testing.T) {
 
 	// symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "000016"}
-	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "000905"}
+	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "000300"}
 	var p Service
 	arr_symbol, err := p.GetIndexMember(&symbol, 1)
 	if err != nil {
