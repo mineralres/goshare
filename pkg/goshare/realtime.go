@@ -188,7 +188,7 @@ func Log(sd string) {
 	log.Printf(sd)
 }
 
-// 获取50ETF期权合约列表，sina代码
+// GetSina50EtfSym 获取50ETF期权合约列表，sina代码
 func (p *Service) GetSina50EtfSym(sym string) (slice []string) {
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
 	if err == nil {
