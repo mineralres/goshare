@@ -52,3 +52,10 @@ func TestIndexTick2(t *testing.T) {
 	}
 
 }
+
+func TestMainFutureTick(t *testing.T) {
+
+	var p Service
+	p.GetMainFutureLastTick(aproto.ExchangeType_SHFE)
+
+}
