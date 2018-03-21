@@ -3,12 +3,12 @@ package goshare
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 	"time"
-	"fmt"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
@@ -208,26 +208,24 @@ func (p *Service) GetSina50EtfSym(sym string) (slice []string) {
 	return nil
 }
 
-
-// GetMainFutureLastTick 
+// GetMainFutureLastTick 取主力合约
 func (p *Service) GetMainFutureLastTick(et aproto.ExchangeType) ([]aproto.MarketDataSnapshot, error) {
 	var ret []aproto.MarketDataSnapshot
-	// address := fmt.Sprintf("http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=1&ps=%d", size) + "&js=var%20PPHMDFMQ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50714413"
-	var et_str string;	
+	var etStr string
 	switch et {
 	case aproto.ExchangeType_SHFE:
-		et_str = "SHFE"
+		etStr = "SHFE"
 	case aproto.ExchangeType_CZCE:
-		et_str = "CZCE"
+		etStr = "CZCE"
 	case aproto.ExchangeType_DCE:
-		et_str = "DCE"
+		etStr = "DCE"
 	case aproto.ExchangeType_CFFEX:
-		et_str = "_168"
+		etStr = "_168"
 	default:
 		return ret, fmt.Errorf("error ExchangeType %s", et)
 	}
 
-	address := fmt.Sprintf("http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C.%s", et_str) + "&sty=FCFL4O&sortType=(ChangePercent)&sortRule=-1&page=1&pageSize=200&js={rank:[(x)],pages:(pc),total:(tot)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.628606915911589&_=1521620666159";
+	address := fmt.Sprintf("http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C.%s", etStr) + "&sty=FCFL4O&sortType=(ChangePercent)&sortRule=-1&page=1&pageSize=200&js={rank:[(x)],pages:(pc),total:(tot)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.628606915911589&_=1521620666159"
 
 	resp, err := http.Get(address)
 	if err == nil {
@@ -238,33 +236,33 @@ func (p *Service) GetMainFutureLastTick(et aproto.ExchangeType) ([]aproto.Market
 			tickArr := strings.Split(string(body), "\"")
 			// fmt.Println(string(body))
 			i := 0
-			for i < len(tickArr){
+			for i < len(tickArr) {
 
-				mkt_str_arr := strings.Split(string(tickArr[i]), ",")
+				mktStrArr := strings.Split(string(tickArr[i]), ",")
 				i++
-				if len(mkt_str_arr) < 15{
+				if len(mktStrArr) < 15 {
 					continue
 				}
-				if len(mkt_str_arr[1]) > 3{
-					continue;
+				if len(mktStrArr[1]) > 3 {
+					continue
 				}
 
 				mkt := aproto.MarketDataSnapshot{}
-				mkt.Symbol = aproto.Symbol{Exchange: et, Code: mkt_str_arr[1]}
-				mkt.Open = base.ParseFloat(mkt_str_arr[11])
-				mkt.High = base.ParseFloat(mkt_str_arr[13])
-				mkt.Low = base.ParseFloat(mkt_str_arr[14])
-				mkt.Price = base.ParseFloat(mkt_str_arr[3])
+				mkt.Symbol = aproto.Symbol{Exchange: et, Code: mktStrArr[1]}
+				mkt.Open = base.ParseFloat(mktStrArr[11])
+				mkt.High = base.ParseFloat(mktStrArr[13])
+				mkt.Low = base.ParseFloat(mktStrArr[14])
+				mkt.Price = base.ParseFloat(mktStrArr[3])
 				mkt.Close = mkt.Price
-				mkt.Volume = base.ParseFloat(mkt_str_arr[10])
-				mkt.Amount = base.ParseFloat(mkt_str_arr[15])
-				mkt.Position = base.ParseFloat(mkt_str_arr[9])
-				mkt.PreSettlementPrice = base.ParseFloat(mkt_str_arr[8])
+				mkt.Volume = base.ParseFloat(mktStrArr[10])
+				mkt.Amount = base.ParseFloat(mktStrArr[15])
+				mkt.Position = base.ParseFloat(mktStrArr[9])
+				mkt.PreSettlementPrice = base.ParseFloat(mktStrArr[8])
 				ret = append(ret, mkt)
 				// fmt.Println(mkt.Symbol, mkt.Open, mkt.High, mkt.Low)
 			}
 		}
 
 	}
-	return ret, fmt.Errorf("error ExchangeType %s", et)
+	return ret, nil
 }

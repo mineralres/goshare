@@ -54,8 +54,12 @@ func TestIndexTick2(t *testing.T) {
 }
 
 func TestMainFutureTick(t *testing.T) {
-
 	var p Service
-	p.GetMainFutureLastTick(aproto.ExchangeType_SHFE)
-
+	arr, err := p.GetMainFutureLastTick(aproto.ExchangeType_SHFE)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(arr) == 0 {
+		t.Error("取排名数据失败")
+	}
 }

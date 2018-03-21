@@ -5,6 +5,7 @@
  * 封装相关市场的交易接口
  * 集成量化交易框架
  * 量化交易webui控制台
+ * 组建测试集群，充分利用多机多核
 
 <!-- [START getstarted] -->
 ## Getting Started
