@@ -15,30 +15,30 @@ import (
 
 	"github.com/mineralres/goshare/pkg/base"
 
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 // GetLastTick 取最新行情
-func (p *Service) GetLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
-	if symbol.Exchange == aproto.ExchangeType_SSE || symbol.Exchange == aproto.ExchangeType_SZE {
+func (p *Service) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
 		return getStockLastTick(symbol)
 	}
 
-	if symbol.Exchange == aproto.ExchangeType_INDEX {
+	if symbol.Exchange == pb.ExchangeType_INDEX {
 		return getIndexLastTick(symbol)
 	}
 
-	if symbol.Exchange == aproto.ExchangeType_OPTION_SSE {
+	if symbol.Exchange == pb.ExchangeType_OPTION_SSE {
 		return getOptionSSETick(symbol)
 	}
 
 	return nil, base.ErrUnsupported
 }
 
-func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
-	ret := &aproto.MarketDataSnapshot{}
+func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	ret := &pb.MarketDataSnapshot{}
 	exstr := "sh"
-	if symbol.Exchange == aproto.ExchangeType_SZE {
+	if symbol.Exchange == pb.ExchangeType_SZE {
 		exstr = "sz"
 	}
 	tickArr := getRawTickString(exstr, symbol.Code)
@@ -62,32 +62,32 @@ func getStockLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 		ret.Amount = float64(base.ParseInt(tickArr[37]) * 10000)
 		ret.UpperLimitPrice = base.ParseFloat(tickArr[47])
 		ret.LowerLimitPrice = base.ParseFloat(tickArr[48])
-		var ob5 aproto.OrderBook
+		var ob5 pb.OrderBook
 		ob5.BidVolume = base.ParseFloat(tickArr[18])
 		ob5.Bid = base.ParseFloat(tickArr[17])
 		ob5.AskVolume = base.ParseFloat(tickArr[28])
 		ob5.Ask = base.ParseFloat(tickArr[27])
-		var ob4 aproto.OrderBook
+		var ob4 pb.OrderBook
 		ob4.BidVolume = base.ParseFloat(tickArr[16])
 		ob4.Bid = base.ParseFloat(tickArr[15])
 		ob4.AskVolume = base.ParseFloat(tickArr[26])
 		ob4.Ask = base.ParseFloat(tickArr[25])
-		var ob3 aproto.OrderBook
+		var ob3 pb.OrderBook
 		ob3.BidVolume = base.ParseFloat(tickArr[14])
 		ob3.Bid = base.ParseFloat(tickArr[13])
 		ob3.AskVolume = base.ParseFloat(tickArr[24])
 		ob3.Ask = base.ParseFloat(tickArr[23])
-		var ob2 aproto.OrderBook
+		var ob2 pb.OrderBook
 		ob2.BidVolume = base.ParseFloat(tickArr[12])
 		ob2.Bid = base.ParseFloat(tickArr[11])
 		ob2.AskVolume = base.ParseFloat(tickArr[22])
 		ob2.Ask = base.ParseFloat(tickArr[21])
-		var ob1 aproto.OrderBook
+		var ob1 pb.OrderBook
 		ob1.BidVolume = base.ParseFloat(tickArr[10])
 		ob1.Bid = base.ParseFloat(tickArr[9])
 		ob1.AskVolume = base.ParseFloat(tickArr[20])
 		ob1.Ask = base.ParseFloat(tickArr[19])
-		ret.OrderBookList = []aproto.OrderBook{ob1, ob2, ob3, ob4, ob5}
+		ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
 	}
 	return ret, nil
 }
@@ -111,8 +111,8 @@ func getRawTickString(exstr string, symbol string) []string {
 	return nil
 }
 
-func getIndexLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
-	ret := &aproto.MarketDataSnapshot{}
+func getIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
 		defer resp.Body.Close()
@@ -129,8 +129,8 @@ func getIndexLastTick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 	return nil, errors.New("ErrGetIndex")
 }
 
-func getOptionSSETick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error) {
-	ret := &aproto.MarketDataSnapshot{}
+func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
 		defer resp.Body.Close()
@@ -152,27 +152,27 @@ func getOptionSSETick(symbol *aproto.Symbol) (*aproto.MarketDataSnapshot, error)
 			ret.Amount = float64(base.ParseInt(tickArr[42]))
 			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
 			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
-			var ob5 aproto.OrderBook
+			var ob5 pb.OrderBook
 			ob5.BidVolume = base.ParseFloat(tickArr[12])
 			ob5.Bid = base.ParseFloat(tickArr[13])
 			ob5.AskVolume = base.ParseFloat(tickArr[30])
 			ob5.Ask = base.ParseFloat(tickArr[31])
-			var ob4 aproto.OrderBook
+			var ob4 pb.OrderBook
 			ob4.BidVolume = base.ParseFloat(tickArr[14])
 			ob4.Bid = base.ParseFloat(tickArr[15])
 			ob4.AskVolume = base.ParseFloat(tickArr[28])
 			ob4.Ask = base.ParseFloat(tickArr[29])
-			var ob3 aproto.OrderBook
+			var ob3 pb.OrderBook
 			ob3.BidVolume = base.ParseFloat(tickArr[16])
 			ob3.Bid = base.ParseFloat(tickArr[17])
 			ob3.AskVolume = base.ParseFloat(tickArr[26])
 			ob3.Ask = base.ParseFloat(tickArr[27])
-			var ob2 aproto.OrderBook
+			var ob2 pb.OrderBook
 			ob2.BidVolume = base.ParseFloat(tickArr[18])
 			ob2.Bid = base.ParseFloat(tickArr[19])
 			ob2.AskVolume = base.ParseFloat(tickArr[24])
 			ob2.Ask = base.ParseFloat(tickArr[25])
-			var ob1 aproto.OrderBook
+			var ob1 pb.OrderBook
 			ob1.BidVolume = base.ParseFloat(tickArr[20])
 			ob1.Bid = base.ParseFloat(tickArr[21])
 			ob1.AskVolume = base.ParseFloat(tickArr[22])
@@ -209,17 +209,17 @@ func (p *Service) GetSina50EtfSym(sym string) (slice []string) {
 }
 
 // GetMainFutureLastTick 取主力合约
-func (p *Service) GetMainFutureLastTick(et aproto.ExchangeType) ([]aproto.MarketDataSnapshot, error) {
-	var ret []aproto.MarketDataSnapshot
+func (p *Service) GetMainFutureLastTick(et pb.ExchangeType) ([]pb.MarketDataSnapshot, error) {
+	var ret []pb.MarketDataSnapshot
 	var etStr string
 	switch et {
-	case aproto.ExchangeType_SHFE:
+	case pb.ExchangeType_SHFE:
 		etStr = "SHFE"
-	case aproto.ExchangeType_CZCE:
+	case pb.ExchangeType_CZCE:
 		etStr = "CZCE"
-	case aproto.ExchangeType_DCE:
+	case pb.ExchangeType_DCE:
 		etStr = "DCE"
-	case aproto.ExchangeType_CFFEX:
+	case pb.ExchangeType_CFFEX:
 		etStr = "_168"
 	default:
 		return ret, fmt.Errorf("error ExchangeType %s", et)
@@ -247,8 +247,8 @@ func (p *Service) GetMainFutureLastTick(et aproto.ExchangeType) ([]aproto.Market
 					continue
 				}
 
-				mkt := aproto.MarketDataSnapshot{}
-				mkt.Symbol = aproto.Symbol{Exchange: et, Code: mktStrArr[1]}
+				mkt := pb.MarketDataSnapshot{}
+				mkt.Symbol = pb.Symbol{Exchange: et, Code: mktStrArr[1]}
 				mkt.Open = base.ParseFloat(mktStrArr[11])
 				mkt.High = base.ParseFloat(mktStrArr[13])
 				mkt.Low = base.ParseFloat(mktStrArr[14])

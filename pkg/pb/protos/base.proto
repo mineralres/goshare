@@ -1,0 +1,83 @@
+syntax = "proto3";
+package pb;
+
+enum ExchangeType {
+  /// 上海期货交易所
+	SHFE = 0;
+	/// 郑州商品交易所
+	CZCE = 1;
+	/// 大连商品期货交易所
+	DCE = 2;
+	/// 中金所
+	CFFEX = 3;
+	/// 上海证券交易所
+	SSE = 4;
+	/// 深圳证券交易所
+	SZE = 5;
+	/// 香港证券交易所
+	HKG =6;
+	/// 香港期货交易所
+	HKFE = 7;
+  /// 各类指数
+  INDEX = 8;
+  /// 上证期权
+  OPTION_SSE = 9;
+}
+
+enum PeriodType {
+  // Tick
+  TICK = 0;
+  // 分钟
+  M1 = 1;
+  // 3分钟
+  M3 = 2;
+  // 5分钟
+  M5 = 3;
+  // 10分钟
+  M10 = 4;
+  // 15分钟
+  M15 = 5;
+  // 小时
+  H1 = 6;
+  // 3小时
+  H3 = 7;
+  // 日线
+  D1 = 8;
+  // 周线
+  W1 = 9;
+  // 月线
+  MON1 = 10; 
+}
+
+// 合约代码
+message Symbol {
+  ExchangeType exchange = 1;
+  string code = 2;
+}
+
+// K线
+message Kline {
+  // 时间
+  int64 time = 1;
+  // 开盘
+  double open = 2;
+  // 最高
+  double high = 3;
+  // 最低
+  double low = 4;
+  // 收盘
+  double close = 5;
+  // 成交量
+  double volume = 6;
+  // 成交额
+  double amount = 7;
+  // 持仓量
+  double position = 8;
+}
+
+// KlineSeries K线序列
+message KlineSeries {
+  Symbol symbol = 1;
+  PeriodType period = 2;
+  repeated Kline list = 3;
+}

@@ -5,17 +5,17 @@ import (
 	"fmt"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
-func (p *Service) GetIndexMember(symbol *aproto.Symbol, retryCount int) ([]aproto.Symbol, error) {
+func (p *Service) GetIndexMember(symbol *pb.Symbol, retryCount int) ([]pb.Symbol, error) {
 	return getIndexMem(symbol)
-	// var ret []aproto.Symbol;
+	// var ret []pb.Symbol;
 	// return ret, nil
 }
 
-func getIndexMem(symbol *aproto.Symbol) ([]aproto.Symbol, error) {
-	var ret []aproto.Symbol
+func getIndexMem(symbol *pb.Symbol) ([]pb.Symbol, error) {
+	var ret []pb.Symbol
 
 	page_number := 1
 	member_number := 0
@@ -38,8 +38,8 @@ func getIndexMem(symbol *aproto.Symbol) ([]aproto.Symbol, error) {
 				b_empty = false
 				code := s.Find("div").Eq(0).Text()
 				// fmt.Println(code)
-				s, err := formatSymbol(code);
-				if err == nil{
+				s, err := formatSymbol(code)
+				if err == nil {
 					ret = append(ret, s)
 					member_number += 1
 				}
@@ -54,19 +54,19 @@ func getIndexMem(symbol *aproto.Symbol) ([]aproto.Symbol, error) {
 	return ret, nil
 }
 
-func formatSymbol(code string) (aproto.Symbol, error) {
-	var ret aproto.Symbol
-	if len(code) < 6{
+func formatSymbol(code string) (pb.Symbol, error) {
+	var ret pb.Symbol
+	if len(code) < 6 {
 		return ret, fmt.Errorf("error code %s", code)
 	}
 
 	switch code[0] {
 	case '6':
-		return aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: code}, nil
+		return pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: code}, nil
 	case '0':
-		return aproto.Symbol{Exchange: aproto.ExchangeType_SZE, Code: code}, nil
+		return pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: code}, nil
 	case '3':
-		return aproto.Symbol{Exchange: aproto.ExchangeType_SZE, Code: code}, nil
+		return pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: code}, nil
 	default:
 		return ret, fmt.Errorf("error code %s", code)
 	}

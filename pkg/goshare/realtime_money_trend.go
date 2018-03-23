@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mineralres/goshare/aproto"
 	"github.com/mineralres/goshare/pkg/base"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 // GetRealtimeMoneyTrendList 取实时资金流向. size 需要取的条数
-func (s *Service) GetRealtimeMoneyTrendList(size int) (*aproto.RealtimeMoneyTrendItemList, error) {
-	var ret aproto.RealtimeMoneyTrendItemList
+func (s *Service) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoneyTrendItemList, error) {
+	var ret pb.RealtimeMoneyTrendItemList
 	address := fmt.Sprintf("http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=1&ps=%d", size) + "&js=var%20PPHMDFMQ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50714413"
 	resp, err := http.Get(address)
 	if err != nil {
@@ -41,7 +41,7 @@ func (s *Service) GetRealtimeMoneyTrendList(size int) (*aproto.RealtimeMoneyTren
 			str := &rtn.Data[i]
 			items := strings.Split(*str, ",")
 			if len(items) > 14 {
-				var item aproto.RealtimeMoneyTrendItem
+				var item pb.RealtimeMoneyTrendItem
 				item.Symbol.Code = items[1]
 				item.Name = items[2]
 				item.Price = base.ParseFloat(items[3])

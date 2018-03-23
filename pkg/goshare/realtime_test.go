@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 func init() {
@@ -14,7 +14,7 @@ func init() {
 // TestGetLastTick TestGetLastTick
 func TestGetLastTick2(t *testing.T) {
 	var p Service
-	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "600000"}
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "600000"}
 	md, err := p.GetLastTick(&symbol)
 	if err != nil {
 		t.Error(err)
@@ -39,7 +39,7 @@ func TestIndexTick2(t *testing.T) {
 	}
 	var p Service
 	for key, views := range m_index {
-		symbol := aproto.Symbol{Exchange: aproto.ExchangeType_INDEX, Code: views}
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_INDEX, Code: views}
 		md, err := p.GetLastTick(&symbol)
 		if err != nil {
 			t.Error(err)
@@ -55,7 +55,7 @@ func TestIndexTick2(t *testing.T) {
 
 func TestMainFutureTick(t *testing.T) {
 	var p Service
-	arr, err := p.GetMainFutureLastTick(aproto.ExchangeType_SHFE)
+	arr, err := p.GetMainFutureLastTick(pb.ExchangeType_SHFE)
 	if err != nil {
 		t.Error(err)
 	}

@@ -6,14 +6,14 @@ import (
 	//"net/http"
 	//"io/ioutil"
 	//"strings"
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 var s Service
 
 func TestKData(t *testing.T) {
-	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SHFE, Code: "rb1805"}
-	k, err := s.GetKData(&symbol, aproto.PeriodType_M5, 19990101, 20180307, 1)
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
+	k, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
 	if err != nil {
 		t.Error(err)
 	}
@@ -24,7 +24,7 @@ func TestKData(t *testing.T) {
 }
 
 func TestGetLastTick(t *testing.T) {
-	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "600000"}
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "600000"}
 	md, err := s.GetLastTick(&symbol)
 	if err != nil {
 		t.Error(err)
@@ -50,7 +50,7 @@ func TestIndexTick(t *testing.T) {
 		"新加坡指数": "b_FSSTI",
 	}
 	for key, views := range m_index {
-		symbol := aproto.Symbol{Exchange: aproto.ExchangeType_INDEX, Code: views}
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_INDEX, Code: views}
 		md, err := s.GetLastTick(&symbol)
 		if err != nil {
 			t.Error(err)
@@ -70,7 +70,7 @@ func TestOptionSSETick(t *testing.T) {
 	syms := s.GetSina50EtfSym(sym)
 	for _, value := range syms {
 		//log.Printf("Index: %d  Value: %s\n", index, value)
-		symbol := aproto.Symbol{Exchange: aproto.ExchangeType_OPTION_SSE, Code: value}
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: value}
 		md, err := s.GetLastTick(&symbol)
 		if err != nil {
 			t.Error(err)

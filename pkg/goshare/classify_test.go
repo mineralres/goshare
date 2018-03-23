@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 func init() {
@@ -14,8 +14,8 @@ func init() {
 // TestIndexMemberData
 func TestIndexMemberData(t *testing.T) {
 
-	// symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "000016"}
-	symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SSE, Code: "000300"}
+	// symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000016"}
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000300"}
 	var p Service
 	arr_symbol, err := p.GetIndexMember(&symbol, 1)
 	if err != nil {

@@ -12,7 +12,7 @@ import (
 
 	"github.com/mineralres/goshare/pkg/base"
 
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 // GetKData 请求历史K线数据
@@ -23,21 +23,21 @@ endDate：结束日期，格式20180307
 period：周期
 retryCount：当网络异常后重试次数，默认为3
 */
-func (p *Service) GetKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate, endDate, retryCount int) (*aproto.KlineSeries, error) {
+func (p *Service) GetKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
 	ex := symbol.Exchange
-	if ex == aproto.ExchangeType_SSE || ex == aproto.ExchangeType_SZE {
+	if ex == pb.ExchangeType_SSE || ex == pb.ExchangeType_SZE {
 		return getCNStockKData(symbol, period, startDate, endDate, retryCount)
-	} else if ex == aproto.ExchangeType_SHFE || ex == aproto.ExchangeType_CZCE || ex == aproto.ExchangeType_DCE || ex == aproto.ExchangeType_CFFEX {
+	} else if ex == pb.ExchangeType_SHFE || ex == pb.ExchangeType_CZCE || ex == pb.ExchangeType_DCE || ex == pb.ExchangeType_CFFEX {
 		return getCNFutureKData(symbol, period, startDate, endDate, retryCount)
 	}
-	var ret aproto.KlineSeries
+	var ret pb.KlineSeries
 	return &ret, base.ErrUnsupported
 }
 
-func getCNStockKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate, endDate, retryCount int) (*aproto.KlineSeries, error) {
-	var ret aproto.KlineSeries
+func getCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
 	et := 1
-	if symbol.Exchange == aproto.ExchangeType_SZE {
+	if symbol.Exchange == pb.ExchangeType_SZE {
 		et = 2
 	}
 	address := fmt.Sprintf("http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js?rtntype=5&id=%s%d&type=k", symbol.Code, et)
@@ -68,7 +68,7 @@ func getCNStockKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate,
 	for i := range rtn.Data {
 		items := strings.Split(rtn.Data[i], ",")
 		if len(items) == 8 {
-			var k aproto.Kline
+			var k pb.Kline
 			tm, err := time.Parse("2006-01-02", items[0])
 			if err != nil {
 				log.Println(err, items[0])
@@ -111,8 +111,8 @@ func adaptCZCE(value string) string {
 	return value
 }
 
-func getCNFutureKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate, endDate, retryCount int) (*aproto.KlineSeries, error) {
-	var ret aproto.KlineSeries
+func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
 	type SinaKline struct {
 		ClosePrice string `json:"c"`
 		Day        string `json:"d"`
@@ -125,12 +125,12 @@ func getCNFutureKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate
 	isDaily := false
 	ktype := "5m"
 	switch period {
-	case aproto.PeriodType_D1:
+	case pb.PeriodType_D1:
 		isDaily = true
 		ktype = ""
-	case aproto.PeriodType_M1:
+	case pb.PeriodType_M1:
 		ktype = "1m"
-	case aproto.PeriodType_M5:
+	case pb.PeriodType_M5:
 		ktype = "5m"
 	}
 	code := symbol.Code
@@ -160,7 +160,7 @@ func getCNFutureKData(symbol *aproto.Symbol, period aproto.PeriodType, startDate
 		// fmt.Println(err)
 		for i := len(sinaks) - 1; i >= 0; i-- {
 			v := sinaks[i]
-			var kx aproto.Kline
+			var kx pb.Kline
 			// day := strings.Split(v.Day, " ")[0]
 			if isDaily {
 				tm, err := time.Parse("2006-01-02", v.Day)

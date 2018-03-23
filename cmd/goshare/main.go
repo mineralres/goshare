@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/mineralres/goshare/aproto"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 func main() {
