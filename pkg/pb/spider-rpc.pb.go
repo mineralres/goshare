@@ -7,10 +7,120 @@ import proto "github.com/gogo/protobuf/proto"
 import fmt "fmt"
 import math "math"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for Spider service
+
+type SpiderClient interface {
+	GetNewsItemPage(ctx context.Context, in *NewsItemPage, opts ...grpc.CallOption) (*NewsItemPage, error)
+	GetNewsDetail(ctx context.Context, in *NewsDetail, opts ...grpc.CallOption) (*NewsDetail, error)
+}
+
+type spiderClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewSpiderClient(cc *grpc.ClientConn) SpiderClient {
+	return &spiderClient{cc}
+}
+
+func (c *spiderClient) GetNewsItemPage(ctx context.Context, in *NewsItemPage, opts ...grpc.CallOption) (*NewsItemPage, error) {
+	out := new(NewsItemPage)
+	err := grpc.Invoke(ctx, "/pb.Spider/GetNewsItemPage", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *spiderClient) GetNewsDetail(ctx context.Context, in *NewsDetail, opts ...grpc.CallOption) (*NewsDetail, error) {
+	out := new(NewsDetail)
+	err := grpc.Invoke(ctx, "/pb.Spider/GetNewsDetail", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Spider service
+
+type SpiderServer interface {
+	GetNewsItemPage(context.Context, *NewsItemPage) (*NewsItemPage, error)
+	GetNewsDetail(context.Context, *NewsDetail) (*NewsDetail, error)
+}
+
+func RegisterSpiderServer(s *grpc.Server, srv SpiderServer) {
+	s.RegisterService(&_Spider_serviceDesc, srv)
+}
+
+func _Spider_GetNewsItemPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewsItemPage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpiderServer).GetNewsItemPage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Spider/GetNewsItemPage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpiderServer).GetNewsItemPage(ctx, req.(*NewsItemPage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Spider_GetNewsDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewsDetail)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpiderServer).GetNewsDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.Spider/GetNewsDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpiderServer).GetNewsDetail(ctx, req.(*NewsDetail))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Spider_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.Spider",
+	HandlerType: (*SpiderServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetNewsItemPage",
+			Handler:    _Spider_GetNewsItemPage_Handler,
+		},
+		{
+			MethodName: "GetNewsDetail",
+			Handler:    _Spider_GetNewsDetail_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "spider-rpc.proto",
+}
 
 func init() { proto.RegisterFile("spider-rpc.proto", fileDescriptorSpiderRpc) }
 
