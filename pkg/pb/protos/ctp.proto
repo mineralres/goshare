@@ -1,0 +1,623 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+
+// 报单ID
+message CTPOrderID
+{
+int64 front_id = 1;
+int64 session_id = 2;
+int64 order_ref = 3;
+string string_id = 4;
+}
+
+// 方向
+enum CTPDirection {
+  LONG = 0;
+  SHORT = 1;
+}
+
+// 状态
+enum CTPOrderStatus {
+  // 完全成交
+  DONE = 0;
+  // 部分成交还在队列中
+  PENDING_WITH_PARTIAL_DONE = 1;
+  // 部分成交且已撤单
+  CANCELED_WITH_PARTIAL_DONE = 2;
+  // 队列中
+  PENDING = 3;
+  // 已经撤单
+  CANCELED = 4;
+  // 未知
+  UNKOWN = 5;
+}
+
+enum CTPPriceType {
+  // 限价
+  LIMIT_PRICE = 0;
+  // 市价
+  MARKET_PRICE = 1;
+  // 最优价
+  BEST_PRICE = 2;
+  // 最新价
+  LAST_PRICE = 3;
+}
+
+enum CTPOffsetFlag {
+  NONE = 0;
+  // 开仓
+  OPEN = 1;
+  // 平仓
+  CLOSE = 2;
+  // 强平
+  FORCE_CLOSE = 3;
+  // 平今
+  CLOSE_TODAY = 4;
+  // 平昨
+  CLOSE_YESTERDAY = 5;
+}
+
+// 投机套保标志
+enum CTPHedgeType {
+  // 投机
+  SPECULATION = 0;
+  // 套利
+  ARBITRAGE = 1;
+  // 套保
+  HEDGE = 2;
+}
+
+// 成交类型
+enum CTPTradeType {
+  // 普通成交
+  NORMAL = 0;
+  // 期权执行
+  OPTIONS_EXECUTION = 1;
+  // OTC成交
+  OTC = 2;
+  // 期转现衍生成交
+  EFP_DERIVED = 3;
+  // 组合衍生成交
+  COMBINATION_DERIVED = 4;
+  // 交割平仓
+  DELIVERY_CLOSE = 5;
+  // 结算衍生
+  SETTLEMENT_DERIVED = 6;
+  // 分红股票
+  PLACEMENT_DERIVED = 7;
+}
+
+// 委托
+message CTPOrder
+{
+// 合约
+Symbol symbol = 1;
+// ID
+CTPOrderID id = 2;
+// 账号
+string account_id = 3;
+// 方向
+CTPDirection direction = 4;
+// 状态
+CTPOrderStatus status = 5;
+// 价格类型
+CTPPriceType price_type = 6;
+// 限价
+double limit_price = 7;
+// 数量
+int32 volume = 8;
+// 成交数量
+int32 volume_traded = 9;
+// 撤单数量
+int32 volume_canceled = 10;
+// 冻结手续费
+double frozen_commission = 11;
+// 发送时间（成交时间)
+int64  send_order_time = 12;
+// 交易日
+int32 send_order_trading_day = 13;
+// 备注
+string comment = 14;
+// 请求编号
+int32 request_id = 15;
+// 序号
+int32 local_order_seq = 16;
+// 强平类型
+int32 force_close_type = 17;
+// 来源
+int32 order_source_type = 18;
+// 投机套保类型
+CTPHedgeType order_hedge_type = 19;
+// 产品标识
+string user_product_info = 20;
+// 币种
+CurrencyType currency_type = 21;
+// 交易所ID
+string exchange_order_id = 22;
+// 有效期类型
+int32 time_condition_type = 23;
+// 主帐户
+string route_account_id = 24;
+// 本地编号类型
+int32 local_type_id = 25;
+// 委托收费
+double commission = 26;
+// 开平标志
+CTPOffsetFlag offset_flag = 27;
+// 错误代码
+int32 error_code = 28;
+// token
+string token = 29;
+// 止损
+double stoploss = 30;
+// 止赢
+double take_profit = 31;
+// 成交金额
+double traded_amount = 32;
+// 合约乘数
+int32 volume_multiple = 33;
+// 产品
+ProductID product_id = 34;
+// 最小变动价位
+double price_tick = 35;
+// 冻结合计
+double frozen_margin = 36;
+// 合约名称
+string symbol_name = 37;
+// 发送原因备注
+string reason_comment = 38;
+}
+
+message CTPOrderList {
+  repeated CTPOrder list = 1;
+}
+
+message JointOrder {
+  CTPOrder local_order = 1;
+  CTPOrder exchange_order = 2;
+}
+
+message CTPOrderLink {
+  CTPOrder parent = 1;
+  repeated CTPOrder children = 2;
+}
+
+// 发送撤单请求
+message CTPCancelOrderRequest
+{
+// 帐户
+string account_id = 1;
+// 委托编号
+CTPOrderID CTPOrderID = 2;
+// 合约
+Symbol symbol = 3;
+// 请求id
+int32 request_id = 4;
+// 发起前置
+int32 front_id = 5;
+// 发起session
+int32 session_id = 6;
+// 发起终端信息
+string exchange_order_id = 7;
+// token
+string token = 8;
+// router account id
+string route_account_id = 9;
+}
+
+message CTPOnRtnCancelOrder
+{
+string account_id = 1;
+CTPOrderID order_id = 2;
+string exchange_order_id = 3;
+Symbol symbol = 4;
+int32 request_id = 5;
+int32 error_type = 6;
+int32 error = 7;
+string msg = 8;
+string route_account_id = 9;
+}
+
+// 成交
+message CTPTradeReport
+{
+// 账号
+string account_id = 1;
+// 成交编号
+string trade_id = 2;
+// 合约
+Symbol symbol = 3;
+// 买卖
+CTPDirection direction = 4;
+// 价格
+double price = 5;
+// 数量
+int32 volume = 6;
+// 时间
+int64 traded_time = 7;
+// 交易日
+int32 traded_trading_day = 8;
+// 报单编号
+CTPOrderID order_id = 9;
+// 类型
+CTPPriceType price_type = 10;
+// 投机套保
+CTPHedgeType hedge_type = 11;
+// 成交类型
+CTPTradeType trade_type = 12;
+// 币种
+int32 currency_type = 13;
+// 交易所ID
+string exchange_order_id = 14;
+// 本地编号类型
+int32 local_type_id = 15;
+// 手续费
+double commission = 16;
+// 成交金额
+double tax = 17;
+// 其他费用
+double total_other_fee = 18;
+// 原成交价（结算衍生时)
+double initial_traded_price = 19;
+// 保留附加金额(已经有用了的)
+double reserve = 20;
+// 开平标志
+CTPOffsetFlag offset_flag = 21;
+// 下单帐户
+string route_account_id = 22;
+// 名称
+string symbol_name = 23;
+// 变动点
+double price_tick = 24;
+}
+
+message CTPTradeReportList {
+  repeated CTPTradeReport list = 1;
+}
+
+// 持仓统计
+message CTPPositionSummation {
+  // 方向
+  CTPDirection direction  = 1;
+  // 类型
+  int32 type = 2;
+  // 路由分组
+  string route_account_id = 3;
+  // 持仓
+  int32 position = 4;
+  // 金额
+  double amount = 5;
+  // 成本
+  double cost = 6;
+  // 冻结
+  int32 frozen = 7;
+  // 可用
+  int32 available = 8;
+  // 盈亏
+  double position_profit = 9;
+  // 平盈
+  double closed_profit = 10;
+  // 保证金
+  double margin = 11;
+  // 冻结保证金
+  double frozen_margin = 12;
+  // 手续费
+  double commission = 13;
+  // 冻结手续费
+  double frozen_commission = 14;
+  // 利息
+  double interest = 15;
+  // 冻结利息
+  double frozen_interest = 16;  
+  // 盯市盈亏
+  double mtm_profit = 17;
+  // 进入清算的平仓盈亏
+  double cleared_closed_profit = 18;
+}
+
+// 持仓 
+message CTPPosition {
+  /// 合约编号
+  Symbol symbol = 1;
+  // 统计
+  CTPPositionSummation summation = 2;
+  // 今仓
+  CTPPositionSummation today_summation = 3;
+  // 今仓
+  CTPPositionSummation yesterday_summation = 4;
+  // 昨结算
+  double pre_settlement_price = 5;
+  // 今结算
+  double settlement_price = 6;
+  // 最新价
+  double last_price = 7;
+  // 交易日
+  int32 trading_day = 8;
+  // 交易品种类型
+  int32 product_type = 9;
+  // 合约乘数
+  int32 volume_multiple = 11;
+  // 产品
+  ProductID product_id = 12;
+  // 最小变动价位
+  double price_tick = 13;
+  // 名称
+  string symbol_name = 14;
+  // 账号
+  string account_id = 15;
+}
+  
+message CTPPositionList {
+   repeated CTPPosition list = 1;
+}
+
+// 平仓明细.
+message CTPCloseTradeRecord {
+  // 帐号
+  string account_id = 1;
+  // 合约
+  Symbol symbol = 2;
+  // 方向
+  CTPDirection direction = 3;
+  // 数量
+  int32 open_volume = 4;
+  // 开仓金额
+  double open_amount = 5;
+  // 平仓数量
+  int32 closed_volume = 6;
+  // 平仓金额
+  double closed_amount = 7;
+  // 开仓时间
+  int64 open_time = 8;
+  // 开仓交易日
+  int32 open_trading_day = 9;
+  // 开仓委托单号
+  CTPOrderID open_order_id = 10;
+  // 开仓成交编号
+  string open_trade_id = 11;
+  // 开仓成交类型
+  int32 open_trade_type = 12;
+  // 开仓投机套保类型
+  int32 open_hedge_type = 13;
+  // 平仓时间
+  int64 close_time = 14;
+  // 平仓交易日
+  int32 close_trading_day = 15;
+  // 平仓委托单号
+  CTPOrderID close_order_id = 16;
+  // 平仓成交编号
+  string close_trade_id = 17;
+  // 平仓成交类型
+  int32 close_trade_type = 18;
+  // 平仓投机套保类型
+  int32 close_hedge_type = 19;
+  // 平仓盈亏
+  double close_profit = 20;
+  // 昨结
+  double pre_settlement_price = 21;
+  // 币种
+  CurrencyType currency_type = 22;
+  // 开仓手续费
+  double open_commission = 23;
+  // 平仓手续费
+  double close_commission = 24;
+  // 保证金占用
+  double margin = 25;
+  // 初始开仓金额
+  double initial_open_amount = 26;
+  // 合约乘数
+  int32 volume_multiple = 27;
+  // 冻结利息
+  double frozen_interest = 28;
+  // 上游账户
+  string route_account_id = 29;
+  // 持仓盈亏
+  double position_profit = 30;
+}
+
+message CTPCloseTradeRecordList {
+  repeated CTPCloseTradeRecord list = 1;
+}
+
+// 保证金率
+message CTPMarginRate {
+  // 交易所
+  ExchangeType exchange = 1;
+  // symbol
+  string symbol = 2;
+  // product
+  string product = 3;
+  /// 多头保证金率（按手数)
+  double long_by_volume = 4;
+  /// 多头保证金率（按金额)
+  double long_by_amount = 5;
+  /// 空头保证金率（按手数)
+  double short_by_volume = 6;
+  /// 空头保证金率（按金额)
+  double short_by_amount = 7;
+  // uid
+  int64 id = 10;
+}
+
+// CTPMarginItem
+message CTPMarginItem {
+  /// 多头保证金率（按手数)
+  double long_by_volume = 1;
+  /// 多头保证金率（按金额)
+  double long_by_amount = 2;
+  /// 空头保证金率（按手数)
+  double short_by_volume = 3;
+  /// 空头保证金率（按金额)
+  double short_by_amount = 4;
+}
+  
+// 手续费
+message CTPCommissionRateItem {
+  double by_amount = 1;
+  double by_volume = 2;
+  double minimum = 3;
+  CTPOffsetFlag offset_flag = 4;
+  string tag = 5;
+}
+
+// 手续费率
+message CTPCommissionRate {
+  // 交易所
+  ExchangeType exchange = 1;
+  // symbol
+  string symbol = 2;
+  // product
+  string product = 3;
+  // 设置
+  repeated CTPCommissionRateItem settings = 4;
+  // ID
+  int64 id = 5;
+}
+
+// 交易单元
+message CTPTradingUnit {
+  /// 合约编号
+  Symbol symbol = 1;
+  // 统计
+  repeated CTPPosition position = 2;
+  // 报单
+  repeated CTPOrderLink order_link_list = 3;
+  // 持仓明细
+  repeated CTPCloseTradeRecord position_detail_list = 4;
+  // 平仓明细
+  repeated CTPCloseTradeRecord history_ctr_list = 5;
+  // 历史单
+  repeated CTPOrder history_order_list = 6;
+  // 成交
+  repeated CTPTradeReport history_trade_list = 7;
+  // 最新价
+  double last_price = 10;
+  // 行情更新时间
+  int64 last_mds_update_time = 11;
+  // 合约信息
+  double price_tick = 12;
+  // 合约乘数
+  int32 volume_multiple = 13;
+  // 手续费
+  CTPCommissionRate cr = 14;
+  // 保证金
+  CTPMarginRate mr = 15;
+}
+
+message CTPForceCloseTimeRule {
+  int64 start = 1;
+  int64 end = 2;
+  int64 disable_open_start = 3;
+}
+
+// CTPTradingUnitOption 品种参数
+message CTPTradingUnitOption {
+  // 涨跌停N点内禁止开仓
+  int32 limit_price_disable_open = 1;
+  // 涨跌停N点内强制平仓
+  int32 limit_price_force_close = 2;
+  // 昨持仓阀值
+  double pre_position_percentage_threshold = 3;
+  // 昨持仓绝对数量阀值
+  double pre_position_threshold = 4;
+  // 昨成交占比阀值
+  double pre_volume_percentage_threshold = 5;
+  // 昨成交量绝对数量阀值
+  double pre_volume_threshold = 6;
+  // 单资产持仓限制
+  double single_product_margin_weight_limit = 7;
+  // 开始时间
+  repeated CTPForceCloseTimeRule fcr_list = 8;
+  // 禁止开仓
+  bool disable_open = 9;
+  // 手续费
+  repeated CTPCommissionRateItem cr_settings = 10;
+  // 保证金
+  CTPMarginItem margin_rate = 11;
+  // 止损点数
+  repeated int32 stoploss_candidates = 12;
+  // 止赢点数
+  repeated int32 take_profit_candidates = 13;
+  // 手数
+  repeated int32 volume_candidates = 14;
+  // 禁止开仓
+  repeated string disable_open_symbol_list = 15;
+  // 禁止开仓
+  repeated string disable_open_class_list = 16;
+  // 上市<N天的品种禁止开仓
+  int32 open_days_limit = 17;
+}
+
+// 隔夜自有资金检查.
+message MarginCheckRule {
+  // 开始时间
+  int64 start = 1;
+  // 结束时间 
+  int64 end = 2;
+  // 平仓顺序
+  int32 force_close_order = 3;
+  // 报警
+  double warning_level = 4;
+  // 强平
+  double force_close_level = 5;
+  // 自有可用倍率
+  double common_balance_multiple = 6;
+  // 报警线下禁止开仓
+  bool disable_open_under_warning_level = 7;
+  // 按比例报警
+  double warning_level_by_prefer_ratio = 8;
+  // 按比例强平
+  double force_close_level_by_prefer_ratio = 9;
+  // 报警按市值比例
+  double warning_level_by_margin = 10;
+  // 强平按市值比例
+  double force_close_level_by_margin = 11;
+  // 总持仓占用上限
+  double margin_ceiling = 12;
+  // 买入金额上限
+  double position_amount_ceiling = 13;
+}
+
+// SettlementUnitOption 结算组参数 
+message SettlementUnitOption {
+  // ID
+  int64 id = 1;
+  // 备注
+  string comment = 2;
+  // 结算组
+  int32 settlement_group = 3;    
+  // 资金检查水平
+  int32 available_check_level = 4;
+  // 强平开启
+  bool force_close_on = 5;
+  // 强平检查
+  repeated MarginCheckRule mcr_list = 6;
+  // 禁止开仓
+  bool disable_open = 7;
+}
+
+// 普通结算
+message CTPTradingAccount {
+  // 合计
+  AccountMoneySummary summary = 1;
+  // 出入金
+  repeated MoneyTransferRecord mtr_list = 2;
+  // 交易明细
+  repeated CTPTradingUnit tu_list = 3;
+  // 最后结算日期
+  int32 last_settle_date = 4;
+  // 设置
+  SettlementUnitOption options = 5;
+}
+  
+// 账户快照
+message CTPTradingAccountSnapshot {
+  // 账户
+  CTPTradingAccount account = 1;
+  // 快照时间
+  int64 time = 2;
+  // 快照备注
+  string comment = 3;
+}

@@ -1,0 +1,43 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "ctp.proto";
+
+message MiniTradeOrder {
+
+}
+
+// 微交易单元
+message MiniTradeUnit {
+  /// 合约编号
+  Symbol symbol = 1;
+  // 历史单
+  repeated MiniTradeOrder history_order_list = 6;
+  // 成交
+  repeated CTPTradeReport history_trade_list = 7;
+  // 最新价
+  double last_price = 10;
+  // 行情更新时间
+  int64 last_mds_update_time = 11;
+  // 合约信息
+  double price_tick = 12;
+  // 合约乘数
+  int32 volume_multiple = 13;
+  // 手续费
+  CTPCommissionRate cr = 14;
+  // 保证金
+  CTPMarginRate mr = 15;
+}
+
+// 微交易结算
+message MiniTradeAccount {
+   // 合计
+   AccountMoneySummary summary = 1;
+   // 出入金
+   repeated MoneyTransferRecord mtr_list = 2;
+   // 交易明细
+   repeated MiniTradeUnit tu_list = 3;
+   // 最后结算日期
+   int32 last_settle_date = 4;
+}

@@ -1,0 +1,67 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+
+
+// 期权类型
+enum OptionType {
+  // 看涨
+  CALL = 0;
+  // 看跌
+  PUT = 1;
+}
+
+// 执行方式
+enum StrikeMode {
+  // 欧式
+  CONTINENTAL = 0;
+  // 美式
+  AMERICAN = 1;
+  // 百慕大
+  BERMUDA = 2;
+}
+
+// 询价状态
+enum OptionQuoteStatus {
+  // 已提交
+  Submitted = 0;
+  // 接受
+  Accepted = 1;
+  // 拒绝
+  Rejected = 2;
+}
+
+// 请求询价
+message ReqOptionQuote {
+  // 请求编号
+  int64 id = 1;
+  // 标的合约
+  Symbol strike_symbol = 2;
+  // 月价
+  int32 months = 3;
+  // 金额
+  double amount = 4;
+  // 期权类型
+  OptionType type = 5;
+  // 执行方式
+  StrikeMode  mode = 6;
+  // 询价日期
+  int32 date = 7;
+  // 时间
+  int64 time = 8;
+  // 业务日期
+  int32 action_date = 9;
+}
+
+// 询价结果
+message OptionQuote {
+  // 合约
+  Symbol strike_symbol = 1;
+  // 金额
+  double amount = 2;
+  // 权利金率
+  double royalty_ratio = 3;
+  // 权利金
+  double royalty = 4;
+}
