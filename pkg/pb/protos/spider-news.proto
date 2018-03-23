@@ -1,0 +1,31 @@
+syntax = "proto3";
+package pb;
+
+message NewsItemPage {
+    map<string, string> param = 1;
+  	int32 pageSize  = 2;
+  	int32 count  = 3;
+  	int32 start  = 4;
+  	int32 max    = 5;
+  	repeated NewsItem result  = 6;
+}
+message Arthur {
+    string name = 1;
+    string pic = 2;
+}
+message NewsItem {
+	string category = 1;
+	string title = 2;
+	string content = 3;
+	int32 time = 4;
+	string detailUrl = 5;
+	Arthur arthur = 6;
+}
+
+message NewsDetail {
+	string  url = 1;
+	string  title = 2;
+	string  content = 3;
+	string  html = 4;
+}
+

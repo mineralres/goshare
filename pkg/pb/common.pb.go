@@ -10,6 +10,8 @@
 		market_data.proto
 		mini_trade.proto
 		others.proto
+		spider-news.proto
+		spider-rpc.proto
 		stock_option.proto
 
 	It has these top-level messages:
@@ -68,6 +70,10 @@
 		NetInAmountDetail
 		RealtimeMoneyTrendItem
 		RealtimeMoneyTrendItemList
+		NewsItemPage
+		Arthur
+		NewsItem
+		NewsDetail
 		ReqOptionQuote
 		OptionQuote
 */
