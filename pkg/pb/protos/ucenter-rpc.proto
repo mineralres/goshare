@@ -1,0 +1,10 @@
+syntax = "proto3";
+package pb;
+
+import "ucenter.proto";
+
+// 发单服务
+service UserCenter {
+    rpc Register(User)returns(User){}
+    rpc Login(User) returns (User){}
+}

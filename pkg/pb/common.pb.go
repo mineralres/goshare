@@ -12,8 +12,10 @@
 		others.proto
 		spider-news.proto
 		spider-rpc.proto
-		stock-option.proto
 		stock-option-rpc.proto
+		stock-option.proto
+		ucenter-rpc.proto
+		ucenter.proto
 
 	It has these top-level messages:
 		Symbol
@@ -77,6 +79,9 @@
 		NewsDetail
 		ReqOptionQuote
 		RspOptionQuote
+		User
+		Permission
+		UserRole
 */
 package pb
 

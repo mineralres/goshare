@@ -1,0 +1,28 @@
+syntax = "proto3";
+package pb;
+
+message User {
+    string userId = 1;
+    string userName = 2;
+    string phoneNumber = 3;
+    string password = 4;
+    string salt = 5;
+    string city = 6;
+    string email = 7;
+    string userType = 8;
+    string userSource = 9;
+    string unionId = 10;
+}
+
+message Permission {
+    string permissionId = 1;
+    string permissionName = 2;
+    string action = 3;
+}
+
+message UserRole {
+    string roleId = 1;
+    string roleName = 2;
+    repeated Permission permissions = 3;
+}
+
