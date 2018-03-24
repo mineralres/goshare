@@ -1,0 +1,9 @@
+syntax = "proto3";
+package pb;
+
+import "stock-option.proto";
+
+// 发单服务
+service StockOptionNode {
+  rpc ReqQuote(ReqOptionQuote) returns (RspOptionQuote) {}
+}

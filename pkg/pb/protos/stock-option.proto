@@ -55,7 +55,7 @@ message ReqOptionQuote {
 }
 
 // 询价结果
-message OptionQuote {
+message RspOptionQuote {
   // 合约
   Symbol strike_symbol = 1;
   // 金额
