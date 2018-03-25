@@ -12,6 +12,8 @@ message User {
     string userType = 8;
     string userSource = 9;
     string unionId = 10;
+    int64  gmtCreate = 11;
+    int64  gmtModified = 12;
 }
 
 message Permission {
