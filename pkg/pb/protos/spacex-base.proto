@@ -1,0 +1,9 @@
+syntax = "proto3";
+package pb;
+
+message RpcResponse {
+    int32 code = 1;
+    bool success = 2;
+    bytes data = 3;
+}
+

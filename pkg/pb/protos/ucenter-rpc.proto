@@ -1,10 +1,16 @@
 syntax = "proto3";
 package pb;
 
+import "spacex-base.proto";
 import "ucenter.proto";
-
+message ModifyPasswordParam {
+    string account = 1;
+    string oldPassword = 2;
+    string newPassword = 3;
+}
 // 发单服务
 service UserCenter {
-    rpc Register(User)returns(User){}
-    rpc Login(User) returns (User){}
+    rpc Register(User)returns(RpcResponse){}
+    rpc Login(User) returns (RpcResponse){}
+    rpc ModifyPassword(ModifyPasswordParam) returns (RpcResponse){}
 }

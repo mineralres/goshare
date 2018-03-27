@@ -10,6 +10,7 @@
 		market_data.proto
 		mini_trade.proto
 		others.proto
+		spacex-base.proto
 		spider-news.proto
 		spider-rpc.proto
 		stock-option-rpc.proto
@@ -73,12 +74,14 @@
 		NetInAmountDetail
 		RealtimeMoneyTrendItem
 		RealtimeMoneyTrendItemList
+		RpcResponse
 		NewsItemPage
 		Arthur
 		NewsItem
 		NewsDetail
 		ReqOptionQuote
 		RspOptionQuote
+		ModifyPasswordParam
 		User
 		Permission
 		UserRole
