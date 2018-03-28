@@ -20,6 +20,7 @@ message NewsItem {
 	int32 time = 4;
 	string detailUrl = 5;
 	Arthur arthur = 6;
+    string picture = 7;
 }
 
 message NewsDetail {
