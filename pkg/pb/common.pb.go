@@ -8,15 +8,7 @@
 		common.proto
 		ctp.proto
 		market_data.proto
-		mini_trade.proto
 		others.proto
-		spacex-base.proto
-		spider-news.proto
-		spider-rpc.proto
-		stock-option-rpc.proto
-		stock-option.proto
-		ucenter-rpc.proto
-		ucenter.proto
 
 	It has these top-level messages:
 		Symbol
@@ -68,23 +60,9 @@
 		OrderBook
 		MarketDataSnapshot
 		MdsList
-		MiniTradeOrder
-		MiniTradeUnit
-		MiniTradeAccount
 		NetInAmountDetail
 		RealtimeMoneyTrendItem
 		RealtimeMoneyTrendItemList
-		RpcResponse
-		NewsItemPage
-		Arthur
-		NewsItem
-		NewsDetail
-		ReqOptionQuote
-		RspOptionQuote
-		ModifyPasswordParam
-		User
-		Permission
-		UserRole
 */
 package pb
 
@@ -425,7 +403,7 @@ func (m *KlineSeries) GetList() []Kline {
 	return nil
 }
 
-// 经纪商信息
+// 经纪商通道
 type BrokerRoute struct {
 	Id             string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 	Type           int32    `protobuf:"varint,2,opt,name=type,proto3" json:"type"`

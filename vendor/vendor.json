@@ -3,6 +3,12 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "hdFXxwvfsmaBbN43JEJqOJBybDk=",
+			"path": "github.com/gin-gonic/gin",
+			"revision": "3856206bd07d1a5627eb951e345fff25f9b6209c",
+			"revisionTime": "2017-08-17T04:18:50Z"
+		},
+		{
 			"checksumSHA1": "ZsYJLA2XJ9C9KLIaY33Mdh+MJLM=",
 			"path": "github.com/gogo/protobuf/proto",
 			"revision": "16820b6e5dfb14e1bf8dc85639cdc6d36e6dd3d7",

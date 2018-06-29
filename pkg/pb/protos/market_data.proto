@@ -3,68 +3,64 @@ package pb;
 
 import "common.proto";
 
-message OrderBook
-{
-/// 卖价.
-double ask = 1;
-/// 卖量.
-double ask_volume = 2;
-/// 买价.
-double bid = 3;
-/// 买量.
-double bid_volume = 4;
+message OrderBook {
+  /// 卖价.
+  double ask = 1;
+  /// 卖量.
+  double ask_volume = 2;
+  /// 买价.
+  double bid = 3;
+  /// 买量.
+  double bid_volume = 4;
 }
 
 // MarketDataSnapshotLevel2 level2 tick
-message MarketDataSnapshot
-{
-// 合约
-Symbol symbol = 1;
-// 时间
-int64 time = 2;
-// 毫秒
-int32 milliseconds = 3;
-// 开盘
-double open = 4;
-// 最高
-double high = 5;
-// 最低
-double low = 6;
-// 收盘
-double close = 7;
-// 成交量
-double volume = 8;
-// 成交金额
-double amount = 9;
-// 持仓
-double position = 10;
-// 最新价格
-double price = 11;
-// 昨收
-double pre_close = 12; 
-// 昨结
-double pre_settlement_price = 13;
-// 昨持仓
-double pre_position = 14;
-// 结算价
-double settlement_price = 15; 
-// 涨停
-double upper_limit_price = 16;
-// 跌停
-double lower_limit_price = 17;
-// 昨虚实
-double pre_delta = 18;
-// 今虚实
-double delta = 19;
-// 均价
-double average_price = 20;
-// 交易日
-int32 trading_day = 21;
-// 盘口
-repeated OrderBook order_book_list = 22;
+message MarketDataSnapshot {
+  // 合约
+  Symbol symbol = 1;
+  // 时间
+  int64 time = 2;
+  // 毫秒
+  int32 milliseconds = 3;
+  // 开盘
+  double open = 4;
+  // 最高
+  double high = 5;
+  // 最低
+  double low = 6;
+  // 收盘
+  double close = 7;
+  // 成交量
+  double volume = 8;
+  // 成交金额
+  double amount = 9;
+  // 持仓
+  double position = 10;
+  // 最新价格
+  double price = 11;
+  // 昨收
+  double pre_close = 12;
+  // 昨结
+  double pre_settlement_price = 13;
+  // 昨持仓
+  double pre_position = 14;
+  // 结算价
+  double settlement_price = 15;
+  // 涨停
+  double upper_limit_price = 16;
+  // 跌停
+  double lower_limit_price = 17;
+  // 昨虚实
+  double pre_delta = 18;
+  // 今虚实
+  double delta = 19;
+  // 均价
+  double average_price = 20;
+  // 交易日
+  int32 trading_day = 21;
+  // 盘口
+  repeated OrderBook order_book_list = 22;
 }
 
 // MdsList 行情列表
-message MdsList {
-  repeated MarketDataSnapshot list = 1;
-}
+message MdsList { repeated MarketDataSnapshot list = 1; }

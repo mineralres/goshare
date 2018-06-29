@@ -196,6 +196,7 @@ func (p *Service) GetSina50EtfSym(sym string) (slice []string) {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		tickArr := strings.Split(string(body), ",")
+		log.Println(string(body), tickArr)
 		i := len(tickArr)
 		if err == nil {
 			slice = make([]string, i-2)
