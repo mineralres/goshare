@@ -148,9 +148,6 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDat
 	}
 
 	v, err := ioutil.ReadAll(resp.Body)
-	// log.Printf("------------------==============")
-	// log.Printf(string(v))
-
 	xl := len(v)
 	if xl > 2 && err == nil {
 		dataStr := string(v[1 : xl-2])
