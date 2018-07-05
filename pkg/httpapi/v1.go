@@ -93,8 +93,8 @@ func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{
 		Exchange  int    `json:"exchange"`
 		Code      string `json:"code"`
 		Period    int    `json:"period"`
-		StartDate int    `json:"startDate"`
-		EndDate   int    `json:"endDate"`
+		StartTime int64  `json:"startTime"`
+		EndTime   int64  `json:"endTime"`
 	}
 	var err error
 	err = c.BindJSON(&req)
@@ -102,6 +102,6 @@ func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{
 		return nil, err
 	}
 	var svc goshare.Service
-	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartDate, req.EndDate, 1)
+	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartTime, req.EndTime, 1)
 	return ret, err
 }
