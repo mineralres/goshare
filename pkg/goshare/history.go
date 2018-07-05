@@ -18,25 +18,25 @@ import (
 // GetKData 请求历史K线数据
 /*
 symbol：股票代码，即6位数字代码，或者指数代码
-startDate：开始日期，格式20180307
-endDate：结束日期，格式20180307
+startTime：开始时间time_t
+endTime：结束时间time_t
 period：周期
 retryCount：当网络异常后重试次数，默认为3
 */
-func (p *Service) GetKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+func (p *Service) GetKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	ex := symbol.Exchange
 	if ex == pb.ExchangeType_SSE || ex == pb.ExchangeType_SZE {
-		return getCNStockKData(symbol, period, startDate, endDate, retryCount)
-	} else if ex == pb.ExchangeType_SHFE || ex == pb.ExchangeType_CZCE || ex == pb.ExchangeType_DCE || ex == pb.ExchangeType_CFFEX {
-		return getCNFutureKData(symbol, period, startDate, endDate, retryCount)
+		return getCNStockKData(symbol, period, startTime, endTime, retryCount)
+	} else if ex == pb.ExchangeType_SHFE || ex == pb.ExchangeType_CZCE || ex == pb.ExchangeType_DCE || ex == pb.ExchangeType_CFFEX || ex == pb.ExchangeType_INE {
+		return getCNFutureKData(symbol, period, startTime, endTime, retryCount)
 	} else if ex == pb.ExchangeType_OPTION_SSE {
-		return getOptionSSEKData(symbol, period, startDate, endDate, retryCount)
+		return getOptionSSEKData(symbol, period, startTime, endTime, retryCount)
 	}
 	var ret pb.KlineSeries
 	return &ret, base.ErrUnsupported
 }
 
-func getCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+func getCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
 	et := 1
 	if symbol.Exchange == pb.ExchangeType_SZE {
@@ -113,7 +113,7 @@ func adaptCZCE(value string) string {
 	return value
 }
 
-func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
 	type SinaKline struct {
 		ClosePrice string `json:"c"`
@@ -187,7 +187,7 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDat
 	return &ret, nil
 }
 
-func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
 	fmt.Println("getOptionSSEKData")
 	type SinaKline struct {
@@ -245,14 +245,5 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDa
 			}
 		}
 	}
-	// log.Printf("------------------")
-	// log.Println(ret)
-	// for _, val := range ret.List {
-	// 	log.Println(val.Open)
-	// 	log.Println(val.High)
-	// 	log.Println(val.Low)
-	// 	log.Println(val.Close)
-	// }
-	// log.Printf("========")
 	return &ret, nil
 }

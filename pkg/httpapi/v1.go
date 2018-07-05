@@ -5,14 +5,15 @@ import (
 	"net/http"
 	"strings"
 
-	"git.bitconst.com/mineralres/alps/pkg/base"
-	"git.bitconst.com/mineralres/alps/pkg/pb"
 	"github.com/gin-gonic/gin"
+	"github.com/mineralres/goshare/pkg/base"
+	"github.com/mineralres/goshare/pkg/goshare"
+	"github.com/mineralres/goshare/pkg/pb"
 )
 
 type handlerx struct {
 	path    string
-	handler func(*gin.Context, *pb.AdminSession) (interface{}, error)
+	handler func(*gin.Context, *pb.UserSession) (interface{}, error)
 }
 
 // HTTPHandler HTTPHandler
@@ -20,8 +21,8 @@ type HTTPHandler struct {
 	handlerList1 []handlerx
 }
 
-// Prepare Preparing works
-func (h *HTTPHandler) Prepare(port string) {
+// Run Run works
+func (h *HTTPHandler) Run(port string) {
 	h.registerHandler()
 	r := gin.New()
 	r.Use(h.httpHook)
@@ -35,7 +36,9 @@ func (h *HTTPHandler) Prepare(port string) {
 }
 
 func (h *HTTPHandler) registerHandler() {
-
+	h.handlerList1 = []handlerx{
+		handlerx{"klineSeries", h.klineSeries},
+	}
 }
 
 func (h *HTTPHandler) httpHook(context *gin.Context) {
@@ -56,7 +59,7 @@ func (h *HTTPHandler) httpHook(context *gin.Context) {
 	res := &base.HTTPResponse{}
 	log.Println(tag, path)
 	var hl []handlerx
-	if tag == "apiv1" {
+	if tag == "gosharev1" {
 		hl = h.handlerList1
 	}
 	err := base.Err404
@@ -76,11 +79,29 @@ func (h *HTTPHandler) httpHook(context *gin.Context) {
 	res.Data = rd
 	if err == base.Err404 {
 		context.JSON(404, res)
-		log.Println("404 Not found ", context.Request.RequestURI)
+		log.Println("404 Not found ", context.Request.RequestURI, tag, path)
 	} else if err == base.ErrAbort {
 
 	} else {
 		context.JSON(200, res)
 	}
 
+}
+
+func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{}, error) {
+	var req struct {
+		Exchange  int    `json:"exchange"`
+		Code      string `json:"code"`
+		Period    int    `json:"period"`
+		StartDate int    `json:"startDate"`
+		EndDate   int    `json:"endDate"`
+	}
+	var err error
+	err = c.BindJSON(&req)
+	if err != nil {
+		return nil, err
+	}
+	var svc goshare.Service
+	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartDate, req.EndDate, 1)
+	return ret, err
 }

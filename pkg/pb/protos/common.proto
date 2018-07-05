@@ -22,6 +22,53 @@ enum ExchangeType {
   INDEX = 8;
   /// 上证期权
   OPTION_SSE = 9;
+  /// NEW YORK MERCANTILE EXCHANGE
+  NYME = 10;
+  /// CME GLOBEX
+  GLBX = 11;
+  /// cbot
+  CBOT = 12;
+  /// cme
+  CME = 13;
+  /// comex
+  COMEX = 14;
+  /// eurex
+  EUREX = 15;
+  ///
+  IPE = 16;
+  /// liffe
+  LIFFE = 17;
+  /// LME
+  LME = 18;
+  /// SGX
+  SGX = 19;
+  // demo ex
+  DEMO = 20;
+  // INE
+  INE = 21;
+  /// 未知
+  INVALIDEX = 22;
+}
+
+enum ProductType {
+  // 未知
+  PT_UNKOWN = 0;
+  // 期货
+  PT_FUTURE = 1;
+  // 股票
+  PT_STOCK = 2;
+  // 债券
+  PT_BOND = 3;
+  // 组合
+  PT_COMBINATION = 4;
+  // 期权
+  PT_OPTION = 5;
+  // 期货期权
+  PT_FUTURE_OPTION = 6;
+  // 股票期权
+  PT_STOCK_OPTION = 7;
+  // 上证50ETF期权
+  PT_SSE_ETF_OPTION = 8;
 }
 
 enum PeriodType {
@@ -167,7 +214,7 @@ message ProductInfo {
   // 子类型
   ProductID product_group_id = 2;
   // 类型
-  int32 type = 3;
+  ProductType type = 3;
   /// 品种名称
   string product_name = 4;
   // 最小变动价位.
@@ -404,3 +451,7 @@ message MoneyTransferRecord {
 }
 
 message MTRList { repeated MoneyTransferRecord list = 1; }
+
+message UserSession {
+  int64 id = 1;
+}

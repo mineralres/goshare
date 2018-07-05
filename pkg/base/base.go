@@ -21,3 +21,11 @@ func ParseFloat(src string) float64 {
 	}
 	return f
 }
+
+// HTTPResponse 回复
+type HTTPResponse struct {
+	Success bool        `json:"success"`
+	Data    interface{} `json:"data"`
+	Msg     string      `json:"msg"`
+	Code    int32       `json:"code"`
+}
