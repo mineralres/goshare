@@ -29,6 +29,8 @@ func (p *Service) GetKData(symbol *pb.Symbol, period pb.PeriodType, startDate, e
 		return getCNStockKData(symbol, period, startDate, endDate, retryCount)
 	} else if ex == pb.ExchangeType_SHFE || ex == pb.ExchangeType_CZCE || ex == pb.ExchangeType_DCE || ex == pb.ExchangeType_CFFEX {
 		return getCNFutureKData(symbol, period, startDate, endDate, retryCount)
+	} else if ex == pb.ExchangeType_OPTION_SSE {
+		return getOptionSSEKData(symbol, period, startDate, endDate, retryCount)
 	}
 	var ret pb.KlineSeries
 	return &ret, base.ErrUnsupported
@@ -146,6 +148,9 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDat
 	}
 
 	v, err := ioutil.ReadAll(resp.Body)
+	// log.Printf("------------------==============")
+	// log.Printf(string(v))
+
 	xl := len(v)
 	if xl > 2 && err == nil {
 		dataStr := string(v[1 : xl-2])
@@ -182,5 +187,75 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDat
 			ret.List = append(ret.List, kx)
 		}
 	}
+	return &ret, nil
+}
+
+func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
+	fmt.Println("getOptionSSEKData")
+	type SinaKline struct {
+		ClosePrice string `json:"c"`
+		Day        string `json:"d"`
+		MaxPrice   string `json:"h"`
+		MinPrice   string `json:"l"`
+		NowVolume  string `json:"v"`
+		OpenPrice  string `json:"o"`
+	}
+	url := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
+
+	resp, err := http.Get(url)
+	if err == nil {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		tickArr := strings.Split(string(body), "=")
+		// log.Printf("------------------")
+		// log.Printf(string(tickArr[1]))
+		isDaily := true
+		xl := len(tickArr[1])
+		if xl > 2 && err == nil {
+			dataStr := string(tickArr[1][1 : xl-2])
+			var sinaks []SinaKline
+			dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
+			dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
+			dataStr = strings.Replace(dataStr, "h:", "\"h\":", -1)
+			dataStr = strings.Replace(dataStr, "l:", "\"l\":", -1)
+			dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
+			dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
+			err = json.Unmarshal([]byte(dataStr), &sinaks)
+			// fmt.Println(err)
+			for i := len(sinaks) - 1; i >= 0; i-- {
+				v := sinaks[i]
+				var kx pb.Kline
+				// day := strings.Split(v.Day, " ")[0]
+				if isDaily {
+					tm, err := time.Parse("2006-01-02", v.Day)
+					if err == nil {
+						kx.Time = tm.Unix() * 1000
+					}
+				} else {
+					t, err := time.Parse("2006-01-02 15:04:05", v.Day)
+					if err == nil {
+						kx.Time = t.Unix() * 1000
+					}
+				}
+				v.Day = strings.Split(v.Day, " ")[0]
+				kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
+				kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
+				kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
+				kx.Low, _ = strconv.ParseFloat(v.MinPrice, 64)
+				kx.Volume, _ = strconv.ParseFloat(v.NowVolume, 64)
+				ret.List = append(ret.List, kx)
+			}
+		}
+	}
+	// log.Printf("------------------")
+	// log.Println(ret)
+	// for _, val := range ret.List {
+	// 	log.Println(val.Open)
+	// 	log.Println(val.High)
+	// 	log.Println(val.Low)
+	// 	log.Println(val.Close)
+	// }
+	// log.Printf("========")
 	return &ret, nil
 }

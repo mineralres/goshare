@@ -13,6 +13,7 @@ func init() {
 
 // TestGetKData TestGetKData
 func TestGetKData(t *testing.T) {
+
 	// symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "600000"}
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
 	var s Service
