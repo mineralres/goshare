@@ -125,7 +125,7 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 	}
 
 	isDaily := false
-	ktype := "5m"
+	ktype := "5"
 	switch period {
 	case pb.PeriodType_D1:
 		isDaily = true
@@ -133,7 +133,9 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 	case pb.PeriodType_M1:
 		ktype = "1m"
 	case pb.PeriodType_M5:
-		ktype = "5m"
+		ktype = "5"
+	case pb.PeriodType_H1:
+		ktype = "60"
 	}
 	code := symbol.Code
 	qapi := "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getFewMinLine?symbol=" + adaptCZCE(code) + "&type=" + ktype
