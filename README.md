@@ -22,9 +22,9 @@ import (
 
 func test(){
   var s goshare.Service
-  symbol := aproto.Symbol{Exchange: aproto.ExchangeType_SHFE, Code: "rb1805"}
+  symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
   // 获取历史数据
-  data, err := s.GetKData(&symbol, aproto.PeriodType_M5, 19990101, 20180307, 1)
+  data, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
   if err != nil {
     panic(err)
   }
@@ -44,3 +44,4 @@ func test(){
  
 
 # FAQ
+* QQ群 249379339 
