@@ -244,7 +244,7 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 				ob1.Bid = base.ParseFloat(tickArr[21])
 				ob1.AskVolume = base.ParseFloat(tickArr[22])
 				ob1.Ask = base.ParseFloat(tickArr[23])
-				// log.Printf(ret.Symbol.Code)
+				ret.OrderBookList = append(ret.OrderBookList, ob1)
 				rets = append(rets, ret)
 			}
 		}
@@ -280,6 +280,12 @@ func Log(sd string) {
 
 // GetSina50EtfSym 获取50ETF期权合约列表，sina代码
 func GetSina50EtfSym(sym string) (slice []string) {
+	//说明：
+	//OP_DOWN_5100501807:OP 期权、DOWN 看跌、UP 看涨、510050 50etf标的代码、1807 到期月份
+	//根据到期月的期权从接口获取t型的合约表： CON_OP_10001394
+	// 参数解释：CON_OP_ 为固定title，10001394这个是交易所的合约代码，在任何一个行情软件都可以查到，也可以通过GetSina50EtfSym接口获取
+	// GetLastTick 根据CON_OP_10001394可以获取最新的报价
+	// GetKData 根据CON_OP_10001394可以获取日k线
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
 	if err == nil {
 		defer resp.Body.Close()

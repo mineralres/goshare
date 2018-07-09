@@ -127,12 +127,6 @@ func TestOptionSSEKline(t *testing.T) {
 
 func TestOption(t *testing.T) {
 	log.Printf("测试获取期权数据：50etf对应的sina期权合约代码，详情，tick，kline")
-	//说明：
-	//OP_DOWN_5100501807:OP 期权、DOWN 看跌、UP 看涨、510050 50etf标的代码、1807 到期月份
-	//根据到期月的期权从接口获取t型的合约表： CON_OP_10001394
-	// 参数解释：CON_OP_ 为固定title，10001394这个是交易所的合约代码，在任何一个行情软件都可以查到，也可以通过GetSina50EtfSym接口获取
-	// GetLastTick 根据CON_OP_10001394可以获取最新的报价
-	// GetKData 根据CON_OP_10001394可以获取日k线
 
 	//期权标的+到期日
 	sym := "OP_DOWN_5100501808"
@@ -168,6 +162,8 @@ func TestOption(t *testing.T) {
 	allTick, _ := getOptionSinaTick("1808")
 	for _, v := range allTick {
 		log.Printf("Tick[%s], Close[%.2f]", v.Symbol.Code, v.Close)
+		log.Println(v.OrderBookList[0])
+		//log.Printf("Tick[%s], ask[%.2f]，bid[%.2f]，Close[%.2f]", v.Symbol.Code, v.OrderBookList[0].Ask, v.OrderBookList[0].Bid, v.Close)
 	}
 }
 
