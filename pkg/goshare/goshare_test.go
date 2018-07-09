@@ -162,12 +162,15 @@ func TestOption(t *testing.T) {
 	allTick, _ := getOptionSinaTick("1808")
 	for _, v := range allTick {
 		log.Printf("Tick[%s], Close[%.2f]", v.Symbol.Code, v.Close)
-		log.Println(v.OrderBookList[0])
+		// log.Println(v.OrderBookList[0])
+		// log.Println(v)
+		// log.Println(v.Position)
 		//log.Printf("Tick[%s], ask[%.2f]，bid[%.2f]，Close[%.2f]", v.Symbol.Code, v.OrderBookList[0].Ask, v.OrderBookList[0].Bid, v.Close)
 	}
 }
 
 func TestGetSSEStockOptionList(t *testing.T) {
+	return
 	ret, err := s.GetSSEStockOptionList()
 	if err != nil {
 		t.Fatal(err)

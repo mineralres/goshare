@@ -204,17 +204,24 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 			tickArr := strings.Split(v, ",")
 			ret := pb.MarketDataSnapshot{}
 			if err == nil && len(tickArr) >= 42 {
-				data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
-				if err == nil {
-					symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: string(data)}
-					ret.Symbol = symbol
+				var ss string
+				for i := 19; i < len(tickArr[0])-3; i++ {
+					ss = ss + string(tickArr[0][i])
 				}
+				// data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
+				// if err == nil {
+				// 	symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: string(data)}
+				// 	ret.Symbol = symbol
+				// }
+				symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: ss}
+				ret.Symbol = symbol
 				ret.Price = base.ParseFloat(tickArr[2])
 				ret.Close = ret.Price
 				//ret.PreClose = base.ParseFloat(tickArr[4])
 				ret.Open = base.ParseFloat(tickArr[9])
 				ret.High = base.ParseFloat(tickArr[39])
 				ret.Low = base.ParseFloat(tickArr[40])
+				ret.Position = base.ParseFloat(tickArr[5])
 				ret.Volume = (base.ParseFloat(tickArr[41]))
 				ret.Amount = float64(base.ParseInt(tickArr[42]))
 				ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
