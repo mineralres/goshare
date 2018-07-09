@@ -175,4 +175,11 @@ func TestGetSSEStockOptionList(t *testing.T) {
 	if len(ret) == 0 {
 		t.Fatalf("上证股票期权列表为空")
 	}
+
+	var symbols []pb.Symbol
+	for i := range ret {
+		symbols = append(symbols, pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: ret[i].SecurityID})
+	}
+	mds, err := s.GetSSEStockOptionTick(symbols)
+	log.Println(mds, err)
 }
