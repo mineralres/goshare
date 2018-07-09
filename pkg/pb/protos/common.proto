@@ -452,6 +452,43 @@ message MoneyTransferRecord {
 
 message MTRList { repeated MoneyTransferRecord list = 1; }
 
-message UserSession {
-  int64 id = 1;
+message UserSession { int64 id = 1; }
+
+// SSEStockOption 上证交易所ETF期权
+message SSEStockOption {
+  // 行权价
+  string exercise_price = 1;
+  string update_version = 2;
+  string option_type = 3;
+  string daily_price_up_limit = 4;
+  string time_save = 5;
+  string DELIST_Flag = 6;
+  string start_date = 7;
+  string expire_date = 8;
+  string contract_unit = 9;
+  string call_or_put = 10;
+  string lmt_ord_max_floor = 11;
+  string delivery_date = 12;
+  string change_flag = 13;
+  string mkt_ord_max_floor = 14;
+  string underlying_type = 15;
+  string daily_price_down_limit = 16;
+  string round_lot = 17;
+  string security_closePX = 18;
+  string settl_price = 19;
+  string contract_symbol = 20;
+  string num = 21;
+  string contractID = 22;
+  string margin_ratio_param1 = 23;
+  string margin_ratio_param2 = 24;
+  string lmt_ord_min_floor = 25;
+  string mkt_ord_min_floor = 26;
+  string end_date = 27;
+  string price_limit_type = 28;
+  string exercise_date = 29;
+  string margin_unit = 30;
+  string securityID = 31;
+  string security_name_byID = 32;
+  string contract_flag = 33;
+  string underlying_closePX = 34;
 }

@@ -122,3 +122,13 @@ func TestOptionSSEKline(t *testing.T) {
 		// break
 	}
 }
+
+func TestGetSSEStockOptionList(t *testing.T) {
+	ret, err := s.GetSSEStockOptionList()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(ret) == 0 {
+		t.Fatalf("上证股票期权列表为空")
+	}
+}
