@@ -258,17 +258,11 @@ func getOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 
 	all := "OP_DOWN_510050" + date
 	allTick, _ := getOptionSSETickT(all)
-	for _, v := range allTick {
-		//log.Printf(v.Symbol.Code)
-		rets = append(rets, v)
-	}
+	rets = append(rets, allTick...)
 
 	all = "OP_UP_510050" + date
 	allTick, _ = getOptionSSETickT(all)
-	for _, v := range allTick {
-		// log.Printf(v.Symbol.Code)
-		rets = append(rets, v)
-	}
+	rets = append(rets, allTick...)
 
 	return rets, errors.New("ErrGetIndex")
 }

@@ -2,11 +2,13 @@ package goshare
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 
+	"github.com/mineralres/goshare/pkg/base"
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
@@ -133,4 +135,65 @@ func (s *Service) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 		ret = append(ret, op)
 	}
 	return ret, nil
+}
+
+// GetSSEStockOptionTick 取所有行情
+func (s *Service) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+	rets := []pb.MarketDataSnapshot{}
+	all := "http://hq.sinajs.cn/list="
+	for _, value := range symbols {
+		all = all + "CON_OP_" + value.Code + ","
+	}
+	resp, err := http.Get(all)
+	if err != nil {
+		return nil, errors.New("ErrGetIndex")
+	}
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	tickArr1 := strings.Split(string(body), ";")
+	for _, v := range tickArr1 {
+		tickArr := strings.Split(v, ",")
+		ret := pb.MarketDataSnapshot{}
+		if err == nil && len(tickArr) >= 42 {
+			symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: tickArr[0][19:27]}
+			ret.Symbol = symbol
+			ret.Price = base.ParseFloat(tickArr[2])
+			ret.Close = ret.Price
+			ret.Open = base.ParseFloat(tickArr[9])
+			ret.High = base.ParseFloat(tickArr[39])
+			ret.Low = base.ParseFloat(tickArr[40])
+			ret.Volume = (base.ParseFloat(tickArr[41]))
+			ret.Amount = float64(base.ParseInt(tickArr[42]))
+			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
+			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
+			var ob5 pb.OrderBook
+			ob5.BidVolume = base.ParseFloat(tickArr[12])
+			ob5.Bid = base.ParseFloat(tickArr[13])
+			ob5.AskVolume = base.ParseFloat(tickArr[30])
+			ob5.Ask = base.ParseFloat(tickArr[31])
+			var ob4 pb.OrderBook
+			ob4.BidVolume = base.ParseFloat(tickArr[14])
+			ob4.Bid = base.ParseFloat(tickArr[15])
+			ob4.AskVolume = base.ParseFloat(tickArr[28])
+			ob4.Ask = base.ParseFloat(tickArr[29])
+			var ob3 pb.OrderBook
+			ob3.BidVolume = base.ParseFloat(tickArr[16])
+			ob3.Bid = base.ParseFloat(tickArr[17])
+			ob3.AskVolume = base.ParseFloat(tickArr[26])
+			ob3.Ask = base.ParseFloat(tickArr[27])
+			var ob2 pb.OrderBook
+			ob2.BidVolume = base.ParseFloat(tickArr[18])
+			ob2.Bid = base.ParseFloat(tickArr[19])
+			ob2.AskVolume = base.ParseFloat(tickArr[24])
+			ob2.Ask = base.ParseFloat(tickArr[25])
+			var ob1 pb.OrderBook
+			ob1.BidVolume = base.ParseFloat(tickArr[20])
+			ob1.Bid = base.ParseFloat(tickArr[21])
+			ob1.AskVolume = base.ParseFloat(tickArr[22])
+			ob1.Ask = base.ParseFloat(tickArr[23])
+			rets = append(rets, ret)
+		}
+	}
+	return rets, nil
 }
