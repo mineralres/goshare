@@ -9,5 +9,5 @@ import (
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	var h httpapi.HTTPHandler
-	h.Prepare("3030")
+	h.Run("19030")
 }

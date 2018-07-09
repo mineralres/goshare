@@ -170,3 +170,13 @@ func TestOption(t *testing.T) {
 		log.Printf("Tick[%s], Close[%.2f]", v.Symbol.Code, v.Close)
 	}
 }
+
+func TestGetSSEStockOptionList(t *testing.T) {
+	ret, err := s.GetSSEStockOptionList()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(ret) == 0 {
+		t.Fatalf("上证股票期权列表为空")
+	}
+}
