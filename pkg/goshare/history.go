@@ -189,7 +189,7 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDat
 
 func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startDate, endDate, retryCount int) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
-	fmt.Println("getOptionSSEKData")
+	// fmt.Println("getOptionSSEKData")
 	type SinaKline struct {
 		ClosePrice string `json:"c"`
 		Day        string `json:"d"`
