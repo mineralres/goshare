@@ -265,8 +265,10 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 	return nil, errors.New("ErrGetIndex")
 }
 
-// 根据交割月获取t型报价表数据
-func getOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
+// GetOptionSinaTick 根据交割月获取t型报价表数据
+/* date 如1808 为8月到期的
+ */
+func (p *Service) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 
 	all := "OP_DOWN_510050" + date
