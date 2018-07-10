@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -35,6 +34,7 @@ func (p *Service) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error)
 	return nil, base.ErrUnsupported
 }
 
+// getStockLastTick 取股票最新报价
 func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	exstr := "sh"
@@ -272,11 +272,6 @@ func getOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 	rets = append(rets, allTick...)
 
 	return rets, errors.New("ErrGetIndex")
-}
-
-// 统一日志打印
-func Log(sd string) {
-	log.Printf(sd)
 }
 
 // GetSina50EtfSym 获取50ETF期权合约列表，sina代码

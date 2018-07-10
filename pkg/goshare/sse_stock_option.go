@@ -160,6 +160,7 @@ func (s *Service) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSna
 			ret.Symbol = symbol
 			ret.Price = base.ParseFloat(tickArr[2])
 			ret.Close = ret.Price
+			ret.Position = base.ParseFloat(tickArr[5])
 			ret.Open = base.ParseFloat(tickArr[9])
 			ret.High = base.ParseFloat(tickArr[39])
 			ret.Low = base.ParseFloat(tickArr[40])
