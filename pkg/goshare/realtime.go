@@ -129,62 +129,65 @@ func getIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	return nil, errors.New("ErrGetIndex")
 }
 
+// parse sina tick string
+func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, error) {
+	ret := &pb.MarketDataSnapshot{}
+	tickArr := strings.Split(string(body), ",")
+	if len(tickArr) >= 42 {
+		var ss string
+		tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
+		ss = tickSym2[4]
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: ss}
+		ret.Symbol = symbol
+		ret.Price = base.ParseFloat(tickArr[2])
+		ret.Close = ret.Price
+		ret.PreClose = base.ParseFloat(tickArr[8])
+		ret.Open = base.ParseFloat(tickArr[9])
+		ret.High = base.ParseFloat(tickArr[39])
+		ret.Low = base.ParseFloat(tickArr[40])
+		ret.Volume = (base.ParseFloat(tickArr[41]))
+		ret.Amount = float64(base.ParseInt(tickArr[42]))
+		ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
+		ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
+		var ob5 pb.OrderBook
+		ob5.BidVolume = base.ParseFloat(tickArr[12])
+		ob5.Bid = base.ParseFloat(tickArr[13])
+		ob5.AskVolume = base.ParseFloat(tickArr[30])
+		ob5.Ask = base.ParseFloat(tickArr[31])
+		var ob4 pb.OrderBook
+		ob4.BidVolume = base.ParseFloat(tickArr[14])
+		ob4.Bid = base.ParseFloat(tickArr[15])
+		ob4.AskVolume = base.ParseFloat(tickArr[28])
+		ob4.Ask = base.ParseFloat(tickArr[29])
+		var ob3 pb.OrderBook
+		ob3.BidVolume = base.ParseFloat(tickArr[16])
+		ob3.Bid = base.ParseFloat(tickArr[17])
+		ob3.AskVolume = base.ParseFloat(tickArr[26])
+		ob3.Ask = base.ParseFloat(tickArr[27])
+		var ob2 pb.OrderBook
+		ob2.BidVolume = base.ParseFloat(tickArr[18])
+		ob2.Bid = base.ParseFloat(tickArr[19])
+		ob2.AskVolume = base.ParseFloat(tickArr[24])
+		ob2.Ask = base.ParseFloat(tickArr[25])
+		var ob1 pb.OrderBook
+		ob1.BidVolume = base.ParseFloat(tickArr[20])
+		ob1.Bid = base.ParseFloat(tickArr[21])
+		ob1.AskVolume = base.ParseFloat(tickArr[22])
+		ob1.Ask = base.ParseFloat(tickArr[23])
+		return ret, nil
+	}
+	return nil, errors.New("error")
+}
+
 // 根据合约获取单个期权合约的tick数据
 func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
-	ret := &pb.MarketDataSnapshot{}
+	//ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
 		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-		tickArr := strings.Split(string(body), ",")
-		if err == nil && len(tickArr) >= 42 {
-			// data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
-			// if err == nil {
-			// 	symbol.Code = string(data)
-			// }
-			// ret.Symbol = *symbol
-
-			var ss string
-			tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
-			ss = tickSym2[4]
-			symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: ss}
-			ret.Symbol = symbol
-			ret.Price = base.ParseFloat(tickArr[2])
-			ret.Close = ret.Price
-			//ret.PreClose = base.ParseFloat(tickArr[4])
-			ret.Open = base.ParseFloat(tickArr[9])
-			ret.High = base.ParseFloat(tickArr[39])
-			ret.Low = base.ParseFloat(tickArr[40])
-			ret.Volume = (base.ParseFloat(tickArr[41]))
-			ret.Amount = float64(base.ParseInt(tickArr[42]))
-			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
-			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
-			var ob5 pb.OrderBook
-			ob5.BidVolume = base.ParseFloat(tickArr[12])
-			ob5.Bid = base.ParseFloat(tickArr[13])
-			ob5.AskVolume = base.ParseFloat(tickArr[30])
-			ob5.Ask = base.ParseFloat(tickArr[31])
-			var ob4 pb.OrderBook
-			ob4.BidVolume = base.ParseFloat(tickArr[14])
-			ob4.Bid = base.ParseFloat(tickArr[15])
-			ob4.AskVolume = base.ParseFloat(tickArr[28])
-			ob4.Ask = base.ParseFloat(tickArr[29])
-			var ob3 pb.OrderBook
-			ob3.BidVolume = base.ParseFloat(tickArr[16])
-			ob3.Bid = base.ParseFloat(tickArr[17])
-			ob3.AskVolume = base.ParseFloat(tickArr[26])
-			ob3.Ask = base.ParseFloat(tickArr[27])
-			var ob2 pb.OrderBook
-			ob2.BidVolume = base.ParseFloat(tickArr[18])
-			ob2.Bid = base.ParseFloat(tickArr[19])
-			ob2.AskVolume = base.ParseFloat(tickArr[24])
-			ob2.Ask = base.ParseFloat(tickArr[25])
-			var ob1 pb.OrderBook
-			ob1.BidVolume = base.ParseFloat(tickArr[20])
-			ob1.Bid = base.ParseFloat(tickArr[21])
-			ob1.AskVolume = base.ParseFloat(tickArr[22])
-			ob1.Ask = base.ParseFloat(tickArr[23])
-			//Log(symbol.Code)
+		body, _ := ioutil.ReadAll(resp.Body)
+		ret, err1 := parseSinaOptionTick(string(body))
+		if err1 == nil {
 			return ret, nil
 		}
 	}
@@ -207,57 +210,9 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 		body, _ := ioutil.ReadAll(resp.Body)
 		tickArr1 := strings.Split(string(body), ";")
 		for _, v := range tickArr1 {
-			tickArr := strings.Split(v, ",")
-			ret := pb.MarketDataSnapshot{}
-			if err == nil && len(tickArr) >= 42 {
-				var ss string
-				tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
-				ss = tickSym2[4]
-				// data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
-				// if err == nil {
-				// 	symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: string(data)}
-				// 	ret.Symbol = symbol
-				// }
-				symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: ss}
-				ret.Symbol = symbol
-				ret.Price = base.ParseFloat(tickArr[2])
-				ret.Close = ret.Price
-				//ret.PreClose = base.ParseFloat(tickArr[4])
-				ret.Open = base.ParseFloat(tickArr[9])
-				ret.High = base.ParseFloat(tickArr[39])
-				ret.Low = base.ParseFloat(tickArr[40])
-				ret.Position = base.ParseFloat(tickArr[5])
-				ret.Volume = (base.ParseFloat(tickArr[41]))
-				ret.Amount = float64(base.ParseInt(tickArr[42]))
-				ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
-				ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
-				var ob5 pb.OrderBook
-				ob5.BidVolume = base.ParseFloat(tickArr[12])
-				ob5.Bid = base.ParseFloat(tickArr[13])
-				ob5.AskVolume = base.ParseFloat(tickArr[30])
-				ob5.Ask = base.ParseFloat(tickArr[31])
-				var ob4 pb.OrderBook
-				ob4.BidVolume = base.ParseFloat(tickArr[14])
-				ob4.Bid = base.ParseFloat(tickArr[15])
-				ob4.AskVolume = base.ParseFloat(tickArr[28])
-				ob4.Ask = base.ParseFloat(tickArr[29])
-				var ob3 pb.OrderBook
-				ob3.BidVolume = base.ParseFloat(tickArr[16])
-				ob3.Bid = base.ParseFloat(tickArr[17])
-				ob3.AskVolume = base.ParseFloat(tickArr[26])
-				ob3.Ask = base.ParseFloat(tickArr[27])
-				var ob2 pb.OrderBook
-				ob2.BidVolume = base.ParseFloat(tickArr[18])
-				ob2.Bid = base.ParseFloat(tickArr[19])
-				ob2.AskVolume = base.ParseFloat(tickArr[24])
-				ob2.Ask = base.ParseFloat(tickArr[25])
-				var ob1 pb.OrderBook
-				ob1.BidVolume = base.ParseFloat(tickArr[20])
-				ob1.Bid = base.ParseFloat(tickArr[21])
-				ob1.AskVolume = base.ParseFloat(tickArr[22])
-				ob1.Ask = base.ParseFloat(tickArr[23])
-				ret.OrderBookList = append(ret.OrderBookList, ob1)
-				rets = append(rets, ret)
+			ret, err1 := parseSinaOptionTick(string(v))
+			if err1 == nil {
+				rets = append(rets, *ret)
 			}
 		}
 		return rets, nil
