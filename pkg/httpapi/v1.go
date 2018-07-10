@@ -38,6 +38,7 @@ func (h *HTTPHandler) Run(port string) {
 func (h *HTTPHandler) registerHandler() {
 	h.handlerList1 = []handlerx{
 		handlerx{"klineSeries", h.klineSeries},
+		handlerx{"sseOptionTQuote", h.sseOptionTQuote},
 	}
 }
 
@@ -104,4 +105,16 @@ func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{
 	var svc goshare.Service
 	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartTime, req.EndTime, 1)
 	return ret, err
+}
+
+func (h *HTTPHandler) sseOptionTQuote(c *gin.Context, s *pb.UserSession) (interface{}, error) {
+	// var req struct {
+	// 	Month string `json:"month"`
+	// }
+	// err := c.BindJSON(&req)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	var svc goshare.Service
+	return svc.GetOptionSinaTick("1808")
 }
