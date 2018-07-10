@@ -129,6 +129,7 @@ func getIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	return nil, errors.New("ErrGetIndex")
 }
 
+// 根据合约获取单个期权合约的tick数据
 func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
@@ -137,11 +138,17 @@ func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 		body, err := ioutil.ReadAll(resp.Body)
 		tickArr := strings.Split(string(body), ",")
 		if err == nil && len(tickArr) >= 42 {
-			data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
-			if err == nil {
-				symbol.Code = string(data)
-			}
-			ret.Symbol = *symbol
+			// data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
+			// if err == nil {
+			// 	symbol.Code = string(data)
+			// }
+			// ret.Symbol = *symbol
+
+			var ss string
+			tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
+			ss = tickSym2[4]
+			symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: ss}
+			ret.Symbol = symbol
 			ret.Price = base.ParseFloat(tickArr[2])
 			ret.Close = ret.Price
 			//ret.PreClose = base.ParseFloat(tickArr[4])
@@ -184,6 +191,7 @@ func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	return nil, errors.New("ErrGetIndex")
 }
 
+// 批量获取50etf tick数据
 func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	syms := GetSina50EtfSym(symbol)
@@ -198,16 +206,13 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
 		tickArr1 := strings.Split(string(body), ";")
-		// log.Printf("---======")
-		// log.Printf(string(len(tickArr1)))
 		for _, v := range tickArr1 {
 			tickArr := strings.Split(v, ",")
 			ret := pb.MarketDataSnapshot{}
 			if err == nil && len(tickArr) >= 42 {
 				var ss string
-				for i := 19; i < len(tickArr[0])-3; i++ {
-					ss = ss + string(tickArr[0][i])
-				}
+				tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
+				ss = tickSym2[4]
 				// data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(tickArr[37])), simplifiedchinese.GBK.NewDecoder()))
 				// if err == nil {
 				// 	symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: string(data)}
@@ -260,6 +265,7 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
 	return nil, errors.New("ErrGetIndex")
 }
 
+// 根据交割月获取t型报价表数据
 func getOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 
