@@ -62,6 +62,7 @@
 		OrderBook
 		MarketDataSnapshot
 		MdsList
+		OptionTMarket
 		NetInAmountDetail
 		RealtimeMoneyTrendItem
 		RealtimeMoneyTrendItemList

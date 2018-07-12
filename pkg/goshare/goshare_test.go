@@ -159,14 +159,20 @@ func TestOption(t *testing.T) {
 
 	//批量t型表的获取
 	log.Printf("根据50etf期权到期月份，直接获取tick T型报价数据")
-	allTick, _ := getOptionSinaTick("1808")
+	allTick, _ := s.GetOptionSinaTick("1808")
 	for _, v := range allTick {
-		log.Printf("Tick[%s], Close[%.2f]", v.Symbol.Code, v.Close)
+		log.Printf("Tick[%s], Close[%.4f],preClose[%.4f]", v.Symbol.Code, v.Close, v.PreClose)
 		// log.Println(v.OrderBookList[0])
 		// log.Println(v)
 		// log.Println(v.Position)
 		//log.Printf("Tick[%s], ask[%.2f]，bid[%.2f]，Close[%.2f]", v.Symbol.Code, v.OrderBookList[0].Ask, v.OrderBookList[0].Bid, v.Close)
 	}
+	log.Printf("根据50etf期权到期月份，直接获取tick T型报价数据----2")
+	allTick1, _ := s.GetOptionSinaTickMarket("1808")
+	for _, val := range allTick1 {
+		log.Printf("执行价为%s,call 为%s,put 为%s", val.Name, val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
+	}
+
 }
 
 func TestGetSSEStockOptionList(t *testing.T) {

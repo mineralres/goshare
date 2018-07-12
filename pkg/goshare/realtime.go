@@ -130,7 +130,7 @@ func getIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 }
 
 // parse sina tick string
-func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, error) {
+func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 	ret := &pb.MarketDataSnapshot{}
 	tickArr := strings.Split(string(body), ",")
 	if len(tickArr) >= 42 {
@@ -174,9 +174,9 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, error) {
 		ob1.Bid = base.ParseFloat(tickArr[21])
 		ob1.AskVolume = base.ParseFloat(tickArr[22])
 		ob1.Ask = base.ParseFloat(tickArr[23])
-		return ret, nil
+		return ret, tickArr[37], nil
 	}
-	return nil, errors.New("error")
+	return nil, "", errors.New("error")
 }
 
 // 根据合约获取单个期权合约的tick数据
@@ -186,7 +186,7 @@ func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	if err == nil {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
-		ret, err1 := parseSinaOptionTick(string(body))
+		ret, _, err1 := parseSinaOptionTick(string(body))
 		if err1 == nil {
 			return ret, nil
 		}
@@ -195,29 +195,30 @@ func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 }
 
 // 批量获取50etf tick数据
-func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, error) {
+func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error) {
 	rets := []pb.MarketDataSnapshot{}
+	retsName := []string{}
 	syms := GetSina50EtfSym(symbol)
 	all := "http://hq.sinajs.cn/list="
 	for _, value := range syms {
 		//log.Printf(" sina 期权合约代码为: %s\n", value)
 		all = all + value + ","
 	}
-
 	resp, err := http.Get(all)
 	if err == nil {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
 		tickArr1 := strings.Split(string(body), ";")
 		for _, v := range tickArr1 {
-			ret, err1 := parseSinaOptionTick(string(v))
+			ret, name, err1 := parseSinaOptionTick(string(v))
 			if err1 == nil {
 				rets = append(rets, *ret)
+				retsName = append(retsName, name)
 			}
 		}
-		return rets, nil
+		return rets, retsName, nil
 	}
-	return nil, errors.New("ErrGetIndex")
+	return nil, nil, errors.New("ErrGetIndex")
 }
 
 // GetOptionSinaTick 根据交割月获取t型报价表数据
@@ -227,13 +228,36 @@ func (p *Service) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error
 	rets := []pb.MarketDataSnapshot{}
 
 	all := "OP_DOWN_510050" + date
-	allTick, _ := getOptionSSETickT(all)
+	allTick, _, _ := getOptionSSETickT(all)
 	rets = append(rets, allTick...)
 
 	all = "OP_UP_510050" + date
-	allTick, _ = getOptionSSETickT(all)
+	allTick, _, _ = getOptionSSETickT(all)
 	rets = append(rets, allTick...)
 
+	return rets, errors.New("ErrGetIndex")
+}
+
+// GetOptionSinaTick 根据交割月获取t型报价表数据
+/* date 如1808 为8月到期的
+ */
+func (p *Service) GetOptionSinaTickMarket(date string) ([]pb.OptionTMarket, error) {
+	rets := []pb.OptionTMarket{}
+
+	all := "OP_DOWN_510050" + date
+	allTick, allName, _ := getOptionSSETickT(all)
+
+	all = "OP_UP_510050" + date
+	allTick1, _, _ := getOptionSSETickT(all)
+
+	for kk, val := range allName {
+		msg := pb.OptionTMarket{}
+		msg.Name = val
+		msg.CallTk = allTick1[kk]
+		msg.PutTk = allTick[kk]
+		rets = append(rets, msg)
+		//log.Printf("执行价为%s,call 为%s,put 为%s", val, msg.CallTk.Symbol.Code, msg.PutTk.Symbol.Code)
+	}
 	return rets, errors.New("ErrGetIndex")
 }
 
