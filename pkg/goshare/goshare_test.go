@@ -3,6 +3,7 @@ package goshare
 import (
 	"log"
 	"testing"
+	"time"
 	//"net/http"
 	//"io/ioutil"
 	//"strings"
@@ -12,15 +13,19 @@ import (
 var s Service
 
 func TestKData(t *testing.T) {
-	symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
-	k, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_CZCE, Code: "SR809"}
+	k, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20190307, 1)
 	if err != nil {
 		t.Error(err)
 	}
 	if len(k.List) == 0 {
 		t.Error("GetKData error")
 	}
-	// log.Println()
+	log.Printf("Length of kline is [%d]", len(k.List))
+	for i := range k.List {
+		kline := &k.List[i]
+		log.Printf("%s: [%.2f, %.2f, %.2f, %.2f ]", time.Unix(kline.Time/1000, 0).Format("20060102 15:04:05"), kline.Open, kline.High, kline.Low, kline.Close)
+	}
 }
 
 func TestGetLastTick(t *testing.T) {
@@ -170,7 +175,7 @@ func TestOption(t *testing.T) {
 	log.Printf("根据50etf期权到期月份，直接获取tick T型报价数据----2")
 	allTick1, _ := s.GetOptionSinaTickMarket("1808")
 	for _, val := range allTick1 {
-		log.Printf("执行价为%s,call 为%s,put 为%s", val.Name, val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
+		log.Printf("执行价为,call 为%s,put 为%s", val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
 	}
 
 }

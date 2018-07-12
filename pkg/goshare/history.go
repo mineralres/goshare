@@ -131,7 +131,7 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 		isDaily = true
 		ktype = ""
 	case pb.PeriodType_M1:
-		ktype = "1m"
+		ktype = "1"
 	case pb.PeriodType_M5:
 		ktype = "5"
 	case pb.PeriodType_H1:
@@ -139,20 +139,22 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 	}
 	code := symbol.Code
 	qapi := "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getFewMinLine?symbol=" + adaptCZCE(code) + "&type=" + ktype
+	qapi = fmt.Sprintf("https://stock.sina.com.cn/futures/api/jsonp.php/var_X=/InnerFuturesNewService.getFewMinLine?symbol=%s&type=%s", adaptCZCE(code), ktype)
+	log.Println(qapi)
 	if ktype == "" {
 		tradingDay := time.Now().Format("20060102")
-		qapi = "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getDailyKLine?symbol=" + adaptCZCE(code) + "&_=" + tradingDay
+		qapi = fmt.Sprintf("https://stock.sina.com.cn/futures/api/jsonp.php/var_X=/InnerFuturesNewService.getDailyKLine?symbol=%s&_=%s", adaptCZCE(code), tradingDay)
 		isDaily = true
 	}
 	resp, err := http.Get(qapi)
 	if err != nil {
 		return &ret, err
 	}
-
 	v, err := ioutil.ReadAll(resp.Body)
-	xl := len(v)
+	str := strings.TrimLeft(string(v), "var_X=(")
+	xl := len(str)
 	if xl > 2 && err == nil {
-		dataStr := string(v[1 : xl-2])
+		dataStr := string(str[:xl-2])
 		var sinaks []SinaKline
 		dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
 		dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
@@ -161,23 +163,23 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 		dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
 		dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
 		err = json.Unmarshal([]byte(dataStr), &sinaks)
-		// fmt.Println(err)
-		for i := len(sinaks) - 1; i >= 0; i-- {
+		if err != nil {
+			log.Println(err)
+		}
+		for i := range sinaks {
 			v := sinaks[i]
 			var kx pb.Kline
-			// day := strings.Split(v.Day, " ")[0]
 			if isDaily {
 				tm, err := time.Parse("2006-01-02", v.Day)
 				if err == nil {
-					kx.Time = tm.Unix() * 1000
+					kx.Time = (tm.Unix() - 8*3600) * 1000
 				}
 			} else {
 				t, err := time.Parse("2006-01-02 15:04:05", v.Day)
 				if err == nil {
-					kx.Time = t.Unix() * 1000
+					kx.Time = (t.Unix() - 8*3600) * 1000
 				}
 			}
-			v.Day = strings.Split(v.Day, " ")[0]
 			kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
 			kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
 			kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
