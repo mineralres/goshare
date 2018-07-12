@@ -170,7 +170,7 @@ func TestOption(t *testing.T) {
 	log.Printf("根据50etf期权到期月份，直接获取tick T型报价数据----2")
 	allTick1, _ := s.GetOptionSinaTickMarket("1808")
 	for _, val := range allTick1 {
-		log.Printf("执行价为%s,call 为%s,put 为%s", val.Name, val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
+		log.Printf("执行价[%.2f],name为%s,执行价[%.2f],name为%s,call 为%s,put 为%s", val.CallTk.ExercisePrice, val.CallTk.Name, val.PutTk.ExercisePrice, val.PutTk.Name, val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
 	}
 
 }

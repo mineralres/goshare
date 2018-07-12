@@ -120,6 +120,13 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ob1.Bid = base.ParseFloat(tickArr[21])
 		ob1.AskVolume = base.ParseFloat(tickArr[22])
 		ob1.Ask = base.ParseFloat(tickArr[23])
+		ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
+		var strii string
+		for i := len(tickArr[37]) - 4; i < len(tickArr[37]); i++ {
+			strii = strii + string(tickArr[37][i])
+		}
+		ret.ExercisePrice = base.ParseFloat(strii)
+		ret.Name = tickArr[37]
 		return ret, tickArr[37], nil
 	}
 	return nil, "", errors.New("error")
