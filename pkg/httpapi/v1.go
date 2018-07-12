@@ -89,6 +89,26 @@ func (h *HTTPHandler) httpHook(context *gin.Context) {
 
 }
 
+func validKline(k *pb.Kline) bool {
+	pmax := 99999999.99
+	if k.Time == 0 {
+		return false
+	}
+	if k.Open > pmax || k.Open < 0 {
+		return false
+	}
+	if k.High > pmax || k.High < 0 {
+		return false
+	}
+	if k.Low > pmax || k.Low < 0 {
+		return false
+	}
+	if k.Close > pmax || k.Close < 0 {
+		return false
+	}
+	return true
+}
+
 func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{}, error) {
 	var req struct {
 		Exchange  int    `json:"exchange"`
@@ -103,18 +123,26 @@ func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{
 		return nil, err
 	}
 	var svc goshare.Service
+	var filter []pb.Kline
 	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartTime, req.EndTime, 1)
+	for i := range ret.List {
+		k := &ret.List[i]
+		if validKline(k) {
+			filter = append(filter, *k)
+		}
+	}
+	ret.List = filter
 	return ret, err
 }
 
 func (h *HTTPHandler) sseOptionTQuote(c *gin.Context, s *pb.UserSession) (interface{}, error) {
-	// var req struct {
-	// 	Month string `json:"month"`
-	// }
-	// err := c.BindJSON(&req)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	var req struct {
+		Month string `json:"month"`
+	}
+	err := c.BindJSON(&req)
+	if err != nil {
+		return nil, err
+	}
 	var svc goshare.Service
-	return svc.GetOptionSinaTick("1808")
+	return svc.GetOptionSinaTick(req.Month)
 }

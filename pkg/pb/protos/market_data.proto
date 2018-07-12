@@ -60,6 +60,10 @@ message MarketDataSnapshot {
   int32 trading_day = 21;
   // 盘口
   repeated OrderBook order_book_list = 22;
+  // 合约名称
+  string name = 23;
+  // 执行价
+  double exercise_price = 24;
 }
 
 // MdsList 行情列表
@@ -68,10 +72,8 @@ message MdsList { repeated MarketDataSnapshot list = 1; }
 //期权T型
 message OptionTMarket
 {
-  //合约名称
-  string name = 1;
   //call报价
-  MarketDataSnapshot callTk= 2;
+  MarketDataSnapshot callTk= 1;
   //put报价
-  MarketDataSnapshot putTk= 3;
+  MarketDataSnapshot putTk= 2;
 }
