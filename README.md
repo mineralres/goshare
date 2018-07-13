@@ -21,7 +21,8 @@ import (
 )
 
 func test(){
-  var s goshare.Service
+  // 新浪数据源
+  var s goshare.SinaSource
   symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
   // 获取历史数据
   data, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
@@ -32,12 +33,23 @@ func test(){
 ```
 
 ## API Documentation
-### 数据接口
- * GetKData 请求历史K线数据
- * GetLastTick 请求指定symbol的最新行情
- * GetSina50EtfSym 获取50ETF期权合约列表(sina代码)
- * GetIndexMember 获取指数成份股
- * GetRealtimeMoneyTrendList 取实时资金流向
+# 数据源
+
+## 新浪数据
+
+* 期货实时数据
+* 股票实时数据
+
+## 上证交易所官方
+
+* A股列表
+* 分红送股
+
+## 东方财富
+
+* 资金流向
+
+
  ### 交易接口(待实现)
  * CTP
  * LTS

@@ -1,5 +1,5 @@
 package goshare
 
-// Service Service
-type Service struct {
+// SinaSource 新浪相关的数据源
+type SinaSource struct {
 }

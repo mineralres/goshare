@@ -13,7 +13,7 @@ import (
 // GetOptionSinaTick 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (p *Service) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
+func (p *SinaSource) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 
 	all := "OP_DOWN_510050" + date
@@ -30,7 +30,7 @@ func (p *Service) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error
 // GetOptionSinaTickMarket 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (p *Service) GetOptionSinaTickMarket(date string) ([]pb.OptionTMarket, error) {
+func (p *SinaSource) GetOptionSinaTickMarket(date string) ([]pb.OptionTMarket, error) {
 	rets := []pb.OptionTMarket{}
 
 	all := "OP_DOWN_510050" + date
@@ -50,19 +50,18 @@ func (p *Service) GetOptionSinaTickMarket(date string) ([]pb.OptionTMarket, erro
 }
 
 // GetSina50EtfSym 获取50ETF期权合约列表，sina代码
+//说明：
+//OP_DOWN_5100501807:OP 期权、DOWN 看跌、UP 看涨、510050 50etf标的代码、1807 到期月份
+//根据到期月的期权从接口获取t型的合约表： CON_OP_10001394
+// 参数解释：CON_OP_ 为固定title，10001394这个是交易所的合约代码，在任何一个行情软件都可以查到，也可以通过GetSina50EtfSym接口获取
+// GetLastTick 根据CON_OP_10001394可以获取最新的报价
+// GetKData 根据CON_OP_10001394可以获取日k线
 func GetSina50EtfSym(sym string) (slice []string) {
-	//说明：
-	//OP_DOWN_5100501807:OP 期权、DOWN 看跌、UP 看涨、510050 50etf标的代码、1807 到期月份
-	//根据到期月的期权从接口获取t型的合约表： CON_OP_10001394
-	// 参数解释：CON_OP_ 为固定title，10001394这个是交易所的合约代码，在任何一个行情软件都可以查到，也可以通过GetSina50EtfSym接口获取
-	// GetLastTick 根据CON_OP_10001394可以获取最新的报价
-	// GetKData 根据CON_OP_10001394可以获取日k线
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		tickArr := strings.Split(string(body), ",")
-		//log.Println(string(body), tickArr)
 		i := len(tickArr)
 		if err == nil {
 			slice = make([]string, i-2)
@@ -87,6 +86,7 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ret.Symbol = symbol
 		ret.Price = base.ParseFloat(tickArr[2])
 		ret.Close = ret.Price
+		ret.ExercisePrice = base.ParseFloat(tickArr[7])
 		ret.PreClose = base.ParseFloat(tickArr[8])
 		ret.Open = base.ParseFloat(tickArr[9])
 		ret.High = base.ParseFloat(tickArr[39])
@@ -120,6 +120,8 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ob1.Bid = base.ParseFloat(tickArr[21])
 		ob1.AskVolume = base.ParseFloat(tickArr[22])
 		ob1.Ask = base.ParseFloat(tickArr[23])
+		ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
+		ret.Name = base.StringFromGBK(tickArr[37])
 		return ret, tickArr[37], nil
 	}
 	return nil, "", errors.New("error")
@@ -165,4 +167,66 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error)
 		return rets, retsName, nil
 	}
 	return nil, nil, errors.New("ErrGetIndex")
+}
+
+// GetSSEStockOptionTick 取所有行情
+func (s *SSEOfficialSource) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+	rets := []pb.MarketDataSnapshot{}
+	all := "http://hq.sinajs.cn/list="
+	for _, value := range symbols {
+		all = all + "CON_OP_" + value.Code + ","
+	}
+	resp, err := http.Get(all)
+	if err != nil {
+		return nil, errors.New("ErrGetIndex")
+	}
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	tickArr1 := strings.Split(string(body), ";")
+	for _, v := range tickArr1 {
+		tickArr := strings.Split(v, ",")
+		ret := pb.MarketDataSnapshot{}
+		if err == nil && len(tickArr) >= 42 {
+			symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: tickArr[0][19:27]}
+			ret.Symbol = symbol
+			ret.Price = base.ParseFloat(tickArr[2])
+			ret.Close = ret.Price
+			ret.Position = base.ParseFloat(tickArr[5])
+			ret.Open = base.ParseFloat(tickArr[9])
+			ret.High = base.ParseFloat(tickArr[39])
+			ret.Low = base.ParseFloat(tickArr[40])
+			ret.Volume = (base.ParseFloat(tickArr[41]))
+			ret.Amount = float64(base.ParseInt(tickArr[42]))
+			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
+			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
+			var ob5 pb.OrderBook
+			ob5.BidVolume = base.ParseFloat(tickArr[12])
+			ob5.Bid = base.ParseFloat(tickArr[13])
+			ob5.AskVolume = base.ParseFloat(tickArr[30])
+			ob5.Ask = base.ParseFloat(tickArr[31])
+			var ob4 pb.OrderBook
+			ob4.BidVolume = base.ParseFloat(tickArr[14])
+			ob4.Bid = base.ParseFloat(tickArr[15])
+			ob4.AskVolume = base.ParseFloat(tickArr[28])
+			ob4.Ask = base.ParseFloat(tickArr[29])
+			var ob3 pb.OrderBook
+			ob3.BidVolume = base.ParseFloat(tickArr[16])
+			ob3.Bid = base.ParseFloat(tickArr[17])
+			ob3.AskVolume = base.ParseFloat(tickArr[26])
+			ob3.Ask = base.ParseFloat(tickArr[27])
+			var ob2 pb.OrderBook
+			ob2.BidVolume = base.ParseFloat(tickArr[18])
+			ob2.Bid = base.ParseFloat(tickArr[19])
+			ob2.AskVolume = base.ParseFloat(tickArr[24])
+			ob2.Ask = base.ParseFloat(tickArr[25])
+			var ob1 pb.OrderBook
+			ob1.BidVolume = base.ParseFloat(tickArr[20])
+			ob1.Bid = base.ParseFloat(tickArr[21])
+			ob1.AskVolume = base.ParseFloat(tickArr[22])
+			ob1.Ask = base.ParseFloat(tickArr[23])
+			rets = append(rets, ret)
+		}
+	}
+	return rets, nil
 }
