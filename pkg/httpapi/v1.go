@@ -122,7 +122,7 @@ func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{
 	if err != nil {
 		return nil, err
 	}
-	var svc goshare.Service
+	var svc goshare.SinaSource
 	var filter []pb.Kline
 	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartTime, req.EndTime, 1)
 	for i := range ret.List {
@@ -143,6 +143,6 @@ func (h *HTTPHandler) sseOptionTQuote(c *gin.Context, s *pb.UserSession) (interf
 	if err != nil {
 		return nil, err
 	}
-	var svc goshare.Service
+	var svc goshare.SinaSource
 	return svc.GetOptionSinaTick(req.Month)
 }

@@ -12,7 +12,7 @@ func main() {
 	// 新浪数据源
 	var s goshare.SinaSource
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1810"}
-	// 获取历史数据
+	// 获取5分钟历史K线
 	data, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
 	if err != nil {
 		panic(err)

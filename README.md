@@ -1,7 +1,7 @@
 ## goshare
 
  * goshare是一个开源的golang量化数据工具集合
- * 集成A股行情数据,基本面数据， 中国期货 等数据的抓取功能
+ * 抓取 新浪,上证官方,东方财富 的历史k线或实时tick
  * 封装相关市场的交易接口
  * 集成量化交易框架
  * 量化交易webui控制台
@@ -20,7 +20,7 @@ import (
   "github.com/mineralres/goshare"
 )
 
-func test(){
+func main(){
   // 新浪数据源
   var s goshare.SinaSource
   symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
@@ -32,22 +32,22 @@ func test(){
 }
 ```
 
-## API Documentation
 # 数据源
 
-## 新浪数据
+#### 新浪数据
 
 * 期货实时数据
 * 股票实时数据
 
-## 上证交易所官方
+#### 上证交易所官方
 
 * A股列表
 * 分红送股
+* 50ETF 期权列表 GetSSEStockOptionList
 
-## 东方财富
+#### 东方财富
 
-* 资金流向
+* 资金流向  GetRealtimeMoneyTrendList
 
 
  ### 交易接口(待实现)
