@@ -19,6 +19,10 @@ import (
 // GetLastTick 取最新行情
 func (p *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
+		if symbol.Exchange == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
+			// 上证50ETF期权tick
+			return getSSEOptionTick(symbol)
+		}
 		// 股票tick
 		return getStockLastTick(symbol)
 	}
@@ -27,12 +31,6 @@ func (p *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, err
 		// 指数tick
 		return getIndexLastTick(symbol)
 	}
-
-	if symbol.Exchange == pb.ExchangeType_OPTION_SSE {
-		// 期权tick
-		return getOptionSSETick(symbol)
-	}
-
 	return nil, base.ErrUnsupported
 }
 
@@ -80,6 +78,11 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 		if err == nil {
 			ret.Time = tx.Unix()
 		}
+		td, err := strconv.Atoi(time.Unix(ret.Time, 0).Format("20060102"))
+		if err == nil {
+			ret.TradingDay = int32(td)
+		}
+
 		ret.Symbol = *symbol
 		ret.Price = base.ParseFloat(tickArr[3])
 		ret.Close = ret.Price

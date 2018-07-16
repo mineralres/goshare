@@ -2,8 +2,10 @@ package httpapi
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mineralres/goshare/pkg/base"
@@ -39,6 +41,8 @@ func (h *HTTPHandler) registerHandler() {
 	h.handlerList1 = []handlerx{
 		handlerx{"klineSeries", h.klineSeries},
 		handlerx{"sseOptionTQuote", h.sseOptionTQuote},
+		handlerx{"klineSeriesTest", h.klineSeriesTest},
+		handlerx{"lastTick", h.lastTick},
 	}
 }
 
@@ -144,5 +148,93 @@ func (h *HTTPHandler) sseOptionTQuote(c *gin.Context, s *pb.UserSession) (interf
 		return nil, err
 	}
 	var svc goshare.SinaSource
-	return svc.GetOptionSinaTick(req.Month)
+	return svc.GetOptionTQuote(req.Month)
+}
+
+func (h *HTTPHandler) klineSeriesTest(c *gin.Context, s *pb.UserSession) (interface{}, error) {
+	symbol := c.Query("symbol")
+	rangex := c.Query("range")
+	since := c.Query("since")
+	prevTradeTime := c.Query("prevTradeTime")
+	log.Println(symbol, rangex, since, prevTradeTime)
+
+	var ret struct {
+		Depths struct {
+			Asks [][2]float64 `json:"asks"`
+			Bids [][2]float64 `json:"bids"`
+		} `json:"depths"`
+		Lines  [][6]float64 `json:"lines"`
+		Trades []struct {
+			Amount float64 `json:"amount"`
+			Price  float64 `json:"price"`
+			Tid    int64   `json:"tid"`
+			Time   int64   `json:"time"`
+			Type   string  `json:"type"`
+		} `json:"trades"`
+	}
+
+	timex := (time.Now().Unix())
+	if since != "" {
+		timex = int64(base.ParseInt(since))
+	}
+
+	var svc goshare.SinaSource
+	l, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1810"}, pb.PeriodType_D1, 0, 0, 1)
+	if err == nil {
+		for i := range l.List {
+			k := &l.List[i]
+			if k.Time >= timex {
+				log.Println(k.Time, timex, k.Time-timex)
+				ret.Lines = append(ret.Lines, [6]float64{float64(k.Time), k.Open, k.High, k.Low, k.Close, k.Volume})
+				if len(ret.Lines) == 2 {
+					// break
+				}
+			}
+		}
+	}
+
+	if len(ret.Lines) == 1 {
+		r := rand.New(rand.NewSource(time.Now().UnixNano()))
+		ret.Lines[0][4] += float64(r.Intn(100))
+		if ret.Lines[0][4] > ret.Lines[0][2] {
+			ret.Lines[0][2] = ret.Lines[0][4]
+		}
+	}
+
+	price := 100.00
+	if len(ret.Lines) > 0 {
+		price = ret.Lines[len(ret.Lines)-1][4]
+	}
+	vol := 20.00
+	for i := 0; i < 5; i++ {
+		ret.Depths.Asks = append(ret.Depths.Asks, [2]float64{price + float64(30-i)*5, vol})
+		ret.Depths.Bids = append(ret.Depths.Bids, [2]float64{price - float64(i)*5, vol})
+	}
+
+	timex = time.Now().Unix()
+	if prevTradeTime != "" {
+		timex = int64(base.ParseInt(prevTradeTime)) / 1000
+	}
+
+	for i := timex + 1; i <= time.Now().Unix(); i++ {
+		ret.Trades = append(ret.Trades, struct {
+			Amount float64 `json:"amount"`
+			Price  float64 `json:"price"`
+			Tid    int64   `json:"tid"`
+			Time   int64   `json:"time"`
+			Type   string  `json:"type"`
+		}{19.79, price, 1585662041877811201, i * 1000, "sell"})
+	}
+
+	return &ret, nil
+}
+
+func (h *HTTPHandler) lastTick(c *gin.Context, s *pb.UserSession) (interface{}, error) {
+	var req pb.Symbol
+	err := c.BindJSON(&req)
+	if err != nil {
+		return nil, err
+	}
+	var svc goshare.SinaSource
+	return svc.GetLastTick(&req)
 }

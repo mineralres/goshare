@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/mineralres/goshare/pkg/base"
 	"github.com/mineralres/goshare/pkg/pb"
@@ -24,13 +25,13 @@ func (p *SinaSource) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, er
 	allTick, _, _ = getOptionSSETickT(all)
 	rets = append(rets, allTick...)
 
-	return rets, errors.New("ErrGetIndex")
+	return rets, nil
 }
 
-// GetOptionSinaTickMarket 根据交割月获取t型报价表数据
+// GetOptionTQuote 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (p *SinaSource) GetOptionSinaTickMarket(date string) ([]pb.OptionTMarket, error) {
+func (p *SinaSource) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
 	rets := []pb.OptionTMarket{}
 
 	all := "OP_DOWN_510050" + date
@@ -46,7 +47,7 @@ func (p *SinaSource) GetOptionSinaTickMarket(date string) ([]pb.OptionTMarket, e
 		rets = append(rets, msg)
 		//log.Printf("执行价为%s,call 为%s,put 为%s", val, msg.CallTk.Symbol.Code, msg.PutTk.Symbol.Code)
 	}
-	return rets, errors.New("ErrGetIndex")
+	return rets, nil
 }
 
 // GetSina50EtfSym 获取50ETF期权合约列表，sina代码
@@ -82,7 +83,7 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		var ss string
 		tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
 		ss = tickSym2[4]
-		symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: ss}
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: ss}
 		ret.Symbol = symbol
 		ret.Price = base.ParseFloat(tickArr[2])
 		ret.Close = ret.Price
@@ -96,41 +97,45 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
 		ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
 		var ob5 pb.OrderBook
-		ob5.BidVolume = base.ParseFloat(tickArr[12])
-		ob5.Bid = base.ParseFloat(tickArr[13])
-		ob5.AskVolume = base.ParseFloat(tickArr[30])
-		ob5.Ask = base.ParseFloat(tickArr[31])
+		ob5.Bid = base.ParseFloat(tickArr[12])
+		ob5.BidVolume = base.ParseFloat(tickArr[13])
+		ob5.Ask = base.ParseFloat(tickArr[30])
+		ob5.AskVolume = base.ParseFloat(tickArr[31])
 		var ob4 pb.OrderBook
-		ob4.BidVolume = base.ParseFloat(tickArr[14])
-		ob4.Bid = base.ParseFloat(tickArr[15])
-		ob4.AskVolume = base.ParseFloat(tickArr[28])
-		ob4.Ask = base.ParseFloat(tickArr[29])
+		ob4.Bid = base.ParseFloat(tickArr[14])
+		ob4.BidVolume = base.ParseFloat(tickArr[15])
+		ob4.Ask = base.ParseFloat(tickArr[28])
+		ob4.AskVolume = base.ParseFloat(tickArr[29])
 		var ob3 pb.OrderBook
-		ob3.BidVolume = base.ParseFloat(tickArr[16])
-		ob3.Bid = base.ParseFloat(tickArr[17])
-		ob3.AskVolume = base.ParseFloat(tickArr[26])
-		ob3.Ask = base.ParseFloat(tickArr[27])
+		ob3.Bid = base.ParseFloat(tickArr[16])
+		ob3.BidVolume = base.ParseFloat(tickArr[17])
+		ob3.Ask = base.ParseFloat(tickArr[26])
+		ob3.AskVolume = base.ParseFloat(tickArr[27])
 		var ob2 pb.OrderBook
-		ob2.BidVolume = base.ParseFloat(tickArr[18])
-		ob2.Bid = base.ParseFloat(tickArr[19])
-		ob2.AskVolume = base.ParseFloat(tickArr[24])
-		ob2.Ask = base.ParseFloat(tickArr[25])
+		ob2.Bid = base.ParseFloat(tickArr[18])
+		ob2.BidVolume = base.ParseFloat(tickArr[19])
+		ob2.Ask = base.ParseFloat(tickArr[24])
+		ob2.AskVolume = base.ParseFloat(tickArr[25])
 		var ob1 pb.OrderBook
-		ob1.BidVolume = base.ParseFloat(tickArr[20])
-		ob1.Bid = base.ParseFloat(tickArr[21])
-		ob1.AskVolume = base.ParseFloat(tickArr[22])
-		ob1.Ask = base.ParseFloat(tickArr[23])
+		ob1.Bid = base.ParseFloat(tickArr[20])
+		ob1.BidVolume = base.ParseFloat(tickArr[21])
+		ob1.Ask = base.ParseFloat(tickArr[22])
+		ob1.AskVolume = base.ParseFloat(tickArr[23])
 		ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
 		ret.Name = base.StringFromGBK(tickArr[37])
+		timex, err := time.Parse("2006-01-02 15:04:05", tickArr[32])
+		if err == nil {
+			ret.Time = timex.Unix()
+		}
 		return ret, tickArr[37], nil
 	}
 	return nil, "", errors.New("error")
 }
 
-// 根据合约获取单个期权合约的tick数据
-func getOptionSSETick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+// getSSEOptionTick 根据合约获取单个期权合约的tick数据
+func getSSEOptionTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	//ret := &pb.MarketDataSnapshot{}
-	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
+	resp, err := http.Get("http://hq.sinajs.cn/list=CON_OP_" + symbol.Code)
 	if err == nil {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)

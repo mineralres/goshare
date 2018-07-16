@@ -100,9 +100,9 @@ func (s *SSEOfficialSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error)
 	var ret []pb.SSEStockOption
 	for i := range rsp.PageHelp.Data {
 		d := &rsp.PageHelp.Data[i]
-		// log.Printf("合约编码[%s] 合约交易代码[%s] 合约简称[%s] 标的券名称及代码[%s] 类型[%s] 行权价[%s] 合约单位[%s] 期权行权日[%s] 行权交收日[%s] 到期日[%s] 新挂[%s] 涨停价[%s] 跌停价[%s] 前结算价[%s] 调整[%s]",
-		// 	d.SECURITY_ID, d.CONTRACT_ID, d.CONTRACT_SYMBOL, d.SECURITYNAMEBYID, d.CALL_OR_PUT, d.EXERCISE_PRICE, d.CONTRACT_UNIT, d.EXERCISE_DATE,
-		// 	d.DELIVERY_DATE, d.EXPIRE_DATE, d.CHANGEFLAG, d.DAILY_PRICE_UPLIMIT, d.DAILY_PRICE_DOWNLIMIT, d.SETTL_PRICE, d.CHANGEFLAG)
+		log.Printf("合约编码[%s] 合约交易代码[%s] 合约简称[%s] 标的券名称及代码[%s] 类型[%s, %s] 行权价[%s] 合约单位[%s] 期权行权日[%s] 行权交收日[%s] 到期日[%s] 新挂[%s] 涨停价[%s] 跌停价[%s] 前结算价[%s] 调整[%s]",
+			d.SECURITY_ID, d.CONTRACT_ID, d.CONTRACT_SYMBOL, d.SECURITYNAMEBYID, d.CALL_OR_PUT, d.OPTION_TYPE, d.EXERCISE_PRICE, d.CONTRACT_UNIT, d.EXERCISE_DATE,
+			d.DELIVERY_DATE, d.EXPIRE_DATE, d.CHANGEFLAG, d.DAILY_PRICE_UPLIMIT, d.DAILY_PRICE_DOWNLIMIT, d.SETTL_PRICE, d.CHANGEFLAG)
 		var op pb.SSEStockOption
 		op.ExercisePrice = d.EXERCISE_PRICE
 		op.UpdateVersion = d.UPDATE_VERSION
