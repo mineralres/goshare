@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -141,6 +142,10 @@ func getSSEOptionTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 		body, _ := ioutil.ReadAll(resp.Body)
 		ret, _, err1 := parseSinaOptionTick(string(body))
 		if err1 == nil {
+			td, err := strconv.Atoi(time.Unix(ret.Time, 0).Format("20060102"))
+			if err == nil {
+				ret.TradingDay = int32(td)
+			}
 			return ret, nil
 		}
 	}

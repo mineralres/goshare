@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -66,6 +67,88 @@ func (s *EaseMoneySource) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoney
 				}
 				ret.List = append(ret.List, item)
 			}
+		}
+	}
+	return &ret, nil
+}
+
+// GetCNStockKData 股票K线.
+func (s *EaseMoneySource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
+	et := 1
+	if symbol.Exchange == pb.ExchangeType_SZE {
+		et = 2
+	}
+	ktype := "k" // d1
+	if period == pb.PeriodType_M5 {
+		ktype = "m5k"
+	} else if period == pb.PeriodType_M15 {
+		ktype = "m15k"
+	} else if period == pb.PeriodType_M1 {
+		ktype = "m1k"
+	} else if period == pb.PeriodType_M30 {
+		ktype = "m30k"
+	} else if period == pb.PeriodType_H1 {
+		ktype = "m60k"
+	}
+
+	authorityType := "fa"
+
+	address := fmt.Sprintf("http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js?rtntype=5&id=%s%d&type=%s&authorityType=%s", symbol.Code, et, ktype, authorityType)
+	// log.Println(address)
+	resp, err := http.Get(address)
+	if err != nil {
+		return &ret, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return &ret, err
+	}
+	data := string(body)
+	data = strings.TrimLeft(data, "(")
+	data = strings.TrimRight(data, ")")
+	var rtn struct {
+		Name string `json:"name"`
+		Code string `json:"code"`
+		Info struct {
+			C string `json:"c"`
+		} `json:"info"`
+		Data []string `json:"data"`
+	}
+	err = json.Unmarshal([]byte(data), &rtn)
+	if err != nil {
+		return &ret, err
+	}
+	for i := range rtn.Data {
+		items := strings.Split(rtn.Data[i], ",")
+		if len(items) >= 8 {
+			var k pb.Kline
+			layoutStr := "2006-01-02 15:04"
+			if period == pb.PeriodType_D1 {
+				layoutStr = "2006-01-02"
+			}
+			tm, err := time.Parse(layoutStr, items[0])
+			if err != nil {
+				log.Println(err, items[0])
+				continue
+			}
+			k.Time = (tm.Unix() - 3600*8) * 1000
+			k.Open = base.ParseFloat(items[1])
+			k.Close = base.ParseFloat(items[2])
+			k.High = base.ParseFloat(items[3])
+			k.Low = base.ParseFloat(items[4])
+			k.Volume = base.ParseFloat(items[5])
+			if strings.Contains(items[6], "万") {
+				val := strings.Replace(items[6], "万", "", -1)
+				k.Amount = base.ParseFloat(val) * 10000
+			} else if strings.Contains(items[6], "亿") {
+				val := strings.Replace(items[6], "亿", "", -1)
+				k.Amount = base.ParseFloat(val) * 100000000
+			} else {
+				k.Amount = base.ParseFloat(items[6])
+			}
+			ret.List = append(ret.List, k)
 		}
 	}
 	return &ret, nil

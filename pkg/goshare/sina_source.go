@@ -29,7 +29,7 @@ func (p *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, err
 
 	if symbol.Exchange == pb.ExchangeType_INDEX {
 		// 指数tick
-		return getIndexLastTick(symbol)
+		return p.GetIndexLastTick(symbol)
 	}
 	return nil, base.ErrUnsupported
 }
@@ -45,8 +45,9 @@ retryCount：当网络异常后重试次数，默认为3
 func (p *SinaSource) GetKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	ex := symbol.Exchange
 	if ex == pb.ExchangeType_SSE || ex == pb.ExchangeType_SZE {
+		var svc EaseMoneySource
 		// 股票K线
-		return getCNStockKData(symbol, period, startTime, endTime, retryCount)
+		return svc.GetCNStockKData(symbol, period, startTime, endTime, retryCount)
 
 	} else if ex == pb.ExchangeType_SHFE || ex == pb.ExchangeType_CZCE || ex == pb.ExchangeType_DCE || ex == pb.ExchangeType_CFFEX || ex == pb.ExchangeType_INE {
 		// 期货K线
@@ -131,14 +132,19 @@ func getRawTickString(exstr string, symbol string) []string {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err == nil {
 			tickArr := strings.Split(string(body), "~")
-			tickArr[1] = base.StringFromGBK(tickArr[1])
+			if len(tickArr) > 1 {
+				tickArr[1] = base.StringFromGBK(tickArr[1])
+			} else {
+				log.Printf("getRawTickString %s-%s", exstr, symbol)
+			}
 			return tickArr
 		}
 	}
 	return nil
 }
 
-func getIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+// GetIndexLastTick 指数行情
+func (p *SinaSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
@@ -278,68 +284,6 @@ func formatSymbol(code string) (pb.Symbol, error) {
 	}
 }
 
-func getCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
-	var ret pb.KlineSeries
-	et := 1
-	if symbol.Exchange == pb.ExchangeType_SZE {
-		et = 2
-	}
-	address := fmt.Sprintf("http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js?rtntype=5&id=%s%d&type=k", symbol.Code, et)
-	resp, err := http.Get(address)
-	if err != nil {
-		return &ret, err
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return &ret, err
-	}
-	data := string(body)
-	data = strings.TrimLeft(data, "(")
-	data = strings.TrimRight(data, ")")
-	var rtn struct {
-		Name string `json:"name"`
-		Code string `json:"code"`
-		Info struct {
-			C string `json:"c"`
-		} `json:"info"`
-		Data []string `json:"data"`
-	}
-	err = json.Unmarshal([]byte(data), &rtn)
-	if err != nil {
-		return &ret, err
-	}
-	for i := range rtn.Data {
-		items := strings.Split(rtn.Data[i], ",")
-		if len(items) == 8 {
-			var k pb.Kline
-			tm, err := time.Parse("2006-01-02", items[0])
-			if err != nil {
-				log.Println(err, items[0])
-				continue
-			}
-			k.Time = tm.Unix()
-			k.Open = base.ParseFloat(items[1])
-			k.Close = base.ParseFloat(items[2])
-			k.High = base.ParseFloat(items[3])
-			k.Low = base.ParseFloat(items[4])
-			k.Volume = base.ParseFloat(items[5])
-			if strings.Contains(items[6], "万") {
-				val := strings.Replace(items[6], "万", "", -1)
-				k.Amount = base.ParseFloat(val) * 10000
-			} else if strings.Contains(items[6], "亿") {
-				val := strings.Replace(items[6], "亿", "", -1)
-				k.Amount = base.ParseFloat(val) * 100000000
-			} else {
-				k.Amount = base.ParseFloat(items[6])
-			}
-			ret.List = append(ret.List, k)
-		}
-	}
-	log.Println(ret, err)
-	return &ret, nil
-}
-
 func adaptCZCE(value string) string {
 	if strings.Index(value, "D-") >= 0 {
 		value = value[2:]
@@ -382,7 +326,6 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 	code := symbol.Code
 	qapi := "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getFewMinLine?symbol=" + adaptCZCE(code) + "&type=" + ktype
 	qapi = fmt.Sprintf("https://stock.sina.com.cn/futures/api/jsonp.php/var_X=/InnerFuturesNewService.getFewMinLine?symbol=%s&type=%s", adaptCZCE(code), ktype)
-	log.Println(qapi)
 	if ktype == "" {
 		tradingDay := time.Now().Format("20060102")
 		qapi = fmt.Sprintf("https://stock.sina.com.cn/futures/api/jsonp.php/var_X=/InnerFuturesNewService.getDailyKLine?symbol=%s&_=%s", adaptCZCE(code), tradingDay)

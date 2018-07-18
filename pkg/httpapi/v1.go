@@ -2,7 +2,6 @@ package httpapi
 
 import (
 	"log"
-	"math/rand"
 	"net/http"
 	"strings"
 	"time"
@@ -43,6 +42,7 @@ func (h *HTTPHandler) registerHandler() {
 		handlerx{"sseOptionTQuote", h.sseOptionTQuote},
 		handlerx{"klineSeriesTest", h.klineSeriesTest},
 		handlerx{"lastTick", h.lastTick},
+		handlerx{"cnStockIndexSummary", h.cnStockIndexSummary},
 	}
 }
 
@@ -62,7 +62,7 @@ func (h *HTTPHandler) httpHook(context *gin.Context) {
 	}
 
 	res := &base.HTTPResponse{}
-	log.Println(tag, path)
+	// log.Println(tag, path)
 	var hl []handlerx
 	if tag == "gosharev1" {
 		hl = h.handlerList1
@@ -151,12 +151,32 @@ func (h *HTTPHandler) sseOptionTQuote(c *gin.Context, s *pb.UserSession) (interf
 	return svc.GetOptionTQuote(req.Month)
 }
 
+func transformPeriodType(p string) pb.PeriodType {
+	switch p {
+	case "604800000":
+		return pb.PeriodType_W1
+	case "86400000":
+		return pb.PeriodType_D1
+	case "3600000":
+		return pb.PeriodType_H1
+	case "1800000":
+		return pb.PeriodType_M30
+	case "900000":
+		return pb.PeriodType_M15
+	case "300000":
+		return pb.PeriodType_M5
+	case "60000":
+		return pb.PeriodType_M1
+	}
+	return pb.PeriodType_D1
+}
+
 func (h *HTTPHandler) klineSeriesTest(c *gin.Context, s *pb.UserSession) (interface{}, error) {
 	symbol := c.Query("symbol")
 	rangex := c.Query("range")
 	since := c.Query("since")
 	prevTradeTime := c.Query("prevTradeTime")
-	log.Println(symbol, rangex, since, prevTradeTime)
+	// log.Println(symbol, rangex, since, prevTradeTime)
 
 	var ret struct {
 		Depths struct {
@@ -179,25 +199,14 @@ func (h *HTTPHandler) klineSeriesTest(c *gin.Context, s *pb.UserSession) (interf
 	}
 
 	var svc goshare.SinaSource
-	l, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1810"}, pb.PeriodType_D1, 0, 0, 1)
+	sx := base.MakeSymbol(symbol)
+	l, err := svc.GetKData(&sx, transformPeriodType(rangex), 0, 0, 1)
 	if err == nil {
 		for i := range l.List {
 			k := &l.List[i]
 			if k.Time >= timex {
-				log.Println(k.Time, timex, k.Time-timex)
 				ret.Lines = append(ret.Lines, [6]float64{float64(k.Time), k.Open, k.High, k.Low, k.Close, k.Volume})
-				if len(ret.Lines) == 2 {
-					// break
-				}
 			}
-		}
-	}
-
-	if len(ret.Lines) == 1 {
-		r := rand.New(rand.NewSource(time.Now().UnixNano()))
-		ret.Lines[0][4] += float64(r.Intn(100))
-		if ret.Lines[0][4] > ret.Lines[0][2] {
-			ret.Lines[0][2] = ret.Lines[0][4]
 		}
 	}
 
@@ -237,4 +246,35 @@ func (h *HTTPHandler) lastTick(c *gin.Context, s *pb.UserSession) (interface{}, 
 	}
 	var svc goshare.SinaSource
 	return svc.GetLastTick(&req)
+}
+
+func (h *HTTPHandler) cnStockIndexSummary(c *gin.Context, s *pb.UserSession) (interface{}, error) {
+	var ret struct {
+		// 上证综指
+		SSE000001 pb.MarketDataSnapshot
+		// 深圳综指
+		SZE399001 pb.MarketDataSnapshot
+		// 创业板指
+		SZE399006 pb.MarketDataSnapshot
+	}
+	var svc goshare.SinaSource
+	ret.SSE000001.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000001"}
+	mds, err := svc.GetLastTick(&ret.SSE000001.Symbol)
+	if err == nil {
+		ret.SSE000001 = *mds
+		ret.SSE000001.Name = "上证综指"
+	}
+	ret.SZE399001.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: "399001"}
+	mds, err = svc.GetLastTick(&ret.SZE399001.Symbol)
+	if err == nil {
+		ret.SZE399001 = *mds
+		ret.SZE399001.Name = "深圳综指"
+	}
+	ret.SZE399006.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: "399006"}
+	mds, err = svc.GetLastTick(&ret.SZE399006.Symbol)
+	if err == nil {
+		ret.SZE399006 = *mds
+		ret.SZE399006.Name = "创业指数"
+	}
+	return &ret, nil
 }
