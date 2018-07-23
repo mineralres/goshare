@@ -75,7 +75,7 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	}
 	if tickArr != nil && len(tickArr) >= 38 {
 		timeStr := tickArr[30]
-		tx, err := time.Parse("20060102150405", timeStr)
+		tx, err := time.ParseInLocation("20060102150405", timeStr, time.Local)
 		if err == nil {
 			ret.Time = tx.Unix()
 		}
@@ -355,14 +355,14 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 			v := sinaks[i]
 			var kx pb.Kline
 			if isDaily {
-				tm, err := time.Parse("2006-01-02", v.Day)
+				tm, err := time.ParseInLocation("2006-01-02", v.Day, time.Local)
 				if err == nil {
-					kx.Time = (tm.Unix() - 8*3600) * 1000
+					kx.Time = tm.Unix() * 1000
 				}
 			} else {
-				t, err := time.Parse("2006-01-02 15:04:05", v.Day)
+				t, err := time.ParseInLocation("2006-01-02 15:04:05", v.Day, time.Local)
 				if err == nil {
-					kx.Time = (t.Unix() - 8*3600) * 1000
+					kx.Time = t.Unix() * 1000
 				}
 			}
 			kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
@@ -414,12 +414,12 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 				var kx pb.Kline
 				// day := strings.Split(v.Day, " ")[0]
 				if isDaily {
-					tm, err := time.Parse("2006-01-02", v.Day)
+					tm, err := time.ParseInLocation("2006-01-02", v.Day, time.Local)
 					if err == nil {
 						kx.Time = tm.Unix() * 1000
 					}
 				} else {
-					t, err := time.Parse("2006-01-02 15:04:05", v.Day)
+					t, err := time.ParseInLocation("2006-01-02 15:04:05", v.Day, time.Local)
 					if err == nil {
 						kx.Time = t.Unix() * 1000
 					}

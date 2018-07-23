@@ -61,7 +61,7 @@ func (s *EaseMoneySource) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoney
 				item.MiddleOrder.Percentage = base.ParseFloat(items[12]) / 100
 				item.SmallOrder.Amount = base.ParseFloat(items[13]) * 10000
 				item.SmallOrder.Percentage = base.ParseFloat(items[14]) / 100
-				t, err := time.Parse("2006-01-02 15:04:05", items[15])
+				t, err := time.ParseInLocation("2006-01-02 15:04:05", items[15], time.Local)
 				if err == nil {
 					item.Time = t.Unix()
 				}
@@ -128,7 +128,7 @@ func (s *EaseMoneySource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodTyp
 			if period == pb.PeriodType_D1 {
 				layoutStr = "2006-01-02"
 			}
-			tm, err := time.Parse(layoutStr, items[0])
+			tm, err := time.ParseInLocation(layoutStr, items[0], time.Local)
 			if err != nil {
 				log.Println(err, items[0])
 				continue

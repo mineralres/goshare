@@ -44,11 +44,7 @@ func TestGetLastTick(t *testing.T) {
 	if md.Open == 0 {
 		t.Error("md.Open == 0")
 	}
-	log.Println(md.OrderBookList)
-	for i := range md.OrderBookList {
-		ob := md.OrderBookList[i]
-		log.Printf("%d ask[%.4f, %.0f], bid[%.4f, %.0f]", i, ob.Ask, ob.AskVolume, ob.Bid, ob.BidVolume)
-	}
+	log.Println(time.Unix(md.Time, 0), md.Time)
 	// log.Printf("Tick[%s], Open[%.2f], High[%.2f], Low[%.2f], Close[%.2f]", md.Symbol.Code, md.Open, md.High, md.Low, md.Close)
 }
 func TestIndexTick(t *testing.T) {
