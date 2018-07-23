@@ -10,6 +10,10 @@ import (
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
+
 func TestKData(t *testing.T) {
 	var s SinaSource
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_CZCE, Code: "SR809"}
@@ -29,7 +33,7 @@ func TestKData(t *testing.T) {
 
 func TestGetLastTick(t *testing.T) {
 	var s SinaSource
-	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "600000"}
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001337"}
 	md, err := s.GetLastTick(&symbol)
 	if err != nil {
 		t.Error(err)
@@ -39,6 +43,11 @@ func TestGetLastTick(t *testing.T) {
 	}
 	if md.Open == 0 {
 		t.Error("md.Open == 0")
+	}
+	log.Println(md.OrderBookList)
+	for i := range md.OrderBookList {
+		ob := md.OrderBookList[i]
+		log.Printf("%d ask[%.4f, %.0f], bid[%.4f, %.0f]", i, ob.Ask, ob.AskVolume, ob.Bid, ob.BidVolume)
 	}
 	// log.Printf("Tick[%s], Open[%.2f], High[%.2f], Low[%.2f], Close[%.2f]", md.Symbol.Code, md.Open, md.High, md.Low, md.Close)
 }
@@ -172,7 +181,7 @@ func TestOption(t *testing.T) {
 		log.Printf("Tick[%s], Close[%.4f],preClose[%.4f]", v.Symbol.Code, v.Close, v.PreClose)
 	}
 	log.Printf("根据50etf期权到期月份，直接获取tick T型报价数据----2")
-	allTick1, _ := s.GetOptionSinaTickMarket("1808")
+	allTick1, _ := s.GetOptionTQuote("1808")
 	for _, val := range allTick1 {
 		log.Printf("执行价[%.2f],name为%s,执行价[%.2f],name为%s,call 为%s,put 为%s", val.CallTk.ExercisePrice, val.CallTk.Name, val.PutTk.ExercisePrice, val.PutTk.Name, val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
 	}
