@@ -376,9 +376,9 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 	return &ret, nil
 }
 
-func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
+// parse sina tick string-day
+func parseSinaOptionKlineDay(body string) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
-	// fmt.Println("getOptionSSEKData")
 	type SinaKline struct {
 		ClosePrice string `json:"c"`
 		Day        string `json:"d"`
@@ -387,52 +387,211 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 		NowVolume  string `json:"v"`
 		OpenPrice  string `json:"o"`
 	}
-	url := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
-
-	resp, err := http.Get(url)
-	if err == nil {
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		tickArr := strings.Split(string(body), "=")
-		// log.Printf("------------------")
-		// log.Printf(string(tickArr[1]))
-		isDaily := true
-		xl := len(tickArr[1])
-		if xl > 2 && err == nil {
-			dataStr := string(tickArr[1][1 : xl-2])
-			var sinaks []SinaKline
-			dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
-			dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
-			dataStr = strings.Replace(dataStr, "h:", "\"h\":", -1)
-			dataStr = strings.Replace(dataStr, "l:", "\"l\":", -1)
-			dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
-			dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
-			err = json.Unmarshal([]byte(dataStr), &sinaks)
+	tickArr := strings.Split(string(body), "=")
+	// log.Printf("------------------")
+	// log.Printf(string(tickArr[1]))
+	isDaily := true
+	xl := len(tickArr[1])
+	if xl > 2 {
+		dataStr := string(tickArr[1][1 : xl-2])
+		var sinaks []SinaKline
+		dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
+		dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
+		dataStr = strings.Replace(dataStr, "h:", "\"h\":", -1)
+		dataStr = strings.Replace(dataStr, "l:", "\"l\":", -1)
+		dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
+		dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
+		err := json.Unmarshal([]byte(dataStr), &sinaks)
+		if err == nil {
 			// fmt.Println(err)
-			for i := len(sinaks) - 1; i >= 0; i-- {
-				v := sinaks[i]
-				var kx pb.Kline
-				// day := strings.Split(v.Day, " ")[0]
-				if isDaily {
-					tm, err := time.Parse("2006-01-02", v.Day)
-					if err == nil {
-						kx.Time = tm.Unix() * 1000
-					}
-				} else {
-					t, err := time.Parse("2006-01-02 15:04:05", v.Day)
-					if err == nil {
-						kx.Time = t.Unix() * 1000
-					}
+		}
+		for i := len(sinaks) - 1; i >= 0; i-- {
+			v := sinaks[i]
+			var kx pb.Kline
+			// day := strings.Split(v.Day, " ")[0]
+			if isDaily {
+				tm, err := time.Parse("2006-01-02", v.Day)
+				if err == nil {
+					kx.Time = tm.Unix() * 1000
 				}
-				v.Day = strings.Split(v.Day, " ")[0]
-				kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
-				kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
-				kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
-				kx.Low, _ = strconv.ParseFloat(v.MinPrice, 64)
-				kx.Volume, _ = strconv.ParseFloat(v.NowVolume, 64)
+			} else {
+				t, err := time.Parse("2006-01-02 15:04:05", v.Day)
+				if err == nil {
+					kx.Time = t.Unix() * 1000
+				}
+			}
+			v.Day = strings.Split(v.Day, " ")[0]
+			kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
+			kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
+			kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
+			kx.Low, _ = strconv.ParseFloat(v.MinPrice, 64)
+			kx.Volume, _ = strconv.ParseFloat(v.NowVolume, 64)
+			ret.List = append(ret.List, kx)
+		}
+		return &ret, nil
+	}
+	return nil, errors.New("error")
+}
+
+// 解析sina期权分钟数据:1day
+func parseSinaOptionKlineMin1Day(body string) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
+	tickArr := strings.Split(string(body), "=")
+	if len(tickArr[1]) > 2 {
+		var rtn struct {
+			Result struct {
+				Status struct {
+					Code int `json:"code"`
+				} `json:"status"`
+				Dd []struct {
+					I string `json:"i"`
+					P string `json:"p"`
+					V string `json:"v"`
+					T string `json:"t"`
+					A string `json:"a"`
+					D string `json:"d"`
+				} `json:"data"`
+			} `json:"result"`
+		}
+		str1 := tickArr[2]
+		//str := `({"result":{"status":{"code":0},"data":[{"i":"09:26:00","p":"0.0000","v":"0","t":"0","a":"0.0000","d":"2018-07-20"},{"i":"09:27:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:28:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:29:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:30:00","p":"0.2694","v":"3","t":"1714","a":"0.2696"},{"i":"09:31:00","p":"0.2730","v":"1","t":"1714","a":"0.2704"},{"i":"09:32:00","p":"0.2730","v":"0","t":"1714","a":"0.2704"},{"i":"09:33:00","p":"0.2658","v":"2","t":"1714","a":"0.2689"},{"i":"09:34:00","p":"0.2653","v":"40","t":"1734","a":"0.2655"},{"i":"09:35:00","p":"0.2648","v":"20","t":"1730","a":"0.2653"},{"i":"09:36:00","p":"0.2598","v":"70","t":"1703","a":"0.2633"},{"i":"09:37:00","p":"0.2614","v":"46","t":"1720","a":"0.2621"},{"i":"09:38:00","p":"0.2644","v":"41","t":"1700","a":"0.2623"},{"i":"09:39:00","p":"0.2610","v":"13","t":"1702","a":"0.2623"},{"i":"09:40:00","p":"0.2627","v":"5","t":"1682","a":"0.2624"}]}})`
+		start1 := strings.Index(str1, "(")
+		str1 = str1[start1+1 : len(str1)-2]
+		err := json.Unmarshal([]byte(str1), &rtn)
+		if err != nil {
+			return nil, err
+		}
+		var Day string
+		for i := range rtn.Result.Dd {
+			dd := &rtn.Result.Dd[i]
+			var kx pb.Kline
+			if len(dd.D) > 0 {
+				Day = dd.D
+			}
+			tt := Day + " " + dd.I
+			const baseFormat = "2006-01-02 15:04:05"
+			parseS, _ := time.Parse(baseFormat, tt)
+			//fmt.Printf("datetime :%v\n", parseS)
+			kx.Time = parseS.Unix()
+			kx.Close, _ = strconv.ParseFloat(dd.P, 64)
+			kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
+			ret.List = append(ret.List, kx)
+
+		}
+		return &ret, nil
+	}
+	return nil, errors.New("error")
+}
+
+// 解析sina期权分钟数据:5day
+func parseSinaOptionKlineMin5Day(body string) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
+	tickArr := strings.Split(string(body), "=")
+	if len(tickArr[1]) > 2 {
+		var rtn struct {
+			Result struct {
+				Status struct {
+					Code int `json:"code"`
+				} `json:"status"`
+				Dd [][]struct {
+					I string `json:"i"`
+					P string `json:"p"`
+					V string `json:"v"`
+					T string `json:"t"`
+					A string `json:"a"`
+					D string `json:"d"`
+				} `json:"data"`
+			} `json:"result"`
+		}
+		str1 := tickArr[2]
+		//str1 := `({"result":{"status":{"code":0},"data":[[{"i":"09:26:00","p":"0.0000","v":"0","t":"0","a":"0.0000","d":"2018-07-20"}],[{"i":"09:27:00","p":"0.0000","v":"0","t":"0","a":"0.0000"}],[{"i":"09:28:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:29:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:30:00","p":"0.2694","v":"3","t":"1714","a":"0.2696"},{"i":"09:31:00","p":"0.2730","v":"1","t":"1714","a":"0.2704"},{"i":"09:32:00","p":"0.2730","v":"0","t":"1714","a":"0.2704"},{"i":"09:33:00","p":"0.2658","v":"2","t":"1714","a":"0.2689"},{"i":"09:34:00","p":"0.2653","v":"40","t":"1734","a":"0.2655"},{"i":"09:35:00","p":"0.2648","v":"20","t":"1730","a":"0.2653"},{"i":"09:36:00","p":"0.2598","v":"70","t":"1703","a":"0.2633"},{"i":"09:37:00","p":"0.2614","v":"46","t":"1720","a":"0.2621"},{"i":"09:38:00","p":"0.2644","v":"41","t":"1700","a":"0.2623"},{"i":"09:39:00","p":"0.2610","v":"13","t":"1702","a":"0.2623"},{"i":"09:40:00","p":"0.2627","v":"5","t":"1682","a":"0.2624"}]]}})`
+		start1 := strings.Index(str1, "(")
+		str1 = str1[start1+1 : len(str1)-2]
+		err := json.Unmarshal([]byte(str1), &rtn)
+		if err != nil {
+			return nil, err
+		}
+		var Day string
+		for i := range rtn.Result.Dd {
+			for j := range rtn.Result.Dd[i] {
+				dd := &rtn.Result.Dd[i][j]
+				var kx pb.Kline
+				if len(dd.D) > 0 {
+					Day = dd.D
+					//log.Println(Day)
+				}
+				tt := Day + " " + dd.I
+				const baseFormat = "2006-01-02 15:04:05"
+				parseS, _ := time.Parse(baseFormat, tt)
+				//fmt.Printf("datetime :%v\n", parseS)
+				kx.Time = parseS.Unix()
+				kx.Close, _ = strconv.ParseFloat(dd.P, 64)
+				kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
 				ret.List = append(ret.List, kx)
 			}
 		}
+		return &ret, nil
 	}
+	return nil, errors.New("error")
+}
+
+//get option kline data
+func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
+	var ret pb.KlineSeries
+	// fmt.Println("getOptionSSEKData")
+	switch period {
+	case pb.PeriodType_D1:
+		{
+			url := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
+			resp, err := http.Get(url)
+			if err == nil {
+				defer resp.Body.Close()
+				body, _ := ioutil.ReadAll(resp.Body)
+				ret, err1 := parseSinaOptionKlineDay(string(body))
+				if err1 == nil {
+					return ret, nil
+				}
+			}
+		}
+	case pb.PeriodType_W1:
+		{
+			// get week
+		}
+	case pb.PeriodType_M1:
+		{
+			if retryCount == 1 {
+				//get 1 day
+				url := "https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=CON_OP_10001405&random=1531812094242&callback=var%20t1" + symbol.Code + "="
+				resp, err := http.Get(url)
+				if err == nil {
+					defer resp.Body.Close()
+					body, _ := ioutil.ReadAll(resp.Body)
+					ret, err1 := parseSinaOptionKlineMin1Day(string(body))
+					if err1 == nil {
+						return ret, nil
+					}
+				} else {
+					fmt.Println("err")
+				}
+			} else {
+				//get 5 day
+				url := "https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_10001405&random=1531812094982&callback=var%20t5" + symbol.Code + "="
+				//log.Printf(url)
+				resp, err := http.Get(url)
+				if err == nil {
+					defer resp.Body.Close()
+					body, _ := ioutil.ReadAll(resp.Body)
+					ret, err1 := parseSinaOptionKlineMin5Day(string(body))
+					if err1 == nil {
+						return ret, nil
+					}
+				} else {
+					fmt.Println("err")
+				}
+			}
+
+		}
+	}
+
 	return &ret, nil
 }
