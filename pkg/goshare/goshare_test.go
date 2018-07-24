@@ -16,8 +16,8 @@ func init() {
 
 func TestKData(t *testing.T) {
 	var s SinaSource
-	symbol := pb.Symbol{Exchange: pb.ExchangeType_CZCE, Code: "SR809"}
-	k, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20190307, 1)
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001336"}
+	k, err := s.GetKData(&symbol, pb.PeriodType_M1, 19990101, 20190307, 1)
 	if err != nil {
 		t.Error(err)
 	}
@@ -27,7 +27,7 @@ func TestKData(t *testing.T) {
 	log.Printf("Length of kline is [%d]", len(k.List))
 	for i := range k.List {
 		kline := &k.List[i]
-		log.Printf("%s: [%.2f, %.2f, %.2f, %.2f ]", time.Unix(kline.Time/1000, 0).Format("20060102 15:04:05"), kline.Open, kline.High, kline.Low, kline.Close)
+		log.Printf("%s: [%.4f, %.4f, %.4f, %.4f ]", time.Unix(kline.Time/1000, 0).Format("20060102 15:04:05"), kline.Open, kline.High, kline.Low, kline.Close)
 	}
 }
 
