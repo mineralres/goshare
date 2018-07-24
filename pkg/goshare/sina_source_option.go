@@ -125,10 +125,7 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
 		ret.Name = base.StringFromGBK(tickArr[37])
 		// timex, err := time.Parse("2006-01-02 15:04:05", tickArr[32])
-		timex, err := time.ParseInLocation("2006-01-02 15:04:05", tickArr[32], time.Local)
-		if err == nil {
-			ret.Time = timex.Unix()
-		}
+		ret.Time = base.ParseBeijingTime("2006-01-02 15:04:05", tickArr[32])
 		return ret, tickArr[37], nil
 	}
 	return nil, "", errors.New("error")

@@ -16,6 +16,10 @@ import (
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
+func parseSinaTime(layout, value string) int64 {
+	return base.ParseBeijingTime(layout, value)
+}
+
 // GetLastTick 取最新行情
 func (p *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
@@ -75,10 +79,7 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	}
 	if tickArr != nil && len(tickArr) >= 38 {
 		timeStr := tickArr[30]
-		tx, err := time.ParseInLocation("20060102150405", timeStr, time.Local)
-		if err == nil {
-			ret.Time = tx.Unix()
-		}
+		ret.Time = parseSinaTime("20060102150405", timeStr)
 		td, err := strconv.Atoi(time.Unix(ret.Time, 0).Format("20060102"))
 		if err == nil {
 			ret.TradingDay = int32(td)
@@ -355,15 +356,9 @@ func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTim
 			v := sinaks[i]
 			var kx pb.Kline
 			if isDaily {
-				tm, err := time.ParseInLocation("2006-01-02", v.Day, time.Local)
-				if err == nil {
-					kx.Time = tm.Unix() * 1000
-				}
+				kx.Time = parseSinaTime("2006-01-02", v.Day)
 			} else {
-				t, err := time.ParseInLocation("2006-01-02 15:04:05", v.Day, time.Local)
-				if err == nil {
-					kx.Time = t.Unix() * 1000
-				}
+				kx.Time = parseSinaTime("2006-01-02 15:04:05", v.Day)
 			}
 			kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
 			kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
@@ -413,15 +408,9 @@ func parseSinaOptionKlineDay(body string) (*pb.KlineSeries, error) {
 		var kx pb.Kline
 		// day := strings.Split(v.Day, " ")[0]
 		if isDaily {
-			tm, err := time.ParseInLocation("2006-01-02", v.Day, time.Local)
-			if err == nil {
-				kx.Time = tm.Unix() * 1000
-			}
+			kx.Time = parseSinaTime("2006-01-02", v.Day)
 		} else {
-			t, err := time.ParseInLocation("2006-01-02 15:04:05", v.Day, time.Local)
-			if err == nil {
-				kx.Time = t.Unix() * 1000
-			}
+			kx.Time = parseSinaTime("2006-01-02 15:04:05", v.Day)
 		}
 		v.Day = strings.Split(v.Day, " ")[0]
 		kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
@@ -472,11 +461,7 @@ func parseSinaOptionKlineMin1Day(body []byte) (*pb.KlineSeries, error) {
 			Day = dd.D
 		}
 		tt := Day + " " + dd.I
-		const baseFormat = "2006-01-02 15:04:05"
-		parseS, err := time.ParseInLocation(baseFormat, tt, time.Local)
-		if err == nil {
-			kx.Time = parseS.Unix() * 1000
-		}
+		kx.Time = parseSinaTime("2006-01-02 15:04:05", tt)
 		kx.Close, _ = strconv.ParseFloat(dd.P, 64)
 		kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
 		ret.List = append(ret.List, kx)
@@ -517,11 +502,7 @@ func parseSinaOptionKlineMin5Day(body []byte) (*pb.KlineSeries, error) {
 				//log.Println(Day)
 			}
 			tt := Day + " " + dd.I
-			const baseFormat = "2006-01-02 15:04:05"
-			parseS, err := time.ParseInLocation(baseFormat, tt, time.Local)
-			if err == nil {
-				kx.Time = parseS.Unix() * 1000
-			}
+			kx.Time = parseSinaTime("2006-01-02 15:04:05", tt)
 			kx.Close, _ = strconv.ParseFloat(dd.P, 64)
 			kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
 			ret.List = append(ret.List, kx)

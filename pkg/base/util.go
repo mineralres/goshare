@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"strings"
+	"time"
 
 	"github.com/mineralres/goshare/pkg/pb"
 
@@ -33,4 +34,21 @@ func MakeSymbol(s string) pb.Symbol {
 		ret.Code = items[1]
 	}
 	return ret
+}
+
+// ParseBeijingTime 解析北京时间
+func ParseBeijingTime(layout, value string) int64 {
+	loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
+	if err == nil {
+		tx, err := time.ParseInLocation(layout, value, loc)
+		if err == nil {
+			return tx.Unix()
+		}
+		return 0
+	}
+	tx, err := time.Parse(layout, value)
+	if err == nil {
+		return (tx.Unix() - 8*3600)
+	}
+	return 0
 }

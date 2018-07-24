@@ -27,7 +27,7 @@ func TestKData(t *testing.T) {
 	log.Printf("Length of kline is [%d]", len(k.List))
 	for i := range k.List {
 		kline := &k.List[i]
-		log.Printf("%s: [%.4f, %.4f, %.4f, %.4f ]", time.Unix(kline.Time/1000, 0).Format("20060102 15:04:05"), kline.Open, kline.High, kline.Low, kline.Close)
+		log.Printf("%s: [%.4f, %.4f, %.4f, %.4f ]", time.Unix(kline.Time, 0).Format("20060102 15:04:05"), kline.Open, kline.High, kline.Low, kline.Close)
 	}
 }
 
