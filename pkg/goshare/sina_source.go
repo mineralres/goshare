@@ -538,7 +538,6 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 			if retryCount == 1 {
 				//get 1 day
 				url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=CON_OP_%s&random=1531812094242&callback=", symbol.Code)
-				log.Println(url)
 				resp, err := http.Get(url)
 				if err == nil {
 					defer resp.Body.Close()
@@ -553,7 +552,6 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 			} else {
 				//get 5 day
 				url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
-				log.Printf(url)
 				resp, err := http.Get(url)
 				if err == nil {
 					defer resp.Body.Close()
