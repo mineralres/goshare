@@ -549,6 +549,12 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 						for i := range ret.List {
 							k := &ret.List[i]
 							tx := time.Unix(k.Time, 0)
+							loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
+							if err == nil {
+								tx = tx.In(loc)
+							} else {
+								tx = time.Unix(k.Time-8*3600, 0)
+							}
 							h := tx.Hour()
 							m := tx.Minute()
 							if h == 9 || h == 10 || h >= 13 {
