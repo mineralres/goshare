@@ -544,6 +544,23 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 					body, _ := ioutil.ReadAll(resp.Body)
 					ret, err1 := parseSinaOptionKlineMin1Day(body)
 					if err1 == nil {
+						// 去掉中午11：31 - 12：59：59 的数据
+						filter := ret.List[:0]
+						for i := range ret.List {
+							k := &ret.List[i]
+							tx := time.Unix(k.Time, 0)
+							h := tx.Hour()
+							m := tx.Minute()
+							if h == 9 || h == 10 || h >= 13 {
+								filter = append(filter, *k)
+							}
+							if h == 11 {
+								if m <= 30 {
+									filter = append(filter, *k)
+								}
+							}
+						}
+						ret.List = filter
 						return ret, nil
 					}
 				} else {
