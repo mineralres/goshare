@@ -65,7 +65,7 @@ func GetSina50EtfSym(sym string) (slice []string) {
 		body, err := ioutil.ReadAll(resp.Body)
 		tickArr := strings.Split(string(body), ",")
 		i := len(tickArr)
-		if err == nil {
+		if err == nil && i >= 2 {
 			slice = make([]string, i-2)
 			for j := 1; j < i-1; j++ {
 				slice[j-1] = tickArr[j]

@@ -552,6 +552,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 							loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
 							if err == nil {
 								tx = tx.In(loc)
+								log.Println(tx)
 							} else {
 								tx = time.Unix(k.Time-8*3600, 0)
 							}
