@@ -32,11 +32,19 @@ func (m *newKl) update(kl pb.Kline) {
 			dd := m.kline.List[len(m.kline.List)-1].Time
 			if ab > dd {
 				kl.Time = ab
+				kl.Open = kl.Close
+				kl.High = kl.Close
+				kl.Low = kl.Close
 				m.kline.List = append(m.kline.List, kl)
 			} else {
-				m.kline.List[len(m.kline.List)-1].High = math.Max(m.kline.List[len(m.kline.List)-1].High, kl.High)
-				m.kline.List[len(m.kline.List)-1].Low = math.Min(m.kline.List[len(m.kline.List)-1].Low, kl.Low)
-				m.kline.List[len(m.kline.List)-1].Close = kl.Close
+				lastKline := &m.kline.List[len(m.kline.List)-1]
+				if kl.Close > lastKline.High {
+					lastKline.High = kl.Close
+				}
+				if kl.Close > 0 && kl.Close < lastKline.Low {
+					lastKline.Low = kl.Close
+				}
+				lastKline.Close = kl.Close
 			}
 		}
 	}
@@ -75,7 +83,7 @@ retryCount：当网络异常后重试次数，默认为3
 func (p *SinaSource) GetKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	ex := symbol.Exchange
 	if ex == pb.ExchangeType_SSE || ex == pb.ExchangeType_SZE {
-		if ex == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 7 {
+		if ex == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
 			// 上证50ETF期权tick
 			// 期权K线
 			return getOptionSSEKData(symbol, period, startTime, endTime, retryCount)
@@ -540,13 +548,16 @@ func parseSinaOptionKlineMin5Day(body []byte) (*pb.KlineSeries, error) {
 
 //get option kline data
 func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
+	url1day := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
+	url1m1day := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=CON_OP_%s&random=1531812094242&callback=", symbol.Code)
+	url1m5day := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
+
 	var ret pb.KlineSeries
-	// fmt.Println("getOptionSSEKData")
+	log.Println("getOptionSSEKData", period, endTime-startTime)
 	switch period {
 	case pb.PeriodType_D1:
 		{
-			url := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
-			resp, err := http.Get(url)
+			resp, err := http.Get(url1day)
 			if err == nil {
 				defer resp.Body.Close()
 				body, _ := ioutil.ReadAll(resp.Body)
@@ -563,8 +574,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 	case pb.PeriodType_M5:
 		{
 			//get 5 day
-			url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
-			resp, err := http.Get(url)
+			resp, err := http.Get(url1m5day)
 			if err == nil {
 				defer resp.Body.Close()
 				body, _ := ioutil.ReadAll(resp.Body)
@@ -586,8 +596,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 	case pb.PeriodType_H1:
 		{
 			//get 5 day
-			url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
-			resp, err := http.Get(url)
+			resp, err := http.Get(url1m5day)
 			if err == nil {
 				defer resp.Body.Close()
 				body, _ := ioutil.ReadAll(resp.Body)
@@ -608,10 +617,11 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 		}
 	case pb.PeriodType_M1:
 		{
-			if retryCount == 1 {
+			// endTime-startTime 用这个暂时来区分1天或5天
+			if endTime-startTime == 1 {
+				log.Println("get 1day m1")
 				//get 1 day
-				url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=%s&random=1531812094242&callback=", symbol.Code)
-				resp, err := http.Get(url)
+				resp, err := http.Get(url1m1day)
 				if err == nil {
 					defer resp.Body.Close()
 					body, _ := ioutil.ReadAll(resp.Body)
@@ -648,8 +658,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 				}
 			} else {
 				//get 5 day
-				url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
-				resp, err := http.Get(url)
+				resp, err := http.Get(url1m5day)
 				if err == nil {
 					defer resp.Body.Close()
 					body, _ := ioutil.ReadAll(resp.Body)

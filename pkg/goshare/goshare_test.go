@@ -16,8 +16,8 @@ func init() {
 
 func TestKData(t *testing.T) {
 	var s SinaSource
-	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001336"}
-	k, err := s.GetKData(&symbol, pb.PeriodType_D1, 19990101, 20190307, 1)
+	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001390"}
+	k, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 19990103, 1)
 	if err != nil {
 		t.Error(err)
 	}
