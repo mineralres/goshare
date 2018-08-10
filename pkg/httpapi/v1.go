@@ -98,6 +98,9 @@ func validKline(k *pb.Kline) bool {
 	if k.Time == 0 {
 		return false
 	}
+	if k.Open == 0 && k.High == 0 && k.Low == 0 && k.Close == 0 {
+		return false
+	}
 	if k.Open > pmax || k.Open < 0 {
 		return false
 	}
