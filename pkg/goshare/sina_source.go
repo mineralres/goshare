@@ -637,7 +637,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 								tx = tx.In(loc)
 								// log.Println(tx)
 							} else {
-								tx = time.Unix(k.Time-8*3600, 0)
+								tx = time.Unix(k.Time+8*3600, 0)
 							}
 							h := tx.Hour()
 							m := tx.Minute()
