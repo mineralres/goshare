@@ -1,6 +1,7 @@
 package goshare
 
 import (
+	"fmt"
 	"log"
 	"testing"
 	"time"
@@ -32,6 +33,7 @@ func TestKData(t *testing.T) {
 }
 
 func TestGetLastTick(t *testing.T) {
+	return
 	var s SinaSource
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001337"}
 	md, err := s.GetLastTick(&symbol)
@@ -177,7 +179,7 @@ func TestOption(t *testing.T) {
 		log.Printf("Tick[%s], Close[%.4f],preClose[%.4f]", v.Symbol.Code, v.Close, v.PreClose)
 	}
 	log.Printf("根据50etf期权到期月份，直接获取tick T型报价数据----2")
-	allTick1, _ := s.GetOptionTQuote("1808")
+	allTick1, _ := s.GetOptionTQuote("1809")
 	for _, val := range allTick1 {
 		log.Printf("执行价[%.2f],name为%s,执行价[%.2f],name为%s,call 为%s,put 为%s", val.CallTk.ExercisePrice, val.CallTk.Name, val.PutTk.ExercisePrice, val.PutTk.Name, val.CallTk.Symbol.Code, val.PutTk.Symbol.Code)
 	}
@@ -200,7 +202,7 @@ func TestOption(t *testing.T) {
 		}
 		log.Printf("get result size 1day: %d\n", len(kday.List))
 		// 获取1min--1day
-		k1min, err := s.GetKData(&symbol, pb.PeriodType_M1, 19990101, 20180807, 1)
+		k1min, err := s.GetKData(&symbol, pb.PeriodType_M1, 19990101, 201808015, 1)
 		if err != nil {
 			t.Error(err)
 		}
@@ -208,6 +210,20 @@ func TestOption(t *testing.T) {
 			t.Error("GetKData 1min error")
 		}
 		log.Printf("get result size 1min 1day: %d\n", len(k1min.List))
+		// var abcd newKl
+		// abcd.klTime = 300
+		// for _, v := range k1min.List {
+		// 	abcd.update(v)
+		// 	//log.Println(v.Time)
+		// 	tm := time.Unix(v.Time, 0)
+		// 	fmt.Println(tm.Format("2006-01-02 03:04:05 PM"))
+		// }
+		// log.Println("---------------------------------------------")
+		// for _, v := range abcd.kline.List {
+		// 	tm := time.Unix(v.Time, 0)
+		// 	fmt.Println(tm.Format("2006-01-02 03:04:05 PM"))
+		// }
+
 		// 获取1min--5day
 		k1min5Day, err1 := s.GetKData(&symbol, pb.PeriodType_M1, 19990101, 20180807, 5)
 		if err1 != nil {
@@ -217,6 +233,20 @@ func TestOption(t *testing.T) {
 			t.Error("GetKData 1min error")
 		}
 		log.Printf("get result size 1min 5day: %d\n", len(k1min5Day.List))
+
+		var abcd newKl
+		abcd.klTime = 3600
+		for _, v := range k1min5Day.List {
+			abcd.update(v)
+			//log.Println(v.Time)
+			tm := time.Unix(v.Time, 0)
+			fmt.Println(tm.Format("2006-01-02 03:04:05 PM"))
+		}
+		log.Println("---------------------------------------------")
+		for _, v := range abcd.kline.List {
+			tm := time.Unix(v.Time, 0)
+			fmt.Println(tm.Format("2006-01-02 03:04:05 PM"))
+		}
 
 		break
 	}
@@ -244,6 +274,7 @@ func TestGetSSEStockOptionList(t *testing.T) {
 
 // TestIndexMemberData
 func TestIndexMemberData(t *testing.T) {
+	return
 	// symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000016"}
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000300"}
 	var p SinaSource

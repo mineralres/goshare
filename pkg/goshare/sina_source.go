@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -15,6 +16,31 @@ import (
 	"github.com/mineralres/goshare/pkg/base"
 	"github.com/mineralres/goshare/pkg/pb"
 )
+
+type newKl struct {
+	kline  pb.KlineSeries
+	klTime int64
+}
+
+func (m *newKl) update(kl pb.Kline) {
+	if m != nil {
+		if len(m.kline.List) == 0 {
+			kl.Time = int64(math.Floor(float64(kl.Time)/float64(m.klTime))) * m.klTime
+			m.kline.List = append(m.kline.List, kl)
+		} else {
+			ab := int64(math.Floor(float64(kl.Time)/float64(m.klTime))) * m.klTime
+			dd := m.kline.List[len(m.kline.List)-1].Time
+			if ab > dd {
+				kl.Time = ab
+				m.kline.List = append(m.kline.List, kl)
+			} else {
+				m.kline.List[len(m.kline.List)-1].High = math.Max(m.kline.List[len(m.kline.List)-1].High, kl.High)
+				m.kline.List[len(m.kline.List)-1].Low = math.Min(m.kline.List[len(m.kline.List)-1].Low, kl.Low)
+				m.kline.List[len(m.kline.List)-1].Close = kl.Close
+			}
+		}
+	}
+}
 
 // GetLastTick 取最新行情
 func (p *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
@@ -561,7 +587,8 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 		{
 			if retryCount == 1 {
 				//get 1 day
-				url := "https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=CON_OP_10001405&random=1531812094242&callback=var%20t1" + symbol.Code + "="
+				url := "https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=" + symbol.Code + "&random=1531812094242&callback=var%20t1" + symbol.Code + "="
+				log.Println(url)
 				resp, err := http.Get(url)
 				if err == nil {
 					defer resp.Body.Close()
@@ -575,8 +602,8 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 				}
 			} else {
 				//get 5 day
-				url := "https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_10001405&random=1531812094982&callback=var%20t5" + symbol.Code + "="
-				//log.Printf(url)
+				url := "https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=" + symbol.Code + "&random=1531812094982&callback=var%20t5" + symbol.Code + "="
+				log.Printf(url)
 				resp, err := http.Get(url)
 				if err == nil {
 					defer resp.Body.Close()
