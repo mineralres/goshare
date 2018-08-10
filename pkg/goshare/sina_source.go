@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -15,6 +16,31 @@ import (
 	"github.com/mineralres/goshare/pkg/base"
 	"github.com/mineralres/goshare/pkg/pb"
 )
+
+type newKl struct {
+	kline  pb.KlineSeries
+	klTime int64
+}
+
+func (m *newKl) update(kl pb.Kline) {
+	if m != nil {
+		if len(m.kline.List) == 0 {
+			kl.Time = int64(math.Floor(float64(kl.Time)/float64(m.klTime))) * m.klTime
+			m.kline.List = append(m.kline.List, kl)
+		} else {
+			ab := int64(math.Floor(float64(kl.Time)/float64(m.klTime))) * m.klTime
+			dd := m.kline.List[len(m.kline.List)-1].Time
+			if ab > dd {
+				kl.Time = ab
+				m.kline.List = append(m.kline.List, kl)
+			} else {
+				m.kline.List[len(m.kline.List)-1].High = math.Max(m.kline.List[len(m.kline.List)-1].High, kl.High)
+				m.kline.List[len(m.kline.List)-1].Low = math.Min(m.kline.List[len(m.kline.List)-1].Low, kl.Low)
+				m.kline.List[len(m.kline.List)-1].Close = kl.Close
+			}
+		}
+	}
+}
 
 func parseSinaTime(layout, value string) int64 {
 	return base.ParseBeijingTime(layout, value)
@@ -49,7 +75,7 @@ retryCount：当网络异常后重试次数，默认为3
 func (p *SinaSource) GetKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	ex := symbol.Exchange
 	if ex == pb.ExchangeType_SSE || ex == pb.ExchangeType_SZE {
-		if symbol.Exchange == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
+		if ex == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 7 {
 			// 上证50ETF期权tick
 			// 期权K线
 			return getOptionSSEKData(symbol, period, startTime, endTime, retryCount)
@@ -451,6 +477,7 @@ func parseSinaOptionKlineMin1Day(body []byte) (*pb.KlineSeries, error) {
 	//str := `({"result":{"status":{"code":0},"data":[{"i":"09:26:00","p":"0.0000","v":"0","t":"0","a":"0.0000","d":"2018-07-20"},{"i":"09:27:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:28:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:29:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:30:00","p":"0.2694","v":"3","t":"1714","a":"0.2696"},{"i":"09:31:00","p":"0.2730","v":"1","t":"1714","a":"0.2704"},{"i":"09:32:00","p":"0.2730","v":"0","t":"1714","a":"0.2704"},{"i":"09:33:00","p":"0.2658","v":"2","t":"1714","a":"0.2689"},{"i":"09:34:00","p":"0.2653","v":"40","t":"1734","a":"0.2655"},{"i":"09:35:00","p":"0.2648","v":"20","t":"1730","a":"0.2653"},{"i":"09:36:00","p":"0.2598","v":"70","t":"1703","a":"0.2633"},{"i":"09:37:00","p":"0.2614","v":"46","t":"1720","a":"0.2621"},{"i":"09:38:00","p":"0.2644","v":"41","t":"1700","a":"0.2623"},{"i":"09:39:00","p":"0.2610","v":"13","t":"1702","a":"0.2623"},{"i":"09:40:00","p":"0.2627","v":"5","t":"1682","a":"0.2624"}]}})`
 	err := json.Unmarshal(body, &rtn)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var Day string
@@ -533,11 +560,57 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 		{
 			// get week
 		}
+	case pb.PeriodType_M5:
+		{
+			//get 5 day
+			url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
+			resp, err := http.Get(url)
+			if err == nil {
+				defer resp.Body.Close()
+				body, _ := ioutil.ReadAll(resp.Body)
+				ret, err1 := parseSinaOptionKlineMin5Day(body)
+				if err1 == nil {
+					// parese 1min to 5min
+					var abcd newKl
+					abcd.klTime = 300
+					for _, v := range ret.List {
+						abcd.update(v)
+						// fmt.Println(time.Unix(v.Time, 0).Format("2006-01-02 03:04:05 PM"))
+					}
+					return &abcd.kline, nil
+				}
+			} else {
+				fmt.Println("err")
+			}
+		}
+	case pb.PeriodType_H1:
+		{
+			//get 5 day
+			url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
+			resp, err := http.Get(url)
+			if err == nil {
+				defer resp.Body.Close()
+				body, _ := ioutil.ReadAll(resp.Body)
+				ret, err1 := parseSinaOptionKlineMin5Day(body)
+				if err1 == nil {
+					// parese 1min to 5min
+					var abcd newKl
+					abcd.klTime = 3600
+					for _, v := range ret.List {
+						abcd.update(v)
+						// fmt.Println(time.Unix(v.Time, 0).Format("2006-01-02 03:04:05 PM"))
+					}
+					return &abcd.kline, nil
+				}
+			} else {
+				fmt.Println("err")
+			}
+		}
 	case pb.PeriodType_M1:
 		{
 			if retryCount == 1 {
 				//get 1 day
-				url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=CON_OP_%s&random=1531812094242&callback=", symbol.Code)
+				url := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=%s&random=1531812094242&callback=", symbol.Code)
 				resp, err := http.Get(url)
 				if err == nil {
 					defer resp.Body.Close()
@@ -552,7 +625,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 							loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
 							if err == nil {
 								tx = tx.In(loc)
-								log.Println(tx)
+								// log.Println(tx)
 							} else {
 								tx = time.Unix(k.Time+8*3600, 0)
 							}

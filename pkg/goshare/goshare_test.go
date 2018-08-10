@@ -32,6 +32,7 @@ func TestKData(t *testing.T) {
 }
 
 func TestGetLastTick(t *testing.T) {
+	return
 	var s SinaSource
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001337"}
 	md, err := s.GetLastTick(&symbol)
@@ -189,7 +190,7 @@ func TestOption(t *testing.T) {
 	log.Printf("查询期权的合约k线，只有日k线")
 	for _, value := range syms {
 		log.Printf(" Value: %s\n", value)
-		symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: value}
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: value}
 		//获取日线：type：8
 		kday, err := s.GetKData(&symbol, pb.PeriodType_D1, 19990101, 20180807, 1)
 		if err != nil {
@@ -218,6 +219,29 @@ func TestOption(t *testing.T) {
 		}
 		log.Printf("get result size 1min 5day: %d\n", len(k1min5Day.List))
 
+		// 获取5min--5day
+		k5min5Day, err1 := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180807, 5)
+		if err1 != nil {
+			t.Error(err1)
+		}
+		if len(k5min5Day.List) == 0 {
+			t.Error("GetKData 5min error")
+		}
+		log.Printf("get result size 5min 5day: %d\n", len(k5min5Day.List))
+
+		// 获取1h--5day
+		k1hour5Day, err1 := s.GetKData(&symbol, pb.PeriodType_H1, 19990101, 20180807, 5)
+		if err1 != nil {
+			t.Error(err1)
+		}
+		if len(k1hour5Day.List) == 0 {
+			t.Error("GetKData 1hour error")
+		}
+		log.Printf("get result size 1hour 5day: %d\n", len(k1hour5Day.List))
+		// for _, v := range k1hour5Day.List {
+		// 	fmt.Println(time.Unix(v.Time, 0).Format("2006-01-02 03:04:05 PM"))
+		// }
+
 		break
 	}
 
@@ -244,6 +268,7 @@ func TestGetSSEStockOptionList(t *testing.T) {
 
 // TestIndexMemberData
 func TestIndexMemberData(t *testing.T) {
+	return
 	// symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000016"}
 	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000300"}
 	var p SinaSource
