@@ -131,6 +131,9 @@ func (h *HTTPHandler) klineSeries(c *gin.Context, s *pb.UserSession) (interface{
 	}
 	var svc goshare.SinaSource
 	var filter []pb.Kline
+	if req.Period == int(pb.PeriodType_M1) && strings.Index(req.Code, "1000") == 0 {
+		req.EndTime = req.StartTime + 1
+	}
 	ret, err := svc.GetKData(&pb.Symbol{Exchange: pb.ExchangeType(req.Exchange), Code: req.Code}, pb.PeriodType(req.Period), req.StartTime, req.EndTime, 1)
 	for i := range ret.List {
 		k := &ret.List[i]
