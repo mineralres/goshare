@@ -562,6 +562,11 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 				defer resp.Body.Close()
 				body, _ := ioutil.ReadAll(resp.Body)
 				ret, err1 := parseSinaOptionKlineDay(string(body))
+				var rList []pb.Kline
+				for i := len(ret.List) - 1; i >= 0; i-- {
+					rList = append(rList, ret.List[i])
+				}
+				ret.List = rList
 				if err1 == nil {
 					return ret, nil
 				}
