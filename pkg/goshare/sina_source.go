@@ -546,6 +546,50 @@ func parseSinaOptionKlineMin5Day(body []byte) (*pb.KlineSeries, error) {
 	return &ret, nil
 }
 
+func getKlineHelper(url string, period pb.PeriodType) (*pb.KlineSeries, error) {
+	//get 5 day
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	var ret *pb.KlineSeries
+	if period == pb.PeriodType_M1 {
+		ret, err = parseSinaOptionKlineMin1Day(body)
+	} else if period == pb.PeriodType_M5 {
+		ret, err = parseSinaOptionKlineMin5Day(body)
+	}
+	if err != nil {
+		return nil, err
+	}
+	// 去掉中午11：31 - 12：59：59 的数据
+	filter := ret.List[:0]
+	for i := range ret.List {
+		k := &ret.List[i]
+		tx := time.Unix(k.Time, 0)
+		loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
+		if err == nil {
+			tx = tx.In(loc)
+			// log.Println(tx)
+		} else {
+			tx = time.Unix(k.Time+8*3600, 0)
+		}
+		h := tx.Hour()
+		m := tx.Minute()
+		if h == 9 || h == 10 || h >= 13 {
+			filter = append(filter, *k)
+		}
+		if h == 11 {
+			if m <= 30 {
+				filter = append(filter, *k)
+			}
+		}
+	}
+	ret.List = filter
+	return ret, err
+}
+
 //get option kline data
 func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	url1day := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
@@ -578,104 +622,50 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 		}
 	case pb.PeriodType_M5:
 		{
-			//get 5 day
-			resp, err := http.Get(url1m5day)
-			if err == nil {
-				defer resp.Body.Close()
-				body, _ := ioutil.ReadAll(resp.Body)
-				ret, err1 := parseSinaOptionKlineMin5Day(body)
-				if err1 == nil {
-					// parese 1min to 5min
-					var abcd newKl
-					abcd.klTime = 300
-					for _, v := range ret.List {
-						abcd.update(v)
-						// fmt.Println(time.Unix(v.Time, 0).Format("2006-01-02 03:04:05 PM"))
-					}
-					return &abcd.kline, nil
-				}
-			} else {
-				fmt.Println("err")
+			ret, err := getKlineHelper(url1m5day, pb.PeriodType_M5)
+			if err != nil {
+				return nil, err
 			}
+			today1m, err := getKlineHelper(url1m1day, pb.PeriodType_M1)
+			if err == nil {
+				ret.List = append(ret.List, today1m.List...)
+			}
+			// parese 1min to 5min
+			var abcd newKl
+			abcd.klTime = 300
+			for _, v := range ret.List {
+				abcd.update(v)
+			}
+			return &abcd.kline, nil
 		}
 	case pb.PeriodType_H1:
 		{
 			//get 5 day
-			resp, err := http.Get(url1m5day)
-			if err == nil {
-				defer resp.Body.Close()
-				body, _ := ioutil.ReadAll(resp.Body)
-				ret, err1 := parseSinaOptionKlineMin5Day(body)
-				if err1 == nil {
-					// parese 1min to 5min
-					var abcd newKl
-					abcd.klTime = 3600
-					for _, v := range ret.List {
-						abcd.update(v)
-						// fmt.Println(time.Unix(v.Time, 0).Format("2006-01-02 03:04:05 PM"))
-					}
-					return &abcd.kline, nil
-				}
-			} else {
-				fmt.Println("err")
+			ret, err := getKlineHelper(url1m5day, pb.PeriodType_M5)
+			if err != nil {
+				return nil, err
 			}
+			today1m, err := getKlineHelper(url1m1day, pb.PeriodType_M1)
+			if err == nil {
+				ret.List = append(ret.List, today1m.List...)
+			}
+			// parese 1min to 5min
+			var abcd newKl
+			abcd.klTime = 3600
+			for _, v := range ret.List {
+				abcd.update(v)
+			}
+			return &abcd.kline, nil
 		}
 	case pb.PeriodType_M1:
 		{
 			// endTime-startTime 用这个暂时来区分1天或5天
 			if endTime-startTime == 1 {
-				log.Println("get 1day m1")
 				//get 1 day
-				resp, err := http.Get(url1m1day)
-				if err == nil {
-					defer resp.Body.Close()
-					body, _ := ioutil.ReadAll(resp.Body)
-					ret, err1 := parseSinaOptionKlineMin1Day(body)
-					if err1 == nil {
-						// 去掉中午11：31 - 12：59：59 的数据
-						filter := ret.List[:0]
-						for i := range ret.List {
-							k := &ret.List[i]
-							tx := time.Unix(k.Time, 0)
-							loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
-							if err == nil {
-								tx = tx.In(loc)
-								// log.Println(tx)
-							} else {
-								tx = time.Unix(k.Time+8*3600, 0)
-							}
-							h := tx.Hour()
-							m := tx.Minute()
-							if h == 9 || h == 10 || h >= 13 {
-								filter = append(filter, *k)
-							}
-							if h == 11 {
-								if m <= 30 {
-									filter = append(filter, *k)
-								}
-							}
-						}
-						ret.List = filter
-						return ret, nil
-					}
-				} else {
-					fmt.Println("err")
-				}
-			} else {
-				//get 5 day
-				resp, err := http.Get(url1m5day)
-				if err == nil {
-					defer resp.Body.Close()
-					body, _ := ioutil.ReadAll(resp.Body)
-					ret, err1 := parseSinaOptionKlineMin5Day(body)
-					if err1 == nil {
-						return ret, nil
-					}
-				} else {
-					fmt.Println("err")
-				}
+				return getKlineHelper(url1m1day, pb.PeriodType_M1)
+				// log.Println("get 1day m1", ret, err)
 			}
-
+			return getKlineHelper(url1m5day, pb.PeriodType_M5)
 		}
 	}
 
