@@ -498,6 +498,9 @@ func parseSinaOptionKlineMin1Day(body []byte) (*pb.KlineSeries, error) {
 		tt := Day + " " + dd.I
 		kx.Time = parseSinaTime("2006-01-02 15:04:05", tt)
 		kx.Close, _ = strconv.ParseFloat(dd.P, 64)
+		kx.Open = kx.Close
+		kx.High = kx.Close
+		kx.Low = kx.Close
 		kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
 		ret.List = append(ret.List, kx)
 	}
