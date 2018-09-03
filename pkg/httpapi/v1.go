@@ -262,6 +262,8 @@ func (h *HTTPHandler) cnStockIndexSummary(c *gin.Context, s *pb.UserSession) (in
 		SZE399001 pb.MarketDataSnapshot
 		// 创业板指
 		SZE399006 pb.MarketDataSnapshot
+		// 上证50指数
+		SSE000016 pb.MarketDataSnapshot
 	}
 	var svc goshare.SinaSource
 	ret.SSE000001.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000001"}
@@ -281,6 +283,12 @@ func (h *HTTPHandler) cnStockIndexSummary(c *gin.Context, s *pb.UserSession) (in
 	if err == nil {
 		ret.SZE399006 = *mds
 		ret.SZE399006.Name = "创业指数"
+	}
+	ret.SSE000016.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: "000016"}
+	mds, err = svc.GetLastTick(&ret.SSE000016.Symbol)
+	if err == nil {
+		ret.SSE000016 = *mds
+		ret.SSE000016.Name = "上证50"
 	}
 	return &ret, nil
 }
