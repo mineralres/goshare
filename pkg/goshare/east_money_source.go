@@ -80,7 +80,7 @@ func (s *EaseMoneySource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodTyp
 	} else if period == pb.PeriodType_M15 {
 		ktype = "m15k"
 	} else if period == pb.PeriodType_M1 {
-		ktype = "m1k"
+		ktype = "r"
 	} else if period == pb.PeriodType_M30 {
 		ktype = "m30k"
 	} else if period == pb.PeriodType_H1 {
@@ -115,30 +115,46 @@ func (s *EaseMoneySource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodTyp
 	if err != nil {
 		return &ret, err
 	}
-	for i := range rtn.Data {
-		items := strings.Split(rtn.Data[i], ",")
-		if len(items) >= 8 {
+	if period == pb.PeriodType_M1 {
+		//解析1分钟钟分时线
+		for i := range rtn.Data {
+			items := strings.Split(rtn.Data[i], ",")
 			var k pb.Kline
 			layoutStr := "2006-01-02 15:04"
-			if period == pb.PeriodType_D1 {
-				layoutStr = "2006-01-02"
-			}
 			k.Time = base.ParseBeijingTime(layoutStr, items[0])
 			k.Open = base.ParseFloat(items[1])
-			k.Close = base.ParseFloat(items[2])
-			k.High = base.ParseFloat(items[3])
-			k.Low = base.ParseFloat(items[4])
-			k.Volume = base.ParseFloat(items[5])
-			if strings.Contains(items[6], "万") {
-				val := strings.Replace(items[6], "万", "", -1)
-				k.Amount = base.ParseFloat(val) * 10000
-			} else if strings.Contains(items[6], "亿") {
-				val := strings.Replace(items[6], "亿", "", -1)
-				k.Amount = base.ParseFloat(val) * 100000000
-			} else {
-				k.Amount = base.ParseFloat(items[6])
-			}
+			k.High = k.Open
+			k.Low = k.Open
+			k.Close = k.Open
+			k.Volume = base.ParseFloat(items[2])
 			ret.List = append(ret.List, k)
+		}
+	} else {
+		for i := range rtn.Data {
+			items := strings.Split(rtn.Data[i], ",")
+			if len(items) >= 8 {
+				var k pb.Kline
+				layoutStr := "2006-01-02 15:04"
+				if period == pb.PeriodType_D1 {
+					layoutStr = "2006-01-02"
+				}
+				k.Time = base.ParseBeijingTime(layoutStr, items[0])
+				k.Open = base.ParseFloat(items[1])
+				k.Close = base.ParseFloat(items[2])
+				k.High = base.ParseFloat(items[3])
+				k.Low = base.ParseFloat(items[4])
+				k.Volume = base.ParseFloat(items[5])
+				if strings.Contains(items[6], "万") {
+					val := strings.Replace(items[6], "万", "", -1)
+					k.Amount = base.ParseFloat(val) * 10000
+				} else if strings.Contains(items[6], "亿") {
+					val := strings.Replace(items[6], "亿", "", -1)
+					k.Amount = base.ParseFloat(val) * 100000000
+				} else {
+					k.Amount = base.ParseFloat(items[6])
+				}
+				ret.List = append(ret.List, k)
+			}
 		}
 	}
 	return &ret, nil
