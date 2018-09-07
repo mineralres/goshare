@@ -284,7 +284,7 @@ func (h *HTTPHandler) cnStockIndexSummary(c *gin.Context, s *pb.UserSession) (in
 		ret.SZE399006 = *mds
 		ret.SZE399006.Name = "创业指数"
 	}
-	ret.SSE000016.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: "000016"}
+	ret.SSE000016.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000016"}
 	mds, err = svc.GetLastTick(&ret.SSE000016.Symbol)
 	if err == nil {
 		ret.SSE000016 = *mds
