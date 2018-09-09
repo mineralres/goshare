@@ -94,7 +94,7 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ret.High = base.ParseFloat(tickArr[39])
 		ret.Low = base.ParseFloat(tickArr[40])
 		ret.Volume = (base.ParseFloat(tickArr[41]))
-		ret.Amount = float64(base.ParseInt(tickArr[42]))
+		ret.Amount = (base.ParseFloat(tickArr[42]))
 		ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
 		ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
 		var ob5 pb.OrderBook
