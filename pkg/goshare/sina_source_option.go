@@ -3,7 +3,6 @@ package goshare
 import (
 	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -74,7 +73,7 @@ func GetSina50EtfSym(sym string) []string {
 		}
 		str := strings.TrimLeft(tickArr[1], "\"")
 		tickArr = strings.Split(str, ",")
-		log.Println("tickArr", tickArr, str)
+		// log.Println("tickArr", tickArr, str)
 		for i := range tickArr {
 			if len(tickArr[i]) > 3 {
 				ret = append(ret, tickArr[i])
