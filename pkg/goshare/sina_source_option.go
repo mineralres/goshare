@@ -3,6 +3,7 @@ package goshare
 import (
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -58,22 +59,29 @@ func (p *SinaSource) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
 // 参数解释：CON_OP_ 为固定title，10001394这个是交易所的合约代码，在任何一个行情软件都可以查到，也可以通过GetSina50EtfSym接口获取
 // GetLastTick 根据CON_OP_10001394可以获取最新的报价
 // GetKData 根据CON_OP_10001394可以获取日k线
-func GetSina50EtfSym(sym string) (slice []string) {
+func GetSina50EtfSym(sym string) []string {
+	var ret []string
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
-		tickArr := strings.Split(string(body), ",")
-		i := len(tickArr)
-		if err == nil && i >= 2 {
-			slice = make([]string, i-2)
-			for j := 1; j < i-1; j++ {
-				slice[j-1] = tickArr[j]
+		if err != nil {
+			return ret
+		}
+		tickArr := strings.Split(string(body), "=")
+		if len(tickArr) != 2 {
+			return ret
+		}
+		str := strings.TrimLeft(tickArr[1], "\"")
+		tickArr = strings.Split(str, ",")
+		log.Println("tickArr", tickArr, str)
+		for i := range tickArr {
+			if len(tickArr[i]) > 3 {
+				ret = append(ret, tickArr[i])
 			}
-			return slice
 		}
 	}
-	return nil
+	return ret
 }
 
 // parse sina tick string
@@ -157,9 +165,9 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error)
 	syms := GetSina50EtfSym(symbol)
 	all := "http://hq.sinajs.cn/list="
 	for _, value := range syms {
-		//log.Printf(" sina 期权合约代码为: %s\n", value)
 		all = all + value + ","
 	}
+	// log.Printf(" sina 期权合约代码为: %s\n", all)
 	resp, err := http.Get(all)
 	if err == nil {
 		defer resp.Body.Close()
