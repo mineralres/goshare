@@ -600,7 +600,7 @@ func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTi
 	url1m5day := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
 
 	var ret pb.KlineSeries
-	log.Println("getOptionSSEKData", period, endTime-startTime)
+	// log.Println("getOptionSSEKData", period, endTime-startTime)
 	switch period {
 	case pb.PeriodType_D1:
 		{
