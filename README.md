@@ -17,7 +17,7 @@
  go get -u github.com/mineralres/goshare
 ```
 ### Usage
-```
+```go
 import (
   "github.com/mineralres/goshare"
 )

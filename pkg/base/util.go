@@ -52,3 +52,20 @@ func ParseBeijingTime(layout, value string) int64 {
 	}
 	return 0
 }
+
+func Encode(src string) (dst string) {
+	data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(src)), simplifiedchinese.GBK.NewEncoder()))
+	if err == nil {
+		dst = string(data)
+	}
+	return
+}
+
+// Decode 转UTF8
+func Decode(src string) (dst string) {
+	data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader([]byte(src)), simplifiedchinese.GBK.NewDecoder()))
+	if err == nil {
+		dst = string(data)
+	}
+	return
+}

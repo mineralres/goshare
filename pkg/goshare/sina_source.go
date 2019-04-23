@@ -1,103 +1,352 @@
 package goshare
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/mineralres/goshare/pkg/base"
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
-type newKl struct {
-	kline  pb.KlineSeries
-	klTime int64
+// SinaSource 新浪行情源
+type SinaSource struct {
 }
 
-func (m *newKl) update(kl pb.Kline) {
-	if m != nil {
-		if len(m.kline.List) == 0 {
-			kl.Time = int64(math.Floor(float64(kl.Time)/float64(m.klTime))) * m.klTime
-			m.kline.List = append(m.kline.List, kl)
-		} else {
-			ab := int64(math.Floor(float64(kl.Time)/float64(m.klTime))) * m.klTime
-			dd := m.kline.List[len(m.kline.List)-1].Time
-			if ab > dd {
-				kl.Time = ab
-				kl.Open = kl.Close
-				kl.High = kl.Close
-				kl.Low = kl.Close
-				m.kline.List = append(m.kline.List, kl)
-			} else {
-				lastKline := &m.kline.List[len(m.kline.List)-1]
-				if kl.Close > lastKline.High {
-					lastKline.High = kl.Close
-				}
-				if kl.Close > 0 && kl.Close < lastKline.Low {
-					lastKline.Low = kl.Close
-				}
-				lastKline.Close = kl.Close
+// BatchGetSSEStockOptionTick 取所有行情
+func (s *SinaSource) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+	rets := []pb.MarketDataSnapshot{}
+	all := "http://hq.sinajs.cn/list="
+	for i := range symbols {
+		all = all + "CON_OP_" + symbols[i].Code + ","
+	}
+	resp, err := http.Get(all)
+	if err != nil {
+		return nil, errors.New("获取原始数据错误")
+	}
+
+	defer resp.Body.Close()
+	bodyx, _ := ioutil.ReadAll(resp.Body)
+	str := base.Decode(string(bodyx))
+	tickArr1 := strings.Split(str, ";")
+	for _, v := range tickArr1 {
+		tickArr := strings.Split(v, ",")
+		ret := pb.MarketDataSnapshot{}
+		if err == nil && len(tickArr) >= 42 {
+			pos := strings.Index(tickArr[0], "1000")
+			symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: tickArr[0][pos : pos+8]}
+			ret.Symbol = symbol
+			ret.Price = base.ParseFloat(tickArr[2])
+			ret.Close = ret.Price
+			ret.Position = base.ParseFloat(tickArr[5])
+			ret.Open = base.ParseFloat(tickArr[9])
+			ret.High = base.ParseFloat(tickArr[39])
+			ret.Low = base.ParseFloat(tickArr[40])
+			ret.Volume = (base.ParseFloat(tickArr[41]))
+			ret.Amount = float64(base.ParseInt(tickArr[42]))
+			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
+			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
+			ret.ExercisePrice = base.ParseFloat(tickArr[7])
+			ret.PreClose = base.ParseFloat(tickArr[8])
+
+			var ob5 pb.OrderBook
+			ob5.Ask = base.ParseFloat(tickArr[12])
+			ob5.AskVolume = base.ParseFloat(tickArr[13])
+			ob5.Bid = base.ParseFloat(tickArr[30])
+			ob5.BidVolume = base.ParseFloat(tickArr[31])
+			var ob4 pb.OrderBook
+			ob4.Ask = base.ParseFloat(tickArr[14])
+			ob4.AskVolume = base.ParseFloat(tickArr[15])
+			ob4.Bid = base.ParseFloat(tickArr[28])
+			ob4.BidVolume = base.ParseFloat(tickArr[29])
+			var ob3 pb.OrderBook
+			ob3.Ask = base.ParseFloat(tickArr[16])
+			ob3.AskVolume = base.ParseFloat(tickArr[17])
+			ob3.Bid = base.ParseFloat(tickArr[26])
+			ob3.BidVolume = base.ParseFloat(tickArr[27])
+			var ob2 pb.OrderBook
+			ob2.Ask = base.ParseFloat(tickArr[18])
+			ob2.AskVolume = base.ParseFloat(tickArr[19])
+			ob2.Bid = base.ParseFloat(tickArr[24])
+			ob2.BidVolume = base.ParseFloat(tickArr[25])
+			var ob1 pb.OrderBook
+			ob1.Ask = base.ParseFloat(tickArr[20])
+			ob1.AskVolume = base.ParseFloat(tickArr[21])
+			ob1.Bid = base.ParseFloat(tickArr[22])
+			ob1.BidVolume = base.ParseFloat(tickArr[23])
+			ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
+			ret.Name = tickArr[37]
+
+			ret.Time = base.ParseBeijingTime("2006-01-02 15:04:05", tickArr[32])
+			td, err := strconv.Atoi(time.Unix(ret.Time, 0).Format("20060102"))
+			if err == nil {
+				ret.TradingDay = int32(td)
+			}
+
+			rets = append(rets, ret)
+		}
+	}
+	return rets, nil
+}
+
+// GetOptionSinaTick 根据交割月获取t型报价表数据
+/* date 如1808 为8月到期的
+ */
+func (p *SinaSource) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
+	rets := []pb.MarketDataSnapshot{}
+
+	all := "OP_DOWN_510050" + date
+	allTick, _, _ := getOptionSSETickT(all)
+	rets = append(rets, allTick...)
+
+	all = "OP_UP_510050" + date
+	allTick, _, _ = getOptionSSETickT(all)
+	rets = append(rets, allTick...)
+
+	return rets, nil
+}
+
+// GetOptionTQuote 根据交割月获取t型报价表数据
+/* date 如1808 为8月到期的
+ */
+func (p *SinaSource) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
+	rets := []pb.OptionTMarket{}
+
+	all := "OP_DOWN_510050" + date
+	allTick, allName, _ := getOptionSSETickT(all)
+
+	all = "OP_UP_510050" + date
+	allTick1, _, _ := getOptionSSETickT(all)
+
+	for kk := range allName {
+		msg := pb.OptionTMarket{}
+		msg.CallTk = allTick1[kk]
+		msg.PutTk = allTick[kk]
+		rets = append(rets, msg)
+		//log.Printf("执行价为%s,call 为%s,put 为%s", val, msg.CallTk.Symbol.Code, msg.PutTk.Symbol.Code)
+	}
+	return rets, nil
+}
+
+// GetSina50EtfSym 获取50ETF期权合约列表，sina代码
+//说明：
+//OP_DOWN_5100501807:OP 期权、DOWN 看跌、UP 看涨、510050 50etf标的代码、1807 到期月份
+//根据到期月的期权从接口获取t型的合约表： CON_OP_10001394
+// 参数解释：CON_OP_ 为固定title，10001394这个是交易所的合约代码，在任何一个行情软件都可以查到，也可以通过GetSina50EtfSym接口获取
+// GetLastTick 根据CON_OP_10001394可以获取最新的报价
+// GetKData 根据CON_OP_10001394可以获取日k线
+func GetSina50EtfSym(sym string) []string {
+	var ret []string
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + sym)
+	if err == nil {
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return ret
+		}
+		tickArr := strings.Split(string(body), "=")
+		if len(tickArr) != 2 {
+			return ret
+		}
+		str := strings.TrimLeft(tickArr[1], "\"")
+		tickArr = strings.Split(str, ",")
+		// log.Println("tickArr", tickArr, str)
+		for i := range tickArr {
+			if len(tickArr[i]) > 3 {
+				ret = append(ret, tickArr[i])
 			}
 		}
 	}
+	return ret
+}
+
+// parse sina tick string
+func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
+	ret := &pb.MarketDataSnapshot{}
+	tickArr := strings.Split(string(body), ",")
+	if len(tickArr) >= 42 {
+		var ss string
+		tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
+		ss = tickSym2[4]
+		symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: ss}
+		ret.Symbol = symbol
+		ret.Price = base.ParseFloat(tickArr[2])
+		ret.Close = ret.Price
+		ret.ExercisePrice = base.ParseFloat(tickArr[7])
+		ret.PreClose = base.ParseFloat(tickArr[8])
+		ret.Open = base.ParseFloat(tickArr[9])
+		ret.High = base.ParseFloat(tickArr[39])
+		ret.Low = base.ParseFloat(tickArr[40])
+		ret.Volume = (base.ParseFloat(tickArr[41]))
+		ret.Amount = (base.ParseFloat(tickArr[42]))
+		ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
+		ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
+		var ob5 pb.OrderBook
+		ob5.Ask = base.ParseFloat(tickArr[12])
+		ob5.AskVolume = base.ParseFloat(tickArr[13])
+		ob5.Bid = base.ParseFloat(tickArr[30])
+		ob5.BidVolume = base.ParseFloat(tickArr[31])
+		var ob4 pb.OrderBook
+		ob4.Ask = base.ParseFloat(tickArr[14])
+		ob4.AskVolume = base.ParseFloat(tickArr[15])
+		ob4.Bid = base.ParseFloat(tickArr[28])
+		ob4.BidVolume = base.ParseFloat(tickArr[29])
+		var ob3 pb.OrderBook
+		ob3.Ask = base.ParseFloat(tickArr[16])
+		ob3.AskVolume = base.ParseFloat(tickArr[17])
+		ob3.Bid = base.ParseFloat(tickArr[26])
+		ob3.BidVolume = base.ParseFloat(tickArr[27])
+		var ob2 pb.OrderBook
+		ob2.Ask = base.ParseFloat(tickArr[18])
+		ob2.AskVolume = base.ParseFloat(tickArr[19])
+		ob2.Bid = base.ParseFloat(tickArr[24])
+		ob2.BidVolume = base.ParseFloat(tickArr[25])
+		var ob1 pb.OrderBook
+		ob1.Ask = base.ParseFloat(tickArr[20])
+		ob1.AskVolume = base.ParseFloat(tickArr[21])
+		ob1.Bid = base.ParseFloat(tickArr[22])
+		ob1.BidVolume = base.ParseFloat(tickArr[23])
+		ret.OrderBookList = []pb.OrderBook{ob1, ob2, ob3, ob4, ob5}
+		ret.Name = base.StringFromGBK(tickArr[37])
+		// timex, err := time.Parse("2006-01-02 15:04:05", tickArr[32])
+		ret.Time = base.ParseBeijingTime("2006-01-02 15:04:05", tickArr[32])
+		return ret, tickArr[37], nil
+	}
+	return nil, "", errors.New("error")
+}
+
+// getSSEOptionTick 根据合约获取单个期权合约的tick数据
+func getSSEOptionTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	//ret := &pb.MarketDataSnapshot{}
+	resp, err := http.Get("http://hq.sinajs.cn/list=CON_OP_" + symbol.Code)
+	if err == nil {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		ret, _, err1 := parseSinaOptionTick(string(body))
+		if err1 == nil {
+			td, err := strconv.Atoi(time.Unix(ret.Time, 0).Format("20060102"))
+			if err == nil {
+				ret.TradingDay = int32(td)
+			}
+			return ret, nil
+		}
+	}
+	return nil, errors.New("ErrGetIndex")
+}
+
+// 批量获取50etf tick数据
+func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error) {
+	rets := []pb.MarketDataSnapshot{}
+	retsName := []string{}
+	syms := GetSina50EtfSym(symbol)
+	all := "http://hq.sinajs.cn/list="
+	for _, value := range syms {
+		all = all + value + ","
+	}
+	// log.Printf(" sina 期权合约代码为: %s\n", all)
+	resp, err := http.Get(all)
+	if err == nil {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		tickArr1 := strings.Split(string(body), ";")
+		for _, v := range tickArr1 {
+			ret, name, err1 := parseSinaOptionTick(string(v))
+			if err1 == nil {
+				rets = append(rets, *ret)
+				retsName = append(retsName, name)
+			}
+		}
+		return rets, retsName, nil
+	}
+	return nil, nil, errors.New("ErrGetIndex")
+}
+
+// GetSSEStockOptionTick 取所有行情
+func (s *SSEOfficialSource) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+	rets := []pb.MarketDataSnapshot{}
+	all := "http://hq.sinajs.cn/list="
+	for _, value := range symbols {
+		all = all + "CON_OP_" + value.Code + ","
+	}
+	resp, err := http.Get(all)
+	if err != nil {
+		return nil, errors.New("ErrGetIndex")
+	}
+
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	tickArr1 := strings.Split(string(body), ";")
+	for _, v := range tickArr1 {
+		tickArr := strings.Split(v, ",")
+		ret := pb.MarketDataSnapshot{}
+		if err == nil && len(tickArr) >= 42 {
+			symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: tickArr[0][19:27]}
+			ret.Symbol = symbol
+			ret.Price = base.ParseFloat(tickArr[2])
+			ret.Close = ret.Price
+			ret.Position = base.ParseFloat(tickArr[5])
+			ret.Open = base.ParseFloat(tickArr[9])
+			ret.High = base.ParseFloat(tickArr[39])
+			ret.Low = base.ParseFloat(tickArr[40])
+			ret.Volume = (base.ParseFloat(tickArr[41]))
+			ret.Amount = float64(base.ParseInt(tickArr[42]))
+			ret.UpperLimitPrice = base.ParseFloat(tickArr[10])
+			ret.LowerLimitPrice = base.ParseFloat(tickArr[11])
+			var ob5 pb.OrderBook
+			ob5.BidVolume = base.ParseFloat(tickArr[12])
+			ob5.Bid = base.ParseFloat(tickArr[13])
+			ob5.AskVolume = base.ParseFloat(tickArr[30])
+			ob5.Ask = base.ParseFloat(tickArr[31])
+			var ob4 pb.OrderBook
+			ob4.BidVolume = base.ParseFloat(tickArr[14])
+			ob4.Bid = base.ParseFloat(tickArr[15])
+			ob4.AskVolume = base.ParseFloat(tickArr[28])
+			ob4.Ask = base.ParseFloat(tickArr[29])
+			var ob3 pb.OrderBook
+			ob3.BidVolume = base.ParseFloat(tickArr[16])
+			ob3.Bid = base.ParseFloat(tickArr[17])
+			ob3.AskVolume = base.ParseFloat(tickArr[26])
+			ob3.Ask = base.ParseFloat(tickArr[27])
+			var ob2 pb.OrderBook
+			ob2.BidVolume = base.ParseFloat(tickArr[18])
+			ob2.Bid = base.ParseFloat(tickArr[19])
+			ob2.AskVolume = base.ParseFloat(tickArr[24])
+			ob2.Ask = base.ParseFloat(tickArr[25])
+			var ob1 pb.OrderBook
+			ob1.BidVolume = base.ParseFloat(tickArr[20])
+			ob1.Bid = base.ParseFloat(tickArr[21])
+			ob1.AskVolume = base.ParseFloat(tickArr[22])
+			ob1.Ask = base.ParseFloat(tickArr[23])
+			rets = append(rets, ret)
+		}
+	}
+	return rets, nil
+}
+
+func getRawTickString(exstr string, symbol string) []string {
+	resp, err := http.Get("http://web.sqt.gtimg.cn/q=" + exstr + symbol)
+	if err == nil {
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err == nil {
+			tickArr := strings.Split(string(body), "~")
+			if len(tickArr) > 1 {
+				tickArr[1] = base.StringFromGBK(tickArr[1])
+			} else {
+				log.Printf("getRawTickString %s-%s", exstr, symbol)
+			}
+			return tickArr
+		}
+	}
+	return nil
 }
 
 func parseSinaTime(layout, value string) int64 {
 	return base.ParseBeijingTime(layout, value)
-}
-
-// GetLastTick 取最新行情
-func (p *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
-	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
-		if symbol.Exchange == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
-			// 上证50ETF期权tick
-			return getSSEOptionTick(symbol)
-		}
-		// 股票tick
-		return getStockLastTick(symbol)
-	}
-
-	if symbol.Exchange == pb.ExchangeType_INDEX {
-		// 指数tick
-		return p.GetIndexLastTick(symbol)
-	}
-	return nil, base.ErrUnsupported
-}
-
-// GetKData 请求历史K线数据
-/*
-symbol：股票代码，即6位数字代码，或者指数代码
-startTime：开始时间time_t
-endTime：结束时间time_t
-period：周期
-retryCount：当网络异常后重试次数，默认为3
-*/
-func (p *SinaSource) GetKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
-	ex := symbol.Exchange
-	if ex == pb.ExchangeType_SSE || ex == pb.ExchangeType_SZE {
-		if ex == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
-			// 上证50ETF期权tick
-			// 期权K线
-			return getOptionSSEKData(symbol, period, startTime, endTime, retryCount)
-		}
-		var svc EaseMoneySource
-		// 股票K线
-		return svc.GetCNStockKData(symbol, period, startTime, endTime, retryCount)
-
-	} else if ex == pb.ExchangeType_SHFE || ex == pb.ExchangeType_CZCE || ex == pb.ExchangeType_DCE || ex == pb.ExchangeType_CFFEX || ex == pb.ExchangeType_INE {
-		// 期货K线
-		return getCNFutureKData(symbol, period, startTime, endTime, retryCount)
-	}
-	var ret pb.KlineSeries
-	return &ret, base.ErrUnsupported
 }
 
 // getStockLastTick 取股票最新报价
@@ -160,26 +409,8 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	return ret, nil
 }
 
-func getRawTickString(exstr string, symbol string) []string {
-	resp, err := http.Get("http://web.sqt.gtimg.cn/q=" + exstr + symbol)
-	if err == nil {
-		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-		if err == nil {
-			tickArr := strings.Split(string(body), "~")
-			if len(tickArr) > 1 {
-				tickArr[1] = base.StringFromGBK(tickArr[1])
-			} else {
-				log.Printf("getRawTickString %s-%s", exstr, symbol)
-			}
-			return tickArr
-		}
-	}
-	return nil
-}
-
 // GetIndexLastTick 指数行情
-func (p *SinaSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func (s *SinaSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
@@ -197,480 +428,20 @@ func (p *SinaSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot
 	return nil, errors.New("ErrGetIndex")
 }
 
-// GetMainFutureLastTick 取主力合约
-func (p *SinaSource) GetMainFutureLastTick(et pb.ExchangeType) ([]pb.MarketDataSnapshot, error) {
-	var ret []pb.MarketDataSnapshot
-	var etStr string
-	switch et {
-	case pb.ExchangeType_SHFE:
-		etStr = "SHFE"
-	case pb.ExchangeType_CZCE:
-		etStr = "CZCE"
-	case pb.ExchangeType_DCE:
-		etStr = "DCE"
-	case pb.ExchangeType_CFFEX:
-		etStr = "_168"
-	default:
-		return ret, fmt.Errorf("error ExchangeType %s", et)
-	}
-
-	address := fmt.Sprintf("http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=CT&cmd=C.%s", etStr) + "&sty=FCFL4O&sortType=(ChangePercent)&sortRule=-1&page=1&pageSize=200&js={rank:[(x)],pages:(pc),total:(tot)}&token=7bc05d0d4c3c22ef9fca8c2a912d779c&jsName=quote_123&_g=0.628606915911589&_=1521620666159"
-
-	resp, err := http.Get(address)
-	if err == nil {
-		defer resp.Body.Close()
-		body, err := ioutil.ReadAll(resp.Body)
-
-		if err == nil {
-			tickArr := strings.Split(string(body), "\"")
-			// fmt.Println(string(body))
-			i := 0
-			for i < len(tickArr) {
-
-				mktStrArr := strings.Split(string(tickArr[i]), ",")
-				i++
-				if len(mktStrArr) < 15 {
-					continue
-				}
-				if len(mktStrArr[1]) > 3 {
-					continue
-				}
-
-				mkt := pb.MarketDataSnapshot{}
-				mkt.Symbol = pb.Symbol{Exchange: et, Code: mktStrArr[1]}
-				mkt.Open = base.ParseFloat(mktStrArr[11])
-				mkt.High = base.ParseFloat(mktStrArr[13])
-				mkt.Low = base.ParseFloat(mktStrArr[14])
-				mkt.Price = base.ParseFloat(mktStrArr[3])
-				mkt.Close = mkt.Price
-				mkt.Volume = base.ParseFloat(mktStrArr[10])
-				mkt.Amount = base.ParseFloat(mktStrArr[15])
-				mkt.Position = base.ParseFloat(mktStrArr[9])
-				mkt.PreSettlementPrice = base.ParseFloat(mktStrArr[8])
-				ret = append(ret, mkt)
-				// fmt.Println(mkt.Symbol, mkt.Open, mkt.High, mkt.Low)
-			}
+// GetLastTick 获取最新报价
+func (s *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
+		if symbol.Exchange == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
+			// 上证50ETF期权tick
+			return getSSEOptionTick(symbol)
 		}
-
-	}
-	return ret, nil
-}
-
-// GetIndexMember 指数成份股
-func (p *SinaSource) GetIndexMember(symbol *pb.Symbol, retryCount int) ([]pb.Symbol, error) {
-	return getIndexMem(symbol)
-}
-
-func getIndexMem(symbol *pb.Symbol) ([]pb.Symbol, error) {
-	var ret []pb.Symbol
-
-	page_number := 1
-	member_number := 0
-
-	for true {
-		address := fmt.Sprintf("http://vip.stock.finance.sina.com.cn/corp/view/vII_NewestComponent.php?page=%d&indexid=%s", page_number, symbol.Code)
-		// log.Println(address)
-		page_number++
-		doc, err := goquery.NewDocument(address)
-
-		if err != nil {
-			fmt.Println(err)
-			return ret, err
-		}
-
-		b_empty := true
-
-		doc.Find("#NewStockTable").Find("tbody").Find("tr").Each(func(i int, s *goquery.Selection) {
-			if i > 0 {
-				b_empty = false
-				code := s.Find("div").Eq(0).Text()
-				// fmt.Println(code)
-				s, err := formatSymbol(code)
-				if err == nil {
-					ret = append(ret, s)
-					member_number += 1
-				}
-			}
-		})
-		if b_empty == true || doc.Find("#page_form").Length() == 0 {
-			break
-		}
+		// 股票tick
+		return getStockLastTick(symbol)
 	}
 
-	// log.Println(ret)
-	return ret, nil
-}
-
-func formatSymbol(code string) (pb.Symbol, error) {
-	var ret pb.Symbol
-	if len(code) < 6 {
-		return ret, fmt.Errorf("error code %s", code)
+	if symbol.Exchange == pb.ExchangeType_INDEX {
+		// 指数tick
+		return s.GetIndexLastTick(symbol)
 	}
-
-	switch code[0] {
-	case '6':
-		return pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: code}, nil
-	case '0':
-		return pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: code}, nil
-	case '3':
-		return pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: code}, nil
-	default:
-		return ret, fmt.Errorf("error code %s", code)
-	}
-}
-
-func adaptCZCE(value string) string {
-	if strings.Index(value, "D-") >= 0 {
-		value = value[2:]
-	}
-	for i := 0; i < len(value); i++ {
-		if value[i] >= '0' && value[i] <= '9' && i > 0 {
-			if len(value)-i == 3 {
-				return value[0:i] + "1" + value[i:]
-			}
-			break
-		}
-	}
-	return value
-}
-
-func getCNFutureKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
-	var ret pb.KlineSeries
-	type SinaKline struct {
-		ClosePrice string `json:"c"`
-		Day        string `json:"d"`
-		MaxPrice   string `json:"h"`
-		MinPrice   string `json:"l"`
-		NowVolume  string `json:"v"`
-		OpenPrice  string `json:"o"`
-	}
-
-	isDaily := false
-	ktype := "5"
-	switch period {
-	case pb.PeriodType_D1:
-		isDaily = true
-		ktype = ""
-	case pb.PeriodType_M1:
-		ktype = "1"
-	case pb.PeriodType_M5:
-		ktype = "5"
-	case pb.PeriodType_H1:
-		ktype = "60"
-	}
-	code := symbol.Code
-	qapi := "http://stock2.finance.sina.com.cn/futures/api/jsonp.php//InnerFuturesNewService.getFewMinLine?symbol=" + adaptCZCE(code) + "&type=" + ktype
-	qapi = fmt.Sprintf("https://stock.sina.com.cn/futures/api/jsonp.php/var_X=/InnerFuturesNewService.getFewMinLine?symbol=%s&type=%s", adaptCZCE(code), ktype)
-	if ktype == "" {
-		tradingDay := time.Now().Format("20060102")
-		qapi = fmt.Sprintf("https://stock.sina.com.cn/futures/api/jsonp.php/var_X=/InnerFuturesNewService.getDailyKLine?symbol=%s&_=%s", adaptCZCE(code), tradingDay)
-		isDaily = true
-	}
-	resp, err := http.Get(qapi)
-	if err != nil {
-		return &ret, err
-	}
-	v, err := ioutil.ReadAll(resp.Body)
-	str := strings.TrimLeft(string(v), "var_X=(")
-	xl := len(str)
-	if xl > 2 && err == nil {
-		dataStr := string(str[:xl-2])
-		var sinaks []SinaKline
-		dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
-		dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
-		dataStr = strings.Replace(dataStr, "h:", "\"h\":", -1)
-		dataStr = strings.Replace(dataStr, "l:", "\"l\":", -1)
-		dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
-		dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
-		err = json.Unmarshal([]byte(dataStr), &sinaks)
-		if err != nil {
-			log.Println(err)
-		}
-		for i := range sinaks {
-			v := sinaks[i]
-			var kx pb.Kline
-			if isDaily {
-				kx.Time = parseSinaTime("2006-01-02", v.Day)
-			} else {
-				kx.Time = parseSinaTime("2006-01-02 15:04:05", v.Day)
-			}
-			kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
-			kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
-			kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
-			kx.Low, _ = strconv.ParseFloat(v.MinPrice, 64)
-			kx.Volume, _ = strconv.ParseFloat(v.NowVolume, 64)
-			ret.List = append(ret.List, kx)
-		}
-	}
-	return &ret, nil
-}
-
-// parse sina tick string-day
-func parseSinaOptionKlineDay(body string) (*pb.KlineSeries, error) {
-	var ret pb.KlineSeries
-	type SinaKline struct {
-		ClosePrice string `json:"c"`
-		Day        string `json:"d"`
-		MaxPrice   string `json:"h"`
-		MinPrice   string `json:"l"`
-		NowVolume  string `json:"v"`
-		OpenPrice  string `json:"o"`
-	}
-	tickArr := strings.Split(string(body), "=")
-	// log.Printf("------------------")
-	// log.Printf(string(tickArr[1]))
-	isDaily := true
-	xl := len(tickArr[1])
-	if xl <= 2 {
-		return nil, errors.New("error")
-	}
-
-	dataStr := string(tickArr[1][1 : xl-2])
-	var sinaks []SinaKline
-	dataStr = strings.Replace(dataStr, "d:", "\"d\":", -1)
-	dataStr = strings.Replace(dataStr, "o:", "\"o\":", -1)
-	dataStr = strings.Replace(dataStr, "h:", "\"h\":", -1)
-	dataStr = strings.Replace(dataStr, "l:", "\"l\":", -1)
-	dataStr = strings.Replace(dataStr, "c:", "\"c\":", -1)
-	dataStr = strings.Replace(dataStr, "v:", "\"v\":", -1)
-	err := json.Unmarshal([]byte(dataStr), &sinaks)
-	if err == nil {
-		// fmt.Println(err)
-	}
-	for i := len(sinaks) - 1; i >= 0; i-- {
-		v := sinaks[i]
-		var kx pb.Kline
-		// day := strings.Split(v.Day, " ")[0]
-		if isDaily {
-			kx.Time = parseSinaTime("2006-01-02", v.Day)
-		} else {
-			kx.Time = parseSinaTime("2006-01-02 15:04:05", v.Day)
-		}
-		v.Day = strings.Split(v.Day, " ")[0]
-		kx.Close, _ = strconv.ParseFloat(v.ClosePrice, 64)
-		kx.Open, _ = strconv.ParseFloat(v.OpenPrice, 64)
-		kx.High, _ = strconv.ParseFloat(v.MaxPrice, 64)
-		kx.Low, _ = strconv.ParseFloat(v.MinPrice, 64)
-		kx.Volume, _ = strconv.ParseFloat(v.NowVolume, 64)
-		if len(ret.List) > 0 {
-			preK := &ret.List[len(ret.List)-1]
-			if preK.Time != kx.Time {
-				ret.List = append(ret.List, kx)
-			}
-		} else {
-			ret.List = append(ret.List, kx)
-		}
-	}
-	return &ret, nil
-}
-
-// 解析sina期权分钟数据:1day
-func parseSinaOptionKlineMin1Day(body []byte) (*pb.KlineSeries, error) {
-	var ret pb.KlineSeries
-	var rtn struct {
-		Result struct {
-			Status struct {
-				Code int `json:"code"`
-			} `json:"status"`
-			Dd []struct {
-				I string `json:"i"`
-				P string `json:"p"`
-				V string `json:"v"`
-				T string `json:"t"`
-				A string `json:"a"`
-				D string `json:"d"`
-			} `json:"data"`
-		} `json:"result"`
-	}
-	//str := `({"result":{"status":{"code":0},"data":[{"i":"09:26:00","p":"0.0000","v":"0","t":"0","a":"0.0000","d":"2018-07-20"},{"i":"09:27:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:28:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:29:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:30:00","p":"0.2694","v":"3","t":"1714","a":"0.2696"},{"i":"09:31:00","p":"0.2730","v":"1","t":"1714","a":"0.2704"},{"i":"09:32:00","p":"0.2730","v":"0","t":"1714","a":"0.2704"},{"i":"09:33:00","p":"0.2658","v":"2","t":"1714","a":"0.2689"},{"i":"09:34:00","p":"0.2653","v":"40","t":"1734","a":"0.2655"},{"i":"09:35:00","p":"0.2648","v":"20","t":"1730","a":"0.2653"},{"i":"09:36:00","p":"0.2598","v":"70","t":"1703","a":"0.2633"},{"i":"09:37:00","p":"0.2614","v":"46","t":"1720","a":"0.2621"},{"i":"09:38:00","p":"0.2644","v":"41","t":"1700","a":"0.2623"},{"i":"09:39:00","p":"0.2610","v":"13","t":"1702","a":"0.2623"},{"i":"09:40:00","p":"0.2627","v":"5","t":"1682","a":"0.2624"}]}})`
-	err := json.Unmarshal(body, &rtn)
-	if err != nil {
-		log.Println(err)
-		return nil, err
-	}
-	var Day string
-	for i := range rtn.Result.Dd {
-		dd := &rtn.Result.Dd[i]
-		var kx pb.Kline
-		if len(dd.D) > 0 {
-			Day = dd.D
-		}
-		tt := Day + " " + dd.I
-		kx.Time = parseSinaTime("2006-01-02 15:04:05", tt)
-		kx.Close, _ = strconv.ParseFloat(dd.P, 64)
-		kx.Open = kx.Close
-		kx.High = kx.Close
-		kx.Low = kx.Close
-		kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
-		ret.List = append(ret.List, kx)
-	}
-	return &ret, nil
-}
-
-// 解析sina期权分钟数据:5day
-func parseSinaOptionKlineMin5Day(body []byte) (*pb.KlineSeries, error) {
-	var ret pb.KlineSeries
-	var rtn struct {
-		Result struct {
-			Status struct {
-				Code int `json:"code"`
-			} `json:"status"`
-			Dd [][]struct {
-				I string `json:"i"`
-				P string `json:"p"`
-				V string `json:"v"`
-				T string `json:"t"`
-				A string `json:"a"`
-				D string `json:"d"`
-			} `json:"data"`
-		} `json:"result"`
-	}
-	//str1 := `({"result":{"status":{"code":0},"data":[[{"i":"09:26:00","p":"0.0000","v":"0","t":"0","a":"0.0000","d":"2018-07-20"}],[{"i":"09:27:00","p":"0.0000","v":"0","t":"0","a":"0.0000"}],[{"i":"09:28:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:29:00","p":"0.0000","v":"0","t":"0","a":"0.0000"},{"i":"09:30:00","p":"0.2694","v":"3","t":"1714","a":"0.2696"},{"i":"09:31:00","p":"0.2730","v":"1","t":"1714","a":"0.2704"},{"i":"09:32:00","p":"0.2730","v":"0","t":"1714","a":"0.2704"},{"i":"09:33:00","p":"0.2658","v":"2","t":"1714","a":"0.2689"},{"i":"09:34:00","p":"0.2653","v":"40","t":"1734","a":"0.2655"},{"i":"09:35:00","p":"0.2648","v":"20","t":"1730","a":"0.2653"},{"i":"09:36:00","p":"0.2598","v":"70","t":"1703","a":"0.2633"},{"i":"09:37:00","p":"0.2614","v":"46","t":"1720","a":"0.2621"},{"i":"09:38:00","p":"0.2644","v":"41","t":"1700","a":"0.2623"},{"i":"09:39:00","p":"0.2610","v":"13","t":"1702","a":"0.2623"},{"i":"09:40:00","p":"0.2627","v":"5","t":"1682","a":"0.2624"}]]}})`
-	err := json.Unmarshal(body, &rtn)
-	if err != nil {
-		return nil, err
-	}
-	var Day string
-	for i := range rtn.Result.Dd {
-		for j := range rtn.Result.Dd[i] {
-			dd := &rtn.Result.Dd[i][j]
-			var kx pb.Kline
-			if len(dd.D) > 0 {
-				Day = dd.D
-				//log.Println(Day)
-			}
-			tt := Day + " " + dd.I
-			kx.Time = parseSinaTime("2006-01-02 15:04:05", tt)
-			kx.Close, _ = strconv.ParseFloat(dd.P, 64)
-			kx.Volume, _ = strconv.ParseFloat(dd.V, 64)
-			ret.List = append(ret.List, kx)
-		}
-	}
-	return &ret, nil
-}
-
-func getKlineHelper(url string, period pb.PeriodType) (*pb.KlineSeries, error) {
-	//get 5 day
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	var ret *pb.KlineSeries
-	if period == pb.PeriodType_M1 {
-		ret, err = parseSinaOptionKlineMin1Day(body)
-	} else if period == pb.PeriodType_M5 {
-		ret, err = parseSinaOptionKlineMin5Day(body)
-	}
-	if err != nil {
-		return nil, err
-	}
-	// 去掉中午11：31 - 12：59：59 的数据
-	filter := ret.List[:0]
-	for i := range ret.List {
-		k := &ret.List[i]
-		tx := time.Unix(k.Time, 0)
-		loc, err := time.LoadLocation("Asia/Chongqing") // 北京时间
-		if err == nil {
-			tx = tx.In(loc)
-			// log.Println(tx)
-		} else {
-			tx = time.Unix(k.Time+8*3600, 0)
-		}
-		h := tx.Hour()
-		m := tx.Minute()
-		if h == 9 || h == 10 || h >= 13 {
-			filter = append(filter, *k)
-		}
-		if h == 11 {
-			if m <= 30 {
-				filter = append(filter, *k)
-			}
-		}
-	}
-	ret.List = filter
-	return ret, err
-}
-
-//get option kline data
-func getOptionSSEKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
-	url1day := "http://stock.finance.sina.com.cn/futures/api/jsonp_v2.php/var%20_CON_OP_100014052018_7_4=/StockOptionDaylineService.getSymbolInfo?symbol=" + symbol.Code
-	url1m1day := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getOptionMinline?symbol=CON_OP_%s&random=1531812094242&callback=", symbol.Code)
-	url1m5day := fmt.Sprintf("https://stock.sina.com.cn/futures/api/openapi.php/StockOptionDaylineService.getFiveDayLine?symbol=CON_OP_%s&random=1531812094982&callback=", symbol.Code)
-
-	var ret pb.KlineSeries
-	// log.Println("getOptionSSEKData", period, endTime-startTime)
-	switch period {
-	case pb.PeriodType_D1:
-		{
-			resp, err := http.Get(url1day)
-			if err == nil {
-				defer resp.Body.Close()
-				body, _ := ioutil.ReadAll(resp.Body)
-				ret, err1 := parseSinaOptionKlineDay(string(body))
-				var rList []pb.Kline
-				for i := len(ret.List) - 1; i >= 0; i-- {
-					rList = append(rList, ret.List[i])
-				}
-				ret.List = rList
-				if err1 == nil {
-					return ret, nil
-				}
-			}
-		}
-	case pb.PeriodType_W1:
-		{
-			// get week
-		}
-	case pb.PeriodType_M5:
-		{
-			ret, err := getKlineHelper(url1m5day, pb.PeriodType_M5)
-			if err != nil {
-				return nil, err
-			}
-			today1m, err := getKlineHelper(url1m1day, pb.PeriodType_M1)
-			if err == nil {
-				ret.List = append(ret.List, today1m.List...)
-			}
-			// parese 1min to 5min
-			var abcd newKl
-			abcd.klTime = 300
-			for _, v := range ret.List {
-				abcd.update(v)
-			}
-			return &abcd.kline, nil
-		}
-	case pb.PeriodType_H1:
-		{
-			//get 5 day
-			ret, err := getKlineHelper(url1m5day, pb.PeriodType_M5)
-			if err != nil {
-				return nil, err
-			}
-			today1m, err := getKlineHelper(url1m1day, pb.PeriodType_M1)
-			if err == nil {
-				ret.List = append(ret.List, today1m.List...)
-			}
-			// parese 1min to 5min
-			var abcd newKl
-			abcd.klTime = 3600
-			for _, v := range ret.List {
-				abcd.update(v)
-			}
-			return &abcd.kline, nil
-		}
-	case pb.PeriodType_M1:
-		{
-			// endTime-startTime 用这个暂时来区分1天或5天
-			if endTime-startTime == 1 {
-				//get 1 day
-				return getKlineHelper(url1m1day, pb.PeriodType_M1)
-				// log.Println("get 1day m1", ret, err)
-			}
-			return getKlineHelper(url1m5day, pb.PeriodType_M5)
-		}
-	}
-
-	return &ret, nil
+	return nil, base.ErrUnsupported
 }

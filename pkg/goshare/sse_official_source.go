@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"git.bitconst.com/mineralres/alps/pkg/base"
+	"github.com/mineralres/goshare/pkg/base"
 
 	"github.com/mineralres/goshare/pkg/pb"
 )
@@ -189,10 +189,10 @@ func (s *SSEOfficialSource) GetSSEStockOptionTradingInstrumentList() ([]pb.Tradi
 		}
 
 		ti.ProductInfo.PriceTick = 0.0001
-		ti.ProductInfo.Type = int32(pb.ProductType_PT_SSE_ETF_OPTION)
+		ti.ProductInfo.Type = (pb.ProductType_PT_SSE_ETF_OPTION)
 		ti.ProductInfo.VolumeMultiple = int32(base.ParseInt(op.ContractUnit))
-		ti.ProductInfo.ProductId.Exchange = int32(pb.ExchangeType_SSE)
-		ti.ProductInfo.ProductId.ProductIdInExchange = "SHOP"
+		ti.ProductInfo.ProductId.Exchange = pb.ExchangeType_SSE
+		ti.ProductInfo.ProductId.Code = "SHOP"
 		ti.ProductInfo.DistinguishPositionTime = false
 
 		if op.CallOrPut == "认购" {

@@ -1,5 +1,13 @@
 package goshare
 
-// SinaSource 新浪相关的数据源
-type SinaSource struct {
+// KlineSource K线数据源
+type KlineSource interface {
+}
+
+// HistoryTickSource 历史Tick数据源
+type HistoryTickSource interface {
+}
+
+// RealtimeTickSource 实时tick数据源
+type RealtimeTickSource interface {
 }

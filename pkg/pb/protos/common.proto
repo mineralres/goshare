@@ -105,9 +105,7 @@ enum OptionCallPutType {
 }
 
 // 行权日类型
-enum OptionDeliveryDateType {
-  ODDT_EUR = 0;
-}
+enum OptionDeliveryDateType { ODDT_EUR = 0; }
 
 // 平仓手续费算法
 enum CloseCommissionAlgorithim {
@@ -270,6 +268,8 @@ message ProductInfo {
   int32 settlement_group = 10;
   // 时间
   MarketTimeRule time_rule = 11;
+  // 区分昨仓今仓
+  bool distinguish_position_time = 12;
 }
 
 // 交易合约
