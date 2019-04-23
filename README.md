@@ -23,11 +23,10 @@ import (
 )
 
 func main() {
-  // 新浪数据源
-  var s goshare.SinaSource
+  var s goshare.DataSource
   symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
-  // 获取历史数据
-  data, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
+  // 获取最新行情
+  data, err := s.GetLastTick(&symbol)
   if err != nil {
     panic(err)
   }
