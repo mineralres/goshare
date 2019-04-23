@@ -54,7 +54,7 @@ func (h *HTTPHandler) sseOptionTQuote(c *gin.Context, s *pb.UserSession) (interf
 	if err != nil {
 		return nil, err
 	}
-	var svc goshare.SinaSource
+	var svc goshare.DataSource
 	return svc.GetOptionTQuote(req.Month)
 }
 
@@ -84,12 +84,12 @@ func (h *HTTPHandler) lastTick(c *gin.Context, s *pb.UserSession) (interface{}, 
 	if err != nil {
 		return nil, err
 	}
-	var svc goshare.SinaSource
+	var svc goshare.DataSource
 	return svc.GetLastTick(&req)
 }
 
 func (h *HTTPHandler) apiTest(c *gin.Context, s *pb.UserSession) (interface{}, error) {
-	var svc goshare.SinaSource
+	var svc goshare.DataSource
 	return svc.GetLastTick(&pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "601398"})
 }
 
@@ -104,7 +104,7 @@ func (h *HTTPHandler) cnStockIndexSummary(c *gin.Context, s *pb.UserSession) (in
 		// 上证50指数
 		SSE000016 pb.MarketDataSnapshot
 	}
-	var svc goshare.SinaSource
+	var svc goshare.DataSource
 	ret.SSE000001.Symbol = pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "000001"}
 	mds, err := svc.GetLastTick(&ret.SSE000001.Symbol)
 	if err == nil {

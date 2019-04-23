@@ -1,13 +1,7 @@
 package goshare
 
-// KlineSource K线数据源
-type KlineSource interface {
+// DataSource 数据服务
+type DataSource struct {
 }
 
-// HistoryTickSource 历史Tick数据源
-type HistoryTickSource interface {
-}
-
-// RealtimeTickSource 实时tick数据源
-type RealtimeTickSource interface {
-}
+// 具体功能的实现分布到各个特定数据源中

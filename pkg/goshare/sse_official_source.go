@@ -16,12 +16,8 @@ import (
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
-// SSEOfficialSource 上海证券交易所官方网站数据
-type SSEOfficialSource struct {
-}
-
 // GetSSEStockList 获取上证股票列表
-func (s *SSEOfficialSource) GetSSEStockList() ([]pb.TradingInstrument, error) {
+func (s *DataSource) GetSSEStockList() ([]pb.TradingInstrument, error) {
 	return nil, nil
 }
 
@@ -47,7 +43,7 @@ func getURLContent(url, referer string) (string, error) {
 }
 
 // GetSSEStockOptionList 获取上证所网站的 50ETF个股期权列表
-func (s *SSEOfficialSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
+func (s *DataSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 	const url = "http://query.sse.com.cn/commonQuery.do?jsonCallBack=jsonpCallback77327&isPagination=true&expireDate=&securityId=&sqlId=SSE_ZQPZ_YSP_GGQQZSXT_XXPL_DRHY_SEARCH_L&pageHelp.pageSize=10000&pageHelp.pageNo=1&pageHelp.beginPage=1&pageHelp.cacheSize=1&pageHelp.endPage=5&_=1531102881526"
 	str, err := getURLContent(url, "http://www.sse.com.cn/assortment/options/disclo/preinfo/")
 	if err != nil {
@@ -152,7 +148,7 @@ func (s *SSEOfficialSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error)
 }
 
 // GetSSEStockOptionTradingInstrumentList 上证所ETF期权合约列表
-func (s *SSEOfficialSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstrument, error) {
+func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstrument, error) {
 	list, err := s.GetSSEStockOptionList()
 	if err != nil {
 		return nil, err
@@ -207,8 +203,7 @@ func (s *SSEOfficialSource) GetSSEStockOptionTradingInstrumentList() ([]pb.Tradi
 		ret = append(ret, ti)
 	}
 
-	var sina SinaSource
-	mdsList, err := sina.BatchGetSSEStockOptionTick(symbols)
+	mdsList, err := s.BatchGetSSEStockOptionTick(symbols)
 	if err != nil {
 		return ret, err
 	}
@@ -227,7 +222,7 @@ func (s *SSEOfficialSource) GetSSEStockOptionTradingInstrumentList() ([]pb.Tradi
 }
 
 // GetSSE50ETFOptionTQuote 上证所网站的T型报价,50ETF的
-func (s *SSEOfficialSource) GetSSE50ETFOptionTQuote(month string) ([]pb.OptionTQuoteItem, error) {
+func (s *DataSource) GetSSE50ETFOptionTQuote(month string) ([]pb.OptionTQuoteItem, error) {
 	var ret []pb.OptionTQuoteItem
 	url := fmt.Sprintf(`http://yunhq.sse.com.cn:32041/v1/sho/list/tstyle/510050_%s?select=contractid,code,last,chg_rate,presetpx,exepx,name,prev_close`, month)
 	str, err := getURLContent(url, "http://www.sse.com.cn/assortment/options/price/")

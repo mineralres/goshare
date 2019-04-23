@@ -11,12 +11,8 @@ import (
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
-// EaseMoneySource 东方财富
-type EaseMoneySource struct {
-}
-
 // GetRealtimeMoneyTrendList 取实时资金流向. size 需要取的条数
-func (s *EaseMoneySource) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoneyTrendItemList, error) {
+func (s *DataSource) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoneyTrendItemList, error) {
 	var ret pb.RealtimeMoneyTrendItemList
 	address := fmt.Sprintf("http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=1&ps=%d", size) + "&js=var%20PPHMDFMQ={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50714413"
 	resp, err := http.Get(address)
@@ -68,7 +64,7 @@ func (s *EaseMoneySource) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoney
 }
 
 // GetCNStockKData 股票K线.
-func (s *EaseMoneySource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
+func (s *DataSource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
 	et := 1
 	if symbol.Exchange == pb.ExchangeType_SZE {

@@ -13,12 +13,8 @@ import (
 	"github.com/mineralres/goshare/pkg/pb"
 )
 
-// SinaSource 新浪行情源
-type SinaSource struct {
-}
-
 // BatchGetSSEStockOptionTick 取所有行情
-func (s *SinaSource) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+func (s *DataSource) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	all := "http://hq.sinajs.cn/list="
 	for i := range symbols {
@@ -96,7 +92,7 @@ func (s *SinaSource) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.Marke
 // GetOptionSinaTick 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (p *SinaSource) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
+func (p *DataSource) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 
 	all := "OP_DOWN_510050" + date
@@ -113,7 +109,7 @@ func (p *SinaSource) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, er
 // GetOptionTQuote 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (p *SinaSource) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
+func (p *DataSource) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
 	rets := []pb.OptionTMarket{}
 
 	all := "OP_DOWN_510050" + date
@@ -266,7 +262,7 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error)
 }
 
 // GetSSEStockOptionTick 取所有行情
-func (s *SSEOfficialSource) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+func (s *DataSource) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	all := "http://hq.sinajs.cn/list="
 	for _, value := range symbols {
@@ -410,7 +406,7 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 }
 
 // GetIndexLastTick 指数行情
-func (s *SinaSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func (s *DataSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
 	if err == nil {
@@ -429,7 +425,7 @@ func (s *SinaSource) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot
 }
 
 // GetLastTick 获取最新报价
-func (s *SinaSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func (s *DataSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
 		if symbol.Exchange == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
 			// 上证50ETF期权tick
