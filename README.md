@@ -57,6 +57,6 @@ func main() {
 
 # 交流
 
-![png](https://goshare.cyconst.com/images/1555988323578.png)
+![png](https://github.com/mineralres/goshare/blob/master/doc/images/1555988323578.png)
 
 * QQ群 249379339 
