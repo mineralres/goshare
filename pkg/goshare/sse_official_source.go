@@ -2,10 +2,16 @@ package goshare
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sort"
+	"strconv"
 	"strings"
+	"time"
+
+	"git.bitconst.com/mineralres/alps/pkg/base"
 
 	"github.com/mineralres/goshare/pkg/pb"
 )
@@ -19,6 +25,7 @@ func (s *SSEOfficialSource) GetSSEStockList() ([]pb.TradingInstrument, error) {
 	return nil, nil
 }
 
+// 取URL内容
 func getURLContent(url, referer string) (string, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, strings.NewReader(""))
@@ -100,9 +107,9 @@ func (s *SSEOfficialSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error)
 	var ret []pb.SSEStockOption
 	for i := range rsp.PageHelp.Data {
 		d := &rsp.PageHelp.Data[i]
-		log.Printf("合约编码[%s] 合约交易代码[%s] 合约简称[%s] 标的券名称及代码[%s] 类型[%s, %s] 行权价[%s] 合约单位[%s] 期权行权日[%s] 行权交收日[%s] 到期日[%s] 新挂[%s] 涨停价[%s] 跌停价[%s] 前结算价[%s] 调整[%s]",
-			d.SECURITY_ID, d.CONTRACT_ID, d.CONTRACT_SYMBOL, d.SECURITYNAMEBYID, d.CALL_OR_PUT, d.OPTION_TYPE, d.EXERCISE_PRICE, d.CONTRACT_UNIT, d.EXERCISE_DATE,
-			d.DELIVERY_DATE, d.EXPIRE_DATE, d.CHANGEFLAG, d.DAILY_PRICE_UPLIMIT, d.DAILY_PRICE_DOWNLIMIT, d.SETTL_PRICE, d.CHANGEFLAG)
+		// log.Printf("合约编码[%s] 合约交易代码[%s] 合约简称[%s] 标的券名称及代码[%s] 类型[%s, %s] 行权价[%s] 合约单位[%s] 期权行权日[%s] 行权交收日[%s] 到期日[%s] 新挂[%s] 涨停价[%s] 跌停价[%s] 前结算价[%s] 调整[%s]",
+		// 	d.SECURITY_ID, d.CONTRACT_ID, d.CONTRACT_SYMBOL, d.SECURITYNAMEBYID, d.CALL_OR_PUT, d.OPTION_TYPE, d.EXERCISE_PRICE, d.CONTRACT_UNIT, d.EXERCISE_DATE,
+		// 	d.DELIVERY_DATE, d.EXPIRE_DATE, d.CHANGEFLAG, d.DAILY_PRICE_UPLIMIT, d.DAILY_PRICE_DOWNLIMIT, d.SETTL_PRICE, d.CHANGEFLAG)
 		var op pb.SSEStockOption
 		op.ExercisePrice = d.EXERCISE_PRICE
 		op.UpdateVersion = d.UPDATE_VERSION
@@ -141,5 +148,159 @@ func (s *SSEOfficialSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error)
 		op.UnderlyingClosePX = d.UNDERLYING_CLOSEPX
 		ret = append(ret, op)
 	}
+	return ret, nil
+}
+
+// GetSSEStockOptionTradingInstrumentList 上证所ETF期权合约列表
+func (s *SSEOfficialSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstrument, error) {
+	list, err := s.GetSSEStockOptionList()
+	if err != nil {
+		return nil, err
+	}
+	// 期权行情
+	var symbols []pb.Symbol
+	var ret []pb.TradingInstrument
+	for i := range list {
+		var ti pb.TradingInstrument
+		op := &list[i]
+		ti.Symbol.Exchange = pb.ExchangeType_SSE
+		ti.Symbol.Code = op.SecurityID
+		symbols = append(symbols, ti.Symbol)
+
+		ti.InstrumentInfo.SymbolName = op.ContractSymbol
+		ti.InstrumentInfo.StrikePrice = base.ParseFloat(op.ExercisePrice)
+		ti.InstrumentInfo.UpperLimitPrice = base.ParseFloat(op.DailyPriceUpLimit)
+		ti.InstrumentInfo.LowerLimitPrice = base.ParseFloat(op.DailyPriceDownLimit)
+		ti.InstrumentInfo.PreSettlementPrice = base.ParseFloat(op.SettlPrice)
+
+		ud, _ := strconv.Atoi(time.Now().Format("20060102"))
+		ti.InstrumentInfo.UpdateTradingDay = int32(ud)
+		ti.InstrumentInfo.IsTrading = false
+		ti.InstrumentInfo.MaxMarketOrderVolume = int32(base.ParseInt(op.MktOrdMaxFloor))
+		ti.InstrumentInfo.MaxLimitOrderVolume = int32(base.ParseInt(op.LmtOrdMaxFloor))
+		ti.InstrumentInfo.MinMarketOrderVolume = 1
+		ti.InstrumentInfo.MinLimitOrderVolume = 1
+
+		ti.InstrumentInfo.ExpireDate = int32(base.ParseInt(op.ExpireDate))
+		ti.InstrumentInfo.StartDeliverDate = int32(base.ParseInt(op.DeliveryDate))
+		ti.InstrumentInfo.EndDeliverDate = ti.InstrumentInfo.StartDeliverDate
+		if ti.InstrumentInfo.ExpireDate >= ti.InstrumentInfo.UpdateTradingDay {
+			ti.InstrumentInfo.IsTrading = true
+		}
+
+		ti.ProductInfo.PriceTick = 0.0001
+		ti.ProductInfo.Type = int32(pb.ProductType_PT_SSE_ETF_OPTION)
+		ti.ProductInfo.VolumeMultiple = int32(base.ParseInt(op.ContractUnit))
+		ti.ProductInfo.ProductId.Exchange = int32(pb.ExchangeType_SSE)
+		ti.ProductInfo.ProductId.ProductIdInExchange = "SHOP"
+		ti.ProductInfo.DistinguishPositionTime = false
+
+		if op.CallOrPut == "认购" {
+			ti.InstrumentInfo.CallPutType = pb.OptionCallPutType_OCPT_CALL
+		} else if op.CallOrPut == "认沽" {
+			ti.InstrumentInfo.CallPutType = pb.OptionCallPutType_OCPT_PUT
+		} else {
+			panic("Invalid call put type")
+		}
+		ti.InstrumentInfo.DeliveryDateType = pb.OptionDeliveryDateType_ODDT_EUR
+
+		ret = append(ret, ti)
+	}
+
+	var sina SinaSource
+	mdsList, err := sina.BatchGetSSEStockOptionTick(symbols)
+	if err != nil {
+		return ret, err
+	}
+	for i := range ret {
+		ti := &ret[i]
+		for j := range mdsList {
+			m := &mdsList[j]
+			if m.Symbol.Code == ti.Symbol.Code {
+				ti.InstrumentInfo.PrePosition = int32(m.Position)
+				ti.InstrumentInfo.PreClosePrice = m.PreClose
+				ti.InstrumentInfo.PreSettlementPrice = m.PreSettlementPrice
+			}
+		}
+	}
+	return ret, nil
+}
+
+// GetSSE50ETFOptionTQuote 上证所网站的T型报价,50ETF的
+func (s *SSEOfficialSource) GetSSE50ETFOptionTQuote(month string) ([]pb.OptionTQuoteItem, error) {
+	var ret []pb.OptionTQuoteItem
+	url := fmt.Sprintf(`http://yunhq.sse.com.cn:32041/v1/sho/list/tstyle/510050_%s?select=contractid,code,last,chg_rate,presetpx,exepx,name,prev_close`, month)
+	str, err := getURLContent(url, "http://www.sse.com.cn/assortment/options/price/")
+	if err != nil {
+		return ret, err
+	}
+	str = base.Decode(str)
+	var xdata struct {
+		Date  int             `json:"date"`
+		Time  int             `json:"time"`
+		Total int             `json:"total"`
+		Begin int             `json:"begin"`
+		End   int             `json:"end"`
+		List  [][]interface{} `json:"list"`
+	}
+	err = json.Unmarshal([]byte(str), &xdata)
+	if err != nil {
+		log.Println("GetSSE50ETFOptionTQuote 获取T型报价错误", err, month)
+		return ret, err
+	}
+	for i := range xdata.List {
+		items := xdata.List[i]
+		if len(items) != 8 {
+			continue
+		}
+		contractid := items[0].(string)
+		exercisePrice := items[5].(float64)
+		name := items[6].(string)
+		preClose := items[7].(float64)
+		var st pb.SimpleTickForTQuote
+		st.Symbol.Exchange = 4
+		st.Symbol.Code = items[1].(string)
+		st.Price = items[2].(float64)
+		st.UpDownRatio = items[3].(float64)
+		if preClose > 0 {
+			st.UpDownRatio = (st.Price - preClose) / preClose
+			st.UpDownRatio *= 100
+		}
+
+		st.PreSettlementPrice = items[4].(float64)
+		st.Name = name
+		found := false
+		exercisePriceFlag := strings.Trim(contractid, " ")
+
+		if len(exercisePriceFlag) > 7 {
+			exercisePriceFlag = exercisePriceFlag[7:]
+		}
+		for j := range ret {
+			if ret[j].ExercisePriceFlag == exercisePriceFlag {
+				found = true
+				if strings.Contains(contractid, "C") {
+					ret[j].Call = st
+				} else {
+					ret[j].Put = st
+				}
+			}
+		}
+		if !found {
+			newItem := &pb.OptionTQuoteItem{}
+			newItem.ExercisePrice = exercisePrice
+			newItem.ExercisePriceFlag = exercisePriceFlag
+			if strings.Contains(contractid, "C") {
+				newItem.Call = st
+			} else {
+				newItem.Put = st
+			}
+			ret = append(ret, *newItem)
+		}
+	}
+	sort.Slice(ret, func(i, j int) bool {
+		return ret[i].ExercisePrice < ret[j].ExercisePrice
+	})
+	// log.Println(len(ret), month)
+
 	return ret, nil
 }

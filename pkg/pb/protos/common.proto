@@ -98,6 +98,27 @@ enum PeriodType {
   MON1 = 11;
 }
 
+// OptionCallPutType 期权call or put 类型
+enum OptionCallPutType {
+  OCPT_CALL = 0;
+  OCPT_PUT = 1;
+}
+
+// 行权日类型
+enum OptionDeliveryDateType {
+  ODDT_EUR = 0;
+}
+
+// 平仓手续费算法
+enum CloseCommissionAlgorithim {
+  // 普通
+  CCA_NORMAL = 0;
+  // 收一次
+  CCA_ONCE = 1;
+  // 隔夜日期
+  CCA_MULTIPLE_BY_DATE = 2;
+}
+
 // 合约代码
 message Symbol {
   ExchangeType exchange = 1;
@@ -196,6 +217,22 @@ message InstrumentInfo {
   Symbol base_symbol = 22;
   // 行权价
   double strike_price = 23;
+  ///期权类型
+  OptionCallPutType call_put_type = 24;
+  ///合约基础商品乘数
+  double underlying_multiple = 25;
+  ///组合类型
+  int32 combination_type = 26;
+  ///最小买下单单位
+  int32 min_buy_volume = 27;
+  ///最小卖下单单位
+  int32 min_sell_volume = 28;
+  ///合约标识码
+  Symbol instrument_code = 29;
+  // 是否在交易
+  bool is_trading = 30;
+  // 行权方式类型
+  OptionDeliveryDateType delivery_date_type = 31;
 }
 
 message SimpleTimePeriod {

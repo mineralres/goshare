@@ -4,21 +4,21 @@ package pb;
 import "common.proto";
 
 message OrderBook {
-  /// 卖价.
+  /// 卖价
   double ask = 1;
-  /// 卖量.
+  /// 卖量
   double ask_volume = 2;
-  /// 买价.
+  /// 买价
   double bid = 3;
-  /// 买量.
+  /// 买量
   double bid_volume = 4;
 }
 
-// MarketDataSnapshotLevel2 level2 tick
+// 深度行情
 message MarketDataSnapshot {
   // 合约
   Symbol symbol = 1;
-  // 时间
+  // 时间time_t
   int64 time = 2;
   // 毫秒
   int32 milliseconds = 3;
@@ -70,10 +70,34 @@ message MarketDataSnapshot {
 message MdsList { repeated MarketDataSnapshot list = 1; }
 
 //期权T型
-message OptionTMarket
-{
-  //call报价
-  MarketDataSnapshot callTk= 1;
-  //put报价
-  MarketDataSnapshot putTk= 2;
+message OptionTMarket {
+  // call报价
+  MarketDataSnapshot callTk = 1;
+  // put报价
+  MarketDataSnapshot putTk = 2;
+}
+
+// 简易期权T型报价
+message SimpleTickForTQuote {
+  Symbol symbol = 1;
+  double price = 2;
+  double up_down_ratio = 3;
+  double pre_settlement_price = 4;
+  string name = 5;
+}
+
+// T型报价的一行
+message OptionTQuoteItem {
+  double exercise_price = 1;
+  SimpleTickForTQuote call = 2;
+  SimpleTickForTQuote put = 3;
+  string exercise_price_flag = 4;
+}
+
+// OptionTQuoteItemList 列表
+message OptionTQuoteItemList {
+  int32 exchange = 1;
+  string strike_symbol = 2;
+  string month = 3;
+  repeated OptionTQuoteItem list = 4;
 }
