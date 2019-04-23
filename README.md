@@ -1,4 +1,6 @@
-## [文档](https://goshare.cyconst.com)
+## 文档
+
+<a href="https://goshare.cyconst.com" target="_blank">说明文档</a>
 
 ## goshare目标
  * goshare是一个开源的golang量化数据工具集合
@@ -20,7 +22,7 @@ import (
   "github.com/mineralres/goshare"
 )
 
-func main(){
+func main() {
   // 新浪数据源
   var s goshare.SinaSource
   symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
