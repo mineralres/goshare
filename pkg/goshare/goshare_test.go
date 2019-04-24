@@ -1,9 +1,10 @@
 package goshare
 
 import (
+	"encoding/json"
 	"log"
 	"testing"
-	"time"
+
 	//"net/http"
 	//"io/ioutil"
 	//"strings"
@@ -14,22 +15,38 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
-func TestGetLastTick(t *testing.T) {
-	return
-	var s DataSource
-	symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "10001337"}
-	md, err := s.GetLastTick(&symbol)
-	if err != nil {
-		t.Error(err)
+func jsonLog(comment string, o interface{}) {
+	str, err := json.Marshal(o)
+	log.Println(comment, string(str), err)
+}
+
+func TestDataSource(t *testing.T) {
+	var ds DataSource
+	// 上证50ETF期权列表
+	l, _ := ds.GetSSEStockOptionList()
+	if len(l) == 0 {
+		t.Error("获取上证50ETF期权列表失败")
 	}
-	if len(md.OrderBookList) == 0 {
-		t.Error("获取行情盘口深度为空")
+	jsonLog("上证50ETF期权列表[0]", l[0])
+	symbolList := []pb.Symbol{
+		pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "601398"},
+		pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: "000001"},
 	}
-	if md.Open == 0 {
-		t.Error("md.Open == 0")
+	for i := range symbolList {
+		// 获取最新盘口数据
+		md, err := ds.GetLastTick(&symbolList[i])
+		if err != nil {
+			t.Error(err)
+		}
+		if len(md.OrderBookList) == 0 {
+			t.Error("获取行情盘口深度为空")
+		}
+		if md.Open == 0 {
+			t.Error("md.Open == 0")
+		}
+		log.Printf("[%s] Price:[%.4f]", md.Symbol.Code, md.Price)
 	}
-	log.Println(time.Unix(md.Time, 0), md.Time)
-	// log.Printf("Tick[%s], Open[%.2f], High[%.2f], Low[%.2f], Close[%.2f]", md.Symbol.Code, md.Open, md.High, md.Low, md.Close)
+
 }
 func TestIndexTick(t *testing.T) {
 	return
