@@ -41,6 +41,7 @@ func (h *HTTPHandler) registerHandler() {
 		handlerx{"lastTick", h.lastTick},
 		handlerx{"cnStockIndexSummary", h.cnStockIndexSummary},
 		handlerx{"apiTest", h.apiTest},
+		handlerx{"sseStockOptionList", h.sseStockOptionList},
 	}
 }
 

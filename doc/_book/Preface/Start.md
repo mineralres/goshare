@@ -1,5 +1,9 @@
 ## 开始使用
 
+### 下载安装golang
+* go版本>=1.12.4
+* [下载安装go最新版本](https://golang.google.cn/dl/)
+
 ### 安装
  ```
  go get -u github.com/mineralres/goshare
@@ -12,12 +16,11 @@ import (
   "github.com/mineralres/goshare"
 )
 
-func main(){
-  // 新浪数据源
-  var s goshare.SinaSource
-  symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
-  // 获取历史数据
-  data, err := s.GetKData(&symbol, pb.PeriodType_M5, 19990101, 20180307, 1)
+func main() {
+  var s goshare.DataSource
+  symbol := pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "601398"}
+  // 获取最新行情
+  data, err := s.GetLastTick(&symbol)
   if err != nil {
     panic(err)
   }
@@ -31,13 +34,16 @@ func main(){
 ```
 go build
 ```
-生成的 server 可执行文件是一个服务端程序，可独立运行。对外提供HTTP和websocket服务
+生成的 server 可执行文件是一个服务端程序，可独立运行。对外提供HTTP和websocket服务.
+此程序默认使用19030端口，如果有360等防护软件提示，请允许，否则浏览器无法访问
 ```
 ./server
 ```
 API示例: http://localhost:19030/v1/apiTest 
 
-返回数据是JSON格式，601398的最新报价:
+或者访问goshare官方数据API服务:https://goshare.cyconst.com/v1/apiTest
+
+返回数据是JSON格式，601398(工商银行)的最新报价:
 
 ```json
 {

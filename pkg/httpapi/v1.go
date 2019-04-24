@@ -131,3 +131,9 @@ func (h *HTTPHandler) cnStockIndexSummary(c *gin.Context, s *pb.UserSession) (in
 	}
 	return &ret, nil
 }
+
+// 获取上证股票期权列表
+func (h *HTTPHandler) sseStockOptionList(c *gin.Context, s *pb.UserSession) (interface{}, error) {
+	var ds goshare.DataSource
+	return ds.GetSSEStockOptionList()
+}
