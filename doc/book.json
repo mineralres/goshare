@@ -1,4 +1,53 @@
 {
   "title": "goshare开源量化",
-  "author": "pxb"
+  "author": "pxb",
+  "plugins": [
+    "ga",
+    "-sharing",
+    "sharing-plus",
+    "search",
+    "insert-logo",
+    "alerts",
+    "expandable-chapters",
+    "splitter",
+    "page-footer-ex"
+  ],
+  "pluginsConfig": {
+    "ga": {
+      "token": "UA-139005750-1"
+    },
+    "insert-logo": {
+      "url": "/images/logo.png",
+      "style": "background: none;margin:-20px -20px"
+    },
+    "sharing": {
+      "douban": false,
+      "facebook": false,
+      "google": false,
+      "hatenaBookmark": false,
+      "instapaper": false,
+      "line": false,
+      "linkedin": false,
+      "messenger": false,
+      "pocket": false,
+      "qq": true,
+      "qzone": true,
+      "stumbleupon": false,
+      "twitter": false,
+      "viber": false,
+      "vk": false,
+      "weibo": true,
+      "whatsapp": false,
+      "all": [
+        "facebook",
+        "google",
+        "twitter",
+        "weibo",
+        "qq",
+        "linkedin",
+        "qzone",
+        "douban"
+      ]
+    }
+  }
 }

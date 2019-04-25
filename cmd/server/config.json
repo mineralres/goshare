@@ -1,0 +1,4 @@
+{
+    "grpcPort": 50051,
+    "gwHTTPPort": 18080
+}

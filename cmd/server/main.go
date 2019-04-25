@@ -1,13 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
-
-	"github.com/mineralres/goshare/pkg/httpapi"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	var h httpapi.HTTPHandler
-	h.Run("19030")
+	var c xconfig
+	err := loadConfig("config.json", &c)
+	if err != nil {
+		panic(err)
+	}
+	go runGrpcService(c.GrpcPort)
+	runGrpcGateway(c.GWHTTPPort, fmt.Sprintf("localhost:%d", c.GrpcPort))
 }

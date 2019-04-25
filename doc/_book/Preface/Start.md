@@ -32,7 +32,7 @@ func main() {
 
 在 cmd/server 下运行命令
 ```
-go build
+go build -mod vendor
 ```
 生成的 server 可执行文件是一个服务端程序，可独立运行。对外提供HTTP和websocket服务.
 此程序默认使用19030端口，如果有360等防护软件提示，请允许，否则浏览器无法访问

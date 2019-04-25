@@ -1,0 +1,35 @@
+
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "market_data.proto";
+import "google/api/annotations.proto";
+
+// GoShare goshare
+service GoShare {
+  // GetLastTick 获取最新行情
+  rpc LastTick(Symbol) returns (MarketDataSnapshot) {
+    option (google.api.http) = {
+      post : "/v1/lastTick"
+      body : "*"
+      additional_bindings {get : "/v1/lastTick/{exchange}/{code}"}
+    };
+  };
+  rpc SSEStockOptionList(ReqSSEStockOptionList)
+      returns (RspSSEStockOptionList) {
+    option (google.api.http) = {
+      post : "/v1/sseStockOptionList"
+      body : "*"
+      additional_bindings {get : "/v1/sseStockOptionList"}
+    };
+  };
+  rpc TickStream(Symbol) returns (stream pb.MarketDataSnapshot) {
+    option (google.api.http) = {
+      get : "/v1/tickStream"
+    };
+  }
+}
+
+message ReqSSEStockOptionList {}
+message RspSSEStockOptionList { repeated SSEStockOption list = 1; }

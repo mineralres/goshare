@@ -1,10 +1,15 @@
 # sseStockOptionList
 
+* 数据来源于上证所官网期权列表
+
 * API路径/v1/sseStockOptionList
+
 * 参数链接 https://goshare.cyconst.com/v1/sseStockOptionList
+
 * 参数无
+
 * 返回值
-```json
+```js
 {
 	"success": false,
 	"data": [{

@@ -56,7 +56,7 @@ func (s *DataSource) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoneyTrend
 				item.SmallOrder.Amount = base.ParseFloat(items[13]) * 10000
 				item.SmallOrder.Percentage = base.ParseFloat(items[14]) / 100
 				item.Time = base.ParseBeijingTime("2006-01-02 15:04:05", items[15])
-				ret.List = append(ret.List, item)
+				ret.List = append(ret.List, &item)
 			}
 		}
 	}
@@ -123,7 +123,7 @@ func (s *DataSource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, st
 			k.Low = k.Open
 			k.Close = k.Open
 			k.Volume = base.ParseFloat(items[2])
-			ret.List = append(ret.List, k)
+			ret.List = append(ret.List, &k)
 		}
 	} else {
 		for i := range rtn.Data {
@@ -149,7 +149,7 @@ func (s *DataSource) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, st
 				} else {
 					k.Amount = base.ParseFloat(items[6])
 				}
-				ret.List = append(ret.List, k)
+				ret.List = append(ret.List, &k)
 			}
 		}
 	}

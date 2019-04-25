@@ -161,7 +161,7 @@ func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstr
 		op := &list[i]
 		ti.Symbol.Exchange = pb.ExchangeType_SSE
 		ti.Symbol.Code = op.SecurityID
-		symbols = append(symbols, ti.Symbol)
+		symbols = append(symbols, *ti.Symbol)
 
 		ti.InstrumentInfo.SymbolName = op.ContractSymbol
 		ti.InstrumentInfo.StrikePrice = base.ParseFloat(op.ExercisePrice)
@@ -274,9 +274,9 @@ func (s *DataSource) GetSSE50ETFOptionTQuote(month string) ([]pb.OptionTQuoteIte
 			if ret[j].ExercisePriceFlag == exercisePriceFlag {
 				found = true
 				if strings.Contains(contractid, "C") {
-					ret[j].Call = st
+					ret[j].Call = &st
 				} else {
-					ret[j].Put = st
+					ret[j].Put = &st
 				}
 			}
 		}
@@ -285,9 +285,9 @@ func (s *DataSource) GetSSE50ETFOptionTQuote(month string) ([]pb.OptionTQuoteIte
 			newItem.ExercisePrice = exercisePrice
 			newItem.ExercisePriceFlag = exercisePriceFlag
 			if strings.Contains(contractid, "C") {
-				newItem.Call = st
+				newItem.Call = &st
 			} else {
-				newItem.Put = st
+				newItem.Put = &st
 			}
 			ret = append(ret, *newItem)
 		}
