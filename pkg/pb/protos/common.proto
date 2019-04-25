@@ -129,33 +129,6 @@ message ProductID {
   string code = 2;
 }
 
-// K线
-message Kline {
-  // 时间
-  int64 time = 1;
-  // 开盘
-  double open = 2;
-  // 最高
-  double high = 3;
-  // 最低
-  double low = 4;
-  // 收盘
-  double close = 5;
-  // 成交量
-  double volume = 6;
-  // 成交额
-  double amount = 7;
-  // 持仓量
-  double position = 8;
-}
-
-// KlineSeries K线序列
-message KlineSeries {
-  Symbol symbol = 1;
-  PeriodType period = 2;
-  repeated Kline list = 3;
-}
-
 // 经纪商通道
 message BrokerRoute {
   string id = 1;

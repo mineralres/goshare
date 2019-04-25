@@ -16,6 +16,7 @@ service GoShare {
       additional_bindings {get : "/v1/lastTick/{exchange}/{code}"}
     };
   };
+  // SSEStockOptionList 上证所期权列表
   rpc SSEStockOptionList(ReqSSEStockOptionList)
       returns (RspSSEStockOptionList) {
     option (google.api.http) = {
@@ -24,12 +25,23 @@ service GoShare {
       additional_bindings {get : "/v1/sseStockOptionList"}
     };
   };
-  rpc TickStream(Symbol) returns (stream pb.MarketDataSnapshot) {
+  // SubscribeMarketData 订阅行情
+  rpc SubscribeMarketData(ReqSubscribeMarketData)
+      returns (stream pb.MarketDataSnapshot) {
     option (google.api.http) = {
-      get : "/v1/tickStream"
+      get : "/v1/subscribeMarketData"
     };
-  }
+  };
+  // PushTick 推送tick更新
+  rpc PushTick(MarketDataSnapshot) returns (EmptyResponse) {
+    option (google.api.http) = {
+      post : "/v1/pushTick"
+      body : "*"
+      additional_bindings {get : "/v1/pushTick"}
+    };
+  };
 }
 
+message EmptyResponse {}
 message ReqSSEStockOptionList {}
 message RspSSEStockOptionList { repeated SSEStockOption list = 1; }

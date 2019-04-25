@@ -16,7 +16,6 @@ func runGrpcService(port int) {
 	}
 	log.Printf("Grpc serve on %d", port)
 	grpcServer := grpc.NewServer()
-	var impl goshare.GrpcServer
-	pb.RegisterGoShareServer(grpcServer, &impl)
+	pb.RegisterGoShareServer(grpcServer, goshare.MakeGrpcServer())
 	grpcServer.Serve(lis)
 }

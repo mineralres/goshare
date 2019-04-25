@@ -35,13 +35,22 @@ func main() {
 go build -mod vendor
 ```
 生成的 server 可执行文件是一个服务端程序，可独立运行。对外提供HTTP和websocket服务.
-此程序默认使用19030端口，如果有360等防护软件提示，请允许，否则浏览器无法访问
+此程序默认使用18080端口，如果有360等防护软件提示，请允许，否则浏览器无法访问
 ```
 ./server
 ```
-API示例: http://localhost:19030/v1/apiTest 
+API示例,调取 601398(工商银行) 最新报价:
+* GET 方式 http://localhost:18080/v1/lastTick/SSE/601398
 
-或者访问goshare官方数据API服务:https://goshare.cyconst.com/v1/apiTest
+* POST方式 http://localhost:18080/v1/lastTick
+```js
+{
+    "exchange": "SSE",
+    "code": "601398"
+}
+```
+
+或者访问goshare官方数据API服务:https://goshare.cyconst.com/v1/lastTick/SSE/601398
 
 返回数据是JSON格式，601398(工商银行)的最新报价:
 
@@ -50,7 +59,7 @@ API示例: http://localhost:19030/v1/apiTest
     "success":true,
     "data":{
         "symbol":{
-            "exchange":4,
+            "exchange": "SSE",
             "code":"601398"
         },
         "time":1556004602,

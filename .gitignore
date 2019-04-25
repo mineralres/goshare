@@ -1,4 +1,5 @@
 *.exe
 .idea
-cmd/goshare/*.rar
+cmd/server/*.rar
 .vscode
+cmd/server/db

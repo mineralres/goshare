@@ -64,6 +64,8 @@ message MarketDataSnapshot {
   string name = 23;
   // 执行价
   double exercise_price = 24;
+  // 成交增量
+  double volume_delta = 25;
 }
 
 // MdsList 行情列表
@@ -100,4 +102,74 @@ message OptionTQuoteItemList {
   string strike_symbol = 2;
   string month = 3;
   repeated OptionTQuoteItem list = 4;
+}
+
+// K线
+message Kline {
+  // 时间
+  int64 time = 1;
+  // 开盘
+  double open = 2;
+  // 最高
+  double high = 3;
+  // 最低
+  double low = 4;
+  // 收盘
+  double close = 5;
+  // 成交量
+  double volume = 6;
+  // 成交额
+  double amount = 7;
+  // 持仓量
+  double position = 8;
+  // 交易日
+  int32 trading_day = 9;
+}
+
+// KlineSeries K线序列
+message KlineSeries {
+  Symbol symbol = 1;
+  PeriodType period = 2;
+  int32 period_in_seconds = 3;
+  repeated Kline list = 4;
+}
+
+// 订阅行情
+message ReqSubscribeMarketData {
+  // 合约代码
+  Symbol symbol = 1;
+  // 订阅的K线周期
+  repeated PeriodType periodList = 2;
+  // 订阅指标
+}
+
+// 返回订阅行情
+message RspSubscribeMarketData {}
+
+// 推送订阅行情更新事件
+message RtnMarketDataUpdate {
+  // 最新盘口
+  MarketDataSnapshot tick = 1;
+  // 最新一根K线
+  repeated Kline kline_list = 2;
+}
+
+// tick序列
+message TickSeries {
+  Symbol symbol = 1;
+  int32 trading_day = 2;
+  repeated MarketDataSnapshot list = 3;
+}
+
+
+message SimpleTick {
+  int64 time = 1;
+  double price = 2;
+  double volume = 3;
+}
+
+message SimpleTickSeries {
+  Symbol symbol = 1;
+  int32 trading_day = 2;
+  repeated SimpleTick list = 3;
 }
