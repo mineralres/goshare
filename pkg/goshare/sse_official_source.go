@@ -159,10 +159,10 @@ func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInst
 	for i := range list {
 		var ti pb.TradingInstrument
 		op := &list[i]
-		ti.Symbol.Exchange = pb.ExchangeType_SSE
-		ti.Symbol.Code = op.SecurityID
+		ti.Symbol = &pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: op.SecurityID}
 		symbols = append(symbols, *ti.Symbol)
-
+		ti.InstrumentInfo = &pb.InstrumentInfo{}
+		ti.ProductInfo = &pb.ProductInfo{}
 		ti.InstrumentInfo.SymbolName = op.ContractSymbol
 		ti.InstrumentInfo.StrikePrice = base.ParseFloat(op.ExercisePrice)
 		ti.InstrumentInfo.UpperLimitPrice = base.ParseFloat(op.DailyPriceUpLimit)
@@ -187,8 +187,7 @@ func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInst
 		ti.ProductInfo.PriceTick = 0.0001
 		ti.ProductInfo.Type = (pb.ProductType_PT_SSE_ETF_OPTION)
 		ti.ProductInfo.VolumeMultiple = int32(base.ParseInt(op.ContractUnit))
-		ti.ProductInfo.ProductId.Exchange = pb.ExchangeType_SSE
-		ti.ProductInfo.ProductId.Code = "SHOP"
+		ti.ProductInfo.ProductId = &pb.ProductID{Exchange: pb.ExchangeType_SSE, Code: "SHOP"}
 		ti.ProductInfo.DistinguishPositionTime = false
 
 		if op.CallOrPut == "认购" {
