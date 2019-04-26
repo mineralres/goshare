@@ -148,14 +148,14 @@ func (s *DataSource) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 }
 
 // GetSSEStockOptionTradingInstrumentList 上证所ETF期权合约列表
-func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstrument, error) {
+func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrument, error) {
 	list, err := s.GetSSEStockOptionList()
 	if err != nil {
 		return nil, err
 	}
 	// 期权行情
 	var symbols []pb.Symbol
-	var ret []pb.TradingInstrument
+	var ret []*pb.TradingInstrument
 	for i := range list {
 		var ti pb.TradingInstrument
 		op := &list[i]
@@ -200,7 +200,7 @@ func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstr
 		}
 		ti.InstrumentInfo.DeliveryDateType = pb.OptionDeliveryDateType_ODDT_EUR
 
-		ret = append(ret, ti)
+		ret = append(ret, &ti)
 	}
 
 	mdsList, err := s.BatchGetSSEStockOptionTick(symbols)
@@ -208,7 +208,7 @@ func (s *DataSource) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstr
 		return ret, err
 	}
 	for i := range ret {
-		ti := &ret[i]
+		ti := ret[i]
 		for j := range mdsList {
 			m := &mdsList[j]
 			if m.Symbol.Code == ti.Symbol.Code {
