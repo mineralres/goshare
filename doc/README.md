@@ -23,10 +23,10 @@
 
 # 交流
 
-![png](\images\1555988323578.png)
+![png](\images\goshare-group.png)
 
 
-* QQ群 249379339 
+* QQ群 1018983692 
 
 # 致谢
 
