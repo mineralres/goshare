@@ -439,5 +439,5 @@ func (s *DataSource) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, err
 		// 指数tick
 		return s.GetIndexLastTick(symbol)
 	}
-	return nil, base.ErrUnsupported
+	return nil, errors.New("unsported")
 }
