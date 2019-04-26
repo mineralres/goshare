@@ -13,5 +13,8 @@ func main() {
 		panic(err)
 	}
 	go runGrpcService(c.GrpcPort)
-	runGrpcGateway(c.GWHTTPPort, fmt.Sprintf("localhost:%d", c.GrpcPort))
+	grpcEndPoint := fmt.Sprintf("localhost:%d", c.GrpcPort)
+	go runGrpcGateway(c.GWHTTPPort, grpcEndPoint)
+	wsf := makeWsFront(grpcEndPoint, c.WSPort)
+	wsf.run()
 }

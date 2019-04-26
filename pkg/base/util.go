@@ -3,6 +3,7 @@ package base
 import (
 	"bytes"
 	"io/ioutil"
+	"strconv"
 	"strings"
 	"time"
 
@@ -68,4 +69,22 @@ func Decode(src string) (dst string) {
 		dst = string(data)
 	}
 	return
+}
+
+// ParseInt ParseInt
+func ParseInt(src string) int {
+	i, err := strconv.Atoi(src)
+	if err != nil {
+		return 0
+	}
+	return i
+}
+
+// ParseFloat ParseFloat
+func ParseFloat(src string) float64 {
+	f, err := strconv.ParseFloat(src, 10)
+	if err != nil {
+		return 0
+	}
+	return f
 }

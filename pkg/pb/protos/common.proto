@@ -504,3 +504,13 @@ message SSEStockOption {
   string contract_flag = 33;
   string underlying_closePX = 34;
 }
+
+// 期权月份
+message OptionMonth {
+  string name = 1;
+  string value = 2;
+  string short = 3;
+}
+
+// 期权月份列表
+message OptionMonthList { repeated OptionMonth list = 1; }

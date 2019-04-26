@@ -1,4 +1,5 @@
 {
     "grpcPort": 50051,
-    "gwHTTPPort": 18080
+    "gwHTTPPort": 18080,
+    "wsPort": 19090
 }

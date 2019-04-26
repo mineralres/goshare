@@ -9,6 +9,7 @@ import (
 type xconfig struct {
 	GrpcPort   int `json:"grpcPort"`
 	GWHTTPPort int `json:"gwHTTPPort"`
+	WSPort     int `json:"wsPort"`
 }
 
 func loadConfig(f string, out interface{}) error {

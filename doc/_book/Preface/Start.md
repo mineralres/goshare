@@ -8,8 +8,84 @@
  ```
  go get -u github.com/mineralres/goshare
 ```
-### 使用
-* 直接在代码中调用goshare
+
+
+
+#### 运行API数据服务
+
+在 cmd/server 下运行命令
+```
+go build -mod vendor
+```
+生成的 server 可执行文件是一个服务端程序，可独立运行。对外提供HTTP和websocket服务.
+此程序默认使用18080端口，如果有360等防护软件提示，请允许，否则浏览器无法访问
+```
+./server
+```
+API示例:
+
+* GET 方式取601398(工商银行)的最新行情 http://localhost:18080/v1/lastTick/SSE/601398
+
+* POST方式取601398(工商银行)的最新行情 http://localhost:18080/v1/lastTick 传参数:
+```js
+{
+    "exchange": "SSE",
+    "code": "601398"
+}
+```
+
+* goshare官方API测试:https://goshare.cyconst.com/v1/lastTick/SSE/601398
+
+返回结果:
+
+```js
+{
+	"symbol": {
+		"exchange": "SSE",
+		"code": "601398"
+	},
+	"time": "1556177404",
+	"open": 5.79,
+	"high": 5.8,
+	"low": 5.71,
+	"close": 5.73,
+	"volume": 2259720,
+	"amount": 1300360000,
+	"price": 5.73,
+	"preClose": 5.81,
+	"upperLimitPrice": 6.39,
+	"lowerLimitPrice": 5.23,
+	"tradingDay": 20190425,
+	"orderBookList": [{
+		"ask": 5.73,
+		"askVolume": 15128,
+		"bid": 5.72,
+		"bidVolume": 14673
+	}, {
+		"ask": 5.74,
+		"askVolume": 16797,
+		"bid": 5.71,
+		"bidVolume": 44838
+	}, {
+		"ask": 5.75,
+		"askVolume": 11945,
+		"bid": 5.7,
+		"bidVolume": 71088
+	}, {
+		"ask": 5.76,
+		"askVolume": 19536,
+		"bid": 5.69,
+		"bidVolume": 10624
+	}, {
+		"ask": 5.77,
+		"askVolume": 7861,
+		"bid": 5.68,
+		"bidVolume": 13338
+	}]
+}
+```
+
+#### 直接调用goshare
 
 ```go
 import (
@@ -24,100 +100,5 @@ func main() {
   if err != nil {
     panic(err)
   }
-}
-```
-
-
-* 运行API数据服务
-
-在 cmd/server 下运行命令
-```
-go build -mod vendor
-```
-生成的 server 可执行文件是一个服务端程序，可独立运行。对外提供HTTP和websocket服务.
-此程序默认使用18080端口，如果有360等防护软件提示，请允许，否则浏览器无法访问
-```
-./server
-```
-API示例,调取 601398(工商银行) 最新报价:
-* GET 方式 http://localhost:18080/v1/lastTick/SSE/601398
-
-* POST方式 http://localhost:18080/v1/lastTick
-```js
-{
-    "exchange": "SSE",
-    "code": "601398"
-}
-```
-
-或者访问goshare官方数据API服务:https://goshare.cyconst.com/v1/lastTick/SSE/601398
-
-返回数据是JSON格式，601398(工商银行)的最新报价:
-
-```json
-{
-    "success":true,
-    "data":{
-        "symbol":{
-            "exchange": "SSE",
-            "code":"601398"
-        },
-        "time":1556004602,
-        "milliseconds":0,
-        "open":5.84,
-        "high":5.85,
-        "low":5.79,
-        "close":5.81,
-        "volume":1831041,
-        "amount":1064240000,
-        "position":0,
-        "price":5.81,
-        "preClose":5.83,
-        "preSettlementPrice":0,
-        "prePosition":0,
-        "settlementPrice":0,
-        "upperLimitPrice":6.41,
-        "lowerLimitPrice":5.25,
-        "preDelta":0,
-        "delta":0,
-        "averagePrice":0,
-        "tradingDay":20190423,
-        "orderBookList":[
-            {
-                "ask":5.81,
-                "askVolume":21880,
-                "bid":5.8,
-                "bidVolume":14124
-            },
-            {
-                "ask":5.82,
-                "askVolume":26584,
-                "bid":5.79,
-                "bidVolume":53546
-            },
-            {
-                "ask":5.83,
-                "askVolume":33468,
-                "bid":5.78,
-                "bidVolume":54019
-            },
-            {
-                "ask":5.84,
-                "askVolume":41990,
-                "bid":5.77,
-                "bidVolume":12324
-            },
-            {
-                "ask":5.85,
-                "askVolume":31150,
-                "bid":5.76,
-                "bidVolume":23009
-            }
-        ],
-        "name":"",
-        "exercisePrice":0
-    },
-    "msg":"",
-    "code":0
 }
 ```

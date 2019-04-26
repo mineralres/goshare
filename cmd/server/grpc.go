@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net"
+
 	"github.com/mineralres/goshare/pkg/goshare"
 	"github.com/mineralres/goshare/pkg/pb"
 	"google.golang.org/grpc"
-	"log"
-	"net"
 )
 
 func runGrpcService(port int) {
@@ -14,7 +15,7 @@ func runGrpcService(port int) {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	log.Printf("Grpc serve on %d", port)
+	log.Printf("Grpc serve on [%d]", port)
 	grpcServer := grpc.NewServer()
 	pb.RegisterGoShareServer(grpcServer, goshare.MakeGrpcServer())
 	grpcServer.Serve(lis)

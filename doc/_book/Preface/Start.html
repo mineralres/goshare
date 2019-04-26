@@ -496,10 +496,73 @@
 </ul>
 <h3 id="&#x5B89;&#x88C5;">&#x5B89;&#x88C5;</h3>
 <pre><code> go get -u github.com/mineralres/goshare
-</code></pre><h3 id="&#x4F7F;&#x7528;">&#x4F7F;&#x7528;</h3>
+</code></pre><h4 id="&#x8FD0;&#x884C;api&#x6570;&#x636E;&#x670D;&#x52A1;">&#x8FD0;&#x884C;API&#x6570;&#x636E;&#x670D;&#x52A1;</h4>
+<p>&#x5728; cmd/server &#x4E0B;&#x8FD0;&#x884C;&#x547D;&#x4EE4;</p>
+<pre><code>go build -mod vendor
+</code></pre><p>&#x751F;&#x6210;&#x7684; server &#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x7AEF;&#x7A0B;&#x5E8F;&#xFF0C;&#x53EF;&#x72EC;&#x7ACB;&#x8FD0;&#x884C;&#x3002;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;HTTP&#x548C;websocket&#x670D;&#x52A1;.
+&#x6B64;&#x7A0B;&#x5E8F;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;18080&#x7AEF;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x6709;360&#x7B49;&#x9632;&#x62A4;&#x8F6F;&#x4EF6;&#x63D0;&#x793A;&#xFF0C;&#x8BF7;&#x5141;&#x8BB8;&#xFF0C;&#x5426;&#x5219;&#x6D4F;&#x89C8;&#x5668;&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;</p>
+<pre><code>./server
+</code></pre><p>API&#x793A;&#x4F8B;:</p>
 <ul>
-<li>&#x76F4;&#x63A5;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x8C03;&#x7528;goshare</li>
+<li><p>GET &#x65B9;&#x5F0F;&#x53D6;601398(&#x5DE5;&#x5546;&#x94F6;&#x884C;)&#x7684;&#x6700;&#x65B0;&#x884C;&#x60C5; <a href="http://localhost:18080/v1/lastTick/SSE/601398" target="_blank">http://localhost:18080/v1/lastTick/SSE/601398</a></p>
+</li>
+<li><p>POST&#x65B9;&#x5F0F;&#x53D6;601398(&#x5DE5;&#x5546;&#x94F6;&#x884C;)&#x7684;&#x6700;&#x65B0;&#x884C;&#x60C5; <a href="http://localhost:18080/v1/lastTick" target="_blank">http://localhost:18080/v1/lastTick</a> &#x4F20;&#x53C2;&#x6570;:</p>
+<pre><code class="lang-js">{
+  <span class="hljs-string">&quot;exchange&quot;</span>: <span class="hljs-string">&quot;SSE&quot;</span>,
+  <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;601398&quot;</span>
+}
+</code></pre>
+</li>
+<li><p>goshare&#x5B98;&#x65B9;API&#x6D4B;&#x8BD5;:<a href="https://goshare.cyconst.com/v1/lastTick/SSE/601398" target="_blank">https://goshare.cyconst.com/v1/lastTick/SSE/601398</a></p>
+</li>
 </ul>
+<p>&#x8FD4;&#x56DE;&#x7ED3;&#x679C;:</p>
+<pre><code class="lang-js">{
+    <span class="hljs-string">&quot;symbol&quot;</span>: {
+        <span class="hljs-string">&quot;exchange&quot;</span>: <span class="hljs-string">&quot;SSE&quot;</span>,
+        <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;601398&quot;</span>
+    },
+    <span class="hljs-string">&quot;time&quot;</span>: <span class="hljs-string">&quot;1556177404&quot;</span>,
+    <span class="hljs-string">&quot;open&quot;</span>: <span class="hljs-number">5.79</span>,
+    <span class="hljs-string">&quot;high&quot;</span>: <span class="hljs-number">5.8</span>,
+    <span class="hljs-string">&quot;low&quot;</span>: <span class="hljs-number">5.71</span>,
+    <span class="hljs-string">&quot;close&quot;</span>: <span class="hljs-number">5.73</span>,
+    <span class="hljs-string">&quot;volume&quot;</span>: <span class="hljs-number">2259720</span>,
+    <span class="hljs-string">&quot;amount&quot;</span>: <span class="hljs-number">1300360000</span>,
+    <span class="hljs-string">&quot;price&quot;</span>: <span class="hljs-number">5.73</span>,
+    <span class="hljs-string">&quot;preClose&quot;</span>: <span class="hljs-number">5.81</span>,
+    <span class="hljs-string">&quot;upperLimitPrice&quot;</span>: <span class="hljs-number">6.39</span>,
+    <span class="hljs-string">&quot;lowerLimitPrice&quot;</span>: <span class="hljs-number">5.23</span>,
+    <span class="hljs-string">&quot;tradingDay&quot;</span>: <span class="hljs-number">20190425</span>,
+    <span class="hljs-string">&quot;orderBookList&quot;</span>: [{
+        <span class="hljs-string">&quot;ask&quot;</span>: <span class="hljs-number">5.73</span>,
+        <span class="hljs-string">&quot;askVolume&quot;</span>: <span class="hljs-number">15128</span>,
+        <span class="hljs-string">&quot;bid&quot;</span>: <span class="hljs-number">5.72</span>,
+        <span class="hljs-string">&quot;bidVolume&quot;</span>: <span class="hljs-number">14673</span>
+    }, {
+        <span class="hljs-string">&quot;ask&quot;</span>: <span class="hljs-number">5.74</span>,
+        <span class="hljs-string">&quot;askVolume&quot;</span>: <span class="hljs-number">16797</span>,
+        <span class="hljs-string">&quot;bid&quot;</span>: <span class="hljs-number">5.71</span>,
+        <span class="hljs-string">&quot;bidVolume&quot;</span>: <span class="hljs-number">44838</span>
+    }, {
+        <span class="hljs-string">&quot;ask&quot;</span>: <span class="hljs-number">5.75</span>,
+        <span class="hljs-string">&quot;askVolume&quot;</span>: <span class="hljs-number">11945</span>,
+        <span class="hljs-string">&quot;bid&quot;</span>: <span class="hljs-number">5.7</span>,
+        <span class="hljs-string">&quot;bidVolume&quot;</span>: <span class="hljs-number">71088</span>
+    }, {
+        <span class="hljs-string">&quot;ask&quot;</span>: <span class="hljs-number">5.76</span>,
+        <span class="hljs-string">&quot;askVolume&quot;</span>: <span class="hljs-number">19536</span>,
+        <span class="hljs-string">&quot;bid&quot;</span>: <span class="hljs-number">5.69</span>,
+        <span class="hljs-string">&quot;bidVolume&quot;</span>: <span class="hljs-number">10624</span>
+    }, {
+        <span class="hljs-string">&quot;ask&quot;</span>: <span class="hljs-number">5.77</span>,
+        <span class="hljs-string">&quot;askVolume&quot;</span>: <span class="hljs-number">7861</span>,
+        <span class="hljs-string">&quot;bid&quot;</span>: <span class="hljs-number">5.68</span>,
+        <span class="hljs-string">&quot;bidVolume&quot;</span>: <span class="hljs-number">13338</span>
+    }]
+}
+</code></pre>
+<h4 id="&#x76F4;&#x63A5;&#x8C03;&#x7528;goshare">&#x76F4;&#x63A5;&#x8C03;&#x7528;goshare</h4>
 <pre><code class="lang-go"><span class="hljs-keyword">import</span> (
   <span class="hljs-string">&quot;github.com/mineralres/goshare&quot;</span>
 )
@@ -514,95 +577,7 @@
   }
 }
 </code></pre>
-<ul>
-<li>&#x8FD0;&#x884C;API&#x6570;&#x636E;&#x670D;&#x52A1;</li>
-</ul>
-<p>&#x5728; cmd/server &#x4E0B;&#x8FD0;&#x884C;&#x547D;&#x4EE4;</p>
-<pre><code>go build -mod vendor
-</code></pre><p>&#x751F;&#x6210;&#x7684; server &#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x662F;&#x4E00;&#x4E2A;&#x670D;&#x52A1;&#x7AEF;&#x7A0B;&#x5E8F;&#xFF0C;&#x53EF;&#x72EC;&#x7ACB;&#x8FD0;&#x884C;&#x3002;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;HTTP&#x548C;websocket&#x670D;&#x52A1;.
-&#x6B64;&#x7A0B;&#x5E8F;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;18080&#x7AEF;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x6709;360&#x7B49;&#x9632;&#x62A4;&#x8F6F;&#x4EF6;&#x63D0;&#x793A;&#xFF0C;&#x8BF7;&#x5141;&#x8BB8;&#xFF0C;&#x5426;&#x5219;&#x6D4F;&#x89C8;&#x5668;&#x65E0;&#x6CD5;&#x8BBF;&#x95EE;</p>
-<pre><code>./server
-</code></pre><p>API&#x793A;&#x4F8B;,&#x8C03;&#x53D6; 601398(&#x5DE5;&#x5546;&#x94F6;&#x884C;) &#x6700;&#x65B0;&#x62A5;&#x4EF7;:</p>
-<ul>
-<li><p>GET &#x65B9;&#x5F0F; <a href="http://localhost:18080/v1/lastTick/SSE/601398" target="_blank">http://localhost:18080/v1/lastTick/SSE/601398</a></p>
-</li>
-<li><p>POST&#x65B9;&#x5F0F; <a href="http://localhost:18080/v1/lastTick" target="_blank">http://localhost:18080/v1/lastTick</a></p>
-<pre><code class="lang-js">{
-  <span class="hljs-string">&quot;exchange&quot;</span>: <span class="hljs-string">&quot;SSE&quot;</span>,
-  <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;601398&quot;</span>
-}
-</code></pre>
-</li>
-</ul>
-<p>&#x6216;&#x8005;&#x8BBF;&#x95EE;goshare&#x5B98;&#x65B9;&#x6570;&#x636E;API&#x670D;&#x52A1;:<a href="https://goshare.cyconst.com/v1/lastTick/SSE/601398" target="_blank">https://goshare.cyconst.com/v1/lastTick/SSE/601398</a></p>
-<p>&#x8FD4;&#x56DE;&#x6570;&#x636E;&#x662F;JSON&#x683C;&#x5F0F;&#xFF0C;601398(&#x5DE5;&#x5546;&#x94F6;&#x884C;)&#x7684;&#x6700;&#x65B0;&#x62A5;&#x4EF7;:</p>
-<pre><code class="lang-json">{
-    <span class="hljs-string">&quot;success&quot;</span>:<span class="hljs-literal">true</span>,
-    <span class="hljs-string">&quot;data&quot;</span>:{
-        <span class="hljs-string">&quot;symbol&quot;</span>:{
-            <span class="hljs-string">&quot;exchange&quot;</span>: <span class="hljs-string">&quot;SSE&quot;</span>,
-            <span class="hljs-string">&quot;code&quot;</span>:<span class="hljs-string">&quot;601398&quot;</span>
-        },
-        <span class="hljs-string">&quot;time&quot;</span>:<span class="hljs-number">1556004602</span>,
-        <span class="hljs-string">&quot;milliseconds&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;open&quot;</span>:<span class="hljs-number">5.84</span>,
-        <span class="hljs-string">&quot;high&quot;</span>:<span class="hljs-number">5.85</span>,
-        <span class="hljs-string">&quot;low&quot;</span>:<span class="hljs-number">5.79</span>,
-        <span class="hljs-string">&quot;close&quot;</span>:<span class="hljs-number">5.81</span>,
-        <span class="hljs-string">&quot;volume&quot;</span>:<span class="hljs-number">1831041</span>,
-        <span class="hljs-string">&quot;amount&quot;</span>:<span class="hljs-number">1064240000</span>,
-        <span class="hljs-string">&quot;position&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;price&quot;</span>:<span class="hljs-number">5.81</span>,
-        <span class="hljs-string">&quot;preClose&quot;</span>:<span class="hljs-number">5.83</span>,
-        <span class="hljs-string">&quot;preSettlementPrice&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;prePosition&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;settlementPrice&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;upperLimitPrice&quot;</span>:<span class="hljs-number">6.41</span>,
-        <span class="hljs-string">&quot;lowerLimitPrice&quot;</span>:<span class="hljs-number">5.25</span>,
-        <span class="hljs-string">&quot;preDelta&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;delta&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;averagePrice&quot;</span>:<span class="hljs-number">0</span>,
-        <span class="hljs-string">&quot;tradingDay&quot;</span>:<span class="hljs-number">20190423</span>,
-        <span class="hljs-string">&quot;orderBookList&quot;</span>:[
-            {
-                <span class="hljs-string">&quot;ask&quot;</span>:<span class="hljs-number">5.81</span>,
-                <span class="hljs-string">&quot;askVolume&quot;</span>:<span class="hljs-number">21880</span>,
-                <span class="hljs-string">&quot;bid&quot;</span>:<span class="hljs-number">5.8</span>,
-                <span class="hljs-string">&quot;bidVolume&quot;</span>:<span class="hljs-number">14124</span>
-            },
-            {
-                <span class="hljs-string">&quot;ask&quot;</span>:<span class="hljs-number">5.82</span>,
-                <span class="hljs-string">&quot;askVolume&quot;</span>:<span class="hljs-number">26584</span>,
-                <span class="hljs-string">&quot;bid&quot;</span>:<span class="hljs-number">5.79</span>,
-                <span class="hljs-string">&quot;bidVolume&quot;</span>:<span class="hljs-number">53546</span>
-            },
-            {
-                <span class="hljs-string">&quot;ask&quot;</span>:<span class="hljs-number">5.83</span>,
-                <span class="hljs-string">&quot;askVolume&quot;</span>:<span class="hljs-number">33468</span>,
-                <span class="hljs-string">&quot;bid&quot;</span>:<span class="hljs-number">5.78</span>,
-                <span class="hljs-string">&quot;bidVolume&quot;</span>:<span class="hljs-number">54019</span>
-            },
-            {
-                <span class="hljs-string">&quot;ask&quot;</span>:<span class="hljs-number">5.84</span>,
-                <span class="hljs-string">&quot;askVolume&quot;</span>:<span class="hljs-number">41990</span>,
-                <span class="hljs-string">&quot;bid&quot;</span>:<span class="hljs-number">5.77</span>,
-                <span class="hljs-string">&quot;bidVolume&quot;</span>:<span class="hljs-number">12324</span>
-            },
-            {
-                <span class="hljs-string">&quot;ask&quot;</span>:<span class="hljs-number">5.85</span>,
-                <span class="hljs-string">&quot;askVolume&quot;</span>:<span class="hljs-number">31150</span>,
-                <span class="hljs-string">&quot;bid&quot;</span>:<span class="hljs-number">5.76</span>,
-                <span class="hljs-string">&quot;bidVolume&quot;</span>:<span class="hljs-number">23009</span>
-            }
-        ],
-        <span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,
-        <span class="hljs-string">&quot;exercisePrice&quot;</span>:<span class="hljs-number">0</span>
-    },
-    <span class="hljs-string">&quot;msg&quot;</span>:<span class="hljs-string">&quot;&quot;</span>,
-    <span class="hljs-string">&quot;code&quot;</span>:<span class="hljs-number">0</span>
-}
-</code></pre>
-<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> &#xA9; All Rights Reserved </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> updated 2019-04-25 20:59:21 </span> </footer>
+<footer class="page-footer-ex"> <span class="page-footer-ex-copyright"> &#xA9; All Rights Reserved </span> &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0; <span class="page-footer-ex-footer-update"> updated 2019-04-26 08:23:48 </span> </footer>
                                 
                                 </section>
                             
@@ -645,7 +620,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"1.2 开始使用","level":"1.2","depth":1,"next":{"title":"1.3 数据结构","level":"1.3","depth":1,"path":"Preface/DataStruct.md","ref":"Preface/DataStruct.md","articles":[]},"previous":{"title":"1.1 前言","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga","-sharing","sharing-plus","search","insert-logo","alerts","expandable-chapters","splitter","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"page-footer-ex":{"copyright":"© All Rights Reserved","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"updated"},"splitter":{},"search":{},"sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"alerts":{},"ga":{"configuration":"auto","token":"UA-139005750-1"},"sharing":{"qq":true,"all":["facebook","google","twitter","weibo","qq","linkedin","qzone","douban"],"douban":false,"facebook":false,"weibo":true,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":false,"messenger":false,"line":false,"vk":false,"pocket":false,"google":false,"viber":false,"stumbleupon":false,"qzone":true,"linkedin":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none;margin:-20px -20px","url":"/images/logo.png"},"expandable-chapters":{}},"theme":"default","author":"pxb","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"goshare开源量化","gitbook":"*"},"file":{"path":"Preface/Start.md","mtime":"2019-04-25T12:59:21.207Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-04-25T13:32:03.377Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"1.2 开始使用","level":"1.2","depth":1,"next":{"title":"1.3 数据结构","level":"1.3","depth":1,"path":"Preface/DataStruct.md","ref":"Preface/DataStruct.md","articles":[]},"previous":{"title":"1.1 前言","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga","-sharing","sharing-plus","search","insert-logo","alerts","expandable-chapters","splitter","page-footer-ex","livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"page-footer-ex":{"copyright":"© All Rights Reserved","markdown":false,"update_format":"YYYY-MM-DD HH:mm:ss","update_label":"updated"},"splitter":{},"search":{},"sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"alerts":{},"ga":{"configuration":"auto","token":"UA-139005750-1"},"sharing":{"qq":true,"all":["facebook","google","twitter","weibo","qq","linkedin","qzone","douban"],"douban":false,"facebook":false,"weibo":true,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":false,"messenger":false,"line":false,"vk":false,"pocket":false,"google":false,"viber":false,"stumbleupon":false,"qzone":true,"linkedin":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"insert-logo":{"style":"background: none;margin:-20px -20px","url":"/images/logo.png"},"expandable-chapters":{}},"theme":"default","author":"pxb","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"goshare开源量化","gitbook":"*"},"file":{"path":"Preface/Start.md","mtime":"2019-04-26T00:23:48.041Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-04-26T00:27:56.125Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

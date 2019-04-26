@@ -1,20 +1,19 @@
 # 2.2.1 交易合约
 
-# sseStockOptionList
+# 上证所50ETF期权列表
 
 * 数据来源于上证所官网期权列表
 
 * API路径/v1/sseStockOptionList
 
-* 参数链接 https://goshare.cyconst.com/v1/sseStockOptionList
+* 参考链接 https://goshare.cyconst.com/v1/sseStockOptionList
 
 * 参数无
 
 * 返回值
 ```js
 {
-	"success": false,
-	"data": [{
+	"list": [{
 		"exercisePrice": "2.500",
 		"updateVersion": "否",
 		"optionType": "E",
@@ -84,8 +83,6 @@
 		"securityNameByID": "50ETF(510050)",
 		"contractFlag": "否",
 		"underlyingClosePX": "2.963"
-	}],
-	"msg": "",
-	"code": 0
+	}]
 }
 ```
