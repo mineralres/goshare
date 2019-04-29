@@ -2,13 +2,14 @@
 
 <a href="https://goshare.cyconst.com" target="_blank">说明文档</a>
 
-## goshare目标
+## goshare简介
  * goshare是一个开源的golang量化数据工具集合
- * 抓取 新浪,上证官方,东方财富 的历史k线或实时tick
+ * 提供自建数据API服务(生产环境)
+ * 三方数据. 抓取新浪,上证官方,东方财富等相关数据源的数据(测试环境)
+ * 集成量化策略测试和交易框架
  * 封装相关市场的交易接口
- * 集成量化交易框架
- * 量化交易webui控制台
- * 组建测试集群，充分利用多机多核
+ * webui控制台
+ * 自建策略测试集群,提升策略测试效率
  
 ## Getting Started
 
@@ -31,9 +32,14 @@ func main() {
     panic(err)
   }
 }
+
 ```
 
-# 数据来源
+# UI
+- UI项目库 [goshare-ui](https://github.com/mineralres/goshare-ui)
+- 演示地址 [https://admin.cyconst.com](https://admin.cyconst.com) 
+
+# 数据库
 * 新浪财经
   * 股票最新报价
   * 期货最新报价
@@ -51,8 +57,6 @@ func main() {
 # 交易通道集成
  * [CTP接口]()
  * LTS
-
-# UI
 
 # 交流
 
