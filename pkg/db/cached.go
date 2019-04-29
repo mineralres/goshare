@@ -1,4 +1,4 @@
-package ldb
+package db
 
 import (
 	"errors"
@@ -11,10 +11,15 @@ import (
 
 // XCache 内存中K线
 type XCache struct {
-	ldb         *XLevelDB
+	xdb         XDataBase
 	ksMap       sync.Map
 	chLastKline chan lastKline
 	chLastDayTS chan pb.TickSeries
+}
+
+// XDB 底层数据库
+func (cache *XCache) XDB() XDataBase {
+	return cache.xdb
 }
 
 // 最新一根K线，用于保存到leveldb
@@ -31,13 +36,13 @@ type cachedSymbolData struct {
 	KlineList   []pb.KlineSeries
 	chLastKline chan lastKline
 	chLastDayTS chan pb.TickSeries
-	db          *XLevelDB
+	db          XDataBase
 	cacheLen    int64
 	dayTS       pb.TickSeries
 	tick        *pb.MarketDataSnapshot
 }
 
-func (sd *cachedSymbolData) init(s pb.Symbol, ch chan lastKline, db *XLevelDB, chts chan pb.TickSeries) {
+func (sd *cachedSymbolData) init(s pb.Symbol, ch chan lastKline, db XDataBase, chts chan pb.TickSeries) {
 	sd.Symbol = s
 	sd.chLastKline = ch
 	sd.chLastDayTS = chts
@@ -62,7 +67,7 @@ func (sd *cachedSymbolData) init(s pb.Symbol, ch chan lastKline, db *XLevelDB, c
 		}
 		sd.KlineList = append(sd.KlineList, *ks)
 	}
-	ts := sd.db.getLastTickSerires(&s)
+	ts := sd.db.GetLastTickSerires(&s)
 	if ts != nil {
 		sd.dayTS = *ts
 		// log.Println("getLastTickSerires", s.Code, len(sd.dayTS.List))
@@ -72,7 +77,7 @@ func (sd *cachedSymbolData) init(s pb.Symbol, ch chan lastKline, db *XLevelDB, c
 // MakeXCache MakeXCache
 func MakeXCache() *XCache {
 	var c XCache
-	c.ldb = MakeXLevelDB()
+	c.xdb = MakeXLevelDB()
 	c.chLastKline = make(chan lastKline, 19999)
 	c.chLastDayTS = make(chan pb.TickSeries, 1000)
 	// 保存K线
@@ -87,10 +92,10 @@ func (cache *XCache) saver() {
 	for {
 		select {
 		case k := <-cache.chLastKline:
-			cache.ldb.Save(&k.s, k.period, &k.kline)
+			cache.xdb.Save(&k.s, k.period, &k.kline)
 			break
 		case ts := <-cache.chLastDayTS:
-			cache.ldb.saveDayTickSeries(&ts)
+			cache.xdb.SaveDayTickSeries(&ts)
 			break
 		}
 	}
@@ -221,7 +226,7 @@ func (cache *XCache) Update(tick *pb.MarketDataSnapshot) {
 	} else {
 		// 添加新的group
 		sd = &cachedSymbolData{}
-		sd.init(*tick.Symbol, cache.chLastKline, cache.ldb, cache.chLastDayTS)
+		sd.init(*tick.Symbol, cache.chLastKline, cache.xdb, cache.chLastDayTS)
 		cache.ksMap.Store(tick.Symbol, sd)
 	}
 	sd.updateKlineSeries(tick)
@@ -239,7 +244,7 @@ func (cache *XCache) GetKlineSeries(symbol *pb.Symbol, period pb.PeriodType, sta
 		// 再从leveldb里找
 		// 添加新的group
 		sd = &cachedSymbolData{}
-		sd.init(*symbol, cache.chLastKline, cache.ldb, cache.chLastDayTS)
+		sd.init(*symbol, cache.chLastKline, cache.xdb, cache.chLastDayTS)
 		cache.ksMap.Store(*symbol, sd)
 	} else {
 		sd = v.(*cachedSymbolData)

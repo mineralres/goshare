@@ -32,7 +32,7 @@ var CTPDirection_value = map[string]int32{
 func (x CTPDirection) String() string {
 	return proto.EnumName(CTPDirection_name, int32(x))
 }
-func (CTPDirection) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
+func (CTPDirection) EnumDescriptor() ([]byte, []int) { return fileDescriptor2, []int{0} }
 
 // 状态
 type CTPOrderStatus int32
@@ -72,7 +72,7 @@ var CTPOrderStatus_value = map[string]int32{
 func (x CTPOrderStatus) String() string {
 	return proto.EnumName(CTPOrderStatus_name, int32(x))
 }
-func (CTPOrderStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{1} }
+func (CTPOrderStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor2, []int{1} }
 
 type CTPPriceType int32
 
@@ -103,7 +103,7 @@ var CTPPriceType_value = map[string]int32{
 func (x CTPPriceType) String() string {
 	return proto.EnumName(CTPPriceType_name, int32(x))
 }
-func (CTPPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{2} }
+func (CTPPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor2, []int{2} }
 
 type CTPOffsetFlag int32
 
@@ -141,7 +141,7 @@ var CTPOffsetFlag_value = map[string]int32{
 func (x CTPOffsetFlag) String() string {
 	return proto.EnumName(CTPOffsetFlag_name, int32(x))
 }
-func (CTPOffsetFlag) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{3} }
+func (CTPOffsetFlag) EnumDescriptor() ([]byte, []int) { return fileDescriptor2, []int{3} }
 
 // 投机套保标志
 type CTPHedgeType int32
@@ -169,7 +169,7 @@ var CTPHedgeType_value = map[string]int32{
 func (x CTPHedgeType) String() string {
 	return proto.EnumName(CTPHedgeType_name, int32(x))
 }
-func (CTPHedgeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{4} }
+func (CTPHedgeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor2, []int{4} }
 
 // 成交类型
 type CTPTradeType int32
@@ -217,7 +217,7 @@ var CTPTradeType_value = map[string]int32{
 func (x CTPTradeType) String() string {
 	return proto.EnumName(CTPTradeType_name, int32(x))
 }
-func (CTPTradeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{5} }
+func (CTPTradeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor2, []int{5} }
 
 // 报单ID
 type CTPOrderID struct {
@@ -230,7 +230,7 @@ type CTPOrderID struct {
 func (m *CTPOrderID) Reset()                    { *m = CTPOrderID{} }
 func (m *CTPOrderID) String() string            { return proto.CompactTextString(m) }
 func (*CTPOrderID) ProtoMessage()               {}
-func (*CTPOrderID) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
+func (*CTPOrderID) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{0} }
 
 func (m *CTPOrderID) GetFrontId() int64 {
 	if m != nil {
@@ -343,7 +343,7 @@ type CTPOrder struct {
 func (m *CTPOrder) Reset()                    { *m = CTPOrder{} }
 func (m *CTPOrder) String() string            { return proto.CompactTextString(m) }
 func (*CTPOrder) ProtoMessage()               {}
-func (*CTPOrder) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{1} }
+func (*CTPOrder) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{1} }
 
 func (m *CTPOrder) GetSymbol() *Symbol {
 	if m != nil {
@@ -618,7 +618,7 @@ type CTPOrderList struct {
 func (m *CTPOrderList) Reset()                    { *m = CTPOrderList{} }
 func (m *CTPOrderList) String() string            { return proto.CompactTextString(m) }
 func (*CTPOrderList) ProtoMessage()               {}
-func (*CTPOrderList) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{2} }
+func (*CTPOrderList) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{2} }
 
 func (m *CTPOrderList) GetList() []*CTPOrder {
 	if m != nil {
@@ -635,7 +635,7 @@ type JointOrder struct {
 func (m *JointOrder) Reset()                    { *m = JointOrder{} }
 func (m *JointOrder) String() string            { return proto.CompactTextString(m) }
 func (*JointOrder) ProtoMessage()               {}
-func (*JointOrder) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{3} }
+func (*JointOrder) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{3} }
 
 func (m *JointOrder) GetLocalOrder() *CTPOrder {
 	if m != nil {
@@ -659,7 +659,7 @@ type CTPOrderLink struct {
 func (m *CTPOrderLink) Reset()                    { *m = CTPOrderLink{} }
 func (m *CTPOrderLink) String() string            { return proto.CompactTextString(m) }
 func (*CTPOrderLink) ProtoMessage()               {}
-func (*CTPOrderLink) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{4} }
+func (*CTPOrderLink) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{4} }
 
 func (m *CTPOrderLink) GetParent() *CTPOrder {
 	if m != nil {
@@ -700,7 +700,7 @@ type CTPCancelOrderRequest struct {
 func (m *CTPCancelOrderRequest) Reset()                    { *m = CTPCancelOrderRequest{} }
 func (m *CTPCancelOrderRequest) String() string            { return proto.CompactTextString(m) }
 func (*CTPCancelOrderRequest) ProtoMessage()               {}
-func (*CTPCancelOrderRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{5} }
+func (*CTPCancelOrderRequest) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{5} }
 
 func (m *CTPCancelOrderRequest) GetAccountId() string {
 	if m != nil {
@@ -780,7 +780,7 @@ type CTPOnRtnCancelOrder struct {
 func (m *CTPOnRtnCancelOrder) Reset()                    { *m = CTPOnRtnCancelOrder{} }
 func (m *CTPOnRtnCancelOrder) String() string            { return proto.CompactTextString(m) }
 func (*CTPOnRtnCancelOrder) ProtoMessage()               {}
-func (*CTPOnRtnCancelOrder) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{6} }
+func (*CTPOnRtnCancelOrder) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{6} }
 
 func (m *CTPOnRtnCancelOrder) GetAccountId() string {
 	if m != nil {
@@ -900,7 +900,7 @@ type CTPTradeReport struct {
 func (m *CTPTradeReport) Reset()                    { *m = CTPTradeReport{} }
 func (m *CTPTradeReport) String() string            { return proto.CompactTextString(m) }
 func (*CTPTradeReport) ProtoMessage()               {}
-func (*CTPTradeReport) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{7} }
+func (*CTPTradeReport) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{7} }
 
 func (m *CTPTradeReport) GetAccountId() string {
 	if m != nil {
@@ -1077,7 +1077,7 @@ type CTPTradeReportList struct {
 func (m *CTPTradeReportList) Reset()                    { *m = CTPTradeReportList{} }
 func (m *CTPTradeReportList) String() string            { return proto.CompactTextString(m) }
 func (*CTPTradeReportList) ProtoMessage()               {}
-func (*CTPTradeReportList) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{8} }
+func (*CTPTradeReportList) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{8} }
 
 func (m *CTPTradeReportList) GetList() []*CTPTradeReport {
 	if m != nil {
@@ -1129,7 +1129,7 @@ type CTPPositionSummation struct {
 func (m *CTPPositionSummation) Reset()                    { *m = CTPPositionSummation{} }
 func (m *CTPPositionSummation) String() string            { return proto.CompactTextString(m) }
 func (*CTPPositionSummation) ProtoMessage()               {}
-func (*CTPPositionSummation) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{9} }
+func (*CTPPositionSummation) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{9} }
 
 func (m *CTPPositionSummation) GetDirection() CTPDirection {
 	if m != nil {
@@ -1292,7 +1292,7 @@ type CTPPosition struct {
 func (m *CTPPosition) Reset()                    { *m = CTPPosition{} }
 func (m *CTPPosition) String() string            { return proto.CompactTextString(m) }
 func (*CTPPosition) ProtoMessage()               {}
-func (*CTPPosition) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{10} }
+func (*CTPPosition) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{10} }
 
 func (m *CTPPosition) GetSymbol() *Symbol {
 	if m != nil {
@@ -1399,7 +1399,7 @@ type CTPPositionList struct {
 func (m *CTPPositionList) Reset()                    { *m = CTPPositionList{} }
 func (m *CTPPositionList) String() string            { return proto.CompactTextString(m) }
 func (*CTPPositionList) ProtoMessage()               {}
-func (*CTPPositionList) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{11} }
+func (*CTPPositionList) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{11} }
 
 func (m *CTPPositionList) GetList() []*CTPPosition {
 	if m != nil {
@@ -1475,7 +1475,7 @@ type CTPCloseTradeRecord struct {
 func (m *CTPCloseTradeRecord) Reset()                    { *m = CTPCloseTradeRecord{} }
 func (m *CTPCloseTradeRecord) String() string            { return proto.CompactTextString(m) }
 func (*CTPCloseTradeRecord) ProtoMessage()               {}
-func (*CTPCloseTradeRecord) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{12} }
+func (*CTPCloseTradeRecord) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{12} }
 
 func (m *CTPCloseTradeRecord) GetAccountId() string {
 	if m != nil {
@@ -1694,7 +1694,7 @@ type CTPCloseTradeRecordList struct {
 func (m *CTPCloseTradeRecordList) Reset()                    { *m = CTPCloseTradeRecordList{} }
 func (m *CTPCloseTradeRecordList) String() string            { return proto.CompactTextString(m) }
 func (*CTPCloseTradeRecordList) ProtoMessage()               {}
-func (*CTPCloseTradeRecordList) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{13} }
+func (*CTPCloseTradeRecordList) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{13} }
 
 func (m *CTPCloseTradeRecordList) GetList() []*CTPCloseTradeRecord {
 	if m != nil {
@@ -1726,7 +1726,7 @@ type CTPMarginRate struct {
 func (m *CTPMarginRate) Reset()                    { *m = CTPMarginRate{} }
 func (m *CTPMarginRate) String() string            { return proto.CompactTextString(m) }
 func (*CTPMarginRate) ProtoMessage()               {}
-func (*CTPMarginRate) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{14} }
+func (*CTPMarginRate) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{14} }
 
 func (m *CTPMarginRate) GetExchange() ExchangeType {
 	if m != nil {
@@ -1799,7 +1799,7 @@ type CTPMarginItem struct {
 func (m *CTPMarginItem) Reset()                    { *m = CTPMarginItem{} }
 func (m *CTPMarginItem) String() string            { return proto.CompactTextString(m) }
 func (*CTPMarginItem) ProtoMessage()               {}
-func (*CTPMarginItem) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{15} }
+func (*CTPMarginItem) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{15} }
 
 func (m *CTPMarginItem) GetLongByVolume() float64 {
 	if m != nil {
@@ -1841,7 +1841,7 @@ type CTPCommissionRateItem struct {
 func (m *CTPCommissionRateItem) Reset()                    { *m = CTPCommissionRateItem{} }
 func (m *CTPCommissionRateItem) String() string            { return proto.CompactTextString(m) }
 func (*CTPCommissionRateItem) ProtoMessage()               {}
-func (*CTPCommissionRateItem) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{16} }
+func (*CTPCommissionRateItem) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{16} }
 
 func (m *CTPCommissionRateItem) GetByAmount() float64 {
 	if m != nil {
@@ -1895,7 +1895,7 @@ type CTPCommissionRate struct {
 func (m *CTPCommissionRate) Reset()                    { *m = CTPCommissionRate{} }
 func (m *CTPCommissionRate) String() string            { return proto.CompactTextString(m) }
 func (*CTPCommissionRate) ProtoMessage()               {}
-func (*CTPCommissionRate) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{17} }
+func (*CTPCommissionRate) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{17} }
 
 func (m *CTPCommissionRate) GetExchange() ExchangeType {
 	if m != nil {
@@ -1965,7 +1965,7 @@ type CTPTradingUnit struct {
 func (m *CTPTradingUnit) Reset()                    { *m = CTPTradingUnit{} }
 func (m *CTPTradingUnit) String() string            { return proto.CompactTextString(m) }
 func (*CTPTradingUnit) ProtoMessage()               {}
-func (*CTPTradingUnit) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{18} }
+func (*CTPTradingUnit) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{18} }
 
 func (m *CTPTradingUnit) GetSymbol() *Symbol {
 	if m != nil {
@@ -2067,7 +2067,7 @@ type CTPForceCloseTimeRule struct {
 func (m *CTPForceCloseTimeRule) Reset()                    { *m = CTPForceCloseTimeRule{} }
 func (m *CTPForceCloseTimeRule) String() string            { return proto.CompactTextString(m) }
 func (*CTPForceCloseTimeRule) ProtoMessage()               {}
-func (*CTPForceCloseTimeRule) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{19} }
+func (*CTPForceCloseTimeRule) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{19} }
 
 func (m *CTPForceCloseTimeRule) GetStart() int64 {
 	if m != nil {
@@ -2131,7 +2131,7 @@ type CTPTradingUnitOption struct {
 func (m *CTPTradingUnitOption) Reset()                    { *m = CTPTradingUnitOption{} }
 func (m *CTPTradingUnitOption) String() string            { return proto.CompactTextString(m) }
 func (*CTPTradingUnitOption) ProtoMessage()               {}
-func (*CTPTradingUnitOption) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{20} }
+func (*CTPTradingUnitOption) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{20} }
 
 func (m *CTPTradingUnitOption) GetLimitPriceDisableOpen() int32 {
 	if m != nil {
@@ -2285,7 +2285,7 @@ type MarginCheckRule struct {
 func (m *MarginCheckRule) Reset()                    { *m = MarginCheckRule{} }
 func (m *MarginCheckRule) String() string            { return proto.CompactTextString(m) }
 func (*MarginCheckRule) ProtoMessage()               {}
-func (*MarginCheckRule) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{21} }
+func (*MarginCheckRule) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{21} }
 
 func (m *MarginCheckRule) GetStart() int64 {
 	if m != nil {
@@ -2399,7 +2399,7 @@ type SettlementUnitOption struct {
 func (m *SettlementUnitOption) Reset()                    { *m = SettlementUnitOption{} }
 func (m *SettlementUnitOption) String() string            { return proto.CompactTextString(m) }
 func (*SettlementUnitOption) ProtoMessage()               {}
-func (*SettlementUnitOption) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{22} }
+func (*SettlementUnitOption) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{22} }
 
 func (m *SettlementUnitOption) GetId() int64 {
 	if m != nil {
@@ -2467,7 +2467,7 @@ type CTPTradingAccount struct {
 func (m *CTPTradingAccount) Reset()                    { *m = CTPTradingAccount{} }
 func (m *CTPTradingAccount) String() string            { return proto.CompactTextString(m) }
 func (*CTPTradingAccount) ProtoMessage()               {}
-func (*CTPTradingAccount) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{23} }
+func (*CTPTradingAccount) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{23} }
 
 func (m *CTPTradingAccount) GetSummary() *AccountMoneySummary {
 	if m != nil {
@@ -2517,7 +2517,7 @@ type CTPTradingAccountSnapshot struct {
 func (m *CTPTradingAccountSnapshot) Reset()                    { *m = CTPTradingAccountSnapshot{} }
 func (m *CTPTradingAccountSnapshot) String() string            { return proto.CompactTextString(m) }
 func (*CTPTradingAccountSnapshot) ProtoMessage()               {}
-func (*CTPTradingAccountSnapshot) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{24} }
+func (*CTPTradingAccountSnapshot) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{24} }
 
 func (m *CTPTradingAccountSnapshot) GetAccount() *CTPTradingAccount {
 	if m != nil {
@@ -2574,9 +2574,9 @@ func init() {
 	proto.RegisterEnum("pb.CTPTradeType", CTPTradeType_name, CTPTradeType_value)
 }
 
-func init() { proto.RegisterFile("ctp.proto", fileDescriptor1) }
+func init() { proto.RegisterFile("ctp.proto", fileDescriptor2) }
 
-var fileDescriptor1 = []byte{
+var fileDescriptor2 = []byte{
 	// 3721 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x5a, 0x4b, 0x73, 0xe3, 0xc6,
 	0x76, 0x36, 0x5f, 0x22, 0x79, 0xf8, 0x54, 0x4b, 0x1a, 0x61, 0x9e, 0xd6, 0x70, 0x6c, 0x5f, 0x59,

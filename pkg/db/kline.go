@@ -1,7 +1,8 @@
-package ldb
+package db
 
 import (
 	"fmt"
+
 	"github.com/mineralres/goshare/pkg/pb"
 
 	"github.com/gogo/protobuf/proto"
@@ -112,7 +113,7 @@ func (db *XLevelDB) RGetKlineSeries(s *pb.Symbol, period pb.PeriodType, startTim
 }
 
 // 按日存ts
-func (db *XLevelDB) saveDayTickSeries(ts *pb.TickSeries) error {
+func (db *XLevelDB) SaveDayTickSeries(ts *pb.TickSeries) error {
 	key := fmt.Sprintf("%d-%s-%d", ts.Symbol.Exchange, ts.Symbol.Code, ts.TradingDay)
 	d, _ := proto.Marshal(ts)
 	return db.daytsdb.Put([]byte(key), d, nil)
@@ -133,7 +134,8 @@ func (db *XLevelDB) getDayTickSeries(s *pb.Symbol, tradingDay int32) *pb.TickSer
 	return &ret
 }
 
-func (db *XLevelDB) getLastTickSerires(s *pb.Symbol) *pb.TickSeries {
+// GetLastTickSerires 取最后一天的tick序列
+func (db *XLevelDB) GetLastTickSerires(s *pb.Symbol) *pb.TickSeries {
 	keyStart := fmt.Sprintf("%d-%s-%d", s.Exchange, s.Code, 0)
 	keyEnd := fmt.Sprintf("%d-%s-%d", s.Exchange, s.Code, 99999999)
 	iter := db.daytsdb.NewIterator(&util.Range{Start: []byte(keyStart), Limit: []byte(keyEnd)}, nil)

@@ -26,7 +26,7 @@ type OrderBook struct {
 func (m *OrderBook) Reset()                    { *m = OrderBook{} }
 func (m *OrderBook) String() string            { return proto.CompactTextString(m) }
 func (*OrderBook) ProtoMessage()               {}
-func (*OrderBook) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{0} }
+func (*OrderBook) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
 
 func (m *OrderBook) GetAsk() float64 {
 	if m != nil {
@@ -113,7 +113,7 @@ type MarketDataSnapshot struct {
 func (m *MarketDataSnapshot) Reset()                    { *m = MarketDataSnapshot{} }
 func (m *MarketDataSnapshot) String() string            { return proto.CompactTextString(m) }
 func (*MarketDataSnapshot) ProtoMessage()               {}
-func (*MarketDataSnapshot) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{1} }
+func (*MarketDataSnapshot) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{1} }
 
 func (m *MarketDataSnapshot) GetSymbol() *Symbol {
 	if m != nil {
@@ -298,7 +298,7 @@ type MdsList struct {
 func (m *MdsList) Reset()                    { *m = MdsList{} }
 func (m *MdsList) String() string            { return proto.CompactTextString(m) }
 func (*MdsList) ProtoMessage()               {}
-func (*MdsList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{2} }
+func (*MdsList) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{2} }
 
 func (m *MdsList) GetList() []*MarketDataSnapshot {
 	if m != nil {
@@ -318,7 +318,7 @@ type OptionTMarket struct {
 func (m *OptionTMarket) Reset()                    { *m = OptionTMarket{} }
 func (m *OptionTMarket) String() string            { return proto.CompactTextString(m) }
 func (*OptionTMarket) ProtoMessage()               {}
-func (*OptionTMarket) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{3} }
+func (*OptionTMarket) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{3} }
 
 func (m *OptionTMarket) GetCallTk() *MarketDataSnapshot {
 	if m != nil {
@@ -346,7 +346,7 @@ type SimpleTickForTQuote struct {
 func (m *SimpleTickForTQuote) Reset()                    { *m = SimpleTickForTQuote{} }
 func (m *SimpleTickForTQuote) String() string            { return proto.CompactTextString(m) }
 func (*SimpleTickForTQuote) ProtoMessage()               {}
-func (*SimpleTickForTQuote) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{4} }
+func (*SimpleTickForTQuote) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{4} }
 
 func (m *SimpleTickForTQuote) GetSymbol() *Symbol {
 	if m != nil {
@@ -394,7 +394,7 @@ type OptionTQuoteItem struct {
 func (m *OptionTQuoteItem) Reset()                    { *m = OptionTQuoteItem{} }
 func (m *OptionTQuoteItem) String() string            { return proto.CompactTextString(m) }
 func (*OptionTQuoteItem) ProtoMessage()               {}
-func (*OptionTQuoteItem) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{5} }
+func (*OptionTQuoteItem) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{5} }
 
 func (m *OptionTQuoteItem) GetExercisePrice() float64 {
 	if m != nil {
@@ -435,7 +435,7 @@ type OptionTQuoteItemList struct {
 func (m *OptionTQuoteItemList) Reset()                    { *m = OptionTQuoteItemList{} }
 func (m *OptionTQuoteItemList) String() string            { return proto.CompactTextString(m) }
 func (*OptionTQuoteItemList) ProtoMessage()               {}
-func (*OptionTQuoteItemList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{6} }
+func (*OptionTQuoteItemList) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{6} }
 
 func (m *OptionTQuoteItemList) GetExchange() int32 {
 	if m != nil {
@@ -490,7 +490,7 @@ type Kline struct {
 func (m *Kline) Reset()                    { *m = Kline{} }
 func (m *Kline) String() string            { return proto.CompactTextString(m) }
 func (*Kline) ProtoMessage()               {}
-func (*Kline) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{7} }
+func (*Kline) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{7} }
 
 func (m *Kline) GetTime() int64 {
 	if m != nil {
@@ -566,7 +566,7 @@ type KlineSeries struct {
 func (m *KlineSeries) Reset()                    { *m = KlineSeries{} }
 func (m *KlineSeries) String() string            { return proto.CompactTextString(m) }
 func (*KlineSeries) ProtoMessage()               {}
-func (*KlineSeries) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{8} }
+func (*KlineSeries) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{8} }
 
 func (m *KlineSeries) GetSymbol() *Symbol {
 	if m != nil {
@@ -607,7 +607,7 @@ type ReqSubscribeMarketData struct {
 func (m *ReqSubscribeMarketData) Reset()                    { *m = ReqSubscribeMarketData{} }
 func (m *ReqSubscribeMarketData) String() string            { return proto.CompactTextString(m) }
 func (*ReqSubscribeMarketData) ProtoMessage()               {}
-func (*ReqSubscribeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{9} }
+func (*ReqSubscribeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{9} }
 
 func (m *ReqSubscribeMarketData) GetSymbol() *Symbol {
 	if m != nil {
@@ -630,7 +630,7 @@ type RspSubscribeMarketData struct {
 func (m *RspSubscribeMarketData) Reset()                    { *m = RspSubscribeMarketData{} }
 func (m *RspSubscribeMarketData) String() string            { return proto.CompactTextString(m) }
 func (*RspSubscribeMarketData) ProtoMessage()               {}
-func (*RspSubscribeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{10} }
+func (*RspSubscribeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{10} }
 
 // 推送订阅行情更新事件
 type RtnMarketDataUpdate struct {
@@ -643,7 +643,7 @@ type RtnMarketDataUpdate struct {
 func (m *RtnMarketDataUpdate) Reset()                    { *m = RtnMarketDataUpdate{} }
 func (m *RtnMarketDataUpdate) String() string            { return proto.CompactTextString(m) }
 func (*RtnMarketDataUpdate) ProtoMessage()               {}
-func (*RtnMarketDataUpdate) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{11} }
+func (*RtnMarketDataUpdate) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{11} }
 
 func (m *RtnMarketDataUpdate) GetTick() *MarketDataSnapshot {
 	if m != nil {
@@ -669,7 +669,7 @@ type TickSeries struct {
 func (m *TickSeries) Reset()                    { *m = TickSeries{} }
 func (m *TickSeries) String() string            { return proto.CompactTextString(m) }
 func (*TickSeries) ProtoMessage()               {}
-func (*TickSeries) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{12} }
+func (*TickSeries) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{12} }
 
 func (m *TickSeries) GetSymbol() *Symbol {
 	if m != nil {
@@ -701,7 +701,7 @@ type SimpleTick struct {
 func (m *SimpleTick) Reset()                    { *m = SimpleTick{} }
 func (m *SimpleTick) String() string            { return proto.CompactTextString(m) }
 func (*SimpleTick) ProtoMessage()               {}
-func (*SimpleTick) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{13} }
+func (*SimpleTick) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{13} }
 
 func (m *SimpleTick) GetTime() int64 {
 	if m != nil {
@@ -733,7 +733,7 @@ type SimpleTickSeries struct {
 func (m *SimpleTickSeries) Reset()                    { *m = SimpleTickSeries{} }
 func (m *SimpleTickSeries) String() string            { return proto.CompactTextString(m) }
 func (*SimpleTickSeries) ProtoMessage()               {}
-func (*SimpleTickSeries) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{14} }
+func (*SimpleTickSeries) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{14} }
 
 func (m *SimpleTickSeries) GetSymbol() *Symbol {
 	if m != nil {
@@ -774,9 +774,9 @@ func init() {
 	proto.RegisterType((*SimpleTickSeries)(nil), "pb.SimpleTickSeries")
 }
 
-func init() { proto.RegisterFile("market_data.proto", fileDescriptor3) }
+func init() { proto.RegisterFile("market_data.proto", fileDescriptor4) }
 
-var fileDescriptor3 = []byte{
+var fileDescriptor4 = []byte{
 	// 1019 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0xeb, 0x8e, 0xe3, 0x34,
 	0x14, 0x56, 0x7a, 0xdb, 0xc9, 0x69, 0x3b, 0x17, 0x4f, 0xe9, 0x86, 0x41, 0x2b, 0x86, 0x20, 0x50,

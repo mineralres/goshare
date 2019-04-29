@@ -5,43 +5,141 @@ package pb;
 import "common.proto";
 import "market_data.proto";
 import "google/api/annotations.proto";
+import "strategy.proto";
 
 // GoShare goshare
 service GoShare {
   // GetLastTick 获取最新行情
   rpc LastTick(Symbol) returns (MarketDataSnapshot) {
     option (google.api.http) = {
-      post : "/v1/lastTick"
+      post : "/api/v1/lastTick"
       body : "*"
-      additional_bindings {get : "/v1/lastTick/{exchange}/{code}"}
+      additional_bindings {get : "/api/v1/lastTick/{exchange}/{code}"}
     };
   };
   // SSEStockOptionList 上证所期权列表
   rpc SSEStockOptionList(ReqSSEStockOptionList)
       returns (RspSSEStockOptionList) {
     option (google.api.http) = {
-      post : "/v1/sseStockOptionList"
+      post : "/api/v1/sseStockOptionList"
       body : "*"
-      additional_bindings {get : "/v1/sseStockOptionList"}
+      additional_bindings {get : "/api/v1/sseStockOptionList"}
     };
   };
   // SubscribeMarketData 订阅行情
   rpc SubscribeMarketData(ReqSubscribeMarketData)
       returns (stream pb.MarketDataSnapshot) {
     option (google.api.http) = {
-      get : "/v1/subscribeMarketData"
+      get : "/api/v1/subscribeMarketData"
     };
   };
   // PushTick 推送tick更新
   rpc PushTick(MarketDataSnapshot) returns (EmptyResponse) {
     option (google.api.http) = {
-      post : "/v1/pushTick"
+      post : "/api/v1/pushTick"
       body : "*"
-      additional_bindings {get : "/v1/pushTick"}
+      additional_bindings {get : "/api/v1/pushTick"}
     };
+  };
+  // UserLogin 登陆
+  rpc UserLogin(ReqUserLogin) returns (RspUserLogin) {
+    option (google.api.http) = {
+      post : "/api/v1/user/login"
+      body : "*"
+    };
+  }
+  // UserLogout 登出
+  rpc UserLogout(EmptyRequest) returns (EmptyResponse) {
+    option (google.api.http).get = "/api/v1/user/logout";
+  };
+  // Routes 路由列表
+  rpc Routes(EmptyRequest) returns (RspGetRoutes) {
+    option (google.api.http).get = "/api/v1/routes";
+  };
+  // 返回当前用户信息
+  rpc CurrentUser(EmptyRequest) returns (RspCurrentUser) {
+    option (google.api.http).get = "/api/v1/user";
+  };
+  // 用户列表
+  rpc Users(EmptyRequest) returns (XUsersItemList) {
+    option (google.api.http).get = "/api/v1/users";
+  };
+  // 策略列表
+  rpc GetStrategyList(EmptyRequest) returns (StrategyList) {
+    option (google.api.http).get = "/api/v1/strategies";
+  };
+  // 查询策略
+  rpc GetStrategy(ReqGetStrategy) returns (Strategy) {
+    option (google.api.http).get = "/api/v1/strategy/{id}";
+  };
+  // 创建策略
+  rpc CreateStrategy(Strategy) returns (EmptyResponse) {
+    option (google.api.http) = {
+      post : '/api/v1/strategy'
+      body : "*"
+    };
+  };
+  // 删除策略
+  rpc DeleteStrategy(ReqDeleteStrategy) returns (EmptyResponse) {
+    option (google.api.http).get = "/api/v1/strategy/{id}";
   };
 }
 
+message EmptyRequest {}
 message EmptyResponse {}
 message ReqSSEStockOptionList {}
 message RspSSEStockOptionList { repeated SSEStockOption list = 1; }
+
+message ReqUserLogin {
+  string user = 1;
+  string password = 2;
+  string type = 3;
+}
+message RspUserLogin {
+  string message = 1;
+  bool success = 2;
+}
+
+message I18Item { string name = 1; }
+
+message RouteItem {
+  string icon = 1;
+  string id = 2;
+  string name = 3;
+  I18Item en = 4;
+  I18Item zh = 5;
+  string route = 6;
+  string breadcrumb_parent_id = 7;
+  string menu_parent_id = 8;
+}
+message RspGetRoutes { repeated RouteItem list = 1; }
+
+message XUser {
+  string avatar = 1;
+  int32 id = 2;
+  string username = 3;
+  XPermission permissions = 4;
+}
+message RspCurrentUser {
+  bool success = 1;
+  XUser user = 2;
+}
+
+message XPermission {
+  string role = 1;
+  repeated string visit = 2;
+}
+
+message XUsersItem {
+  string address = 1;
+  int32 age = 2;
+  string avatar = 3;
+  string create_time = 4;
+  string email = 5;
+  string id = 6;
+  bool is_male = 7;
+  string name = 8;
+  string nick_name = 9;
+  string phone = 10;
+}
+message XUsersItemList { repeated XUsersItem list = 1; }

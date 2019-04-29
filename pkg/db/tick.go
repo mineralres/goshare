@@ -1,11 +1,12 @@
-package ldb
+package db
 
 import (
 	"errors"
 	"fmt"
+	"log"
+
 	"github.com/gogo/protobuf/proto"
 	"github.com/mineralres/goshare/pkg/pb"
-	"log"
 )
 
 // 保存行情

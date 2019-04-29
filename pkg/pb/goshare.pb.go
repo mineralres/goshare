@@ -18,13 +18,21 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+type EmptyRequest struct {
+}
+
+func (m *EmptyRequest) Reset()                    { *m = EmptyRequest{} }
+func (m *EmptyRequest) String() string            { return proto.CompactTextString(m) }
+func (*EmptyRequest) ProtoMessage()               {}
+func (*EmptyRequest) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{0} }
+
 type EmptyResponse struct {
 }
 
 func (m *EmptyResponse) Reset()                    { *m = EmptyResponse{} }
 func (m *EmptyResponse) String() string            { return proto.CompactTextString(m) }
 func (*EmptyResponse) ProtoMessage()               {}
-func (*EmptyResponse) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{0} }
+func (*EmptyResponse) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{1} }
 
 type ReqSSEStockOptionList struct {
 }
@@ -32,7 +40,7 @@ type ReqSSEStockOptionList struct {
 func (m *ReqSSEStockOptionList) Reset()                    { *m = ReqSSEStockOptionList{} }
 func (m *ReqSSEStockOptionList) String() string            { return proto.CompactTextString(m) }
 func (*ReqSSEStockOptionList) ProtoMessage()               {}
-func (*ReqSSEStockOptionList) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{1} }
+func (*ReqSSEStockOptionList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{2} }
 
 type RspSSEStockOptionList struct {
 	List []*SSEStockOption `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
@@ -41,7 +49,7 @@ type RspSSEStockOptionList struct {
 func (m *RspSSEStockOptionList) Reset()                    { *m = RspSSEStockOptionList{} }
 func (m *RspSSEStockOptionList) String() string            { return proto.CompactTextString(m) }
 func (*RspSSEStockOptionList) ProtoMessage()               {}
-func (*RspSSEStockOptionList) Descriptor() ([]byte, []int) { return fileDescriptor2, []int{2} }
+func (*RspSSEStockOptionList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{3} }
 
 func (m *RspSSEStockOptionList) GetList() []*SSEStockOption {
 	if m != nil {
@@ -50,10 +58,373 @@ func (m *RspSSEStockOptionList) GetList() []*SSEStockOption {
 	return nil
 }
 
+type ReqUserLogin struct {
+	User     string `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	Password string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+	Type     string `protobuf:"bytes,3,opt,name=type" json:"type,omitempty"`
+}
+
+func (m *ReqUserLogin) Reset()                    { *m = ReqUserLogin{} }
+func (m *ReqUserLogin) String() string            { return proto.CompactTextString(m) }
+func (*ReqUserLogin) ProtoMessage()               {}
+func (*ReqUserLogin) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{4} }
+
+func (m *ReqUserLogin) GetUser() string {
+	if m != nil {
+		return m.User
+	}
+	return ""
+}
+
+func (m *ReqUserLogin) GetPassword() string {
+	if m != nil {
+		return m.Password
+	}
+	return ""
+}
+
+func (m *ReqUserLogin) GetType() string {
+	if m != nil {
+		return m.Type
+	}
+	return ""
+}
+
+type RspUserLogin struct {
+	Message string `protobuf:"bytes,1,opt,name=message" json:"message,omitempty"`
+	Success bool   `protobuf:"varint,2,opt,name=success" json:"success,omitempty"`
+}
+
+func (m *RspUserLogin) Reset()                    { *m = RspUserLogin{} }
+func (m *RspUserLogin) String() string            { return proto.CompactTextString(m) }
+func (*RspUserLogin) ProtoMessage()               {}
+func (*RspUserLogin) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{5} }
+
+func (m *RspUserLogin) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *RspUserLogin) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
+type I18Item struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *I18Item) Reset()                    { *m = I18Item{} }
+func (m *I18Item) String() string            { return proto.CompactTextString(m) }
+func (*I18Item) ProtoMessage()               {}
+func (*I18Item) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{6} }
+
+func (m *I18Item) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type RouteItem struct {
+	Icon               string   `protobuf:"bytes,1,opt,name=icon" json:"icon,omitempty"`
+	Id                 string   `protobuf:"bytes,2,opt,name=id" json:"id,omitempty"`
+	Name               string   `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	En                 *I18Item `protobuf:"bytes,4,opt,name=en" json:"en,omitempty"`
+	Zh                 *I18Item `protobuf:"bytes,5,opt,name=zh" json:"zh,omitempty"`
+	Route              string   `protobuf:"bytes,6,opt,name=route" json:"route,omitempty"`
+	BreadcrumbParentId string   `protobuf:"bytes,7,opt,name=breadcrumb_parent_id,json=breadcrumbParentId" json:"breadcrumb_parent_id,omitempty"`
+	MenuParentId       string   `protobuf:"bytes,8,opt,name=menu_parent_id,json=menuParentId" json:"menu_parent_id,omitempty"`
+}
+
+func (m *RouteItem) Reset()                    { *m = RouteItem{} }
+func (m *RouteItem) String() string            { return proto.CompactTextString(m) }
+func (*RouteItem) ProtoMessage()               {}
+func (*RouteItem) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{7} }
+
+func (m *RouteItem) GetIcon() string {
+	if m != nil {
+		return m.Icon
+	}
+	return ""
+}
+
+func (m *RouteItem) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *RouteItem) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *RouteItem) GetEn() *I18Item {
+	if m != nil {
+		return m.En
+	}
+	return nil
+}
+
+func (m *RouteItem) GetZh() *I18Item {
+	if m != nil {
+		return m.Zh
+	}
+	return nil
+}
+
+func (m *RouteItem) GetRoute() string {
+	if m != nil {
+		return m.Route
+	}
+	return ""
+}
+
+func (m *RouteItem) GetBreadcrumbParentId() string {
+	if m != nil {
+		return m.BreadcrumbParentId
+	}
+	return ""
+}
+
+func (m *RouteItem) GetMenuParentId() string {
+	if m != nil {
+		return m.MenuParentId
+	}
+	return ""
+}
+
+type RspGetRoutes struct {
+	List []*RouteItem `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+}
+
+func (m *RspGetRoutes) Reset()                    { *m = RspGetRoutes{} }
+func (m *RspGetRoutes) String() string            { return proto.CompactTextString(m) }
+func (*RspGetRoutes) ProtoMessage()               {}
+func (*RspGetRoutes) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{8} }
+
+func (m *RspGetRoutes) GetList() []*RouteItem {
+	if m != nil {
+		return m.List
+	}
+	return nil
+}
+
+type XUser struct {
+	Avatar      string       `protobuf:"bytes,1,opt,name=avatar" json:"avatar,omitempty"`
+	Id          int32        `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
+	Username    string       `protobuf:"bytes,3,opt,name=username" json:"username,omitempty"`
+	Permissions *XPermission `protobuf:"bytes,4,opt,name=permissions" json:"permissions,omitempty"`
+}
+
+func (m *XUser) Reset()                    { *m = XUser{} }
+func (m *XUser) String() string            { return proto.CompactTextString(m) }
+func (*XUser) ProtoMessage()               {}
+func (*XUser) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{9} }
+
+func (m *XUser) GetAvatar() string {
+	if m != nil {
+		return m.Avatar
+	}
+	return ""
+}
+
+func (m *XUser) GetId() int32 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *XUser) GetUsername() string {
+	if m != nil {
+		return m.Username
+	}
+	return ""
+}
+
+func (m *XUser) GetPermissions() *XPermission {
+	if m != nil {
+		return m.Permissions
+	}
+	return nil
+}
+
+type RspCurrentUser struct {
+	Success bool   `protobuf:"varint,1,opt,name=success" json:"success,omitempty"`
+	User    *XUser `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+}
+
+func (m *RspCurrentUser) Reset()                    { *m = RspCurrentUser{} }
+func (m *RspCurrentUser) String() string            { return proto.CompactTextString(m) }
+func (*RspCurrentUser) ProtoMessage()               {}
+func (*RspCurrentUser) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{10} }
+
+func (m *RspCurrentUser) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
+func (m *RspCurrentUser) GetUser() *XUser {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+type XPermission struct {
+	Role  string   `protobuf:"bytes,1,opt,name=role" json:"role,omitempty"`
+	Visit []string `protobuf:"bytes,2,rep,name=visit" json:"visit,omitempty"`
+}
+
+func (m *XPermission) Reset()                    { *m = XPermission{} }
+func (m *XPermission) String() string            { return proto.CompactTextString(m) }
+func (*XPermission) ProtoMessage()               {}
+func (*XPermission) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{11} }
+
+func (m *XPermission) GetRole() string {
+	if m != nil {
+		return m.Role
+	}
+	return ""
+}
+
+func (m *XPermission) GetVisit() []string {
+	if m != nil {
+		return m.Visit
+	}
+	return nil
+}
+
+type XUsersItem struct {
+	Address    string `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
+	Age        int32  `protobuf:"varint,2,opt,name=age" json:"age,omitempty"`
+	Avatar     string `protobuf:"bytes,3,opt,name=avatar" json:"avatar,omitempty"`
+	CreateTime string `protobuf:"bytes,4,opt,name=create_time,json=createTime" json:"create_time,omitempty"`
+	Email      string `protobuf:"bytes,5,opt,name=email" json:"email,omitempty"`
+	Id         string `protobuf:"bytes,6,opt,name=id" json:"id,omitempty"`
+	IsMale     bool   `protobuf:"varint,7,opt,name=is_male,json=isMale" json:"is_male,omitempty"`
+	Name       string `protobuf:"bytes,8,opt,name=name" json:"name,omitempty"`
+	NickName   string `protobuf:"bytes,9,opt,name=nick_name,json=nickName" json:"nick_name,omitempty"`
+	Phone      string `protobuf:"bytes,10,opt,name=phone" json:"phone,omitempty"`
+}
+
+func (m *XUsersItem) Reset()                    { *m = XUsersItem{} }
+func (m *XUsersItem) String() string            { return proto.CompactTextString(m) }
+func (*XUsersItem) ProtoMessage()               {}
+func (*XUsersItem) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{12} }
+
+func (m *XUsersItem) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetAge() int32 {
+	if m != nil {
+		return m.Age
+	}
+	return 0
+}
+
+func (m *XUsersItem) GetAvatar() string {
+	if m != nil {
+		return m.Avatar
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetCreateTime() string {
+	if m != nil {
+		return m.CreateTime
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetIsMale() bool {
+	if m != nil {
+		return m.IsMale
+	}
+	return false
+}
+
+func (m *XUsersItem) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetNickName() string {
+	if m != nil {
+		return m.NickName
+	}
+	return ""
+}
+
+func (m *XUsersItem) GetPhone() string {
+	if m != nil {
+		return m.Phone
+	}
+	return ""
+}
+
+type XUsersItemList struct {
+	List []*XUsersItem `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+}
+
+func (m *XUsersItemList) Reset()                    { *m = XUsersItemList{} }
+func (m *XUsersItemList) String() string            { return proto.CompactTextString(m) }
+func (*XUsersItemList) ProtoMessage()               {}
+func (*XUsersItemList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{13} }
+
+func (m *XUsersItemList) GetList() []*XUsersItem {
+	if m != nil {
+		return m.List
+	}
+	return nil
+}
+
 func init() {
+	proto.RegisterType((*EmptyRequest)(nil), "pb.EmptyRequest")
 	proto.RegisterType((*EmptyResponse)(nil), "pb.EmptyResponse")
 	proto.RegisterType((*ReqSSEStockOptionList)(nil), "pb.ReqSSEStockOptionList")
 	proto.RegisterType((*RspSSEStockOptionList)(nil), "pb.RspSSEStockOptionList")
+	proto.RegisterType((*ReqUserLogin)(nil), "pb.ReqUserLogin")
+	proto.RegisterType((*RspUserLogin)(nil), "pb.RspUserLogin")
+	proto.RegisterType((*I18Item)(nil), "pb.I18Item")
+	proto.RegisterType((*RouteItem)(nil), "pb.RouteItem")
+	proto.RegisterType((*RspGetRoutes)(nil), "pb.RspGetRoutes")
+	proto.RegisterType((*XUser)(nil), "pb.XUser")
+	proto.RegisterType((*RspCurrentUser)(nil), "pb.RspCurrentUser")
+	proto.RegisterType((*XPermission)(nil), "pb.XPermission")
+	proto.RegisterType((*XUsersItem)(nil), "pb.XUsersItem")
+	proto.RegisterType((*XUsersItemList)(nil), "pb.XUsersItemList")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -75,6 +446,24 @@ type GoShareClient interface {
 	SubscribeMarketData(ctx context.Context, in *ReqSubscribeMarketData, opts ...grpc.CallOption) (GoShare_SubscribeMarketDataClient, error)
 	// PushTick 推送tick更新
 	PushTick(ctx context.Context, in *MarketDataSnapshot, opts ...grpc.CallOption) (*EmptyResponse, error)
+	// UserLogin 登陆
+	UserLogin(ctx context.Context, in *ReqUserLogin, opts ...grpc.CallOption) (*RspUserLogin, error)
+	// UserLogout 登出
+	UserLogout(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*EmptyResponse, error)
+	// Routes 路由列表
+	Routes(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*RspGetRoutes, error)
+	// 返回当前用户信息
+	CurrentUser(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*RspCurrentUser, error)
+	// 用户列表
+	Users(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*XUsersItemList, error)
+	// 策略列表
+	GetStrategyList(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*StrategyList, error)
+	// 查询策略
+	GetStrategy(ctx context.Context, in *ReqGetStrategy, opts ...grpc.CallOption) (*Strategy, error)
+	// 创建策略
+	CreateStrategy(ctx context.Context, in *Strategy, opts ...grpc.CallOption) (*EmptyResponse, error)
+	// 删除策略
+	DeleteStrategy(ctx context.Context, in *ReqDeleteStrategy, opts ...grpc.CallOption) (*EmptyResponse, error)
 }
 
 type goShareClient struct {
@@ -144,6 +533,87 @@ func (c *goShareClient) PushTick(ctx context.Context, in *MarketDataSnapshot, op
 	return out, nil
 }
 
+func (c *goShareClient) UserLogin(ctx context.Context, in *ReqUserLogin, opts ...grpc.CallOption) (*RspUserLogin, error) {
+	out := new(RspUserLogin)
+	err := grpc.Invoke(ctx, "/pb.GoShare/UserLogin", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) UserLogout(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
+	err := grpc.Invoke(ctx, "/pb.GoShare/UserLogout", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) Routes(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*RspGetRoutes, error) {
+	out := new(RspGetRoutes)
+	err := grpc.Invoke(ctx, "/pb.GoShare/Routes", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) CurrentUser(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*RspCurrentUser, error) {
+	out := new(RspCurrentUser)
+	err := grpc.Invoke(ctx, "/pb.GoShare/CurrentUser", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) Users(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*XUsersItemList, error) {
+	out := new(XUsersItemList)
+	err := grpc.Invoke(ctx, "/pb.GoShare/Users", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) GetStrategyList(ctx context.Context, in *EmptyRequest, opts ...grpc.CallOption) (*StrategyList, error) {
+	out := new(StrategyList)
+	err := grpc.Invoke(ctx, "/pb.GoShare/GetStrategyList", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) GetStrategy(ctx context.Context, in *ReqGetStrategy, opts ...grpc.CallOption) (*Strategy, error) {
+	out := new(Strategy)
+	err := grpc.Invoke(ctx, "/pb.GoShare/GetStrategy", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) CreateStrategy(ctx context.Context, in *Strategy, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
+	err := grpc.Invoke(ctx, "/pb.GoShare/CreateStrategy", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *goShareClient) DeleteStrategy(ctx context.Context, in *ReqDeleteStrategy, opts ...grpc.CallOption) (*EmptyResponse, error) {
+	out := new(EmptyResponse)
+	err := grpc.Invoke(ctx, "/pb.GoShare/DeleteStrategy", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for GoShare service
 
 type GoShareServer interface {
@@ -155,6 +625,24 @@ type GoShareServer interface {
 	SubscribeMarketData(*ReqSubscribeMarketData, GoShare_SubscribeMarketDataServer) error
 	// PushTick 推送tick更新
 	PushTick(context.Context, *MarketDataSnapshot) (*EmptyResponse, error)
+	// UserLogin 登陆
+	UserLogin(context.Context, *ReqUserLogin) (*RspUserLogin, error)
+	// UserLogout 登出
+	UserLogout(context.Context, *EmptyRequest) (*EmptyResponse, error)
+	// Routes 路由列表
+	Routes(context.Context, *EmptyRequest) (*RspGetRoutes, error)
+	// 返回当前用户信息
+	CurrentUser(context.Context, *EmptyRequest) (*RspCurrentUser, error)
+	// 用户列表
+	Users(context.Context, *EmptyRequest) (*XUsersItemList, error)
+	// 策略列表
+	GetStrategyList(context.Context, *EmptyRequest) (*StrategyList, error)
+	// 查询策略
+	GetStrategy(context.Context, *ReqGetStrategy) (*Strategy, error)
+	// 创建策略
+	CreateStrategy(context.Context, *Strategy) (*EmptyResponse, error)
+	// 删除策略
+	DeleteStrategy(context.Context, *ReqDeleteStrategy) (*EmptyResponse, error)
 }
 
 func RegisterGoShareServer(s *grpc.Server, srv GoShareServer) {
@@ -236,6 +724,168 @@ func _GoShare_PushTick_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GoShare_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqUserLogin)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).UserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/UserLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).UserLogin(ctx, req.(*ReqUserLogin))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_UserLogout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).UserLogout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/UserLogout",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).UserLogout(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_Routes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).Routes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/Routes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).Routes(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_CurrentUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).CurrentUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/CurrentUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).CurrentUser(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_Users_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).Users(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/Users",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).Users(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_GetStrategyList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).GetStrategyList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/GetStrategyList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).GetStrategyList(ctx, req.(*EmptyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_GetStrategy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqGetStrategy)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).GetStrategy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/GetStrategy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).GetStrategy(ctx, req.(*ReqGetStrategy))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_CreateStrategy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Strategy)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).CreateStrategy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/CreateStrategy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).CreateStrategy(ctx, req.(*Strategy))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GoShare_DeleteStrategy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReqDeleteStrategy)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GoShareServer).DeleteStrategy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pb.GoShare/DeleteStrategy",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GoShareServer).DeleteStrategy(ctx, req.(*ReqDeleteStrategy))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _GoShare_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.GoShare",
 	HandlerType: (*GoShareServer)(nil),
@@ -252,6 +902,42 @@ var _GoShare_serviceDesc = grpc.ServiceDesc{
 			MethodName: "PushTick",
 			Handler:    _GoShare_PushTick_Handler,
 		},
+		{
+			MethodName: "UserLogin",
+			Handler:    _GoShare_UserLogin_Handler,
+		},
+		{
+			MethodName: "UserLogout",
+			Handler:    _GoShare_UserLogout_Handler,
+		},
+		{
+			MethodName: "Routes",
+			Handler:    _GoShare_Routes_Handler,
+		},
+		{
+			MethodName: "CurrentUser",
+			Handler:    _GoShare_CurrentUser_Handler,
+		},
+		{
+			MethodName: "Users",
+			Handler:    _GoShare_Users_Handler,
+		},
+		{
+			MethodName: "GetStrategyList",
+			Handler:    _GoShare_GetStrategyList_Handler,
+		},
+		{
+			MethodName: "GetStrategy",
+			Handler:    _GoShare_GetStrategy_Handler,
+		},
+		{
+			MethodName: "CreateStrategy",
+			Handler:    _GoShare_CreateStrategy_Handler,
+		},
+		{
+			MethodName: "DeleteStrategy",
+			Handler:    _GoShare_DeleteStrategy_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -263,32 +949,75 @@ var _GoShare_serviceDesc = grpc.ServiceDesc{
 	Metadata: "goshare.proto",
 }
 
-func init() { proto.RegisterFile("goshare.proto", fileDescriptor2) }
+func init() { proto.RegisterFile("goshare.proto", fileDescriptor3) }
 
-var fileDescriptor2 = []byte{
-	// 369 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x92, 0xcd, 0x4e, 0xfa, 0x40,
-	0x14, 0xc5, 0x53, 0xf8, 0xe7, 0x2f, 0x19, 0x41, 0xc3, 0x18, 0xbe, 0x1a, 0xa3, 0xd8, 0x85, 0x1a,
-	0x17, 0x54, 0x21, 0x2e, 0xd4, 0x85, 0x1b, 0x89, 0x1b, 0x8c, 0xa6, 0x75, 0xe5, 0x42, 0x33, 0x2d,
-	0x93, 0xb6, 0xa1, 0x9d, 0x3b, 0x76, 0x06, 0x23, 0x21, 0x6c, 0xdc, 0xf8, 0x00, 0xbe, 0x96, 0x3b,
-	0x5f, 0xc1, 0x07, 0x31, 0x33, 0xc5, 0x28, 0x02, 0xbb, 0xe6, 0xfc, 0xee, 0xc7, 0x39, 0xb7, 0x83,
-	0x4a, 0x01, 0x88, 0x90, 0xa4, 0xb4, 0xc5, 0x53, 0x90, 0x80, 0x73, 0xdc, 0x33, 0x8b, 0x3e, 0x24,
-	0x09, 0xb0, 0x4c, 0x31, 0xcb, 0x09, 0x49, 0x07, 0x54, 0x3e, 0xf4, 0x89, 0x24, 0x53, 0x69, 0x33,
-	0x00, 0x08, 0x62, 0x6a, 0x13, 0x1e, 0xd9, 0x84, 0x31, 0x90, 0x44, 0x46, 0xc0, 0x44, 0x46, 0xad,
-	0x75, 0x54, 0xea, 0x26, 0x5c, 0x8e, 0x1c, 0x2a, 0x38, 0x30, 0x41, 0xad, 0x1a, 0xaa, 0x38, 0xf4,
-	0xd1, 0x75, 0xbb, 0xae, 0x04, 0x7f, 0x70, 0xcd, 0x55, 0x71, 0x2f, 0x12, 0xd2, 0x3a, 0x47, 0x15,
-	0x47, 0xf0, 0x79, 0x80, 0x77, 0xd1, 0xbf, 0x38, 0x12, 0xb2, 0x6e, 0x34, 0xf3, 0xfb, 0xab, 0x6d,
-	0xdc, 0xe2, 0x5e, 0x6b, 0xb6, 0xca, 0xd1, 0xbc, 0xfd, 0x9e, 0x47, 0x2b, 0x97, 0xe0, 0x2a, 0xff,
-	0x38, 0x42, 0x85, 0x1e, 0x11, 0xf2, 0x36, 0xf2, 0x07, 0x18, 0xe9, 0x8e, 0x51, 0xe2, 0x41, 0x6c,
-	0x56, 0xd5, 0xf7, 0x95, 0xce, 0x70, 0x41, 0x24, 0x71, 0x19, 0xe1, 0x22, 0x04, 0x69, 0x9d, 0xbc,
-	0x7c, 0x7c, 0xbe, 0xe5, 0x3a, 0x56, 0xd1, 0x7e, 0x3a, 0xb2, 0xe3, 0x69, 0xe7, 0xa9, 0x71, 0x70,
-	0xd7, 0xc4, 0x5b, 0xbf, 0x25, 0x7b, 0x4c, 0x9f, 0xfd, 0x90, 0xb0, 0x80, 0x4e, 0xec, 0xb1, 0x0f,
-	0x7d, 0x3a, 0xc1, 0xaf, 0x06, 0xc2, 0x0b, 0x5c, 0x37, 0xd4, 0xa6, 0x85, 0x49, 0xcd, 0x0c, 0x2d,
-	0xca, 0x6a, 0x9d, 0x69, 0x1f, 0xc7, 0x56, 0x55, 0x2d, 0x15, 0x82, 0xfe, 0xe1, 0xca, 0x51, 0x1d,
-	0x2f, 0x81, 0x38, 0x46, 0x1b, 0xee, 0xd0, 0x13, 0x7e, 0x1a, 0x79, 0xf4, 0x27, 0x23, 0x36, 0xbf,
-	0x9d, 0xcc, 0xb3, 0xa5, 0xf7, 0xd8, 0xd6, 0x3e, 0x1a, 0xb8, 0xa6, 0x57, 0xcd, 0x37, 0x1e, 0x1a,
-	0xf8, 0x1e, 0x15, 0x6e, 0x86, 0x22, 0xd4, 0x27, 0x5e, 0x32, 0xc6, 0x2c, 0x2b, 0x7d, 0xf6, 0xff,
-	0xef, 0xe9, 0xc9, 0x3b, 0xd9, 0xa5, 0xf9, 0x74, 0x80, 0xca, 0xb5, 0x86, 0x67, 0x24, 0xef, 0xbf,
-	0x7e, 0x40, 0x9d, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x09, 0xee, 0x4a, 0x87, 0x94, 0x02, 0x00,
-	0x00,
+var fileDescriptor3 = []byte{
+	// 1068 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x96, 0xcd, 0x6e, 0x23, 0xc5,
+	0x13, 0xc0, 0x65, 0x7b, 0xe3, 0x8f, 0xb2, 0xe3, 0x64, 0x6b, 0xe3, 0xcd, 0xfc, 0x27, 0x1b, 0xfd,
+	0x43, 0xb3, 0x42, 0x61, 0x0f, 0xf1, 0x26, 0x20, 0x81, 0x16, 0x21, 0x04, 0xc9, 0x2a, 0x8a, 0x94,
+	0x0d, 0x61, 0xbc, 0x48, 0x0b, 0x17, 0xab, 0x3d, 0x6e, 0xec, 0x56, 0x3c, 0xd3, 0x93, 0xe9, 0x76,
+	0x20, 0x1b, 0x85, 0x03, 0x2f, 0xc0, 0x81, 0xe7, 0xe0, 0x69, 0x78, 0x05, 0x6e, 0x3c, 0x00, 0x57,
+	0xd4, 0x35, 0x1f, 0x1e, 0xc7, 0x4e, 0x6e, 0x5d, 0x1f, 0xfd, 0xab, 0xea, 0xaa, 0x72, 0x8d, 0x61,
+	0x75, 0xa4, 0xf4, 0x98, 0xc7, 0x62, 0x2f, 0x8a, 0x95, 0x51, 0x58, 0x8e, 0x06, 0x6e, 0xcb, 0x57,
+	0x41, 0xa0, 0xc2, 0x44, 0xe3, 0x3e, 0x0e, 0x78, 0x7c, 0x21, 0x4c, 0x7f, 0xc8, 0x0d, 0x4f, 0x55,
+	0xcf, 0x46, 0x4a, 0x8d, 0x26, 0xa2, 0xcb, 0x23, 0xd9, 0xe5, 0x61, 0xa8, 0x0c, 0x37, 0x52, 0x85,
+	0x3a, 0xb5, 0xb6, 0xb5, 0x89, 0xb9, 0x11, 0xa3, 0xeb, 0x44, 0x66, 0x6d, 0x68, 0xbd, 0x0e, 0x22,
+	0x73, 0xed, 0x89, 0xcb, 0xa9, 0xd0, 0x86, 0xad, 0xc1, 0x6a, 0x2a, 0xeb, 0x48, 0x85, 0x5a, 0xb0,
+	0x4d, 0xe8, 0x78, 0xe2, 0xb2, 0xd7, 0x7b, 0xdd, 0x33, 0xca, 0xbf, 0xf8, 0x36, 0xb2, 0xb0, 0x53,
+	0xa9, 0x0d, 0xfb, 0x0a, 0x3a, 0x9e, 0x8e, 0x16, 0x0d, 0xf8, 0x11, 0x3c, 0x9a, 0x48, 0x6d, 0x9c,
+	0xd2, 0x4e, 0x65, 0xb7, 0x79, 0x80, 0x7b, 0xd1, 0x60, 0x6f, 0xde, 0xcb, 0x23, 0x3b, 0xf3, 0xa0,
+	0xe5, 0x89, 0xcb, 0xef, 0xb5, 0x88, 0x4f, 0xd5, 0x48, 0x86, 0x88, 0xf0, 0x68, 0xaa, 0x45, 0xec,
+	0x94, 0x76, 0x4a, 0xbb, 0x0d, 0x8f, 0xce, 0xe8, 0x42, 0x3d, 0xe2, 0x5a, 0xff, 0xac, 0xe2, 0xa1,
+	0x53, 0x26, 0x7d, 0x2e, 0x5b, 0x7f, 0x73, 0x1d, 0x09, 0xa7, 0x92, 0xf8, 0xdb, 0x33, 0xfb, 0x06,
+	0x5a, 0x9e, 0x8e, 0x66, 0x4c, 0x07, 0x6a, 0x81, 0xd0, 0x9a, 0x8f, 0x44, 0x8a, 0xcd, 0x44, 0x6b,
+	0xd1, 0x53, 0xdf, 0x17, 0x5a, 0x13, 0xb8, 0xee, 0x65, 0x22, 0xdb, 0x86, 0xda, 0xc9, 0xfe, 0xe7,
+	0x27, 0x46, 0x04, 0x36, 0x44, 0xc8, 0x83, 0xec, 0x2e, 0x9d, 0xd9, 0x3f, 0x25, 0x68, 0x78, 0x6a,
+	0x6a, 0x44, 0xe6, 0x21, 0x7d, 0x15, 0x66, 0x1e, 0xf6, 0x8c, 0x6d, 0x28, 0xcb, 0x2c, 0xdd, 0xb2,
+	0x1c, 0xe6, 0x94, 0xca, 0x8c, 0x82, 0x5b, 0x50, 0x16, 0xa1, 0xf3, 0x68, 0xa7, 0xb4, 0xdb, 0x3c,
+	0x68, 0xda, 0x12, 0xa5, 0x21, 0xbd, 0xb2, 0x08, 0xad, 0xf1, 0xfd, 0xd8, 0x59, 0x59, 0x62, 0x7c,
+	0x3f, 0xc6, 0x0d, 0x58, 0x89, 0x6d, 0x78, 0xa7, 0x4a, 0xb8, 0x44, 0xc0, 0x97, 0xb0, 0x31, 0x88,
+	0x05, 0x1f, 0xfa, 0xf1, 0x34, 0x18, 0xf4, 0x23, 0x1e, 0x8b, 0xd0, 0xf4, 0xe5, 0xd0, 0xa9, 0x91,
+	0x13, 0xce, 0x6c, 0xe7, 0x64, 0x3a, 0x19, 0xe2, 0x73, 0x68, 0x07, 0x22, 0x9c, 0x16, 0x7c, 0xeb,
+	0xe4, 0xdb, 0xb2, 0xda, 0xcc, 0x8b, 0xed, 0x53, 0x41, 0x8f, 0x85, 0xa1, 0x27, 0x6b, 0xfc, 0x60,
+	0xae, 0xb9, 0xab, 0x36, 0xb9, 0xbc, 0x18, 0x69, 0x5f, 0x7f, 0x85, 0x95, 0x77, 0xb6, 0x03, 0xf8,
+	0x14, 0xaa, 0xfc, 0x8a, 0x1b, 0x9e, 0xb5, 0x34, 0x95, 0x0a, 0xf5, 0x59, 0xa1, 0xfa, 0xb8, 0x50,
+	0xb7, 0xcd, 0x2e, 0xd4, 0x28, 0x97, 0x71, 0x1f, 0x9a, 0x91, 0x88, 0x03, 0xa9, 0xb5, 0x1d, 0xe2,
+	0xb4, 0x60, 0x6b, 0x36, 0xec, 0xbb, 0xf3, 0x5c, 0xef, 0x15, 0x7d, 0xd8, 0x09, 0xb4, 0x3d, 0x1d,
+	0x1d, 0x4e, 0x63, 0xfb, 0x04, 0x4a, 0xa4, 0xd0, 0xeb, 0xd2, 0x5c, 0xaf, 0x71, 0x3b, 0x9d, 0xb9,
+	0x32, 0x71, 0x1b, 0xc4, 0xb5, 0x57, 0x92, 0xf1, 0x63, 0x9f, 0x41, 0xb3, 0x10, 0xc6, 0x36, 0x32,
+	0x56, 0x93, 0x7c, 0x1c, 0xec, 0xd9, 0xb6, 0xe3, 0x4a, 0x6a, 0x69, 0x9c, 0xf2, 0x4e, 0xc5, 0xb6,
+	0x83, 0x04, 0xf6, 0x6f, 0x09, 0x80, 0x40, 0x9a, 0xa6, 0xc4, 0x81, 0x1a, 0x1f, 0x0e, 0xe3, 0x2c,
+	0x81, 0x86, 0x97, 0x89, 0xb8, 0x0e, 0x15, 0x3b, 0x9c, 0x49, 0x31, 0xec, 0xb1, 0x50, 0xb5, 0xca,
+	0x5c, 0xd5, 0xfe, 0x0f, 0x4d, 0x3f, 0x16, 0xdc, 0x88, 0xbe, 0x91, 0x81, 0xa0, 0x4a, 0x34, 0x3c,
+	0x48, 0x54, 0x6f, 0x65, 0x40, 0x99, 0x88, 0x80, 0xcb, 0x09, 0x0d, 0x4e, 0xc3, 0x4b, 0x84, 0xb4,
+	0xd8, 0xd5, 0x7c, 0x18, 0x37, 0xa1, 0x26, 0x75, 0x3f, 0xe0, 0x13, 0x41, 0xb3, 0x51, 0xf7, 0xaa,
+	0x52, 0xbf, 0xe1, 0x13, 0x91, 0x4f, 0x69, 0x7d, 0x6e, 0x4a, 0x1b, 0xa1, 0xf4, 0x2f, 0xfa, 0x64,
+	0x68, 0x24, 0xad, 0xb1, 0x8a, 0x33, 0x9e, 0xc4, 0x8b, 0xc6, 0x2a, 0x14, 0x0e, 0x24, 0xf1, 0x48,
+	0x60, 0x9f, 0x42, 0x7b, 0xf6, 0x70, 0xda, 0x07, 0x6c, 0x6e, 0x64, 0xda, 0x79, 0x8d, 0xf5, 0x6c,
+	0x66, 0x0e, 0xfe, 0x6c, 0x40, 0xed, 0x58, 0xf5, 0xec, 0xae, 0xc3, 0x4b, 0xa8, 0x9f, 0x72, 0x6d,
+	0xde, 0x4a, 0xff, 0x02, 0x81, 0xb6, 0xc7, 0x75, 0x30, 0x50, 0x13, 0xf7, 0xa9, 0x3d, 0xbf, 0xa1,
+	0x7d, 0x77, 0xc4, 0x0d, 0xef, 0x85, 0x3c, 0xd2, 0x63, 0x65, 0xd8, 0xd7, 0xbf, 0xfd, 0xf5, 0xf7,
+	0x1f, 0xe5, 0x2f, 0xd8, 0x3a, 0xad, 0xbc, 0xab, 0xfd, 0xee, 0x24, 0xbd, 0xfd, 0xaa, 0xf4, 0xe2,
+	0xc7, 0xe7, 0xc8, 0xee, 0xaa, 0xbb, 0x37, 0xe2, 0x17, 0x7f, 0xcc, 0xc3, 0x91, 0xb8, 0xed, 0xde,
+	0xf8, 0x6a, 0x28, 0x6e, 0xf1, 0xf7, 0x12, 0xe0, 0x92, 0x4d, 0xf6, 0x3f, 0x1a, 0xef, 0x65, 0xdb,
+	0xcf, 0x4d, 0x4c, 0xcb, 0xf6, 0x1f, 0x3b, 0xa4, 0x7c, 0xbe, 0x64, 0x6e, 0x16, 0x58, 0x6b, 0x71,
+	0xc7, 0xc7, 0x66, 0xf6, 0x0c, 0x1f, 0x70, 0xc0, 0x08, 0x9e, 0xf4, 0xa6, 0x03, 0xed, 0xc7, 0x72,
+	0x20, 0x66, 0x6f, 0x46, 0x37, 0xcb, 0x68, 0xd1, 0x76, 0x6f, 0x7d, 0x3e, 0xa4, 0x7c, 0xb6, 0x71,
+	0x2b, 0x0f, 0xb7, 0x78, 0xf9, 0x65, 0x09, 0x7f, 0x82, 0xfa, 0xf9, 0x54, 0x8f, 0xa9, 0xec, 0xf7,
+	0xa0, 0xdc, 0xc7, 0x56, 0x3f, 0xff, 0x7d, 0xe8, 0x12, 0xfd, 0xe3, 0x59, 0xf5, 0xa3, 0x14, 0x62,
+	0xdf, 0x88, 0xb8, 0xa0, 0xc6, 0x33, 0x68, 0xcc, 0xf6, 0xf3, 0x7a, 0xfa, 0x9e, 0x5c, 0xe3, 0xae,
+	0xa7, 0x85, 0xcd, 0x35, 0x6c, 0x9b, 0x22, 0x6c, 0x32, 0xcc, 0x50, 0xf6, 0xa7, 0xd9, 0x9d, 0x58,
+	0xdb, 0xab, 0xd2, 0x0b, 0x3c, 0x03, 0x48, 0x7d, 0xd5, 0xd4, 0x24, 0xc0, 0xe2, 0x17, 0x6d, 0x59,
+	0xce, 0x5b, 0x44, 0xec, 0xe0, 0x93, 0xbb, 0x44, 0x4b, 0x38, 0x82, 0x6a, 0xba, 0xeb, 0x16, 0x59,
+	0x59, 0x72, 0xf9, 0x3e, 0x64, 0x4f, 0x09, 0xb5, 0x8e, 0xed, 0x0c, 0x15, 0x27, 0x77, 0x4f, 0xa0,
+	0x59, 0xdc, 0x40, 0x8b, 0x28, 0x4c, 0x51, 0x05, 0x2f, 0xb6, 0x41, 0xb0, 0x36, 0xb6, 0x8a, 0x79,
+	0xe1, 0x11, 0xac, 0xd0, 0xcf, 0xe5, 0x3e, 0xc8, 0xfc, 0xcf, 0x8d, 0x75, 0x08, 0xb2, 0x86, 0xab,
+	0x45, 0x88, 0xc6, 0xef, 0x60, 0xed, 0x58, 0x98, 0x5e, 0xfa, 0xf5, 0xa7, 0x19, 0xbb, 0xe7, 0x7d,
+	0x45, 0x1f, 0xe6, 0x12, 0x6d, 0x03, 0xf3, 0xe2, 0xa7, 0xff, 0x1f, 0xa4, 0xd0, 0x78, 0x06, 0xcd,
+	0x02, 0x12, 0x31, 0xed, 0x65, 0x41, 0xe7, 0xb6, 0x8a, 0xc0, 0xac, 0x93, 0xd8, 0xb9, 0x03, 0xbb,
+	0xee, 0xde, 0xc8, 0xe1, 0x2d, 0x9e, 0x41, 0xfb, 0x90, 0xd6, 0x59, 0x8e, 0x9c, 0xbb, 0xfe, 0x40,
+	0x27, 0x67, 0xd3, 0x97, 0x11, 0xed, 0x64, 0xfc, 0x00, 0xed, 0x23, 0x31, 0x11, 0x05, 0x5e, 0x27,
+	0x4d, 0x71, 0x5e, 0xbd, 0x0c, 0xfc, 0x70, 0xaa, 0x83, 0x2a, 0xfd, 0x7b, 0xfa, 0xe4, 0xbf, 0x00,
+	0x00, 0x00, 0xff, 0xff, 0xf7, 0xf9, 0x4d, 0x7b, 0xa1, 0x09, 0x00, 0x00,
 }

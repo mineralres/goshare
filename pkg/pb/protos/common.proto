@@ -464,8 +464,6 @@ message MoneyTransferRecord {
 
 message MTRList { repeated MoneyTransferRecord list = 1; }
 
-message UserSession { int64 id = 1; }
-
 // SSEStockOption 上证交易所ETF期权
 message SSEStockOption {
   // 行权价

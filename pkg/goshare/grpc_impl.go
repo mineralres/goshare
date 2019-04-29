@@ -1,30 +1,52 @@
 package goshare
 
 import (
-	context "golang.org/x/net/context"
+	"errors"
 	"log"
+
+	context "golang.org/x/net/context"
+
 	// "time"
-	// "google.golang.org/grpc"
 
 	// "errors"
-	"github.com/mineralres/goshare/pkg/ldb"
+	"github.com/mineralres/goshare/pkg/db"
 	"github.com/mineralres/goshare/pkg/pb"
+	"google.golang.org/grpc/metadata"
 )
 
 // GrpcServer GoShareGrpcServer
 type GrpcServer struct {
-	cache *ldb.XCache
+	cache *db.XCache
 }
+
+// 错误定义
+var (
+	ErrorNeedLogin = errors.New("NeedLogin")
+)
 
 // MakeGrpcServer MakeGrpcServer
 func MakeGrpcServer() *GrpcServer {
 	var ret GrpcServer
-	ret.cache = ldb.MakeXCache()
+	ret.cache = db.MakeXCache()
 	return &ret
+}
+
+func getUserSession(ctx context.Context) *pb.UserSession {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if ok {
+		md = md
+	}
+	// v, ok := md["grpcgateway-cookie"]
+	return &pb.UserSession{}
 }
 
 // LastTick GetLastTick
 func (gs *GrpcServer) LastTick(ctx context.Context, req *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	session := getUserSession(ctx)
+	if session == nil {
+		return &pb.MarketDataSnapshot{}, ErrorNeedLogin
+	}
+	// do something with metadata
 	// 优先查找本地缓存
 	ret, err := gs.cache.GetLastTick(req)
 	log.Println("lasttick", ret, err, req)
