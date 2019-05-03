@@ -1,0 +1,4 @@
+rm ../pkg/pb/cpp/*.h
+rm ../pkg/pb/cpp/*.cc
+./protoc -I=../pkg/pb/protos --cpp_out="../pkg/pb/cpp" ../pkg/pb/protos/*.proto
+./protoc -I=../pkg/pb/protos --cpp_out="../pkg/pb/cpp/" ../pkg/pb/protos/google/api/*.proto

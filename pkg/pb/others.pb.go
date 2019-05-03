@@ -20,7 +20,7 @@ type NetInAmountDetail struct {
 func (m *NetInAmountDetail) Reset()                    { *m = NetInAmountDetail{} }
 func (m *NetInAmountDetail) String() string            { return proto.CompactTextString(m) }
 func (*NetInAmountDetail) ProtoMessage()               {}
-func (*NetInAmountDetail) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{0} }
+func (*NetInAmountDetail) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
 
 func (m *NetInAmountDetail) GetAmount() float64 {
 	if m != nil {
@@ -57,7 +57,7 @@ type RealtimeMoneyTrendItem struct {
 func (m *RealtimeMoneyTrendItem) Reset()                    { *m = RealtimeMoneyTrendItem{} }
 func (m *RealtimeMoneyTrendItem) String() string            { return proto.CompactTextString(m) }
 func (*RealtimeMoneyTrendItem) ProtoMessage()               {}
-func (*RealtimeMoneyTrendItem) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{1} }
+func (*RealtimeMoneyTrendItem) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
 
 func (m *RealtimeMoneyTrendItem) GetSymbol() *Symbol {
 	if m != nil {
@@ -136,7 +136,7 @@ type RealtimeMoneyTrendItemList struct {
 func (m *RealtimeMoneyTrendItemList) Reset()                    { *m = RealtimeMoneyTrendItemList{} }
 func (m *RealtimeMoneyTrendItemList) String() string            { return proto.CompactTextString(m) }
 func (*RealtimeMoneyTrendItemList) ProtoMessage()               {}
-func (*RealtimeMoneyTrendItemList) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{2} }
+func (*RealtimeMoneyTrendItemList) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
 
 func (m *RealtimeMoneyTrendItemList) GetList() []*RealtimeMoneyTrendItem {
 	if m != nil {
@@ -151,9 +151,9 @@ func init() {
 	proto.RegisterType((*RealtimeMoneyTrendItemList)(nil), "pb.RealtimeMoneyTrendItemList")
 }
 
-func init() { proto.RegisterFile("others.proto", fileDescriptor6) }
+func init() { proto.RegisterFile("others.proto", fileDescriptor8) }
 
-var fileDescriptor6 = []byte{
+var fileDescriptor8 = []byte{
 	// 345 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0x4f, 0x4b, 0xc3, 0x40,
 	0x10, 0xc5, 0x49, 0x53, 0x63, 0x3b, 0xa9, 0x68, 0x17, 0x5b, 0x42, 0x0f, 0x52, 0x72, 0x2a, 0x08,

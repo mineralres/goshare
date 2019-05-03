@@ -3,3 +3,5 @@
 cmd/server/*.rar
 .vscode
 cmd/server/db
+pkg/trading_account/*dll
+pkg/trading_account/*con

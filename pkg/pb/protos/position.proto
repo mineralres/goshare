@@ -1,0 +1,117 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "order.proto";
+
+// 持仓统计
+message PositionSummation {
+  // 方向
+  int32 direction = 1;
+  // 类型
+  int32 type = 2;
+  // 路由分组
+  string route_account = 3;
+  // 持仓
+  int32 position = 4;
+  // 金额
+  double amount = 5;
+  // 成本
+  double cost = 6;
+  // 冻结
+  int32 frozen = 7;
+  // 可用
+  int32 available = 8;
+  // 盈亏
+  double position_profit = 9;
+  // 平盈
+  double closed_profit = 10;
+  // 保证金
+  double margin = 11;
+  // 冻结保证金
+  double frozen_margin = 12;
+  // 手续费
+  double commission = 13;
+  // 冻结手续费
+  double frozen_commission = 14;
+  // 利息
+  double interest = 15;
+  // 冻结利息
+  double frozen_interest = 16;
+  // 盯市盈亏
+  double mtm_profit = 17;
+  // 进入清算的平仓盈亏
+  double cleared_closed_profit = 18;
+  // 印花税
+  double stamp_tax = 19;
+  // 过户费
+  double transfer_fee = 20;
+  // 部门
+  string branch = 21;
+  // 部门名称
+  string branch_name = 22;
+}
+
+// 持仓
+message Position {
+  /// 合约编号
+  Symbol symbol = 1;
+  // 统计
+  PositionSummation summation = 2;
+  // 今仓
+  PositionSummation today_summation = 3;
+  // 今仓
+  PositionSummation yesterday_summation = 4;
+  // 昨结算
+  double pre_settlement_price = 5;
+  // 今结算
+  double settlement_price = 6;
+  // 最新价
+  double last_price = 7;
+  // 交易日
+  int32 trading_day = 8;
+  // 交易品种类型
+  int32 product_type = 9;
+  // 结算组
+  int32 settlement_group = 10;
+  // 合约乘数
+  int32 volume_multiple = 11;
+  // 产品
+  ProductID product_id = 12;
+  // 最小变动价位
+  double price_tick = 13;
+  // 名称
+  string symbol_name = 14;
+  // 账号
+  string account = 15;
+  // 账号名
+  string account_name = 16;
+  // 公司
+  int64 company = 17;
+  // 代理
+  string branch = 18;
+  // 到期日
+  int32 expire_date = 19;
+  // 部门名称
+  string branch_name = 20;
+  // 是否允许平今
+  bool is_close_today_allowed = 21;
+  // 用户
+  string user = 22;
+  // 用户名
+  string user_name = 23;
+}
+
+message PositionList { repeated Position list = 1; }
+
+// 强平
+message ReqForceClosePosition {
+  string user = 1;
+  Symbol symbol = 2;
+  OrderDirection direction = 3;
+  double price = 4;
+  int32 volume = 5;
+  string account = 6;
+  bool repurchase = 7;
+  string comment = 8;
+}

@@ -37,7 +37,7 @@ var MessageType_value = map[string]int32{
 func (x MessageType) String() string {
 	return proto.EnumName(MessageType_name, int32(x))
 }
-func (MessageType) EnumDescriptor() ([]byte, []int) { return fileDescriptor5, []int{0} }
+func (MessageType) EnumDescriptor() ([]byte, []int) { return fileDescriptor6, []int{0} }
 
 // Message 消息
 type Message struct {
@@ -49,7 +49,7 @@ type Message struct {
 func (m *Message) Reset()                    { *m = Message{} }
 func (m *Message) String() string            { return proto.CompactTextString(m) }
 func (*Message) ProtoMessage()               {}
-func (*Message) Descriptor() ([]byte, []int) { return fileDescriptor5, []int{0} }
+func (*Message) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{0} }
 
 func (m *Message) GetType() MessageType {
 	if m != nil {
@@ -80,7 +80,7 @@ type MessageList struct {
 func (m *MessageList) Reset()                    { *m = MessageList{} }
 func (m *MessageList) String() string            { return proto.CompactTextString(m) }
 func (*MessageList) ProtoMessage()               {}
-func (*MessageList) Descriptor() ([]byte, []int) { return fileDescriptor5, []int{1} }
+func (*MessageList) Descriptor() ([]byte, []int) { return fileDescriptor6, []int{1} }
 
 func (m *MessageList) GetList() []*Message {
 	if m != nil {
@@ -95,9 +95,9 @@ func init() {
 	proto.RegisterEnum("pb.MessageType", MessageType_name, MessageType_value)
 }
 
-func init() { proto.RegisterFile("message.proto", fileDescriptor5) }
+func init() { proto.RegisterFile("message.proto", fileDescriptor6) }
 
-var fileDescriptor5 = []byte{
+var fileDescriptor6 = []byte{
 	// 213 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0xcd, 0x4d, 0x2d, 0x2e,
 	0x4e, 0x4c, 0x4f, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x2a, 0x48, 0x52, 0x8a, 0xe2,

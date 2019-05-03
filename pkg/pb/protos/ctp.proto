@@ -20,17 +20,17 @@ enum CTPDirection {
 // 状态
 enum CTPOrderStatus {
   // 完全成交
-  DONE = 0;
+  CTP_OS_DONE = 0;
   // 部分成交还在队列中
-  PENDING_WITH_PARTIAL_DONE = 1;
+  CTP_OS_PENDING_WITH_PARTIAL_DONE = 1;
   // 部分成交且已撤单
-  CANCELED_WITH_PARTIAL_DONE = 2;
+  CTP_OS_CANCELED_WITH_PARTIAL_DONE = 2;
   // 队列中
-  PENDING = 3;
+  CTP_OS_PENDING = 3;
   // 已经撤单
-  CANCELED = 4;
+  CTP_OS_CANCELED = 4;
   // 未知
-  UNKOWN = 5;
+  CTP_OS_UNKOWN = 5;
 }
 
 enum CTPPriceType {
@@ -169,11 +169,6 @@ message CTPOrder {
 }
 
 message CTPOrderList { repeated CTPOrder list = 1; }
-
-message JointOrder {
-  CTPOrder local_order = 1;
-  CTPOrder exchange_order = 2;
-}
 
 message CTPOrderLink {
   CTPOrder parent = 1;
@@ -607,4 +602,233 @@ message CTPTradingAccountSnapshot {
   int64 time = 2;
   // 快照备注
   string comment = 3;
+}
+
+// CTP常规性返回
+message CTPRspInfo {
+  int32 error_id = 1;
+  bytes error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+}
+
+// 请求查询注册账户
+message CtpReqQryAccountRegister {
+  string broker_id = 1;
+  string account_id = 2;
+  string bank_id = 3;
+  string bank_branch_id = 4;
+  string currency_id = 5;
+}
+
+// 查询注册账户响应
+message CtpRspQryAccountRegister {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  string trading_day = 5;
+  string bank_id = 6;
+  string bank_branch_id = 7;
+  string bank_account = 8;
+  string broker_id = 9;
+  string broker_branch_id = 10;
+  string account_id = 11;
+  int32 id_card_type = 12;
+  string identified_card_no = 13;
+  string customer_name = 14;
+  string currency_id = 15;
+  int32 open_or_destory = 16;
+  string reg_date = 17;
+  string out_date = 18;
+  int32 tid = 19;
+  int32 cust_type = 20;
+  int32 bank_acc_type = 21;
+  string long_customer_name = 22;
+}
+
+// 认证
+message CtpReqAuthencate {
+  string auth_code = 1;
+  string product = 2;
+}
+
+// 认证结果
+message CtpRspAuthencate {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  string broker_id = 5;
+  string user_id = 6;
+  string user_product_info = 7;
+}
+
+// 登陆
+message CtpReqUserLogin {
+  string broker_id = 1;
+  string account = 2;
+  string password = 3;
+}
+
+// 登陆返回
+message CtpRspUserLogin {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  string trading_day = 5;
+  string login_time = 6;
+  string broker_id = 7;
+  string user_id = 8;
+  string system_name = 9;
+  int32 front_id = 10;
+  int32 session_id = 11;
+  string max_order_ref = 12;
+  string shfe_time = 13;
+  string dce_time = 14;
+  string czce_time = 15;
+  string cffex_time = 16;
+  string ine_time = 17;
+}
+
+// 连接
+message CtpReqConnect {
+  string address = 1;
+  string account = 2;
+  string directory = 3;
+}
+
+// 前置连接
+message CtpOnFrontConnected {}
+
+// 前置断开
+message CtpOnFrontDisconnected {}
+
+// 确认结算
+message CtpReqSettlementInfoConfirm {
+  string broker_id = 1;
+  string investor_id = 2;
+}
+
+// 确认结算返回
+message CtpOnRspSettlementInfoConfirm {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  string broker_id = 5;
+  string investor_id = 6;
+  string confirm_date = 7;
+  string confirm_time = 8;
+  int32 settlement_id = 9;
+  string account_id = 10;
+  string currency_id = 11;
+}
+
+// 查询投资者
+message CtpReqQryInvestor {}
+
+// 返回查询投资者
+message CtpRspQryInvestor {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  string investor_id = 5;
+  string broker_id = 6;
+  string investor_group_id = 7;
+  string investor_name = 8;
+  int32 identified_card_type = 9;
+  string identified_card_no = 10;
+  bool is_active = 11;
+  string telphone = 12;
+  string address = 13;
+  string open_date = 14;
+  string mobile = 15;
+}
+
+// 查询银行
+message CtpReqQryTransferBank {
+  string broker_id = 1;
+  string investor_id = 2;
+}
+
+// 返回查询银行
+message CtpRspQryTransferBank {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  string broker_id = 5;
+  string bank_id = 6;
+  string bank_branch_id = 7;
+  string bank_name = 8;
+}
+
+// 银行转期货
+message CtpReqTransfer {
+  string trade_code = 1;
+  string bank_id = 2;
+  string bank_branch_id = 3;
+  string broker_id = 4;
+  string broker_branch_id = 5;
+  string trade_date = 6;
+  string trade_time = 7;
+  string bank_serial = 8;
+  string trading_day = 9;
+  int32 plate_serieal = 10;
+  string last_fragment = 11;
+  int32 session_id = 12;
+  string customer_name = 13;
+  int32 id_card_type = 14;
+  string identified_card_no = 15;
+  string cust_type = 16;
+  string bank_account = 17;
+  string bank_password = 18;
+  string account_id = 19;
+  string password = 20;
+  int32 install_id = 21;
+  int32 future_serial = 22;
+  string user_id = 23;
+  string verify_cert_no_flag = 24;
+  string currency_id = 25;
+  double trade_amount = 26;
+  double future_fetch_amount = 27;
+  int32 fee_pay_flag = 28;
+  double cust_fee = 29;
+  double broker_fee = 30;
+  string message = 31;
+  string digest = 32;
+  int32 bank_acc_type = 33;
+  string device_id = 34;
+  string bank_secu_acc = 35;
+  string bank_pwd_flag = 36;
+  string secu_pwd_flag = 37;
+  string oper_no = 38;
+  int32 request_id = 39;
+  int32 tid = 40;
+  string transfer_status = 41;
+  string long_customer_name = 42;
+}
+
+// 返回银行转期货
+message CtpRspTransfer {
+  int32 error_id = 1;
+  string error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  CtpReqTransfer req = 5;
+}
+
+message CTPReqSubscribeMarketData { repeated string list = 1; }
+message CTPRspSusbcribeMarketData {}
+message CTPReqUnSusbibeMarketData { repeated string list = 1; }
+message CTPRspUnSusbibeMarketData {}
+
+// 发单错误返回
+message CTPOnRspOrderInsert {
+  int32 error_id = 1;
+  bytes error_msg = 2;
+  string order_ref = 3;
 }

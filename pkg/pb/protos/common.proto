@@ -123,6 +123,8 @@ message Symbol {
   string code = 2;
 }
 
+message SymbolList { repeated Symbol list = 1; }
+
 // 品种
 message ProductID {
   ExchangeType exchange = 1;
@@ -512,3 +514,10 @@ message OptionMonth {
 
 // 期权月份列表
 message OptionMonthList { repeated OptionMonth list = 1; }
+
+// 交易账号类型
+enum TradingAccountType {
+  TAT_NORMAL = 0;
+  TAT_TRAINNING = 1;
+  TAT_CTP_MIRROR = 2;
+}

@@ -35,7 +35,7 @@ var UserType_value = map[string]int32{
 func (x UserType) String() string {
 	return proto.EnumName(UserType_name, int32(x))
 }
-func (UserType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
+func (UserType) EnumDescriptor() ([]byte, []int) { return fileDescriptor13, []int{0} }
 
 // UserStatus 状态
 type UserStatus int32
@@ -60,7 +60,7 @@ var UserStatus_value = map[string]int32{
 func (x UserStatus) String() string {
 	return proto.EnumName(UserStatus_name, int32(x))
 }
-func (UserStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
+func (UserStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor13, []int{1} }
 
 // 用户
 type User struct {
@@ -74,7 +74,7 @@ type User struct {
 func (m *User) Reset()                    { *m = User{} }
 func (m *User) String() string            { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()               {}
-func (*User) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{0} }
 
 func (m *User) GetId() string {
 	if m != nil {
@@ -122,7 +122,7 @@ type Permission struct {
 func (m *Permission) Reset()                    { *m = Permission{} }
 func (m *Permission) String() string            { return proto.CompactTextString(m) }
 func (*Permission) ProtoMessage()               {}
-func (*Permission) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
+func (*Permission) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{1} }
 
 func (m *Permission) GetId() int64 {
 	if m != nil {
@@ -162,7 +162,7 @@ type PermissionTreeNode struct {
 func (m *PermissionTreeNode) Reset()                    { *m = PermissionTreeNode{} }
 func (m *PermissionTreeNode) String() string            { return proto.CompactTextString(m) }
 func (*PermissionTreeNode) ProtoMessage()               {}
-func (*PermissionTreeNode) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
+func (*PermissionTreeNode) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{2} }
 
 func (m *PermissionTreeNode) GetPermission() *Permission {
 	if m != nil {
@@ -193,7 +193,7 @@ type PermissionList struct {
 func (m *PermissionList) Reset()                    { *m = PermissionList{} }
 func (m *PermissionList) String() string            { return proto.CompactTextString(m) }
 func (*PermissionList) ProtoMessage()               {}
-func (*PermissionList) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{3} }
+func (*PermissionList) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{3} }
 
 func (m *PermissionList) GetList() []*Permission {
 	if m != nil {
@@ -213,7 +213,7 @@ type UserRole struct {
 func (m *UserRole) Reset()                    { *m = UserRole{} }
 func (m *UserRole) String() string            { return proto.CompactTextString(m) }
 func (*UserRole) ProtoMessage()               {}
-func (*UserRole) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{4} }
+func (*UserRole) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{4} }
 
 func (m *UserRole) GetId() int64 {
 	if m != nil {
@@ -256,7 +256,7 @@ type UserSession struct {
 func (m *UserSession) Reset()                    { *m = UserSession{} }
 func (m *UserSession) String() string            { return proto.CompactTextString(m) }
 func (*UserSession) ProtoMessage()               {}
-func (*UserSession) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{5} }
+func (*UserSession) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{5} }
 
 func (m *UserSession) GetId() string {
 	if m != nil {
@@ -311,9 +311,9 @@ func init() {
 	proto.RegisterEnum("pb.UserStatus", UserStatus_name, UserStatus_value)
 }
 
-func init() { proto.RegisterFile("user.proto", fileDescriptor8) }
+func init() { proto.RegisterFile("user.proto", fileDescriptor13) }
 
-var fileDescriptor8 = []byte{
+var fileDescriptor13 = []byte{
 	// 446 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x53, 0xb1, 0x8e, 0xd3, 0x40,
 	0x10, 0x65, 0x6d, 0x27, 0x4a, 0xc6, 0x60, 0xa2, 0x25, 0x42, 0x16, 0x95, 0xe5, 0x02, 0x45, 0x57,

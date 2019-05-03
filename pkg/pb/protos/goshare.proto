@@ -6,6 +6,7 @@ import "common.proto";
 import "market_data.proto";
 import "google/api/annotations.proto";
 import "strategy.proto";
+import "trading.proto";
 
 // GoShare goshare
 service GoShare {
@@ -81,8 +82,24 @@ service GoShare {
   };
   // 删除策略
   rpc DeleteStrategy(ReqDeleteStrategy) returns (EmptyResponse) {
-    option (google.api.http).get = "/api/v1/strategy/{id}";
+    option (google.api.http).delete = "/api/v1/strategy/{id}";
   };
+  // 经纪商列表
+  rpc GetTradingRouteList(EmptyRequest) returns (TradingRouteList) {
+    option (google.api.http).get = "/api/v1/tradingRouteList";
+  }
+  // 添加经纪商
+  rpc AddTradingRoute(TradingRoute) returns (EmptyResponse) {
+    option (google.api.http) = {
+      post : '/api/v1/tradingRoute'
+      body : "*"
+    };
+  };
+  // 删除经纪商
+  rpc DeleteTradingRoute(ReqDeleteTradingRoute) returns (EmptyResponse) {
+    option (google.api.http).delete = "/api/v1/tradingRoute/{id}";
+  };
+  // 交易账号列表
 }
 
 message EmptyRequest {}

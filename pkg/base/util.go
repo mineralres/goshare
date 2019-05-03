@@ -22,6 +22,15 @@ func StringFromGBK(src string) (dst string) {
 	return
 }
 
+// StringFromGBK2 StringFromGBK2
+func StringFromGBK2(src []byte) (dst string) {
+	data, err := ioutil.ReadAll(transform.NewReader(bytes.NewReader(src), simplifiedchinese.GBK.NewDecoder()))
+	if err == nil {
+		dst = string(data)
+	}
+	return
+}
+
 // MakeSymbol 转symbol
 func MakeSymbol(s string) pb.Symbol {
 	var ret pb.Symbol

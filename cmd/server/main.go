@@ -22,6 +22,10 @@ func main() {
 	go runGrpcService(c.GrpcPort)
 	grpcEndPoint := fmt.Sprintf("localhost:%d", c.GrpcPort)
 	go runGrpcGateway(c.GWHTTPPort, grpcEndPoint)
+	go func() {
+		http.Handle("/", http.FileServer(http.Dir("../doc/_book/")))
+		http.ListenAndServe(":9090", nil)
+	}()
 	wsf := makeWsFront(grpcEndPoint, c.WSPort)
 	wsf.run()
 }

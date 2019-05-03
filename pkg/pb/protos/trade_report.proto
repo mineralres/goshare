@@ -1,0 +1,121 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "order.proto";
+
+// 投机套保标志
+enum OrderHedgeType {
+  // 投机
+  OHT_SPECULATION = 0;
+  // 套利
+  OHT_ARBITRAGE = 1;
+  // 套保
+  OHT_HEDGE = 2;
+  // 投机2(特别标志)
+  OHT_SPECULATION2 = 3;
+}
+
+// 成交类型
+enum TradeType {
+  // 普通成交
+  TT_NORMAL = 0;
+  // 期权执行
+  TT_OPTIONS_EXECUTION = 1;
+  // OTC成交
+  TT_OTC = 2;
+  // 期转现衍生成交
+  TT_EFP_DERIVED = 3;
+  // 组合衍生成交
+  TT_COMBINATION_DERIVED = 4;
+  // 交割平仓
+  TT_DELIVERY_CLOSE = 5;
+  // 结算衍生
+  TT_SETTLEMENT_DERIVED = 6;
+  // 分红股票
+  TT_PLACEMENT_DERIVED = 7;
+  // 回购
+  TT_REPURCHASE = 8;
+}
+
+// 成交
+message TradeReport {
+  // 账号
+  string account = 1;
+  // 成交编号
+  string trade_id = 2;
+  // 合约
+  Symbol symbol = 3;
+  // 买卖
+  OrderDirection direction = 4;
+  // 价格
+  double price = 5;
+  // 数量
+  int32 volume = 6;
+  // 时间
+  int64 traded_time = 7;
+  // 交易日
+  int32 traded_trading_day = 8;
+  // 报单编号
+  OrderID order_id = 9;
+  // 类型
+  OrderPriceType order_price_type = 10;
+  // 投机套保
+  OrderHedgeType order_hedge_type = 11;
+  // 成交类型
+  TradeType trade_type = 12;
+  // 币种
+  int32 currency_type = 13;
+  // 交易所ID
+  string exchange_order_id = 14;
+  // 本地编号类型
+  int32 local_type_id = 15;
+  // 手续费
+  double commission = 16;
+  // 成交金额
+  double tax = 17;
+  // 其他费用
+  double total_other_fee = 18;
+  // 原成交价（结算衍生时)
+  double initial_traded_price = 19;
+  // 保留附加金额(已经有用了的)
+  double reserve = 20;
+  // 开平标志
+  OffsetFlag offset_flag = 21;
+  // 下单帐户
+  string route_account = 22;
+  // 用户
+  string user = 23;
+  // 结算组
+  int32 settlement_group = 24;
+  // 名称
+  string symbol_name = 25;
+  // ChildOrderId
+  OrderID child_order_id = 26;
+  // 变动点
+  double price_tick = 27;
+  // 所属
+  string account_name = 28;
+  // 倍数
+  int32 volume_multiple = 29;
+  // 用户名
+  string user_name = 30;
+  // 报单来源
+  OrderSourceType order_source_type = 31;
+  // 品种
+  ProductID product_id = 32;
+  // 部门
+  string branch = 33;
+  // 部门名称
+  string branch_name = 34;
+  // 本地报单编号
+  string local_order_id = 35;
+  // 本地序号
+  int32 broker_order_seq = 36;
+  // 本地报单
+  OrderID link_local_order_id = 37;
+}
+
+message trade_report_list { repeated TradeReport list = 1; }
+
+message TradeReportSession { TradeReport trade = 1; }
