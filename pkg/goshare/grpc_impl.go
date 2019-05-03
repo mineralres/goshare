@@ -91,3 +91,21 @@ func (gs *GrpcServer) PushTick(ctx context.Context, req *pb.MarketDataSnapshot) 
 	var ret pb.EmptyResponse
 	return &ret, nil
 }
+
+// AddTradingRoute 添加经纪准则
+func (gs *GrpcServer) AddTradingRoute(ctx context.Context, req *pb.TradingRoute) (*pb.EmptyResponse, error) {
+	var ret pb.EmptyResponse
+	return &ret, nil
+}
+
+// DeleteTradingRoute 删除
+func (gs *GrpcServer) DeleteTradingRoute(ctx context.Context, req *pb.ReqDeleteTradingRoute) (*pb.EmptyResponse, error) {
+	var ret pb.EmptyResponse
+	return &ret, nil
+}
+
+// GetTradingRouteList 删除
+func (gs *GrpcServer) GetTradingRouteList(ctx context.Context, req *pb.EmptyRequest) (*pb.TradingRouteList, error) {
+	var ret pb.TradingRouteList
+	return &ret, nil
+}
