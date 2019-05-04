@@ -24,6 +24,8 @@ message User {
   repeated int64 roles = 5;
 }
 
+message UserList { repeated User list = 1; }
+
 // Permission 权限
 message Permission {
   int64 id = 1;

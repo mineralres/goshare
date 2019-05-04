@@ -93,20 +93,6 @@
             "route": "/chart/Recharts"
         },
         {
-            "id": "54",
-            "breadcrumbParentId": "5",
-            "menuParentId": "5",
-            "name": "TestPage",
-            "zh": {
-                "name": "测试页面"
-            },
-            "pt-br": {
-                "name": "TestPage"
-            },
-            "icon": "area-chart",
-            "route": "/chart/TestPage"
-        },
-        {
             "id": "6",
             "breadcrumbParentId": "1",
             "name": "DataSource",

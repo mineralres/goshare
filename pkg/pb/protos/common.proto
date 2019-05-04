@@ -521,3 +521,6 @@ enum TradingAccountType {
   TAT_TRAINNING = 1;
   TAT_CTP_MIRROR = 2;
 }
+
+message EmptyRequest {}
+message EmptyResponse {}

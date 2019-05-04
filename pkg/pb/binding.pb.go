@@ -15,10 +15,12 @@ It is generated from these files:
 	order.proto
 	others.proto
 	position.proto
+	resource.proto
 	strategy.proto
 	trade_report.proto
 	trading.proto
 	user.proto
+	user_manager.proto
 
 It has these top-level messages:
 	BranchTreeNode
@@ -46,6 +48,8 @@ It has these top-level messages:
 	SSEStockOption
 	OptionMonth
 	OptionMonthList
+	EmptyRequest
+	EmptyResponse
 	CTPOrderID
 	CTPOrder
 	CTPOrderList
@@ -93,20 +97,8 @@ It has these top-level messages:
 	CTPReqUnSusbibeMarketData
 	CTPRspUnSusbibeMarketData
 	CTPOnRspOrderInsert
-	EmptyRequest
-	EmptyResponse
 	ReqSSEStockOptionList
 	RspSSEStockOptionList
-	ReqUserLogin
-	RspUserLogin
-	I18Item
-	RouteItem
-	RspGetRoutes
-	XUser
-	RspCurrentUser
-	XPermission
-	XUsersItem
-	XUsersItemList
 	OrderBook
 	MarketDataSnapshot
 	MdsList
@@ -155,11 +147,26 @@ It has these top-level messages:
 	ReqDeleteTradingRoute
 	TradingAccountSummary
 	User
+	UserList
 	Permission
 	PermissionTreeNode
 	PermissionList
 	UserRole
 	UserSession
+	ReqCheckAPIPermission
+	RspCheckAPIPermission
+	ReqCheckResourcePermission
+	RspCheckResourcePermission
+	ReqUserLogin
+	RspUserLogin
+	I18Item
+	RouteItem
+	RspGetRoutes
+	XUser
+	RspCurrentUser
+	XPermission
+	XUsersItem
+	XUsersItemList
 */
 package pb
 

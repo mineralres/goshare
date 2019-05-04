@@ -10,13 +10,26 @@ import (
 	"google.golang.org/grpc"
 )
 
-func runGrpcService(port int) {
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
+func runGrpcService(c xconfig) {
+	go func() {
+		// 常规服务
+		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", c.Common.GrpcPort))
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
+		log.Printf("Common grpc serve on [%d]", c.Common.GrpcPort)
+		grpcServer := grpc.NewServer()
+		pb.RegisterGoShareServer(grpcServer, goshare.MakeGrpcServer())
+		grpcServer.Serve(lis)
+	}()
+	// 用户服务
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", c.User.GrpcPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	log.Printf("Grpc serve on [%d]", port)
+	log.Printf("User grpc serve on [%d]", c.User.GrpcPort)
 	grpcServer := grpc.NewServer()
-	pb.RegisterGoShareServer(grpcServer, goshare.MakeGrpcServer())
+	pb.RegisterUserManagerServer(grpcServer, goshare.MakeUserManager())
 	grpcServer.Serve(lis)
+
 }

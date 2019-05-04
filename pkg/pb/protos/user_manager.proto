@@ -1,0 +1,106 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "user.proto";
+import "google/api/annotations.proto";
+
+// UserManager 用户管理接口
+service UserManager {
+  // UserLogin 登陆
+  rpc UserLogin(ReqUserLogin) returns (RspUserLogin) {
+    option (google.api.http) = {
+      post : "/api/v1/user/login"
+      body : "*"
+    };
+  }
+  // UserLogout 登出
+  rpc UserLogout(EmptyRequest) returns (EmptyResponse) {
+    option (google.api.http).get = "/api/v1/user/logout";
+  };
+  // Routes 路由列表
+  rpc Routes(EmptyRequest) returns (RspGetRoutes) {
+    option (google.api.http).get = "/api/v1/user/routes";
+  };
+  // 返回当前用户信息
+  rpc CurrentUser(EmptyRequest) returns (RspCurrentUser) {
+    option (google.api.http).get = "/api/v1/user";
+  };
+  // 用户列表
+  rpc Users(EmptyRequest) returns (XUsersItemList) {
+    option (google.api.http).get = "/api/v1/users";
+  };
+  // 检查权限
+  rpc CheckAPIPermission(ReqCheckAPIPermission)
+      returns (RspCheckAPIPermission) {};
+  // 检查资源权限
+  rpc CheckResourcePermission(ReqCheckResourcePermission)
+      returns (RspCheckResourcePermission) {};
+}
+
+message ReqCheckAPIPermission {
+  UserType type = 1;
+  string api = 2;
+}
+message RspCheckAPIPermission { bool passed = 1; }
+
+message ReqCheckResourcePermission {
+  UserType type = 1;
+  int64 resource = 2;
+}
+message RspCheckResourcePermission { bool passed = 1; }
+
+message ReqUserLogin {
+  string user = 1;
+  string password = 2;
+  string type = 3;
+}
+message RspUserLogin {
+  string message = 1;
+  bool success = 2;
+}
+
+message I18Item { string name = 1; }
+
+message RouteItem {
+  string icon = 1;
+  string id = 2;
+  string name = 3;
+  I18Item en = 4;
+  I18Item zh = 5;
+  string route = 6;
+  string breadcrumb_parent_id = 7;
+  string menu_parent_id = 8;
+}
+message RspGetRoutes { repeated RouteItem list = 1; }
+
+message XUser {
+  string avatar = 1;
+  int32 id = 2;
+  string username = 3;
+  XPermission permissions = 4;
+}
+
+message RspCurrentUser {
+  bool success = 1;
+  XUser user = 2;
+}
+
+message XPermission {
+  string role = 1;
+  repeated string visit = 2;
+}
+
+message XUsersItem {
+  string address = 1;
+  int32 age = 2;
+  string avatar = 3;
+  string create_time = 4;
+  string email = 5;
+  string id = 6;
+  bool is_male = 7;
+  string name = 8;
+  string nick_name = 9;
+  string phone = 10;
+}
+message XUsersItemList { repeated XUsersItem list = 1; }

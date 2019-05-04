@@ -23,7 +23,7 @@ type Strategy struct {
 func (m *Strategy) Reset()                    { *m = Strategy{} }
 func (m *Strategy) String() string            { return proto.CompactTextString(m) }
 func (*Strategy) ProtoMessage()               {}
-func (*Strategy) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{0} }
+func (*Strategy) Descriptor() ([]byte, []int) { return fileDescriptor11, []int{0} }
 
 func (m *Strategy) GetId() string {
 	if m != nil {
@@ -60,7 +60,7 @@ type StrategyList struct {
 func (m *StrategyList) Reset()                    { *m = StrategyList{} }
 func (m *StrategyList) String() string            { return proto.CompactTextString(m) }
 func (*StrategyList) ProtoMessage()               {}
-func (*StrategyList) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{1} }
+func (*StrategyList) Descriptor() ([]byte, []int) { return fileDescriptor11, []int{1} }
 
 func (m *StrategyList) GetList() []*Strategy {
 	if m != nil {
@@ -76,7 +76,7 @@ type ReqDeleteStrategy struct {
 func (m *ReqDeleteStrategy) Reset()                    { *m = ReqDeleteStrategy{} }
 func (m *ReqDeleteStrategy) String() string            { return proto.CompactTextString(m) }
 func (*ReqDeleteStrategy) ProtoMessage()               {}
-func (*ReqDeleteStrategy) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{2} }
+func (*ReqDeleteStrategy) Descriptor() ([]byte, []int) { return fileDescriptor11, []int{2} }
 
 func (m *ReqDeleteStrategy) GetId() string {
 	if m != nil {
@@ -92,7 +92,7 @@ type ReqGetStrategy struct {
 func (m *ReqGetStrategy) Reset()                    { *m = ReqGetStrategy{} }
 func (m *ReqGetStrategy) String() string            { return proto.CompactTextString(m) }
 func (*ReqGetStrategy) ProtoMessage()               {}
-func (*ReqGetStrategy) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{3} }
+func (*ReqGetStrategy) Descriptor() ([]byte, []int) { return fileDescriptor11, []int{3} }
 
 func (m *ReqGetStrategy) GetId() string {
 	if m != nil {
@@ -108,9 +108,9 @@ func init() {
 	proto.RegisterType((*ReqGetStrategy)(nil), "pb.ReqGetStrategy")
 }
 
-func init() { proto.RegisterFile("strategy.proto", fileDescriptor10) }
+func init() { proto.RegisterFile("strategy.proto", fileDescriptor11) }
 
-var fileDescriptor10 = []byte{
+var fileDescriptor11 = []byte{
 	// 231 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0xc1, 0x4a, 0xc4, 0x30,
 	0x10, 0x86, 0x49, 0x5a, 0x17, 0x9d, 0x2d, 0x45, 0x07, 0x0f, 0x61, 0x4f, 0xa5, 0x5e, 0xf6, 0x54,

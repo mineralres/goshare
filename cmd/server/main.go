@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"os/exec"
+	"time"
 )
 
 func main() {
@@ -19,13 +21,21 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	go runGrpcService(c.GrpcPort)
-	grpcEndPoint := fmt.Sprintf("localhost:%d", c.GrpcPort)
-	go runGrpcGateway(c.GWHTTPPort, grpcEndPoint)
+	go runGrpcService(c)
+	go runGrpcGateway(c)
 	go func() {
-		http.Handle("/", http.FileServer(http.Dir("../doc/_book/")))
+		http.Handle("/api/v1/", &proxyHandler{c: c})
+		http.Handle("/", http.FileServer(http.Dir("./ui-release")))
 		http.ListenAndServe(":9090", nil)
 	}()
-	wsf := makeWsFront(grpcEndPoint, c.WSPort)
+	go func() {
+		time.Sleep(time.Second) // 等listen准备好
+		cmd := exec.Command("explorer", "http://localhost:9090")
+		err := cmd.Start()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+	}()
+	wsf := makeWsFront(c)
 	wsf.run()
 }

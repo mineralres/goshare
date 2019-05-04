@@ -2,18 +2,30 @@
 
 <a href="https://goshare.cyconst.com" target="_blank">说明文档</a>
 
-## goshare简介
- * goshare是一个开源的golang量化数据工具集合
- * 提供自建数据API服务(生产环境)
- * 三方数据. 抓取新浪,上证官方,东方财富等相关数据源的数据(测试环境)
- * 集成量化策略测试和交易框架
- * 封装相关市场的交易接口
- * webui控制台
- * 自建策略测试集群,提升策略测试效率
- 
-## Getting Started
+goshare是一个开源的golang量化数据工具集合
 
-### Installation
+## goshare简介
+ * 自建数据API服务.
+ * 用可靠的实时分笔数据源补充更新，同步生成和保存分笔数据，多周期K线数据
+ * 给客户端提供实时行情(tick和k线)订阅推送功能
+ * 三方数据. 自有数据源不足时,通过抓取新浪,上证官方,东方财富等相关公开数据用作补充
+ * 集成量化策略测试
+ * 封装相关市场的交易接口
+ * webui控制台,[goshare-ui](https://github.com/mineralres/goshare-ui)
+ * 自建策略测试集群,提升策略测试效率
+ * 前后端分离结构，方便部署于云端，方便远程运维
+ 
+## 运行
+
+```shell
+go get -u github.com/mineralres/goshare
+cd goshare/cmd/server
+go build -mod vendor
+./server
+```
+server需要监听一些端口提供http服务，如果有360等防护软件提示，请允许，否则浏览器无法访问
+
+## 直接调用
  ```
  go get -u github.com/mineralres/goshare
 ```

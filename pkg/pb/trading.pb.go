@@ -54,7 +54,7 @@ var RouteType_value = map[string]int32{
 func (x RouteType) String() string {
 	return proto.EnumName(RouteType_name, int32(x))
 }
-func (RouteType) EnumDescriptor() ([]byte, []int) { return fileDescriptor12, []int{0} }
+func (RouteType) EnumDescriptor() ([]byte, []int) { return fileDescriptor13, []int{0} }
 
 // TradingRoute 交易通道
 type TradingRoute struct {
@@ -73,7 +73,7 @@ type TradingRoute struct {
 func (m *TradingRoute) Reset()                    { *m = TradingRoute{} }
 func (m *TradingRoute) String() string            { return proto.CompactTextString(m) }
 func (*TradingRoute) ProtoMessage()               {}
-func (*TradingRoute) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{0} }
+func (*TradingRoute) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{0} }
 
 func (m *TradingRoute) GetId() int64 {
 	if m != nil {
@@ -152,7 +152,7 @@ type TradingRouteList struct {
 func (m *TradingRouteList) Reset()                    { *m = TradingRouteList{} }
 func (m *TradingRouteList) String() string            { return proto.CompactTextString(m) }
 func (*TradingRouteList) ProtoMessage()               {}
-func (*TradingRouteList) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{1} }
+func (*TradingRouteList) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{1} }
 
 func (m *TradingRouteList) GetList() []*TradingRoute {
 	if m != nil {
@@ -192,7 +192,7 @@ type TradingAccount struct {
 func (m *TradingAccount) Reset()                    { *m = TradingAccount{} }
 func (m *TradingAccount) String() string            { return proto.CompactTextString(m) }
 func (*TradingAccount) ProtoMessage()               {}
-func (*TradingAccount) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{2} }
+func (*TradingAccount) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{2} }
 
 func (m *TradingAccount) GetId() string {
 	if m != nil {
@@ -285,7 +285,7 @@ type TradingAccountList struct {
 func (m *TradingAccountList) Reset()                    { *m = TradingAccountList{} }
 func (m *TradingAccountList) String() string            { return proto.CompactTextString(m) }
 func (*TradingAccountList) ProtoMessage()               {}
-func (*TradingAccountList) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{3} }
+func (*TradingAccountList) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{3} }
 
 func (m *TradingAccountList) GetList() []*TradingAccount {
 	if m != nil {
@@ -301,7 +301,7 @@ type ReqDeleteTradingRoute struct {
 func (m *ReqDeleteTradingRoute) Reset()                    { *m = ReqDeleteTradingRoute{} }
 func (m *ReqDeleteTradingRoute) String() string            { return proto.CompactTextString(m) }
 func (*ReqDeleteTradingRoute) ProtoMessage()               {}
-func (*ReqDeleteTradingRoute) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{4} }
+func (*ReqDeleteTradingRoute) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{4} }
 
 func (m *ReqDeleteTradingRoute) GetId() int64 {
 	if m != nil {
@@ -447,7 +447,7 @@ type TradingAccountSummary struct {
 func (m *TradingAccountSummary) Reset()                    { *m = TradingAccountSummary{} }
 func (m *TradingAccountSummary) String() string            { return proto.CompactTextString(m) }
 func (*TradingAccountSummary) ProtoMessage()               {}
-func (*TradingAccountSummary) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{5} }
+func (*TradingAccountSummary) Descriptor() ([]byte, []int) { return fileDescriptor13, []int{5} }
 
 func (m *TradingAccountSummary) GetAccount() string {
 	if m != nil {
@@ -914,9 +914,9 @@ func init() {
 	proto.RegisterEnum("pb.RouteType", RouteType_name, RouteType_value)
 }
 
-func init() { proto.RegisterFile("trading.proto", fileDescriptor12) }
+func init() { proto.RegisterFile("trading.proto", fileDescriptor13) }
 
-var fileDescriptor12 = []byte{
+var fileDescriptor13 = []byte{
 	// 1594 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x57, 0xdd, 0x56, 0x1b, 0x39,
 	0x12, 0x5e, 0x03, 0xc1, 0xb8, 0x6c, 0x83, 0x91, 0x03, 0x28, 0x10, 0x02, 0x81, 0x24, 0x10, 0x42,

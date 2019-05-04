@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -32,13 +33,13 @@ type wsFront struct {
 	port         int
 }
 
-func makeWsFront(grpcEndPoint string, port int) *wsFront {
-	if port == 0 {
+func makeWsFront(c xconfig) *wsFront {
+	if c.WSPort == 0 {
 		panic("invlid ws port")
 	}
 	var front wsFront
-	front.grpcEndPoint = grpcEndPoint
-	front.port = port
+	front.grpcEndPoint = fmt.Sprintf("localhost:%d", c.Common.GrpcPort)
+	front.port = c.WSPort
 	return &front
 }
 

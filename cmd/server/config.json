@@ -1,5 +1,11 @@
 {
-    "grpcPort": 50051,
-    "gwHTTPPort": 18080,
+    "common": {
+        "grpcPort": 50051,
+        "httpPort": 18080
+    },
+    "user": {
+        "grpcPort": 50052,
+        "httpPort": 18081
+    },
     "wsPort": 19090
 }
