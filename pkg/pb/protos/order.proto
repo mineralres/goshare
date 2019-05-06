@@ -5,9 +5,9 @@ import "common.proto";
 
 // 报单ID
 message OrderID {
-  int64 front_id = 1;
-  int64 session_id = 2;
-  int64 order_ref = 3;
+  int32 front_id = 1;
+  int32 session_id = 2;
+  int32 order_ref = 3;
 }
 
 enum OrderStatus {
@@ -229,7 +229,7 @@ message CancelOrderRequest {
   // 帐户
   string account = 1;
   // 委托编号
-  OrderID OrderID = 2;
+  OrderID order_id = 2;
   // 合约
   Symbol symbol = 3;
   // 请求id

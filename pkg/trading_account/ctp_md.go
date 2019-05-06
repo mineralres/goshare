@@ -11,7 +11,7 @@ import (
 // MarketDataSpi CtpMDSpi
 type MarketDataSpi interface {
 	OnFrontConnected()
-	OnRspUserLogin(*pb.CTPRspInfo)
+	OnRspUserLogin(*pb.RspTradingAccountLogin)
 	OnRtnDepthMarketData(*pb.MarketDataSnapshot)
 }
 
@@ -44,7 +44,7 @@ func onMDPopupMessage(s *session) {
 	case pb.BindingMessageType_CTP_ON_FRONT_CONNECTED:
 		spi.OnFrontConnected()
 	case pb.BindingMessageType_CTP_RSP_USER_LOGIN:
-		var rsp pb.CTPRspInfo
+		var rsp pb.RspTradingAccountLogin
 		if err := proto.Unmarshal(data, &rsp); err == nil {
 			spi.OnRspUserLogin(&rsp)
 		}

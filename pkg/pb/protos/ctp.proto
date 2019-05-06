@@ -89,90 +89,77 @@ enum CTPTradeType {
 }
 
 // 委托
-message CTPOrder {
-  // 合约
-  Symbol symbol = 1;
-  // ID
-  CTPOrderID id = 2;
-  // 账号
-  string account_id = 3;
-  // 方向
-  CTPDirection direction = 4;
-  // 状态
-  CTPOrderStatus status = 5;
-  // 价格类型
-  CTPPriceType price_type = 6;
-  // 限价
-  double limit_price = 7;
-  // 数量
-  int32 volume = 8;
-  // 成交数量
-  int32 volume_traded = 9;
-  // 撤单数量
-  int32 volume_canceled = 10;
-  // 冻结手续费
-  double frozen_commission = 11;
-  // 发送时间（成交时间)
-  int64 send_order_time = 12;
-  // 交易日
-  int32 send_order_trading_day = 13;
-  // 备注
-  string comment = 14;
-  // 请求编号
-  int32 request_id = 15;
-  // 序号
-  int32 local_order_seq = 16;
-  // 强平类型
-  int32 force_close_type = 17;
-  // 来源
-  int32 order_source_type = 18;
-  // 投机套保类型
-  CTPHedgeType order_hedge_type = 19;
-  // 产品标识
-  string user_product_info = 20;
-  // 币种
-  CurrencyType currency_type = 21;
-  // 交易所ID
-  string exchange_order_id = 22;
-  // 有效期类型
-  int32 time_condition_type = 23;
-  // 主帐户
-  string route_account_id = 24;
-  // 本地编号类型
-  int32 local_type_id = 25;
-  // 委托收费
-  double commission = 26;
-  // 开平标志
-  CTPOffsetFlag offset_flag = 27;
-  // 错误代码
-  int32 error_code = 28;
-  // token
-  string token = 29;
-  // 止损
-  double stoploss = 30;
-  // 止赢
-  double take_profit = 31;
-  // 成交金额
-  double traded_amount = 32;
-  // 合约乘数
-  int32 volume_multiple = 33;
-  // 产品
-  ProductID product_id = 34;
-  // 最小变动价位
-  double price_tick = 35;
-  // 冻结合计
-  double frozen_margin = 36;
-  // 合约名称
-  string symbol_name = 37;
-  // 发送原因备注
-  string reason_comment = 38;
+message CTPOrderField {
+  string broker_id = 1;
+  string investor_id = 2;
+  string instrument_id = 3;
+  string order_ref = 4;
+  string user_id = 5;
+  int32 order_price_type = 6;
+  int32 direction = 7;
+  int32 comb_offset_flag = 8;
+  int32 comb_hedge_flag = 9;
+  double limit_price = 10;
+  int32 volume_total_original = 11;
+  int32 time_condition = 12;
+  string GTD_date = 13;
+  int32 volume_condition = 14;
+  int32 min_volume = 15;
+  int32 contingent_condition = 16;
+  double stop_price = 17;
+  int32 force_close_reason = 18;
+  bool is_auto_suspend = 19;
+  string business_unit = 20;
+  int32 request_id = 21;
+  string order_local_id = 22;
+  string exchange_id = 23;
+  string participant_id = 24;
+  string client_id = 25;
+  string exchange_inst_id = 26;
+  string trader_id = 27;
+  int32 install_id = 28;
+  int32 order_submit_status = 29;
+  int32 notify_sequence = 30;
+  int32 trading_day = 31;
+  int32 settlement_id = 32;
+  string order_sys_id = 33;
+  int32 order_source = 34;
+  int32 order_status = 35;
+  int32 order_type = 36;
+  int32 volume_traded = 37;
+  int32 volume_total = 38;
+  string insert_date = 39;
+  string insert_time = 40;
+  string active_time = 41;
+  string suspend_time = 42;
+  string update_time = 43;
+  string cancel_time = 44;
+  string active_trader_id = 45;
+  string clearing_part_id = 46;
+  int32 sequence_no = 47;
+  int32 front_id = 48;
+  int32 session_id = 49;
+  string user_product_info = 50;
+  bytes status_msg = 51;
+  bool user_force_close = 52;
+  string active_user_id = 53;
+  int32 broker_order_seq = 54;
+  string relative_order_sys_id = 55;
+  int32 ZCE_total_traded_volume = 56;
+  bool is_swap_order = 57;
+  string branch_id = 58;
+  string invest_unit_id = 59;
+  string account_id = 60;
+  string currency_id = 61;
+  string IP_address = 62;
+  string Mac_address = 63;
 }
 
-message CTPOrderList { repeated CTPOrder list = 1; }
+message CTPOrderList { repeated CTPOrderField list = 1; }
 
 message CTPOrderLink {
-  CTPOrder parent = 1;
-  repeated CTPOrder children = 2;
+  CTPOrderField parent = 1;
+  repeated CTPOrderField children = 2;
 }
 
 // 发送撤单请求
@@ -210,58 +197,41 @@ message CTPOnRtnCancelOrder {
 }
 
 // 成交
-message CTPTradeReport {
-  // 账号
-  string account_id = 1;
-  // 成交编号
-  string trade_id = 2;
-  // 合约
-  Symbol symbol = 3;
-  // 买卖
-  CTPDirection direction = 4;
-  // 价格
-  double price = 5;
-  // 数量
-  int32 volume = 6;
-  // 时间
-  int64 traded_time = 7;
-  // 交易日
-  int32 traded_trading_day = 8;
-  // 报单编号
-  CTPOrderID order_id = 9;
-  // 类型
-  CTPPriceType price_type = 10;
-  // 投机套保
-  CTPHedgeType hedge_type = 11;
-  // 成交类型
-  CTPTradeType trade_type = 12;
-  // 币种
-  int32 currency_type = 13;
-  // 交易所ID
-  string exchange_order_id = 14;
-  // 本地编号类型
-  int32 local_type_id = 15;
-  // 手续费
-  double commission = 16;
-  // 成交金额
-  double tax = 17;
-  // 其他费用
-  double total_other_fee = 18;
-  // 原成交价（结算衍生时)
-  double initial_traded_price = 19;
-  // 保留附加金额(已经有用了的)
-  double reserve = 20;
-  // 开平标志
-  CTPOffsetFlag offset_flag = 21;
-  // 下单帐户
-  string route_account_id = 22;
-  // 名称
-  string symbol_name = 23;
-  // 变动点
-  double price_tick = 24;
+message CTPTradeField {
+  string broker_id = 1;
+  string investor_id = 2;
+  string instrument_id = 3;
+  string order_ref = 4;
+  string user_id = 5;
+  string exchange_id = 6;
+  string trade_id = 7;
+  int32 direction = 8;
+  string order_sys_id = 9;
+  string participant_id = 10;
+  string client_id = 11;
+  int32 trading_role = 12;
+  string exchange_inst_id = 13;
+  int32 offset_flag = 14;
+  int32 hedge_flag = 15;
+  double price = 16;
+  int32 volume = 17;
+  string trade_date = 18;
+  string trade_time = 19;
+  int32 trade_type = 20;
+  int32 price_source = 21;
+  string trader_id = 22;
+  string order_local_id = 23;
+  string clearing_part_id = 24;
+  string business_unit = 25;
+  int32 sequence_no = 26;
+  int32 trading_day = 27;
+  int32 settlement_id = 28;
+  int32 broker_order_seq = 29;
+  int32 trade_source = 30;
+  string invest_unit_id = 31;
 }
 
-message CTPTradeReportList { repeated CTPTradeReport list = 1; }
+message CTPTradeReportList { repeated CTPTradeField list = 1; }
 
 // 持仓统计
 message CTPPositionSummation {
@@ -471,9 +441,9 @@ message CTPTradingUnit {
   // 平仓明细
   repeated CTPCloseTradeRecord history_ctr_list = 5;
   // 历史单
-  repeated CTPOrder history_order_list = 6;
+  repeated CTPOrderField history_order_list = 6;
   // 成交
-  repeated CTPTradeReport history_trade_list = 7;
+  repeated CTPTradeField history_trade_list = 7;
   // 最新价
   double last_price = 10;
   // 行情更新时间

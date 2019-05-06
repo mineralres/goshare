@@ -66,6 +66,12 @@ message MarketDataSnapshot {
   double exercise_price = 24;
   // 成交增量
   double volume_delta = 25;
+  // 字符串时间
+  string time2 = 26;
+  // 交易所字符串
+  string exchange = 27;
+  // action day
+  int32 action_day = 28;
 }
 
 // MdsList 行情列表

@@ -51,12 +51,12 @@ It has these top-level messages:
 	EmptyRequest
 	EmptyResponse
 	CTPOrderID
-	CTPOrder
+	CTPOrderField
 	CTPOrderList
 	CTPOrderLink
 	CTPCancelOrderRequest
 	CTPOnRtnCancelOrder
-	CTPTradeReport
+	CTPTradeField
 	CTPTradeReportList
 	CTPPositionSummation
 	CTPPosition
@@ -146,6 +146,8 @@ It has these top-level messages:
 	TradingAccountList
 	ReqDeleteTradingRoute
 	TradingAccountSummary
+	RspTradingAccountLogin
+	RspOrderInsert
 	User
 	UserList
 	Permission

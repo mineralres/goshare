@@ -15,9 +15,9 @@ type Account interface {
 
 // Handler 回调
 type Handler interface {
-	OnFrontConnected()                        // 连接上
-	OnRspUserLogin(*pb.CTPRspInfo)            // 登陆返回
-	OnRtnOrder(*pb.Order)                     // 委托返回
-	OnRtnTrade(*pb.TradeReport)               // 成交返回
-	OnRspOrderInsert(*pb.CTPOnRspOrderInsert) // 发单失败
+	OnFrontConnected()                         // 连接上
+	OnRspUserLogin(*pb.RspTradingAccountLogin) // 登陆返回
+	OnRtnOrder(*pb.Order)                      // 委托返回
+	OnRtnTrade(*pb.TradeReport)                // 成交返回
+	OnRspOrderInsert(*pb.RspOrderInsert)       // 发单失败
 }

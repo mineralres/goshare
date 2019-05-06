@@ -202,3 +202,29 @@ message TradingAccountSummary {
   // 部门名称
   string branch_name = 65;
 }
+
+message RspTradingAccountLogin {
+  int32 error_id = 1;
+  bytes error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  int32 trading_day = 5;
+  string login_time = 6;
+  string broker_id = 7;
+  string user_id = 8;
+  string system_name = 9;
+  int32 front_id = 10;
+  int32 session_id = 11;
+  string max_order_ref = 12;
+  string SHFE_time = 13;
+  string DCE_time = 14;
+  string CZCE_time = 15;
+  string FFEX_time = 16;
+  string INE_time = 17;
+}
+
+message RspOrderInsert {
+  int32 error_id = 1;
+  bytes error_msg = 2;
+  string order_ref = 3;
+}
