@@ -6,15 +6,8 @@ import (
 	"log"
 )
 
-type xservice struct {
-	GrpcPort int `json:"grpcPort"`
-	HTTPPort int `json:"httpPort"`
-}
-
 type xconfig struct {
-	Common xservice `json:"common"`
-	User   xservice `json:"user"`
-	WSPort int      `json:"wsPort"`
+	Port int `json:"port"`
 }
 
 func loadConfig(f string, out interface{}) error {

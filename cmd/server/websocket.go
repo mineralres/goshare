@@ -34,12 +34,9 @@ type wsFront struct {
 }
 
 func makeWsFront(c xconfig) *wsFront {
-	if c.WSPort == 0 {
-		panic("invlid ws port")
-	}
 	var front wsFront
-	front.grpcEndPoint = fmt.Sprintf("localhost:%d", c.Common.GrpcPort)
-	front.port = c.WSPort
+	front.grpcEndPoint = fmt.Sprintf("localhost:%d", c.Port)
+	front.port = c.Port
 	return &front
 }
 
