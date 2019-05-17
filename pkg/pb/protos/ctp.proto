@@ -802,3 +802,74 @@ message CTPOnRspOrderInsert {
   bytes error_msg = 2;
   string order_ref = 3;
 }
+
+// 合约信息
+message CTPInstrumentField {
+  ///合约代码
+  string instrument_id = 1;
+  ///交易所代码
+  string exchange_id = 2;
+  ///合约名称
+  bytes instrument_name = 3;
+  ///合约在交易所的代码
+  string exchange_inst_id = 4;
+  ///产品代码
+  string product_id = 5;
+  ///产品类型
+  int32 product_class = 6;
+  ///交割年份
+  int32 delivery_year = 7;
+  ///交割月
+  int32 delivery_month = 8;
+  ///市价单最大下单量
+  int32 max_market_order_volume = 9;
+  ///市价单最小下单量
+  int32 min_market_order_volume = 10;
+  ///限价单最大下单量
+  int32 max_limit_order_volume = 11;
+  ///限价单最小下单量
+  int32 min_limit_order_volume = 12;
+  ///合约数量乘数
+  int32 volume_multiple = 13;
+  ///最小变动价位
+  double price_tick = 14;
+  ///创建日
+  string create_date = 15;
+  ///上市日
+  string open_date = 16;
+  ///到期日
+  string expire_date = 17;
+  ///开始交割日
+  string start_deliv_date = 18;
+  ///结束交割日
+  string end_deliv_date = 19;
+  ///合约生命周期状态
+  int32 inst_life_phase = 20;
+  ///当前是否交易
+  bool is_trading = 30;
+  ///持仓类型
+  int32 position_type = 31;
+  ///持仓日期类型
+  int32 position_date_type = 32;
+  ///多头保证金率
+  double long_margin_ratio = 33;
+  ///空头保证金率
+  double short_margin_ratio = 34;
+  ///是否使用大额单边保证金算法
+  bool max_margin_side_algorithm = 35;
+  ///基础商品代码
+  string underlying_inst_id = 36;
+  ///执行价
+  double strike_price = 37;
+  ///期权类型
+  int32 options_type = 38;
+  ///合约基础商品乘数
+  int32 underlying_multiple = 39;
+  ///组合类型
+  int32 combination_type = 40;
+}
+
+message CTPOnRspQryInstrument {
+  CTPInstrumentField inst = 1;
+  CTPRspInfo response = 2;
+}

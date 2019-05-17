@@ -3,6 +3,8 @@ package log
 import (
 	"os"
 
+	olog "log"
+
 	"github.com/go-log/log"
 	golog "github.com/go-log/log/log"
 )
@@ -14,7 +16,8 @@ var (
 
 // Log makes use of github.com/go-log/log.Log
 func Log(v ...interface{}) {
-	logger.Log(v...)
+	olog.Println(v)
+	// logger.Log(v...)
 }
 
 // Logf makes use of github.com/go-log/log.Logf

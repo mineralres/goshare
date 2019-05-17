@@ -67,7 +67,6 @@ message TradingAccount {
 
 message TradingAccountList { repeated TradingAccount list = 1; }
 
-message ReqDeleteTradingRoute { int64 id = 1; }
 
 // TradingAccountSummary 资金信息
 message TradingAccountSummary {

@@ -3,6 +3,7 @@ package registry
 
 import (
 	"context"
+	"log"
 	"net"
 	"strings"
 	"sync"
@@ -139,12 +140,14 @@ func (m *mdnsRegistry) Register(service *Service, opts ...RegisterOption) error 
 		)
 		if err != nil {
 			gerr = err
+			log.Println("err4", err)
 			continue
 		}
 
 		srv, err := mdns.NewServer(&mdns.Config{Zone: s})
 		if err != nil {
 			gerr = err
+			log.Println("err5", err)
 			continue
 		}
 

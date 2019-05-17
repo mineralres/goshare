@@ -1,5 +1,3 @@
-# github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da
-github.com/armon/go-metrics
 # github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3
 github.com/gin-contrib/sse
 # github.com/gin-contrib/static v0.0.0-20190301062546-ed515893e96b
@@ -23,55 +21,22 @@ github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
 # github.com/golang/snappy v0.0.1
 github.com/golang/snappy
-# github.com/google/btree v1.0.0
-github.com/google/btree
 # github.com/google/uuid v1.1.1
 github.com/google/uuid
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
-# github.com/hashicorp/consul v1.4.4
-github.com/hashicorp/consul/api
-github.com/hashicorp/consul/watch
-# github.com/hashicorp/errwrap v1.0.0
-github.com/hashicorp/errwrap
-# github.com/hashicorp/go-cleanhttp v0.5.1
-github.com/hashicorp/go-cleanhttp
-# github.com/hashicorp/go-immutable-radix v1.0.0
-github.com/hashicorp/go-immutable-radix
-# github.com/hashicorp/go-msgpack v0.5.3
-github.com/hashicorp/go-msgpack/codec
-# github.com/hashicorp/go-multierror v1.0.0
-github.com/hashicorp/go-multierror
-# github.com/hashicorp/go-rootcerts v1.0.0
-github.com/hashicorp/go-rootcerts
-# github.com/hashicorp/go-sockaddr v1.0.2
-github.com/hashicorp/go-sockaddr
-# github.com/hashicorp/golang-lru v0.5.1
-github.com/hashicorp/golang-lru/simplelru
-# github.com/hashicorp/memberlist v0.1.3
-github.com/hashicorp/memberlist
-# github.com/hashicorp/serf v0.8.2
-github.com/hashicorp/serf/coordinate
 # github.com/json-iterator/go v1.1.6
 github.com/json-iterator/go
 # github.com/ledongthuc/pdf v0.0.0-20190215042515-a147dfdf8062
 github.com/ledongthuc/pdf
 # github.com/mattn/go-isatty v0.0.7
 github.com/mattn/go-isatty
-# github.com/micro/cli v0.1.0
-github.com/micro/cli
 # github.com/micro/go-log v0.1.0
 github.com/micro/go-log
 # github.com/micro/go-micro v1.1.0
-github.com/micro/go-micro
 github.com/micro/go-micro/client
-github.com/micro/go-micro/server
-github.com/micro/go-micro/broker
-github.com/micro/go-micro/cmd
-github.com/micro/go-micro/metadata
 github.com/micro/go-micro/registry
-github.com/micro/go-micro/selector
-github.com/micro/go-micro/transport
+github.com/micro/go-micro/broker
 github.com/micro/go-micro/codec
 github.com/micro/go-micro/codec/bytes
 github.com/micro/go-micro/codec/grpc
@@ -80,19 +45,9 @@ github.com/micro/go-micro/codec/jsonrpc
 github.com/micro/go-micro/codec/proto
 github.com/micro/go-micro/codec/protorpc
 github.com/micro/go-micro/errors
-github.com/micro/go-micro/server/debug
-github.com/micro/go-micro/broker/http
-github.com/micro/go-micro/broker/memory
-github.com/micro/go-micro/registry/consul
-github.com/micro/go-micro/registry/gossip
-github.com/micro/go-micro/registry/mdns
-github.com/micro/go-micro/registry/memory
-github.com/micro/go-micro/selector/dns
-github.com/micro/go-micro/selector/static
-github.com/micro/go-micro/transport/http
-github.com/micro/go-micro/transport/memory
-github.com/micro/go-micro/server/debug/proto
-github.com/micro/go-micro/registry/gossip/proto
+github.com/micro/go-micro/metadata
+github.com/micro/go-micro/selector
+github.com/micro/go-micro/transport
 # github.com/micro/go-rcache v0.3.0
 github.com/micro/go-rcache
 # github.com/micro/mdns v0.1.0
@@ -103,20 +58,12 @@ github.com/micro/util/go/lib/net
 github.com/micro/util/go/lib/tls
 # github.com/miekg/dns v1.1.6
 github.com/miekg/dns
-# github.com/mitchellh/go-homedir v1.1.0
-github.com/mitchellh/go-homedir
 # github.com/mitchellh/hashstructure v1.0.0
 github.com/mitchellh/hashstructure
-# github.com/mitchellh/mapstructure v1.1.2
-github.com/mitchellh/mapstructure
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v1.0.1
 github.com/modern-go/reflect2
-# github.com/pkg/errors v0.8.1
-github.com/pkg/errors
-# github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529
-github.com/sean-/seed
 # github.com/syndtr/goleveldb v1.0.0
 github.com/syndtr/goleveldb/leveldb
 github.com/syndtr/goleveldb/leveldb/util
@@ -138,14 +85,14 @@ golang.org/x/crypto/ed25519/internal/edwards25519
 # golang.org/x/net v0.0.0-20190424112056-4829fb13d2c6
 golang.org/x/net/context
 golang.org/x/net/trace
-golang.org/x/net/http2
-golang.org/x/net/http2/h2c
 golang.org/x/net/internal/timeseries
+golang.org/x/net/http2
 golang.org/x/net/http2/hpack
-golang.org/x/net/http/httpguts
-golang.org/x/net/idna
+golang.org/x/net/http2/h2c
 golang.org/x/net/ipv4
 golang.org/x/net/ipv6
+golang.org/x/net/http/httpguts
+golang.org/x/net/idna
 golang.org/x/net/bpf
 golang.org/x/net/internal/iana
 golang.org/x/net/internal/socket

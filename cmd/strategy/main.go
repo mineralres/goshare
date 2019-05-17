@@ -10,7 +10,7 @@ import (
 
 // 在独立进程中运行策略
 func main() {
-	cl := pb.NewUserManagerService("go.micro.srv.usermanager", client.DefaultClient)
+	cl := pb.NewUserManagerService("go.micro.srv.ucenter", client.DefaultClient)
 	resp, err := cl.UserLogin(context.Background(), &pb.ReqUserLogin{})
 	log.Println(resp, err)
 }

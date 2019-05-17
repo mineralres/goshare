@@ -72,6 +72,10 @@ message MarketDataSnapshot {
   string exchange = 27;
   // action day
   int32 action_day = 28;
+  // volume multiple
+  int32 volume_multiple = 29;
+  // price tick
+  double price_tick = 30;
 }
 
 // MdsList 行情列表

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,34 +24,34 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	go func() {
 		// for debug http://localhost:6160/debug/pprof
-		log.Println(http.ListenAndServe(":6160", nil))
+		log.Println(http.ListenAndServe(":0", nil))
 	}()
 
 	go func() {
 		time.Sleep(time.Second) // 等listen准备好,打开默认浏览器
+		return
 		cmd := exec.Command("explorer", "http://localhost:9090")
 		err := cmd.Start()
 		if err != nil {
 			fmt.Println(err.Error())
 		}
 	}()
-	ctx, cancel := context.WithCancel(context.Background())
 
 	// 开启服务
-	go runSrv(ctx)
+	go runSrv()
 	// 开启gin api router
 	go func() {
+		time.Sleep(time.Millisecond * 100)
 		r := api.MakeAPIRouter()
-		http.Handle("/", r.Router)
-		http.ListenAndServe(":9090", nil)
+		s := &http.Server{
+			Addr:    ":9090",
+			Handler: r.Router,
+		}
+		s.SetKeepAlivesEnabled(false)
+		log.Println("HTTP running on :9090 ")
+		s.ListenAndServe()		
 	}()
-	// 退出信号
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
-	select {
-	// wait on kill signal
-	case <-ch:
-		log.Println("this is kill signal")
-		cancel()
-	}
+	log.Println("所有服务退出, sig:", <-ch)
 }

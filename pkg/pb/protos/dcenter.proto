@@ -1,0 +1,73 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "market_data.proto";
+
+// DCenter 数据中心
+service DCenter {
+  // 保存K线数据
+  rpc SaveKline(ReqSaveKline) returns (RspSaveKline);
+  // 订阅行情
+  rpc Subscribe(ReqSubscribe) returns (stream MarketDataSnapshot);
+  // 推送tick行情
+  rpc UpdateTick(MarketDataSnapshot) returns (EmptyResponse);
+  // 复杂订阅.同时返回K线
+  rpc CombineSubscribe(ReqCombineSubscribe)
+      returns (stream RspCombineSubscribe);
+  // 数据库情况
+  rpc GetDCenterInfo(ReqGetDCenterInfo) returns (RspGetDCenterInfo);
+  // 合约
+  rpc SetTradingInstrument(ReqSetTradingInstrument)
+      returns (RspSetTradingInstrument);
+  // 读取合约
+  rpc GetTradingInstrument(ReqGetTradingInstrument)
+      returns (RspGetTradingInstrument);
+  // 全部合约
+  rpc GetTradingInstrumentList(ReqGetTradingInstrumentList)
+      returns (RspGetTradingInstrumentList);
+}
+
+message ReqGetTradingInstrumentList {}
+message RspGetTradingInstrumentList {}
+message ReqGetTradingInstrument { Symbol symbol = 1; }
+message RspGetTradingInstrument {}
+message ReqSetTradingInstrument { repeated TradingInstrument list = 1; }
+message RspSetTradingInstrument {}
+
+message ReqSubscribe { repeated Symbol list = 1; }
+message RspSubscribe {}
+message ReqSaveKline { KlineSeries series = 1; }
+message RspSaveKline {}
+
+message ReqCombineSubscribe {
+  Symbol symbol = 1;
+  repeated PeriodType period_list = 2;
+}
+message RspCombineSubscribe {
+  // 合约
+  Symbol symbol = 1;
+  // 历史
+  repeated KlineSeries history = 2;
+  // 最新行情
+  MarketDataSnapshot tick = 3;
+  // 最新K线,按请求时的周期顺序依次返回
+  repeated Kline klines = 4;
+}
+
+message SymbolCacheSummary {
+  Symbol symbol = 1;
+  int32 kline_len = 2;
+  int32 tick_len = 3;
+  int32 subscriber_count = 4;
+}
+
+message CacheSummary {
+  int32 ks_map_size = 1;
+  int32 total_kline_len = 2;
+  int32 total_tick_len = 3;
+  int32 total_subscriber_count = 4;
+  repeated SymbolCacheSummary symbol_list = 5;
+}
+message ReqGetDCenterInfo {}
+message RspGetDCenterInfo { CacheSummary cache_summary = 1; }

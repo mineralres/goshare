@@ -1,0 +1,35 @@
+syntax = "proto3";
+package pb;
+
+// import "common.proto";
+import "trading.proto";
+
+// TAHub 通道服务
+service TAHub {
+  // 账号列表
+  rpc GetAccountList(ReqGetAccountList) returns (RspGetAccountList);
+  // 添加账号
+  rpc AddAccount(ReqAddAccount) returns (RspAddAccount);
+  // 删除账号
+  rpc DeleteAccount(ReqDeleteAccount) returns (RspDeleteAccount);
+  // 经纪商列表
+  rpc GetTradingRouteList(ReqGetTradingRouteList)
+      returns (RspGetTradingRouteList);
+  // 添加经纪商
+  rpc CreateTradingRoute(ReqCreateTradingRoute) returns (RspCreateTradingRoute);
+  // 删除经纪商
+  rpc DeleteTradingRoute(ReqDeleteTradingRoute) returns (RspDeleteTradingRoute);
+}
+
+message ReqGetAccountList {}
+message RspGetAccountList {}
+message ReqAddAccount {}
+message RspAddAccount {}
+message ReqDeleteAccount {}
+message RspDeleteAccount {}
+message ReqGetTradingRouteList {}
+message RspGetTradingRouteList { repeated TradingRoute list = 1; }
+message ReqCreateTradingRoute {}
+message RspCreateTradingRoute {}
+message ReqDeleteTradingRoute { int64 id = 1; }
+message RspDeleteTradingRoute {}

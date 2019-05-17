@@ -70,27 +70,29 @@ enum BindingMessageType {
   CTP_DELETE_API = 13,
   CTP_REQ_INSERT_ORDER = 14,
   CTP_REQ_CANCEL_ORDER = 15,
-  CTP_REQ_QUERY_TRADING_ACCOUNT = 16,
-  CTP_REQ_QUERY_POSITION_DETAIL = 17,
-  CTP_REQ_QUERY_COMMISSION_RATE = 18,
-  CTP_REQ_QUERY_MARGIN_RATE = 19,
+  CTP_REQ_QRY_TRADING_ACCOUNT = 16,
+  CTP_REQ_QRY_POSITION_DETAIL = 17,
+  CTP_REQ_QRY_COMMISSION_RATE = 18,
+  CTP_REQ_QRY_MARGIN_RATE = 19,
   CTP_REQ_CONNECT = 20,
   CTP_REQ_AUTHENTICATE = 21,
   CTP_REQ_SETTLEMENT_INFO_CONFIRM = 22,
-  CTP_REQ_QUERY_INVESTOR = 23,
-  CTP_REQ_QUERY_TRANSFER_BANK = 24,
+  CTP_REQ_QRY_INVESTOR = 23,
+  CTP_REQ_QRY_TRANSFER_BANK = 24,
   CTP_REQ_TRANSFER = 25,
-  CTP_REQ_QUERY_ACCOUNT_REGISTER = 26,
+  CTP_REQ_QRY_ACCOUNT_REGISTER = 26,
   CTP_REQ_UNSUBSCRIBE_MARKET_DATA = 27,
   CTP_RSP_UNSUBSCRIBE_MARKET_DATA = 28,
   CTP_REQ_DISCONNECT = 29,
   CTP_ON_RSP_ORDER_INSERT = 30,
+  CTP_REQ_QRY_INSTRUMENT = 31,
+  CTP_ON_RSP_QRY_INSTRUMENT = 32,
   BindingMessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::google::protobuf::int32>::min(),
   BindingMessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::google::protobuf::int32>::max()
 };
 bool BindingMessageType_IsValid(int value);
 const BindingMessageType BindingMessageType_MIN = CTP_CREATE_API;
-const BindingMessageType BindingMessageType_MAX = CTP_ON_RSP_ORDER_INSERT;
+const BindingMessageType BindingMessageType_MAX = CTP_ON_RSP_QRY_INSTRUMENT;
 const int BindingMessageType_ARRAYSIZE = BindingMessageType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* BindingMessageType_descriptor();

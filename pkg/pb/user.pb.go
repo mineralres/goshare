@@ -35,7 +35,7 @@ var UserType_value = map[string]int32{
 func (x UserType) String() string {
 	return proto.EnumName(UserType_name, int32(x))
 }
-func (UserType) EnumDescriptor() ([]byte, []int) { return fileDescriptor14, []int{0} }
+func (UserType) EnumDescriptor() ([]byte, []int) { return fileDescriptor17, []int{0} }
 
 // UserStatus 状态
 type UserStatus int32
@@ -60,7 +60,7 @@ var UserStatus_value = map[string]int32{
 func (x UserStatus) String() string {
 	return proto.EnumName(UserStatus_name, int32(x))
 }
-func (UserStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor14, []int{1} }
+func (UserStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor17, []int{1} }
 
 // 用户
 type User struct {
@@ -74,7 +74,7 @@ type User struct {
 func (m *User) Reset()                    { *m = User{} }
 func (m *User) String() string            { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()               {}
-func (*User) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{0} }
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{0} }
 
 func (m *User) GetId() string {
 	if m != nil {
@@ -118,7 +118,7 @@ type UserList struct {
 func (m *UserList) Reset()                    { *m = UserList{} }
 func (m *UserList) String() string            { return proto.CompactTextString(m) }
 func (*UserList) ProtoMessage()               {}
-func (*UserList) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{1} }
+func (*UserList) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{1} }
 
 func (m *UserList) GetList() []*User {
 	if m != nil {
@@ -138,7 +138,7 @@ type Permission struct {
 func (m *Permission) Reset()                    { *m = Permission{} }
 func (m *Permission) String() string            { return proto.CompactTextString(m) }
 func (*Permission) ProtoMessage()               {}
-func (*Permission) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{2} }
+func (*Permission) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{2} }
 
 func (m *Permission) GetId() int64 {
 	if m != nil {
@@ -178,7 +178,7 @@ type PermissionTreeNode struct {
 func (m *PermissionTreeNode) Reset()                    { *m = PermissionTreeNode{} }
 func (m *PermissionTreeNode) String() string            { return proto.CompactTextString(m) }
 func (*PermissionTreeNode) ProtoMessage()               {}
-func (*PermissionTreeNode) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{3} }
+func (*PermissionTreeNode) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{3} }
 
 func (m *PermissionTreeNode) GetPermission() *Permission {
 	if m != nil {
@@ -209,7 +209,7 @@ type PermissionList struct {
 func (m *PermissionList) Reset()                    { *m = PermissionList{} }
 func (m *PermissionList) String() string            { return proto.CompactTextString(m) }
 func (*PermissionList) ProtoMessage()               {}
-func (*PermissionList) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{4} }
+func (*PermissionList) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{4} }
 
 func (m *PermissionList) GetList() []*Permission {
 	if m != nil {
@@ -229,7 +229,7 @@ type UserRole struct {
 func (m *UserRole) Reset()                    { *m = UserRole{} }
 func (m *UserRole) String() string            { return proto.CompactTextString(m) }
 func (*UserRole) ProtoMessage()               {}
-func (*UserRole) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{5} }
+func (*UserRole) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{5} }
 
 func (m *UserRole) GetId() int64 {
 	if m != nil {
@@ -272,7 +272,7 @@ type UserSession struct {
 func (m *UserSession) Reset()                    { *m = UserSession{} }
 func (m *UserSession) String() string            { return proto.CompactTextString(m) }
 func (*UserSession) ProtoMessage()               {}
-func (*UserSession) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{6} }
+func (*UserSession) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{6} }
 
 func (m *UserSession) GetId() string {
 	if m != nil {
@@ -328,9 +328,9 @@ func init() {
 	proto.RegisterEnum("pb.UserStatus", UserStatus_name, UserStatus_value)
 }
 
-func init() { proto.RegisterFile("user.proto", fileDescriptor14) }
+func init() { proto.RegisterFile("user.proto", fileDescriptor17) }
 
-var fileDescriptor14 = []byte{
+var fileDescriptor17 = []byte{
 	// 463 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x53, 0x31, 0x8f, 0xd3, 0x30,
 	0x14, 0xc6, 0x49, 0x5a, 0xa5, 0x2f, 0x10, 0x2a, 0x53, 0xa1, 0x08, 0x31, 0x44, 0x19, 0x50, 0x74,

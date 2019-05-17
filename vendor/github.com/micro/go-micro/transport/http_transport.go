@@ -544,5 +544,6 @@ func newHTTPTransport(opts ...Option) *httpTransport {
 	for _, o := range opts {
 		o(&options)
 	}
-	return &httpTransport{opts: options}
+	ret := &httpTransport{opts: options}
+	return ret
 }

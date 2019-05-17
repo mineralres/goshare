@@ -130,6 +130,26 @@
             },
             "icon": "area-chart",
             "route": "/trading-route"
+        },
+        {
+            "id": "9",
+            "breadcrumbParentId": "1",
+            "name": "Radar",
+            "zh": {
+                "name": "市场雷达"
+            },
+            "icon": "bar-chart"
+        },
+        {
+            "id": "91",
+            "breadcrumbParentId": "9",
+            "menuParentId": "9",
+            "name": "CNFutures",
+            "zh": {
+                "name": "内盘期货"
+            },
+            "icon": "line-chart",
+            "route": "/radar/cnfutures"
         }
     ]
 }

@@ -42,7 +42,7 @@ struct TableStruct_common_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::google::protobuf::internal::ParseTable schema[25]
+  static const ::google::protobuf::internal::ParseTable schema[27]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
@@ -62,6 +62,12 @@ extern BrokerRouteDefaultTypeInternal _BrokerRoute_default_instance_;
 class BrokerRouteList;
 class BrokerRouteListDefaultTypeInternal;
 extern BrokerRouteListDefaultTypeInternal _BrokerRouteList_default_instance_;
+class CommonRequest;
+class CommonRequestDefaultTypeInternal;
+extern CommonRequestDefaultTypeInternal _CommonRequest_default_instance_;
+class CommonResponse;
+class CommonResponseDefaultTypeInternal;
+extern CommonResponseDefaultTypeInternal _CommonResponse_default_instance_;
 class EmptyRequest;
 class EmptyRequestDefaultTypeInternal;
 extern EmptyRequestDefaultTypeInternal _EmptyRequest_default_instance_;
@@ -132,6 +138,8 @@ template<> ::pb::AccountMoneySummary* Arena::CreateMaybeMessage<::pb::AccountMon
 template<> ::pb::AccountMoneySummaryList* Arena::CreateMaybeMessage<::pb::AccountMoneySummaryList>(Arena*);
 template<> ::pb::BrokerRoute* Arena::CreateMaybeMessage<::pb::BrokerRoute>(Arena*);
 template<> ::pb::BrokerRouteList* Arena::CreateMaybeMessage<::pb::BrokerRouteList>(Arena*);
+template<> ::pb::CommonRequest* Arena::CreateMaybeMessage<::pb::CommonRequest>(Arena*);
+template<> ::pb::CommonResponse* Arena::CreateMaybeMessage<::pb::CommonResponse>(Arena*);
 template<> ::pb::EmptyRequest* Arena::CreateMaybeMessage<::pb::EmptyRequest>(Arena*);
 template<> ::pb::EmptyResponse* Arena::CreateMaybeMessage<::pb::EmptyResponse>(Arena*);
 template<> ::pb::InstrumentInfo* Arena::CreateMaybeMessage<::pb::InstrumentInfo>(Arena*);
@@ -5005,6 +5013,245 @@ class EmptyResponse :
   class HasBitSetters;
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_common_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CommonRequest :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.CommonRequest) */ {
+ public:
+  CommonRequest();
+  virtual ~CommonRequest();
+
+  CommonRequest(const CommonRequest& from);
+
+  inline CommonRequest& operator=(const CommonRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CommonRequest(CommonRequest&& from) noexcept
+    : CommonRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline CommonRequest& operator=(CommonRequest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CommonRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CommonRequest* internal_default_instance() {
+    return reinterpret_cast<const CommonRequest*>(
+               &_CommonRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    25;
+
+  void Swap(CommonRequest* other);
+  friend void swap(CommonRequest& a, CommonRequest& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CommonRequest* New() const final {
+    return CreateMaybeMessage<CommonRequest>(nullptr);
+  }
+
+  CommonRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CommonRequest>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CommonRequest& from);
+  void MergeFrom(const CommonRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CommonRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:pb.CommonRequest)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_common_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CommonResponse :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.CommonResponse) */ {
+ public:
+  CommonResponse();
+  virtual ~CommonResponse();
+
+  CommonResponse(const CommonResponse& from);
+
+  inline CommonResponse& operator=(const CommonResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CommonResponse(CommonResponse&& from) noexcept
+    : CommonResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline CommonResponse& operator=(CommonResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CommonResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CommonResponse* internal_default_instance() {
+    return reinterpret_cast<const CommonResponse*>(
+               &_CommonResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    26;
+
+  void Swap(CommonResponse* other);
+  friend void swap(CommonResponse& a, CommonResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CommonResponse* New() const final {
+    return CreateMaybeMessage<CommonResponse>(nullptr);
+  }
+
+  CommonResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CommonResponse>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CommonResponse& from);
+  void MergeFrom(const CommonResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CommonResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string message = 3;
+  void clear_message();
+  static const int kMessageFieldNumber = 3;
+  const ::std::string& message() const;
+  void set_message(const ::std::string& value);
+  #if LANG_CXX11
+  void set_message(::std::string&& value);
+  #endif
+  void set_message(const char* value);
+  void set_message(const char* value, size_t size);
+  ::std::string* mutable_message();
+  ::std::string* release_message();
+  void set_allocated_message(::std::string* message);
+
+  // bool success = 1;
+  void clear_success();
+  static const int kSuccessFieldNumber = 1;
+  bool success() const;
+  void set_success(bool value);
+
+  // int32 code = 2;
+  void clear_code();
+  static const int kCodeFieldNumber = 2;
+  ::google::protobuf::int32 code() const;
+  void set_code(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:pb.CommonResponse)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr message_;
+  bool success_;
+  ::google::protobuf::int32 code_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_common_2eproto;
 };
@@ -10914,9 +11161,102 @@ OptionMonthList::list() const {
 
 // EmptyResponse
 
+// -------------------------------------------------------------------
+
+// CommonRequest
+
+// -------------------------------------------------------------------
+
+// CommonResponse
+
+// bool success = 1;
+inline void CommonResponse::clear_success() {
+  success_ = false;
+}
+inline bool CommonResponse::success() const {
+  // @@protoc_insertion_point(field_get:pb.CommonResponse.success)
+  return success_;
+}
+inline void CommonResponse::set_success(bool value) {
+  
+  success_ = value;
+  // @@protoc_insertion_point(field_set:pb.CommonResponse.success)
+}
+
+// int32 code = 2;
+inline void CommonResponse::clear_code() {
+  code_ = 0;
+}
+inline ::google::protobuf::int32 CommonResponse::code() const {
+  // @@protoc_insertion_point(field_get:pb.CommonResponse.code)
+  return code_;
+}
+inline void CommonResponse::set_code(::google::protobuf::int32 value) {
+  
+  code_ = value;
+  // @@protoc_insertion_point(field_set:pb.CommonResponse.code)
+}
+
+// string message = 3;
+inline void CommonResponse::clear_message() {
+  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CommonResponse::message() const {
+  // @@protoc_insertion_point(field_get:pb.CommonResponse.message)
+  return message_.GetNoArena();
+}
+inline void CommonResponse::set_message(const ::std::string& value) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CommonResponse.message)
+}
+#if LANG_CXX11
+inline void CommonResponse::set_message(::std::string&& value) {
+  
+  message_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CommonResponse.message)
+}
+#endif
+inline void CommonResponse::set_message(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CommonResponse.message)
+}
+inline void CommonResponse::set_message(const char* value, size_t size) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CommonResponse.message)
+}
+inline ::std::string* CommonResponse::mutable_message() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CommonResponse.message)
+  return message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CommonResponse::release_message() {
+  // @@protoc_insertion_point(field_release:pb.CommonResponse.message)
+  
+  return message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CommonResponse::set_allocated_message(::std::string* message) {
+  if (message != nullptr) {
+    
+  } else {
+    
+  }
+  message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
+  // @@protoc_insertion_point(field_set_allocated:pb.CommonResponse.message)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

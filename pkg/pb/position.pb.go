@@ -63,7 +63,7 @@ type PositionSummation struct {
 func (m *PositionSummation) Reset()                    { *m = PositionSummation{} }
 func (m *PositionSummation) String() string            { return proto.CompactTextString(m) }
 func (*PositionSummation) ProtoMessage()               {}
-func (*PositionSummation) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{0} }
+func (*PositionSummation) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{0} }
 
 func (m *PositionSummation) GetDirection() int32 {
 	if m != nil {
@@ -272,7 +272,7 @@ type Position struct {
 func (m *Position) Reset()                    { *m = Position{} }
 func (m *Position) String() string            { return proto.CompactTextString(m) }
 func (*Position) ProtoMessage()               {}
-func (*Position) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{1} }
+func (*Position) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{1} }
 
 func (m *Position) GetSymbol() *Symbol {
 	if m != nil {
@@ -442,7 +442,7 @@ type PositionList struct {
 func (m *PositionList) Reset()                    { *m = PositionList{} }
 func (m *PositionList) String() string            { return proto.CompactTextString(m) }
 func (*PositionList) ProtoMessage()               {}
-func (*PositionList) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{2} }
+func (*PositionList) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{2} }
 
 func (m *PositionList) GetList() []*Position {
 	if m != nil {
@@ -466,7 +466,7 @@ type ReqForceClosePosition struct {
 func (m *ReqForceClosePosition) Reset()                    { *m = ReqForceClosePosition{} }
 func (m *ReqForceClosePosition) String() string            { return proto.CompactTextString(m) }
 func (*ReqForceClosePosition) ProtoMessage()               {}
-func (*ReqForceClosePosition) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{3} }
+func (*ReqForceClosePosition) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{3} }
 
 func (m *ReqForceClosePosition) GetUser() string {
 	if m != nil {
@@ -531,9 +531,9 @@ func init() {
 	proto.RegisterType((*ReqForceClosePosition)(nil), "pb.ReqForceClosePosition")
 }
 
-func init() { proto.RegisterFile("position.proto", fileDescriptor9) }
+func init() { proto.RegisterFile("position.proto", fileDescriptor10) }
 
-var fileDescriptor9 = []byte{
+var fileDescriptor10 = []byte{
 	// 901 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x55, 0xdf, 0x4f, 0x23, 0x37,
 	0x10, 0x56, 0x20, 0x09, 0xd9, 0xd9, 0x90, 0x80, 0xf9, 0xd1, 0x15, 0xed, 0xdd, 0xa5, 0xf4, 0xa1,

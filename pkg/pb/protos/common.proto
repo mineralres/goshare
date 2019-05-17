@@ -524,3 +524,10 @@ enum TradingAccountType {
 
 message EmptyRequest {}
 message EmptyResponse {}
+
+message CommonRequest {}
+message CommonResponse {
+  bool success = 1;
+  int32 code = 2;
+  string message = 3;
+}

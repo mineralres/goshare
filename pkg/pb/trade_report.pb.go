@@ -42,7 +42,7 @@ var OrderHedgeType_value = map[string]int32{
 func (x OrderHedgeType) String() string {
 	return proto.EnumName(OrderHedgeType_name, int32(x))
 }
-func (OrderHedgeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor12, []int{0} }
+func (OrderHedgeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor14, []int{0} }
 
 // 成交类型
 type TradeType int32
@@ -94,7 +94,7 @@ var TradeType_value = map[string]int32{
 func (x TradeType) String() string {
 	return proto.EnumName(TradeType_name, int32(x))
 }
-func (TradeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor12, []int{1} }
+func (TradeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor14, []int{1} }
 
 // 成交
 type TradeReport struct {
@@ -177,7 +177,7 @@ type TradeReport struct {
 func (m *TradeReport) Reset()                    { *m = TradeReport{} }
 func (m *TradeReport) String() string            { return proto.CompactTextString(m) }
 func (*TradeReport) ProtoMessage()               {}
-func (*TradeReport) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{0} }
+func (*TradeReport) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{0} }
 
 func (m *TradeReport) GetAccount() string {
 	if m != nil {
@@ -445,7 +445,7 @@ type TradeReportList struct {
 func (m *TradeReportList) Reset()                    { *m = TradeReportList{} }
 func (m *TradeReportList) String() string            { return proto.CompactTextString(m) }
 func (*TradeReportList) ProtoMessage()               {}
-func (*TradeReportList) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{1} }
+func (*TradeReportList) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{1} }
 
 func (m *TradeReportList) GetList() []*TradeReport {
 	if m != nil {
@@ -461,7 +461,7 @@ type TradeReportSession struct {
 func (m *TradeReportSession) Reset()                    { *m = TradeReportSession{} }
 func (m *TradeReportSession) String() string            { return proto.CompactTextString(m) }
 func (*TradeReportSession) ProtoMessage()               {}
-func (*TradeReportSession) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{2} }
+func (*TradeReportSession) Descriptor() ([]byte, []int) { return fileDescriptor14, []int{2} }
 
 func (m *TradeReportSession) GetTrade() *TradeReport {
 	if m != nil {
@@ -478,9 +478,9 @@ func init() {
 	proto.RegisterEnum("pb.TradeType", TradeType_name, TradeType_value)
 }
 
-func init() { proto.RegisterFile("trade_report.proto", fileDescriptor12) }
+func init() { proto.RegisterFile("trade_report.proto", fileDescriptor14) }
 
-var fileDescriptor12 = []byte{
+var fileDescriptor14 = []byte{
 	// 1022 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x55, 0x6d, 0x6f, 0xdb, 0xb6,
 	0x13, 0xaf, 0xe2, 0xc4, 0x89, 0x4f, 0x7e, 0x90, 0x99, 0xb4, 0x7f, 0x26, 0xfd, 0xb7, 0x75, 0x9d,

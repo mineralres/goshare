@@ -49,7 +49,7 @@ var OrderStatus_value = map[string]int32{
 func (x OrderStatus) String() string {
 	return proto.EnumName(OrderStatus_name, int32(x))
 }
-func (OrderStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{0} }
+func (OrderStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
 
 type OrderPriceType int32
 
@@ -80,7 +80,7 @@ var OrderPriceType_value = map[string]int32{
 func (x OrderPriceType) String() string {
 	return proto.EnumName(OrderPriceType_name, int32(x))
 }
-func (OrderPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{1} }
+func (OrderPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
 
 type OffsetFlag int32
 
@@ -118,7 +118,7 @@ var OffsetFlag_value = map[string]int32{
 func (x OffsetFlag) String() string {
 	return proto.EnumName(OffsetFlag_name, int32(x))
 }
-func (OffsetFlag) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{2} }
+func (OffsetFlag) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
 
 // 报单方向
 type OrderDirection int32
@@ -140,7 +140,7 @@ var OrderDirection_value = map[string]int32{
 func (x OrderDirection) String() string {
 	return proto.EnumName(OrderDirection_name, int32(x))
 }
-func (OrderDirection) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{3} }
+func (OrderDirection) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{3} }
 
 // 强平类型
 type ForceCloseType int32
@@ -184,7 +184,7 @@ var ForceCloseType_value = map[string]int32{
 func (x ForceCloseType) String() string {
 	return proto.EnumName(ForceCloseType_name, int32(x))
 }
-func (ForceCloseType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{4} }
+func (ForceCloseType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{4} }
 
 // 报单来源
 type OrderSourceType int32
@@ -248,7 +248,7 @@ var OrderSourceType_value = map[string]int32{
 func (x OrderSourceType) String() string {
 	return proto.EnumName(OrderSourceType_name, int32(x))
 }
-func (OrderSourceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{5} }
+func (OrderSourceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{5} }
 
 // 价格类型
 type ConditionOrderTriggerPriceType int32
@@ -277,7 +277,7 @@ func (x ConditionOrderTriggerPriceType) String() string {
 	return proto.EnumName(ConditionOrderTriggerPriceType_name, int32(x))
 }
 func (ConditionOrderTriggerPriceType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor7, []int{6}
+	return fileDescriptor8, []int{6}
 }
 
 // 条件单触发方式
@@ -302,7 +302,7 @@ var ConditionOrderTriggerType_value = map[string]int32{
 func (x ConditionOrderTriggerType) String() string {
 	return proto.EnumName(ConditionOrderTriggerType_name, int32(x))
 }
-func (ConditionOrderTriggerType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{7} }
+func (ConditionOrderTriggerType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{7} }
 
 // 发送委托价格类型
 type SendOrderPriceType int32
@@ -330,7 +330,7 @@ var SendOrderPriceType_value = map[string]int32{
 func (x SendOrderPriceType) String() string {
 	return proto.EnumName(SendOrderPriceType_name, int32(x))
 }
-func (SendOrderPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{8} }
+func (SendOrderPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{8} }
 
 // TradeCmdType 指令类型
 type TradeCmdType int32
@@ -358,7 +358,7 @@ var TradeCmdType_value = map[string]int32{
 func (x TradeCmdType) String() string {
 	return proto.EnumName(TradeCmdType_name, int32(x))
 }
-func (TradeCmdType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{9} }
+func (TradeCmdType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{9} }
 
 // 报单ID
 type OrderID struct {
@@ -370,7 +370,7 @@ type OrderID struct {
 func (m *OrderID) Reset()                    { *m = OrderID{} }
 func (m *OrderID) String() string            { return proto.CompactTextString(m) }
 func (*OrderID) ProtoMessage()               {}
-func (*OrderID) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{0} }
+func (*OrderID) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
 
 func (m *OrderID) GetFrontId() int32 {
 	if m != nil {
@@ -506,7 +506,7 @@ type Order struct {
 func (m *Order) Reset()                    { *m = Order{} }
 func (m *Order) String() string            { return proto.CompactTextString(m) }
 func (*Order) ProtoMessage()               {}
-func (*Order) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{1} }
+func (*Order) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
 
 func (m *Order) GetSymbol() *Symbol {
 	if m != nil {
@@ -886,7 +886,7 @@ type OrderList struct {
 func (m *OrderList) Reset()                    { *m = OrderList{} }
 func (m *OrderList) String() string            { return proto.CompactTextString(m) }
 func (*OrderList) ProtoMessage()               {}
-func (*OrderList) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{2} }
+func (*OrderList) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
 
 func (m *OrderList) GetList() []*Order {
 	if m != nil {
@@ -903,7 +903,7 @@ type JointOrder struct {
 func (m *JointOrder) Reset()                    { *m = JointOrder{} }
 func (m *JointOrder) String() string            { return proto.CompactTextString(m) }
 func (*JointOrder) ProtoMessage()               {}
-func (*JointOrder) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{3} }
+func (*JointOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{3} }
 
 func (m *JointOrder) GetLocalOrder() *Order {
 	if m != nil {
@@ -927,7 +927,7 @@ type OrderLink struct {
 func (m *OrderLink) Reset()                    { *m = OrderLink{} }
 func (m *OrderLink) String() string            { return proto.CompactTextString(m) }
 func (*OrderLink) ProtoMessage()               {}
-func (*OrderLink) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{4} }
+func (*OrderLink) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{4} }
 
 func (m *OrderLink) GetLocal() *Order {
 	if m != nil {
@@ -978,7 +978,7 @@ type CancelOrderRequest struct {
 func (m *CancelOrderRequest) Reset()                    { *m = CancelOrderRequest{} }
 func (m *CancelOrderRequest) String() string            { return proto.CompactTextString(m) }
 func (*CancelOrderRequest) ProtoMessage()               {}
-func (*CancelOrderRequest) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{5} }
+func (*CancelOrderRequest) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{5} }
 
 func (m *CancelOrderRequest) GetAccount() string {
 	if m != nil {
@@ -1096,7 +1096,7 @@ type OnRtnCancelOrder struct {
 func (m *OnRtnCancelOrder) Reset()                    { *m = OnRtnCancelOrder{} }
 func (m *OnRtnCancelOrder) String() string            { return proto.CompactTextString(m) }
 func (*OnRtnCancelOrder) ProtoMessage()               {}
-func (*OnRtnCancelOrder) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{6} }
+func (*OnRtnCancelOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{6} }
 
 func (m *OnRtnCancelOrder) GetAccount() string {
 	if m != nil {
@@ -1238,7 +1238,7 @@ type ConditionOrder struct {
 func (m *ConditionOrder) Reset()                    { *m = ConditionOrder{} }
 func (m *ConditionOrder) String() string            { return proto.CompactTextString(m) }
 func (*ConditionOrder) ProtoMessage()               {}
-func (*ConditionOrder) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{7} }
+func (*ConditionOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{7} }
 
 func (m *ConditionOrder) GetId() int64 {
 	if m != nil {
@@ -1447,7 +1447,7 @@ type TradeCmd struct {
 func (m *TradeCmd) Reset()                    { *m = TradeCmd{} }
 func (m *TradeCmd) String() string            { return proto.CompactTextString(m) }
 func (*TradeCmd) ProtoMessage()               {}
-func (*TradeCmd) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{8} }
+func (*TradeCmd) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{8} }
 
 func (m *TradeCmd) GetType() TradeCmdType {
 	if m != nil {
@@ -1490,7 +1490,7 @@ type DemoOrder struct {
 func (m *DemoOrder) Reset()                    { *m = DemoOrder{} }
 func (m *DemoOrder) String() string            { return proto.CompactTextString(m) }
 func (*DemoOrder) ProtoMessage()               {}
-func (*DemoOrder) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{9} }
+func (*DemoOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{9} }
 
 func (m *DemoOrder) GetOrder() *Order {
 	if m != nil {
@@ -1564,9 +1564,9 @@ func init() {
 	proto.RegisterEnum("pb.TradeCmdType", TradeCmdType_name, TradeCmdType_value)
 }
 
-func init() { proto.RegisterFile("order.proto", fileDescriptor7) }
+func init() { proto.RegisterFile("order.proto", fileDescriptor8) }
 
-var fileDescriptor7 = []byte{
+var fileDescriptor8 = []byte{
 	// 2525 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x58, 0xdf, 0x76, 0xdb, 0xc6,
 	0xd1, 0x17, 0x49, 0x51, 0x22, 0x87, 0x12, 0x09, 0xad, 0x65, 0x0b, 0xb6, 0x62, 0x5b, 0x51, 0xe2,

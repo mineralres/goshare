@@ -43,7 +43,7 @@ struct TableStruct_ctp_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::google::protobuf::internal::ParseTable schema[47]
+  static const ::google::protobuf::internal::ParseTable schema[49]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
@@ -69,6 +69,9 @@ extern CTPCommissionRateItemDefaultTypeInternal _CTPCommissionRateItem_default_i
 class CTPForceCloseTimeRule;
 class CTPForceCloseTimeRuleDefaultTypeInternal;
 extern CTPForceCloseTimeRuleDefaultTypeInternal _CTPForceCloseTimeRule_default_instance_;
+class CTPInstrumentField;
+class CTPInstrumentFieldDefaultTypeInternal;
+extern CTPInstrumentFieldDefaultTypeInternal _CTPInstrumentField_default_instance_;
 class CTPMarginItem;
 class CTPMarginItemDefaultTypeInternal;
 extern CTPMarginItemDefaultTypeInternal _CTPMarginItem_default_instance_;
@@ -78,6 +81,9 @@ extern CTPMarginRateDefaultTypeInternal _CTPMarginRate_default_instance_;
 class CTPOnRspOrderInsert;
 class CTPOnRspOrderInsertDefaultTypeInternal;
 extern CTPOnRspOrderInsertDefaultTypeInternal _CTPOnRspOrderInsert_default_instance_;
+class CTPOnRspQryInstrument;
+class CTPOnRspQryInstrumentDefaultTypeInternal;
+extern CTPOnRspQryInstrumentDefaultTypeInternal _CTPOnRspQryInstrument_default_instance_;
 class CTPOnRtnCancelOrder;
 class CTPOnRtnCancelOrderDefaultTypeInternal;
 extern CTPOnRtnCancelOrderDefaultTypeInternal _CTPOnRtnCancelOrder_default_instance_;
@@ -201,9 +207,11 @@ template<> ::pb::CTPCloseTradeRecordList* Arena::CreateMaybeMessage<::pb::CTPClo
 template<> ::pb::CTPCommissionRate* Arena::CreateMaybeMessage<::pb::CTPCommissionRate>(Arena*);
 template<> ::pb::CTPCommissionRateItem* Arena::CreateMaybeMessage<::pb::CTPCommissionRateItem>(Arena*);
 template<> ::pb::CTPForceCloseTimeRule* Arena::CreateMaybeMessage<::pb::CTPForceCloseTimeRule>(Arena*);
+template<> ::pb::CTPInstrumentField* Arena::CreateMaybeMessage<::pb::CTPInstrumentField>(Arena*);
 template<> ::pb::CTPMarginItem* Arena::CreateMaybeMessage<::pb::CTPMarginItem>(Arena*);
 template<> ::pb::CTPMarginRate* Arena::CreateMaybeMessage<::pb::CTPMarginRate>(Arena*);
 template<> ::pb::CTPOnRspOrderInsert* Arena::CreateMaybeMessage<::pb::CTPOnRspOrderInsert>(Arena*);
+template<> ::pb::CTPOnRspQryInstrument* Arena::CreateMaybeMessage<::pb::CTPOnRspQryInstrument>(Arena*);
 template<> ::pb::CTPOnRtnCancelOrder* Arena::CreateMaybeMessage<::pb::CTPOnRtnCancelOrder>(Arena*);
 template<> ::pb::CTPOrderField* Arena::CreateMaybeMessage<::pb::CTPOrderField>(Arena*);
 template<> ::pb::CTPOrderID* Arena::CreateMaybeMessage<::pb::CTPOrderID>(Arena*);
@@ -9911,6 +9919,541 @@ class CTPOnRspOrderInsert :
   ::google::protobuf::internal::ArenaStringPtr error_msg_;
   ::google::protobuf::internal::ArenaStringPtr order_ref_;
   ::google::protobuf::int32 error_id_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_ctp_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CTPInstrumentField :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.CTPInstrumentField) */ {
+ public:
+  CTPInstrumentField();
+  virtual ~CTPInstrumentField();
+
+  CTPInstrumentField(const CTPInstrumentField& from);
+
+  inline CTPInstrumentField& operator=(const CTPInstrumentField& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CTPInstrumentField(CTPInstrumentField&& from) noexcept
+    : CTPInstrumentField() {
+    *this = ::std::move(from);
+  }
+
+  inline CTPInstrumentField& operator=(CTPInstrumentField&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CTPInstrumentField& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CTPInstrumentField* internal_default_instance() {
+    return reinterpret_cast<const CTPInstrumentField*>(
+               &_CTPInstrumentField_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    47;
+
+  void Swap(CTPInstrumentField* other);
+  friend void swap(CTPInstrumentField& a, CTPInstrumentField& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CTPInstrumentField* New() const final {
+    return CreateMaybeMessage<CTPInstrumentField>(nullptr);
+  }
+
+  CTPInstrumentField* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CTPInstrumentField>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CTPInstrumentField& from);
+  void MergeFrom(const CTPInstrumentField& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CTPInstrumentField* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string instrument_id = 1;
+  void clear_instrument_id();
+  static const int kInstrumentIdFieldNumber = 1;
+  const ::std::string& instrument_id() const;
+  void set_instrument_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_instrument_id(::std::string&& value);
+  #endif
+  void set_instrument_id(const char* value);
+  void set_instrument_id(const char* value, size_t size);
+  ::std::string* mutable_instrument_id();
+  ::std::string* release_instrument_id();
+  void set_allocated_instrument_id(::std::string* instrument_id);
+
+  // string exchange_id = 2;
+  void clear_exchange_id();
+  static const int kExchangeIdFieldNumber = 2;
+  const ::std::string& exchange_id() const;
+  void set_exchange_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_exchange_id(::std::string&& value);
+  #endif
+  void set_exchange_id(const char* value);
+  void set_exchange_id(const char* value, size_t size);
+  ::std::string* mutable_exchange_id();
+  ::std::string* release_exchange_id();
+  void set_allocated_exchange_id(::std::string* exchange_id);
+
+  // bytes instrument_name = 3;
+  void clear_instrument_name();
+  static const int kInstrumentNameFieldNumber = 3;
+  const ::std::string& instrument_name() const;
+  void set_instrument_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_instrument_name(::std::string&& value);
+  #endif
+  void set_instrument_name(const char* value);
+  void set_instrument_name(const void* value, size_t size);
+  ::std::string* mutable_instrument_name();
+  ::std::string* release_instrument_name();
+  void set_allocated_instrument_name(::std::string* instrument_name);
+
+  // string exchange_inst_id = 4;
+  void clear_exchange_inst_id();
+  static const int kExchangeInstIdFieldNumber = 4;
+  const ::std::string& exchange_inst_id() const;
+  void set_exchange_inst_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_exchange_inst_id(::std::string&& value);
+  #endif
+  void set_exchange_inst_id(const char* value);
+  void set_exchange_inst_id(const char* value, size_t size);
+  ::std::string* mutable_exchange_inst_id();
+  ::std::string* release_exchange_inst_id();
+  void set_allocated_exchange_inst_id(::std::string* exchange_inst_id);
+
+  // string product_id = 5;
+  void clear_product_id();
+  static const int kProductIdFieldNumber = 5;
+  const ::std::string& product_id() const;
+  void set_product_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_product_id(::std::string&& value);
+  #endif
+  void set_product_id(const char* value);
+  void set_product_id(const char* value, size_t size);
+  ::std::string* mutable_product_id();
+  ::std::string* release_product_id();
+  void set_allocated_product_id(::std::string* product_id);
+
+  // string create_date = 15;
+  void clear_create_date();
+  static const int kCreateDateFieldNumber = 15;
+  const ::std::string& create_date() const;
+  void set_create_date(const ::std::string& value);
+  #if LANG_CXX11
+  void set_create_date(::std::string&& value);
+  #endif
+  void set_create_date(const char* value);
+  void set_create_date(const char* value, size_t size);
+  ::std::string* mutable_create_date();
+  ::std::string* release_create_date();
+  void set_allocated_create_date(::std::string* create_date);
+
+  // string open_date = 16;
+  void clear_open_date();
+  static const int kOpenDateFieldNumber = 16;
+  const ::std::string& open_date() const;
+  void set_open_date(const ::std::string& value);
+  #if LANG_CXX11
+  void set_open_date(::std::string&& value);
+  #endif
+  void set_open_date(const char* value);
+  void set_open_date(const char* value, size_t size);
+  ::std::string* mutable_open_date();
+  ::std::string* release_open_date();
+  void set_allocated_open_date(::std::string* open_date);
+
+  // string expire_date = 17;
+  void clear_expire_date();
+  static const int kExpireDateFieldNumber = 17;
+  const ::std::string& expire_date() const;
+  void set_expire_date(const ::std::string& value);
+  #if LANG_CXX11
+  void set_expire_date(::std::string&& value);
+  #endif
+  void set_expire_date(const char* value);
+  void set_expire_date(const char* value, size_t size);
+  ::std::string* mutable_expire_date();
+  ::std::string* release_expire_date();
+  void set_allocated_expire_date(::std::string* expire_date);
+
+  // string start_deliv_date = 18;
+  void clear_start_deliv_date();
+  static const int kStartDelivDateFieldNumber = 18;
+  const ::std::string& start_deliv_date() const;
+  void set_start_deliv_date(const ::std::string& value);
+  #if LANG_CXX11
+  void set_start_deliv_date(::std::string&& value);
+  #endif
+  void set_start_deliv_date(const char* value);
+  void set_start_deliv_date(const char* value, size_t size);
+  ::std::string* mutable_start_deliv_date();
+  ::std::string* release_start_deliv_date();
+  void set_allocated_start_deliv_date(::std::string* start_deliv_date);
+
+  // string end_deliv_date = 19;
+  void clear_end_deliv_date();
+  static const int kEndDelivDateFieldNumber = 19;
+  const ::std::string& end_deliv_date() const;
+  void set_end_deliv_date(const ::std::string& value);
+  #if LANG_CXX11
+  void set_end_deliv_date(::std::string&& value);
+  #endif
+  void set_end_deliv_date(const char* value);
+  void set_end_deliv_date(const char* value, size_t size);
+  ::std::string* mutable_end_deliv_date();
+  ::std::string* release_end_deliv_date();
+  void set_allocated_end_deliv_date(::std::string* end_deliv_date);
+
+  // string underlying_inst_id = 36;
+  void clear_underlying_inst_id();
+  static const int kUnderlyingInstIdFieldNumber = 36;
+  const ::std::string& underlying_inst_id() const;
+  void set_underlying_inst_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_underlying_inst_id(::std::string&& value);
+  #endif
+  void set_underlying_inst_id(const char* value);
+  void set_underlying_inst_id(const char* value, size_t size);
+  ::std::string* mutable_underlying_inst_id();
+  ::std::string* release_underlying_inst_id();
+  void set_allocated_underlying_inst_id(::std::string* underlying_inst_id);
+
+  // int32 product_class = 6;
+  void clear_product_class();
+  static const int kProductClassFieldNumber = 6;
+  ::google::protobuf::int32 product_class() const;
+  void set_product_class(::google::protobuf::int32 value);
+
+  // int32 delivery_year = 7;
+  void clear_delivery_year();
+  static const int kDeliveryYearFieldNumber = 7;
+  ::google::protobuf::int32 delivery_year() const;
+  void set_delivery_year(::google::protobuf::int32 value);
+
+  // int32 delivery_month = 8;
+  void clear_delivery_month();
+  static const int kDeliveryMonthFieldNumber = 8;
+  ::google::protobuf::int32 delivery_month() const;
+  void set_delivery_month(::google::protobuf::int32 value);
+
+  // int32 max_market_order_volume = 9;
+  void clear_max_market_order_volume();
+  static const int kMaxMarketOrderVolumeFieldNumber = 9;
+  ::google::protobuf::int32 max_market_order_volume() const;
+  void set_max_market_order_volume(::google::protobuf::int32 value);
+
+  // int32 min_market_order_volume = 10;
+  void clear_min_market_order_volume();
+  static const int kMinMarketOrderVolumeFieldNumber = 10;
+  ::google::protobuf::int32 min_market_order_volume() const;
+  void set_min_market_order_volume(::google::protobuf::int32 value);
+
+  // int32 max_limit_order_volume = 11;
+  void clear_max_limit_order_volume();
+  static const int kMaxLimitOrderVolumeFieldNumber = 11;
+  ::google::protobuf::int32 max_limit_order_volume() const;
+  void set_max_limit_order_volume(::google::protobuf::int32 value);
+
+  // int32 min_limit_order_volume = 12;
+  void clear_min_limit_order_volume();
+  static const int kMinLimitOrderVolumeFieldNumber = 12;
+  ::google::protobuf::int32 min_limit_order_volume() const;
+  void set_min_limit_order_volume(::google::protobuf::int32 value);
+
+  // int32 volume_multiple = 13;
+  void clear_volume_multiple();
+  static const int kVolumeMultipleFieldNumber = 13;
+  ::google::protobuf::int32 volume_multiple() const;
+  void set_volume_multiple(::google::protobuf::int32 value);
+
+  // double price_tick = 14;
+  void clear_price_tick();
+  static const int kPriceTickFieldNumber = 14;
+  double price_tick() const;
+  void set_price_tick(double value);
+
+  // int32 inst_life_phase = 20;
+  void clear_inst_life_phase();
+  static const int kInstLifePhaseFieldNumber = 20;
+  ::google::protobuf::int32 inst_life_phase() const;
+  void set_inst_life_phase(::google::protobuf::int32 value);
+
+  // int32 position_type = 31;
+  void clear_position_type();
+  static const int kPositionTypeFieldNumber = 31;
+  ::google::protobuf::int32 position_type() const;
+  void set_position_type(::google::protobuf::int32 value);
+
+  // int32 combination_type = 40;
+  void clear_combination_type();
+  static const int kCombinationTypeFieldNumber = 40;
+  ::google::protobuf::int32 combination_type() const;
+  void set_combination_type(::google::protobuf::int32 value);
+
+  // int32 position_date_type = 32;
+  void clear_position_date_type();
+  static const int kPositionDateTypeFieldNumber = 32;
+  ::google::protobuf::int32 position_date_type() const;
+  void set_position_date_type(::google::protobuf::int32 value);
+
+  // bool is_trading = 30;
+  void clear_is_trading();
+  static const int kIsTradingFieldNumber = 30;
+  bool is_trading() const;
+  void set_is_trading(bool value);
+
+  // bool max_margin_side_algorithm = 35;
+  void clear_max_margin_side_algorithm();
+  static const int kMaxMarginSideAlgorithmFieldNumber = 35;
+  bool max_margin_side_algorithm() const;
+  void set_max_margin_side_algorithm(bool value);
+
+  // double long_margin_ratio = 33;
+  void clear_long_margin_ratio();
+  static const int kLongMarginRatioFieldNumber = 33;
+  double long_margin_ratio() const;
+  void set_long_margin_ratio(double value);
+
+  // double short_margin_ratio = 34;
+  void clear_short_margin_ratio();
+  static const int kShortMarginRatioFieldNumber = 34;
+  double short_margin_ratio() const;
+  void set_short_margin_ratio(double value);
+
+  // double strike_price = 37;
+  void clear_strike_price();
+  static const int kStrikePriceFieldNumber = 37;
+  double strike_price() const;
+  void set_strike_price(double value);
+
+  // int32 options_type = 38;
+  void clear_options_type();
+  static const int kOptionsTypeFieldNumber = 38;
+  ::google::protobuf::int32 options_type() const;
+  void set_options_type(::google::protobuf::int32 value);
+
+  // int32 underlying_multiple = 39;
+  void clear_underlying_multiple();
+  static const int kUnderlyingMultipleFieldNumber = 39;
+  ::google::protobuf::int32 underlying_multiple() const;
+  void set_underlying_multiple(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:pb.CTPInstrumentField)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr instrument_id_;
+  ::google::protobuf::internal::ArenaStringPtr exchange_id_;
+  ::google::protobuf::internal::ArenaStringPtr instrument_name_;
+  ::google::protobuf::internal::ArenaStringPtr exchange_inst_id_;
+  ::google::protobuf::internal::ArenaStringPtr product_id_;
+  ::google::protobuf::internal::ArenaStringPtr create_date_;
+  ::google::protobuf::internal::ArenaStringPtr open_date_;
+  ::google::protobuf::internal::ArenaStringPtr expire_date_;
+  ::google::protobuf::internal::ArenaStringPtr start_deliv_date_;
+  ::google::protobuf::internal::ArenaStringPtr end_deliv_date_;
+  ::google::protobuf::internal::ArenaStringPtr underlying_inst_id_;
+  ::google::protobuf::int32 product_class_;
+  ::google::protobuf::int32 delivery_year_;
+  ::google::protobuf::int32 delivery_month_;
+  ::google::protobuf::int32 max_market_order_volume_;
+  ::google::protobuf::int32 min_market_order_volume_;
+  ::google::protobuf::int32 max_limit_order_volume_;
+  ::google::protobuf::int32 min_limit_order_volume_;
+  ::google::protobuf::int32 volume_multiple_;
+  double price_tick_;
+  ::google::protobuf::int32 inst_life_phase_;
+  ::google::protobuf::int32 position_type_;
+  ::google::protobuf::int32 combination_type_;
+  ::google::protobuf::int32 position_date_type_;
+  bool is_trading_;
+  bool max_margin_side_algorithm_;
+  double long_margin_ratio_;
+  double short_margin_ratio_;
+  double strike_price_;
+  ::google::protobuf::int32 options_type_;
+  ::google::protobuf::int32 underlying_multiple_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_ctp_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CTPOnRspQryInstrument :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.CTPOnRspQryInstrument) */ {
+ public:
+  CTPOnRspQryInstrument();
+  virtual ~CTPOnRspQryInstrument();
+
+  CTPOnRspQryInstrument(const CTPOnRspQryInstrument& from);
+
+  inline CTPOnRspQryInstrument& operator=(const CTPOnRspQryInstrument& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  CTPOnRspQryInstrument(CTPOnRspQryInstrument&& from) noexcept
+    : CTPOnRspQryInstrument() {
+    *this = ::std::move(from);
+  }
+
+  inline CTPOnRspQryInstrument& operator=(CTPOnRspQryInstrument&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return default_instance().GetDescriptor();
+  }
+  static const CTPOnRspQryInstrument& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CTPOnRspQryInstrument* internal_default_instance() {
+    return reinterpret_cast<const CTPOnRspQryInstrument*>(
+               &_CTPOnRspQryInstrument_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    48;
+
+  void Swap(CTPOnRspQryInstrument* other);
+  friend void swap(CTPOnRspQryInstrument& a, CTPOnRspQryInstrument& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CTPOnRspQryInstrument* New() const final {
+    return CreateMaybeMessage<CTPOnRspQryInstrument>(nullptr);
+  }
+
+  CTPOnRspQryInstrument* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<CTPOnRspQryInstrument>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const CTPOnRspQryInstrument& from);
+  void MergeFrom(const CTPOnRspQryInstrument& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  static const char* _InternalParse(const char* begin, const char* end, void* object, ::google::protobuf::internal::ParseContext* ctx);
+  ::google::protobuf::internal::ParseFunc _ParseFunc() const final { return _InternalParse; }
+  #else
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CTPOnRspQryInstrument* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .pb.CTPInstrumentField inst = 1;
+  bool has_inst() const;
+  void clear_inst();
+  static const int kInstFieldNumber = 1;
+  const ::pb::CTPInstrumentField& inst() const;
+  ::pb::CTPInstrumentField* release_inst();
+  ::pb::CTPInstrumentField* mutable_inst();
+  void set_allocated_inst(::pb::CTPInstrumentField* inst);
+
+  // .pb.CTPRspInfo response = 2;
+  bool has_response() const;
+  void clear_response();
+  static const int kResponseFieldNumber = 2;
+  const ::pb::CTPRspInfo& response() const;
+  ::pb::CTPRspInfo* release_response();
+  ::pb::CTPRspInfo* mutable_response();
+  void set_allocated_response(::pb::CTPRspInfo* response);
+
+  // @@protoc_insertion_point(class_scope:pb.CTPOnRspQryInstrument)
+ private:
+  class HasBitSetters;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::pb::CTPInstrumentField* inst_;
+  ::pb::CTPRspInfo* response_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_ctp_2eproto;
 };
@@ -24086,9 +24629,986 @@ inline void CTPOnRspOrderInsert::set_allocated_order_ref(::std::string* order_re
   // @@protoc_insertion_point(field_set_allocated:pb.CTPOnRspOrderInsert.order_ref)
 }
 
+// -------------------------------------------------------------------
+
+// CTPInstrumentField
+
+// string instrument_id = 1;
+inline void CTPInstrumentField::clear_instrument_id() {
+  instrument_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::instrument_id() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.instrument_id)
+  return instrument_id_.GetNoArena();
+}
+inline void CTPInstrumentField::set_instrument_id(const ::std::string& value) {
+  
+  instrument_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.instrument_id)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_instrument_id(::std::string&& value) {
+  
+  instrument_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.instrument_id)
+}
+#endif
+inline void CTPInstrumentField::set_instrument_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  instrument_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.instrument_id)
+}
+inline void CTPInstrumentField::set_instrument_id(const char* value, size_t size) {
+  
+  instrument_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.instrument_id)
+}
+inline ::std::string* CTPInstrumentField::mutable_instrument_id() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.instrument_id)
+  return instrument_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_instrument_id() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.instrument_id)
+  
+  return instrument_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_instrument_id(::std::string* instrument_id) {
+  if (instrument_id != nullptr) {
+    
+  } else {
+    
+  }
+  instrument_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instrument_id);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.instrument_id)
+}
+
+// string exchange_id = 2;
+inline void CTPInstrumentField::clear_exchange_id() {
+  exchange_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::exchange_id() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.exchange_id)
+  return exchange_id_.GetNoArena();
+}
+inline void CTPInstrumentField::set_exchange_id(const ::std::string& value) {
+  
+  exchange_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.exchange_id)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_exchange_id(::std::string&& value) {
+  
+  exchange_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.exchange_id)
+}
+#endif
+inline void CTPInstrumentField::set_exchange_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  exchange_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.exchange_id)
+}
+inline void CTPInstrumentField::set_exchange_id(const char* value, size_t size) {
+  
+  exchange_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.exchange_id)
+}
+inline ::std::string* CTPInstrumentField::mutable_exchange_id() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.exchange_id)
+  return exchange_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_exchange_id() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.exchange_id)
+  
+  return exchange_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_exchange_id(::std::string* exchange_id) {
+  if (exchange_id != nullptr) {
+    
+  } else {
+    
+  }
+  exchange_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), exchange_id);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.exchange_id)
+}
+
+// bytes instrument_name = 3;
+inline void CTPInstrumentField::clear_instrument_name() {
+  instrument_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::instrument_name() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.instrument_name)
+  return instrument_name_.GetNoArena();
+}
+inline void CTPInstrumentField::set_instrument_name(const ::std::string& value) {
+  
+  instrument_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.instrument_name)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_instrument_name(::std::string&& value) {
+  
+  instrument_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.instrument_name)
+}
+#endif
+inline void CTPInstrumentField::set_instrument_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  instrument_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.instrument_name)
+}
+inline void CTPInstrumentField::set_instrument_name(const void* value, size_t size) {
+  
+  instrument_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.instrument_name)
+}
+inline ::std::string* CTPInstrumentField::mutable_instrument_name() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.instrument_name)
+  return instrument_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_instrument_name() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.instrument_name)
+  
+  return instrument_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_instrument_name(::std::string* instrument_name) {
+  if (instrument_name != nullptr) {
+    
+  } else {
+    
+  }
+  instrument_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), instrument_name);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.instrument_name)
+}
+
+// string exchange_inst_id = 4;
+inline void CTPInstrumentField::clear_exchange_inst_id() {
+  exchange_inst_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::exchange_inst_id() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.exchange_inst_id)
+  return exchange_inst_id_.GetNoArena();
+}
+inline void CTPInstrumentField::set_exchange_inst_id(const ::std::string& value) {
+  
+  exchange_inst_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.exchange_inst_id)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_exchange_inst_id(::std::string&& value) {
+  
+  exchange_inst_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.exchange_inst_id)
+}
+#endif
+inline void CTPInstrumentField::set_exchange_inst_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  exchange_inst_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.exchange_inst_id)
+}
+inline void CTPInstrumentField::set_exchange_inst_id(const char* value, size_t size) {
+  
+  exchange_inst_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.exchange_inst_id)
+}
+inline ::std::string* CTPInstrumentField::mutable_exchange_inst_id() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.exchange_inst_id)
+  return exchange_inst_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_exchange_inst_id() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.exchange_inst_id)
+  
+  return exchange_inst_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_exchange_inst_id(::std::string* exchange_inst_id) {
+  if (exchange_inst_id != nullptr) {
+    
+  } else {
+    
+  }
+  exchange_inst_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), exchange_inst_id);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.exchange_inst_id)
+}
+
+// string product_id = 5;
+inline void CTPInstrumentField::clear_product_id() {
+  product_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::product_id() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.product_id)
+  return product_id_.GetNoArena();
+}
+inline void CTPInstrumentField::set_product_id(const ::std::string& value) {
+  
+  product_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.product_id)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_product_id(::std::string&& value) {
+  
+  product_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.product_id)
+}
+#endif
+inline void CTPInstrumentField::set_product_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  product_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.product_id)
+}
+inline void CTPInstrumentField::set_product_id(const char* value, size_t size) {
+  
+  product_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.product_id)
+}
+inline ::std::string* CTPInstrumentField::mutable_product_id() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.product_id)
+  return product_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_product_id() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.product_id)
+  
+  return product_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_product_id(::std::string* product_id) {
+  if (product_id != nullptr) {
+    
+  } else {
+    
+  }
+  product_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), product_id);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.product_id)
+}
+
+// int32 product_class = 6;
+inline void CTPInstrumentField::clear_product_class() {
+  product_class_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::product_class() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.product_class)
+  return product_class_;
+}
+inline void CTPInstrumentField::set_product_class(::google::protobuf::int32 value) {
+  
+  product_class_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.product_class)
+}
+
+// int32 delivery_year = 7;
+inline void CTPInstrumentField::clear_delivery_year() {
+  delivery_year_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::delivery_year() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.delivery_year)
+  return delivery_year_;
+}
+inline void CTPInstrumentField::set_delivery_year(::google::protobuf::int32 value) {
+  
+  delivery_year_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.delivery_year)
+}
+
+// int32 delivery_month = 8;
+inline void CTPInstrumentField::clear_delivery_month() {
+  delivery_month_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::delivery_month() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.delivery_month)
+  return delivery_month_;
+}
+inline void CTPInstrumentField::set_delivery_month(::google::protobuf::int32 value) {
+  
+  delivery_month_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.delivery_month)
+}
+
+// int32 max_market_order_volume = 9;
+inline void CTPInstrumentField::clear_max_market_order_volume() {
+  max_market_order_volume_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::max_market_order_volume() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.max_market_order_volume)
+  return max_market_order_volume_;
+}
+inline void CTPInstrumentField::set_max_market_order_volume(::google::protobuf::int32 value) {
+  
+  max_market_order_volume_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.max_market_order_volume)
+}
+
+// int32 min_market_order_volume = 10;
+inline void CTPInstrumentField::clear_min_market_order_volume() {
+  min_market_order_volume_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::min_market_order_volume() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.min_market_order_volume)
+  return min_market_order_volume_;
+}
+inline void CTPInstrumentField::set_min_market_order_volume(::google::protobuf::int32 value) {
+  
+  min_market_order_volume_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.min_market_order_volume)
+}
+
+// int32 max_limit_order_volume = 11;
+inline void CTPInstrumentField::clear_max_limit_order_volume() {
+  max_limit_order_volume_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::max_limit_order_volume() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.max_limit_order_volume)
+  return max_limit_order_volume_;
+}
+inline void CTPInstrumentField::set_max_limit_order_volume(::google::protobuf::int32 value) {
+  
+  max_limit_order_volume_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.max_limit_order_volume)
+}
+
+// int32 min_limit_order_volume = 12;
+inline void CTPInstrumentField::clear_min_limit_order_volume() {
+  min_limit_order_volume_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::min_limit_order_volume() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.min_limit_order_volume)
+  return min_limit_order_volume_;
+}
+inline void CTPInstrumentField::set_min_limit_order_volume(::google::protobuf::int32 value) {
+  
+  min_limit_order_volume_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.min_limit_order_volume)
+}
+
+// int32 volume_multiple = 13;
+inline void CTPInstrumentField::clear_volume_multiple() {
+  volume_multiple_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::volume_multiple() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.volume_multiple)
+  return volume_multiple_;
+}
+inline void CTPInstrumentField::set_volume_multiple(::google::protobuf::int32 value) {
+  
+  volume_multiple_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.volume_multiple)
+}
+
+// double price_tick = 14;
+inline void CTPInstrumentField::clear_price_tick() {
+  price_tick_ = 0;
+}
+inline double CTPInstrumentField::price_tick() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.price_tick)
+  return price_tick_;
+}
+inline void CTPInstrumentField::set_price_tick(double value) {
+  
+  price_tick_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.price_tick)
+}
+
+// string create_date = 15;
+inline void CTPInstrumentField::clear_create_date() {
+  create_date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::create_date() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.create_date)
+  return create_date_.GetNoArena();
+}
+inline void CTPInstrumentField::set_create_date(const ::std::string& value) {
+  
+  create_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.create_date)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_create_date(::std::string&& value) {
+  
+  create_date_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.create_date)
+}
+#endif
+inline void CTPInstrumentField::set_create_date(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  create_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.create_date)
+}
+inline void CTPInstrumentField::set_create_date(const char* value, size_t size) {
+  
+  create_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.create_date)
+}
+inline ::std::string* CTPInstrumentField::mutable_create_date() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.create_date)
+  return create_date_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_create_date() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.create_date)
+  
+  return create_date_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_create_date(::std::string* create_date) {
+  if (create_date != nullptr) {
+    
+  } else {
+    
+  }
+  create_date_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), create_date);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.create_date)
+}
+
+// string open_date = 16;
+inline void CTPInstrumentField::clear_open_date() {
+  open_date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::open_date() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.open_date)
+  return open_date_.GetNoArena();
+}
+inline void CTPInstrumentField::set_open_date(const ::std::string& value) {
+  
+  open_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.open_date)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_open_date(::std::string&& value) {
+  
+  open_date_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.open_date)
+}
+#endif
+inline void CTPInstrumentField::set_open_date(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  open_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.open_date)
+}
+inline void CTPInstrumentField::set_open_date(const char* value, size_t size) {
+  
+  open_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.open_date)
+}
+inline ::std::string* CTPInstrumentField::mutable_open_date() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.open_date)
+  return open_date_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_open_date() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.open_date)
+  
+  return open_date_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_open_date(::std::string* open_date) {
+  if (open_date != nullptr) {
+    
+  } else {
+    
+  }
+  open_date_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), open_date);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.open_date)
+}
+
+// string expire_date = 17;
+inline void CTPInstrumentField::clear_expire_date() {
+  expire_date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::expire_date() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.expire_date)
+  return expire_date_.GetNoArena();
+}
+inline void CTPInstrumentField::set_expire_date(const ::std::string& value) {
+  
+  expire_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.expire_date)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_expire_date(::std::string&& value) {
+  
+  expire_date_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.expire_date)
+}
+#endif
+inline void CTPInstrumentField::set_expire_date(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  expire_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.expire_date)
+}
+inline void CTPInstrumentField::set_expire_date(const char* value, size_t size) {
+  
+  expire_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.expire_date)
+}
+inline ::std::string* CTPInstrumentField::mutable_expire_date() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.expire_date)
+  return expire_date_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_expire_date() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.expire_date)
+  
+  return expire_date_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_expire_date(::std::string* expire_date) {
+  if (expire_date != nullptr) {
+    
+  } else {
+    
+  }
+  expire_date_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), expire_date);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.expire_date)
+}
+
+// string start_deliv_date = 18;
+inline void CTPInstrumentField::clear_start_deliv_date() {
+  start_deliv_date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::start_deliv_date() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.start_deliv_date)
+  return start_deliv_date_.GetNoArena();
+}
+inline void CTPInstrumentField::set_start_deliv_date(const ::std::string& value) {
+  
+  start_deliv_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.start_deliv_date)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_start_deliv_date(::std::string&& value) {
+  
+  start_deliv_date_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.start_deliv_date)
+}
+#endif
+inline void CTPInstrumentField::set_start_deliv_date(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  start_deliv_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.start_deliv_date)
+}
+inline void CTPInstrumentField::set_start_deliv_date(const char* value, size_t size) {
+  
+  start_deliv_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.start_deliv_date)
+}
+inline ::std::string* CTPInstrumentField::mutable_start_deliv_date() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.start_deliv_date)
+  return start_deliv_date_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_start_deliv_date() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.start_deliv_date)
+  
+  return start_deliv_date_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_start_deliv_date(::std::string* start_deliv_date) {
+  if (start_deliv_date != nullptr) {
+    
+  } else {
+    
+  }
+  start_deliv_date_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), start_deliv_date);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.start_deliv_date)
+}
+
+// string end_deliv_date = 19;
+inline void CTPInstrumentField::clear_end_deliv_date() {
+  end_deliv_date_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::end_deliv_date() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.end_deliv_date)
+  return end_deliv_date_.GetNoArena();
+}
+inline void CTPInstrumentField::set_end_deliv_date(const ::std::string& value) {
+  
+  end_deliv_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.end_deliv_date)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_end_deliv_date(::std::string&& value) {
+  
+  end_deliv_date_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.end_deliv_date)
+}
+#endif
+inline void CTPInstrumentField::set_end_deliv_date(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  end_deliv_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.end_deliv_date)
+}
+inline void CTPInstrumentField::set_end_deliv_date(const char* value, size_t size) {
+  
+  end_deliv_date_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.end_deliv_date)
+}
+inline ::std::string* CTPInstrumentField::mutable_end_deliv_date() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.end_deliv_date)
+  return end_deliv_date_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_end_deliv_date() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.end_deliv_date)
+  
+  return end_deliv_date_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_end_deliv_date(::std::string* end_deliv_date) {
+  if (end_deliv_date != nullptr) {
+    
+  } else {
+    
+  }
+  end_deliv_date_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), end_deliv_date);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.end_deliv_date)
+}
+
+// int32 inst_life_phase = 20;
+inline void CTPInstrumentField::clear_inst_life_phase() {
+  inst_life_phase_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::inst_life_phase() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.inst_life_phase)
+  return inst_life_phase_;
+}
+inline void CTPInstrumentField::set_inst_life_phase(::google::protobuf::int32 value) {
+  
+  inst_life_phase_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.inst_life_phase)
+}
+
+// bool is_trading = 30;
+inline void CTPInstrumentField::clear_is_trading() {
+  is_trading_ = false;
+}
+inline bool CTPInstrumentField::is_trading() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.is_trading)
+  return is_trading_;
+}
+inline void CTPInstrumentField::set_is_trading(bool value) {
+  
+  is_trading_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.is_trading)
+}
+
+// int32 position_type = 31;
+inline void CTPInstrumentField::clear_position_type() {
+  position_type_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::position_type() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.position_type)
+  return position_type_;
+}
+inline void CTPInstrumentField::set_position_type(::google::protobuf::int32 value) {
+  
+  position_type_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.position_type)
+}
+
+// int32 position_date_type = 32;
+inline void CTPInstrumentField::clear_position_date_type() {
+  position_date_type_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::position_date_type() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.position_date_type)
+  return position_date_type_;
+}
+inline void CTPInstrumentField::set_position_date_type(::google::protobuf::int32 value) {
+  
+  position_date_type_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.position_date_type)
+}
+
+// double long_margin_ratio = 33;
+inline void CTPInstrumentField::clear_long_margin_ratio() {
+  long_margin_ratio_ = 0;
+}
+inline double CTPInstrumentField::long_margin_ratio() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.long_margin_ratio)
+  return long_margin_ratio_;
+}
+inline void CTPInstrumentField::set_long_margin_ratio(double value) {
+  
+  long_margin_ratio_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.long_margin_ratio)
+}
+
+// double short_margin_ratio = 34;
+inline void CTPInstrumentField::clear_short_margin_ratio() {
+  short_margin_ratio_ = 0;
+}
+inline double CTPInstrumentField::short_margin_ratio() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.short_margin_ratio)
+  return short_margin_ratio_;
+}
+inline void CTPInstrumentField::set_short_margin_ratio(double value) {
+  
+  short_margin_ratio_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.short_margin_ratio)
+}
+
+// bool max_margin_side_algorithm = 35;
+inline void CTPInstrumentField::clear_max_margin_side_algorithm() {
+  max_margin_side_algorithm_ = false;
+}
+inline bool CTPInstrumentField::max_margin_side_algorithm() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.max_margin_side_algorithm)
+  return max_margin_side_algorithm_;
+}
+inline void CTPInstrumentField::set_max_margin_side_algorithm(bool value) {
+  
+  max_margin_side_algorithm_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.max_margin_side_algorithm)
+}
+
+// string underlying_inst_id = 36;
+inline void CTPInstrumentField::clear_underlying_inst_id() {
+  underlying_inst_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CTPInstrumentField::underlying_inst_id() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.underlying_inst_id)
+  return underlying_inst_id_.GetNoArena();
+}
+inline void CTPInstrumentField::set_underlying_inst_id(const ::std::string& value) {
+  
+  underlying_inst_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.underlying_inst_id)
+}
+#if LANG_CXX11
+inline void CTPInstrumentField::set_underlying_inst_id(::std::string&& value) {
+  
+  underlying_inst_id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.CTPInstrumentField.underlying_inst_id)
+}
+#endif
+inline void CTPInstrumentField::set_underlying_inst_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  underlying_inst_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.CTPInstrumentField.underlying_inst_id)
+}
+inline void CTPInstrumentField::set_underlying_inst_id(const char* value, size_t size) {
+  
+  underlying_inst_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.CTPInstrumentField.underlying_inst_id)
+}
+inline ::std::string* CTPInstrumentField::mutable_underlying_inst_id() {
+  
+  // @@protoc_insertion_point(field_mutable:pb.CTPInstrumentField.underlying_inst_id)
+  return underlying_inst_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CTPInstrumentField::release_underlying_inst_id() {
+  // @@protoc_insertion_point(field_release:pb.CTPInstrumentField.underlying_inst_id)
+  
+  return underlying_inst_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CTPInstrumentField::set_allocated_underlying_inst_id(::std::string* underlying_inst_id) {
+  if (underlying_inst_id != nullptr) {
+    
+  } else {
+    
+  }
+  underlying_inst_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), underlying_inst_id);
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPInstrumentField.underlying_inst_id)
+}
+
+// double strike_price = 37;
+inline void CTPInstrumentField::clear_strike_price() {
+  strike_price_ = 0;
+}
+inline double CTPInstrumentField::strike_price() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.strike_price)
+  return strike_price_;
+}
+inline void CTPInstrumentField::set_strike_price(double value) {
+  
+  strike_price_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.strike_price)
+}
+
+// int32 options_type = 38;
+inline void CTPInstrumentField::clear_options_type() {
+  options_type_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::options_type() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.options_type)
+  return options_type_;
+}
+inline void CTPInstrumentField::set_options_type(::google::protobuf::int32 value) {
+  
+  options_type_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.options_type)
+}
+
+// int32 underlying_multiple = 39;
+inline void CTPInstrumentField::clear_underlying_multiple() {
+  underlying_multiple_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::underlying_multiple() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.underlying_multiple)
+  return underlying_multiple_;
+}
+inline void CTPInstrumentField::set_underlying_multiple(::google::protobuf::int32 value) {
+  
+  underlying_multiple_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.underlying_multiple)
+}
+
+// int32 combination_type = 40;
+inline void CTPInstrumentField::clear_combination_type() {
+  combination_type_ = 0;
+}
+inline ::google::protobuf::int32 CTPInstrumentField::combination_type() const {
+  // @@protoc_insertion_point(field_get:pb.CTPInstrumentField.combination_type)
+  return combination_type_;
+}
+inline void CTPInstrumentField::set_combination_type(::google::protobuf::int32 value) {
+  
+  combination_type_ = value;
+  // @@protoc_insertion_point(field_set:pb.CTPInstrumentField.combination_type)
+}
+
+// -------------------------------------------------------------------
+
+// CTPOnRspQryInstrument
+
+// .pb.CTPInstrumentField inst = 1;
+inline bool CTPOnRspQryInstrument::has_inst() const {
+  return this != internal_default_instance() && inst_ != nullptr;
+}
+inline void CTPOnRspQryInstrument::clear_inst() {
+  if (GetArenaNoVirtual() == nullptr && inst_ != nullptr) {
+    delete inst_;
+  }
+  inst_ = nullptr;
+}
+inline const ::pb::CTPInstrumentField& CTPOnRspQryInstrument::inst() const {
+  const ::pb::CTPInstrumentField* p = inst_;
+  // @@protoc_insertion_point(field_get:pb.CTPOnRspQryInstrument.inst)
+  return p != nullptr ? *p : *reinterpret_cast<const ::pb::CTPInstrumentField*>(
+      &::pb::_CTPInstrumentField_default_instance_);
+}
+inline ::pb::CTPInstrumentField* CTPOnRspQryInstrument::release_inst() {
+  // @@protoc_insertion_point(field_release:pb.CTPOnRspQryInstrument.inst)
+  
+  ::pb::CTPInstrumentField* temp = inst_;
+  inst_ = nullptr;
+  return temp;
+}
+inline ::pb::CTPInstrumentField* CTPOnRspQryInstrument::mutable_inst() {
+  
+  if (inst_ == nullptr) {
+    auto* p = CreateMaybeMessage<::pb::CTPInstrumentField>(GetArenaNoVirtual());
+    inst_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:pb.CTPOnRspQryInstrument.inst)
+  return inst_;
+}
+inline void CTPOnRspQryInstrument::set_allocated_inst(::pb::CTPInstrumentField* inst) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete inst_;
+  }
+  if (inst) {
+    ::google::protobuf::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      inst = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, inst, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  inst_ = inst;
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPOnRspQryInstrument.inst)
+}
+
+// .pb.CTPRspInfo response = 2;
+inline bool CTPOnRspQryInstrument::has_response() const {
+  return this != internal_default_instance() && response_ != nullptr;
+}
+inline void CTPOnRspQryInstrument::clear_response() {
+  if (GetArenaNoVirtual() == nullptr && response_ != nullptr) {
+    delete response_;
+  }
+  response_ = nullptr;
+}
+inline const ::pb::CTPRspInfo& CTPOnRspQryInstrument::response() const {
+  const ::pb::CTPRspInfo* p = response_;
+  // @@protoc_insertion_point(field_get:pb.CTPOnRspQryInstrument.response)
+  return p != nullptr ? *p : *reinterpret_cast<const ::pb::CTPRspInfo*>(
+      &::pb::_CTPRspInfo_default_instance_);
+}
+inline ::pb::CTPRspInfo* CTPOnRspQryInstrument::release_response() {
+  // @@protoc_insertion_point(field_release:pb.CTPOnRspQryInstrument.response)
+  
+  ::pb::CTPRspInfo* temp = response_;
+  response_ = nullptr;
+  return temp;
+}
+inline ::pb::CTPRspInfo* CTPOnRspQryInstrument::mutable_response() {
+  
+  if (response_ == nullptr) {
+    auto* p = CreateMaybeMessage<::pb::CTPRspInfo>(GetArenaNoVirtual());
+    response_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:pb.CTPOnRspQryInstrument.response)
+  return response_;
+}
+inline void CTPOnRspQryInstrument::set_allocated_response(::pb::CTPRspInfo* response) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete response_;
+  }
+  if (response) {
+    ::google::protobuf::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      response = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, response, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  response_ = response;
+  // @@protoc_insertion_point(field_set_allocated:pb.CTPOnRspQryInstrument.response)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
