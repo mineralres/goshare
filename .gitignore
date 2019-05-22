@@ -7,3 +7,4 @@ pkg/trading_account/*dll
 pkg/trading_account/*con
 cmd/examples/ctp/*.con
 cmd/util/fquote/*.con
+cmd/goshare/db

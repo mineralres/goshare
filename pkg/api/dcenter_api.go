@@ -82,19 +82,15 @@ func (r *XRouter) subscribe(c *gin.Context) {
 	}
 }
 
-func (r *XRouter) setTradingInstrument(c *gin.Context) {
-	var req pb.ReqSetTradingInstrument
+func (r *XRouter) getTradingInstrument(c *gin.Context) {
+	var req pb.ReqGetTradingInstrument
 	err := c.BindJSON(&req)
 	if err != nil {
 		return
 	}
-	resp, err := r.dcc.SetTradingInstrument(context.Background(), &req)
+	resp, err := r.dcc.GetTradingInstrument(context.Background(), &req)
 	if err != nil {
 		return
 	}
 	log.Println(resp, err)
-}
-
-func (r *XRouter) getTradingInstrument(c *gin.Context) {
-
 }

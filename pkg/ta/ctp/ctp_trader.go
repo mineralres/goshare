@@ -10,7 +10,7 @@ import (
 	"unsafe"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/mineralres/goshare/pkg/base"
+	"github.com/mineralres/goshare/pkg/util"
 	"github.com/mineralres/goshare/pkg/pb"
 	"github.com/mineralres/goshare/pkg/ta"
 )
@@ -321,7 +321,7 @@ func fromCTPOrderField(s *pb.CTPOrderField) *pb.Order {
 	if ret.Status == pb.OrderStatus_OS_CANCELED {
 		ret.VolumeCanceled = ret.Volume - ret.VolumeTraded
 	}
-	ret.Comment = base.StringFromGBK2(s.StatusMsg)
+	ret.Comment = util.StringFromGBK2(s.StatusMsg)
 	ret.TradingDay = s.TradingDay
 	ret.UserProductInfo = s.UserProductInfo
 	return &ret
@@ -389,7 +389,7 @@ func FromCTPInstrumentField(s *pb.CTPInstrumentField) *pb.TradingInstrument {
 	d := &pb.TradingInstrument{}
 	d.InstrumentInfo = &pb.InstrumentInfo{}
 	d.ProductInfo = &pb.ProductInfo{ProductId: &pb.ProductID{}}
-	d.InstrumentInfo.SymbolName = base.StringFromGBK2(s.InstrumentName)
+	d.InstrumentInfo.SymbolName = util.StringFromGBK2(s.InstrumentName)
 	d.ProductInfo.ProductId.Code = s.ProductId
 	d.Symbol = &pb.Symbol{Exchange: fromCTPExchange(s.ExchangeId), Code: s.InstrumentId}
 	d.ProductInfo.ProductId.Exchange = d.Symbol.Exchange

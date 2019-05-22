@@ -12,48 +12,6 @@ import (
 	"github.com/mineralres/goshare/pkg/service"
 )
 
-// XRouter XRouter
-type XRouter struct {
-	Router *gin.Engine
-	ucc    pb.UCenterClient
-	dcc    pb.DCenterClient
-}
-
-// MakeAPIRouter API
-func MakeAPIRouter() *XRouter {
-	var xr XRouter
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.New()
-	xr.Router = r
-	conn, err := service.GetClientConn("srv.ucenter")
-	if err != nil {
-		panic(err)
-	}
-	xr.ucc = pb.NewUCenterClient(conn)
-	conn, err = service.GetClientConn("srv.dcenter")
-	if err != nil {
-		panic(err)
-	}
-	xr.dcc = pb.NewDCenterClient(conn)
-	r.Use(gin.Recovery())
-	// UI静态文件
-	r.Use(static.Serve("/", static.LocalFile("./ui-release", true)))
-
-	// 注册API
-	g := r.Group("/api/v1")
-	g.GET("/user", xr.user)
-	g.GET("/user/routes", xr.routes)
-	g.GET("/users", xr.userList)
-	g.GET("/strategies", xr.strategies)
-	g.GET("/dcenter/info", xr.dcenterInfo)
-	g.POST("/dcenter/setTradingInstrument", xr.setTradingInstrument)
-	g.POST("/dcenter/getTradingInstrument", xr.getTradingInstrument)
-
-	g = r.Group("/ws/v1/")
-	g.GET("/dcenter/subscribe", xr.subscribe)
-	return &xr
-}
-
 func pbJSON(c *gin.Context, o proto.Message) error {
 	header := c.Writer.Header()
 	header["Content-Type"] = []string{"application/json; charset=utf-8"}
@@ -75,3 +33,52 @@ var (
 		},
 	}
 )
+
+// XRouter XRouter
+type XRouter struct {
+	Router *gin.Engine
+	ucc    pb.UCenterClient
+	dcc    pb.DCenterClient
+}
+
+// Authentication 鉴权
+func Authentication() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Next()
+	}
+}
+
+// MakeAPIRouter API
+func MakeAPIRouter() *XRouter {
+	var xr XRouter
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.New()
+	xr.Router = r
+	conn, err := service.GetClientConn("srv.ucenter")
+	if err != nil {
+		panic(err)
+	}
+	xr.ucc = pb.NewUCenterClient(conn)
+	conn, err = service.GetClientConn("srv.dcenter")
+	if err != nil {
+		panic(err)
+	}
+	xr.dcc = pb.NewDCenterClient(conn)
+	r.Use(gin.Recovery())
+	r.Use(Authentication())
+	// UI静态文件
+	r.Use(static.Serve("/", static.LocalFile("./ui-release", true)))
+
+	// 注册API
+	g := r.Group("/api/v1")
+	g.GET("/user", xr.user)
+	g.GET("/user/routes", xr.routes)
+	g.GET("/users", xr.userList)
+	g.GET("/strategies", xr.strategies)
+	g.GET("/dcenter/info", xr.dcenterInfo)
+	g.POST("/dcenter/getTradingInstrument", xr.getTradingInstrument)
+
+	g = r.Group("/ws/v1/")
+	g.GET("/dcenter/subscribe", xr.subscribe)
+	return &xr
+}

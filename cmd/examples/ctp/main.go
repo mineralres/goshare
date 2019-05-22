@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/jsonpb"
-	"github.com/mineralres/goshare/pkg/base"
+	"github.com/mineralres/goshare/pkg/util"
 	"github.com/mineralres/goshare/pkg/pb"
 	ta "github.com/mineralres/goshare/pkg/trading_account"
 )
@@ -23,7 +23,7 @@ func (h *mdhandler) OnFrontConnected() {
 }
 
 func (h *mdhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
-	log.Println("行情前置返回:", base.StringFromGBK2(rsp.ErrorMsg))
+	log.Println("行情前置返回:", util.StringFromGBK2(rsp.ErrorMsg))
 	var l pb.SymbolList
 	l.List = append(l.List, &symbol)
 	h.mdAPI.Subscribe(&l)
@@ -53,7 +53,7 @@ func (h *myhandler) OnRtnCancelOrder(*pb.OnRtnCancelOrder) {
 }
 
 func (h *myhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
-	log.Println("交易前置登陆返回:", *rsp, base.StringFromGBK2(rsp.ErrorMsg))
+	log.Println("交易前置登陆返回:", *rsp, util.StringFromGBK2(rsp.ErrorMsg))
 	order := pb.Order{}
 	order.Id = &pb.OrderID{OrderRef: 1}
 	order.Symbol = &symbol
@@ -76,7 +76,7 @@ func (h *myhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
 }
 
 func (h *myhandler) OnRspOrderInsert(rsp *pb.RspOrderInsert) {
-	log.Println("发单失败", base.StringFromGBK2(rsp.ErrorMsg), rsp.OrderRef)
+	log.Println("发单失败", util.StringFromGBK2(rsp.ErrorMsg), rsp.OrderRef)
 }
 
 func (h *myhandler) OnFrontConnected() {

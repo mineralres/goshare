@@ -1,25 +1,46 @@
 # 前言
 
+[goshare](https://github.com/mineralres/goshare) 的最终目标是提供一个产品级策略平台,设计过程中考虑提供以下特性:
 
-* 因为在以前工作中用到过 [tushare](http://tushare.org) ，后因工作原因转使用go，所以用go语言实现一个类似tushare的数据源,并额外集成 [pytdx](https://github.com/rainx/pytdx) 的相关功能
+* 以微服务的方式设计架构和提供服务
 
-* [goshare](https://github.com/mineralres/goshare) 旨在提供便利的,更为通用的数据访问接口
+* 集成专业和免费三方数据源,提供相对统一的访问接口
 
-* [goshare](https://github.com/mineralres/goshare) 提供自建和外部数据源混合访问
+* 灵活的策略测试方式
 
-* [goshare](https://github.com/mineralres/goshare) 提供多种数据接口(http, grpc, websocket)
+* 集成多机联合测试功能
 
-* [goshare](https://github.com/mineralres/goshare) 集成专业数据接口
+* 集成交易通道(CTP期货)
 
-* [goshare](https://github.com/mineralres/goshare) 集成分布式策略平台
+* 尽可能自动化常规的运维工作
 
-* [goshare](https://github.com/mineralres/goshare) 集成交易通道(CTP期货)
+* 方便使用的UI
 
 # FAQ
 
 * 为什么选择go语言?
 
 简单易学，编译快速，静态编译，性能优异，部署简单
+
+* 为什么开发goshare?
+
+因为在以前工作中用到过 [tushare](http://tushare.org) ，后因工作原因转使用go，所以用go语言实现一个类似tushare的数据源,并额外集成 [pytdx](https://github.com/rainx/pytdx) 的相关功能之后，形成一个实用的策略平台
+
+* 自有专业数据源和免费三方数据一般有哪些？
+
+自有专业数据源是指使用者购买的商业数据源, 如万得，聚源等。 免费数据源有比如从各种渠道接收实时tick以生成各种k线，还有从各个财经数据源抓取的数据等(参考tushare, pytdx等)
+
+* 既然是微服务架构，为何只有一个server.exe？
+
+为了便于初学者快速熟悉使用goshare，所以尽量简化为单机单进程部署。各组件之前使用grpc调用，并且配有服务发现功能，所以有经验的用户可以很方便的把各个模块拆分成不同进程运行。
+
+* 有没有docker部署的版本？
+
+暂时还没有
+
+* 默认配置的数据源顺序是如何的？
+
+tick数据使用sina抓取, k线使用tdx接口, 推送订阅使用ctp接收器
 
 # 交流
 

@@ -2,19 +2,26 @@
 
 <a href="https://goshare.cyconst.com" target="_blank">说明文档</a>
 
-goshare是一个开源的golang量化数据工具集合
+goshare是一个开源的golang量化数据工具集合。(注意:项目当前处于快速迭代阶段，不考虑向前兼容)
 
 ## goshare简介
- * 自建数据API服务.
- * 用可靠的实时分笔数据源补充更新，同步生成和保存分笔数据，多周期K线数据
- * 给客户端提供实时行情(tick和k线)订阅推送功能
- * 三方数据. 自有数据源不足时,通过抓取新浪,上证官方,东方财富等相关公开数据用作补充
- * 集成量化策略测试
- * 封装相关市场的交易接口
- * webui控制台,[goshare-ui](https://github.com/mineralres/goshare-ui)
- * 自建策略测试集群,提升策略测试效率
- * 前后端分离结构，方便部署于云端，方便远程运维
- 
+  goshare 的最终目标是提供一个产品级策略平台,设计过程中考虑提供以下特性:
+
+* 以微服务的方式设计架构和提供服务
+
+* 集成专业和免费三方数据源,提供相对统一的访问接口
+
+* 灵活的策略测试方式
+
+* 集成多机联合测试功能
+
+* 集成交易通道(CTP期货)
+
+* 尽可能自动化常规的运维工作
+
+* 方便使用的UI, [goshare-ui](https://github.com/mineralres/goshare-ui)
+
+
 ## 运行
 
 ```shell
@@ -24,28 +31,6 @@ go build -mod vendor
 ./server
 ```
 server需要监听一些端口提供http服务，如果有360等防护软件提示，请允许，否则浏览器无法访问
-
-## 直接调用
- ```
- go get -u github.com/mineralres/goshare
-```
-### Usage
-```go
-import (
-  "github.com/mineralres/goshare"
-)
-
-func main() {
-  var s goshare.DataSource
-  symbol := pb.Symbol{Exchange: pb.ExchangeType_SHFE, Code: "rb1805"}
-  // 获取最新行情
-  data, err := s.GetLastTick(&symbol)
-  if err != nil {
-    panic(err)
-  }
-}
-
-```
 
 # UI
 - UI项目库 [goshare-ui](https://github.com/mineralres/goshare-ui)

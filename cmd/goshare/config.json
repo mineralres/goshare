@@ -1,0 +1,12 @@
+{
+    "port": 9090,
+    "gsHost": "https://goshare.cyconst.com",
+    "tdxOptions": {
+        "serverList": [
+            "119.147.212.81:7709"
+        ],
+        "externServerList": [
+            "101.226.251.38:7722"
+        ]
+    }
+}

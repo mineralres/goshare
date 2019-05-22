@@ -1,0 +1,14 @@
+{
+    "scheme": "http",
+    "host": "localhost:14999",
+    "brokerID": "9999",
+    "account": "059926",
+    "password": "198612",
+    "token": "123465--",
+    "tradeFrontList": [
+        "180.168.146.187:10000"
+    ],
+    "marketDataFrontList": [
+        "180.169.99.50:41213"
+    ]
+}

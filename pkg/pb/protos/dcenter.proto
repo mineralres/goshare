@@ -7,19 +7,19 @@ import "market_data.proto";
 // DCenter 数据中心
 service DCenter {
   // 保存K线数据
-  rpc SaveKline(ReqSaveKline) returns (RspSaveKline);
+  // rpc SaveKline(ReqSaveKline) returns (RspSaveKline);
   // 订阅行情
   rpc Subscribe(ReqSubscribe) returns (stream MarketDataSnapshot);
   // 推送tick行情
-  rpc UpdateTick(MarketDataSnapshot) returns (EmptyResponse);
+  // rpc UpdateTick(MarketDataSnapshot) returns (EmptyResponse);
   // 复杂订阅.同时返回K线
   rpc CombineSubscribe(ReqCombineSubscribe)
       returns (stream RspCombineSubscribe);
   // 数据库情况
   rpc GetDCenterInfo(ReqGetDCenterInfo) returns (RspGetDCenterInfo);
   // 合约
-  rpc SetTradingInstrument(ReqSetTradingInstrument)
-      returns (RspSetTradingInstrument);
+  // rpc SetTradingInstrument(ReqSetTradingInstrument)
+  //     returns (RspSetTradingInstrument);
   // 读取合约
   rpc GetTradingInstrument(ReqGetTradingInstrument)
       returns (RspGetTradingInstrument);
@@ -28,7 +28,7 @@ service DCenter {
       returns (RspGetTradingInstrumentList);
 }
 
-message ReqGetTradingInstrumentList {}
+message ReqGetTradingInstrumentList { ExchangeType exchange = 1; }
 message RspGetTradingInstrumentList {}
 message ReqGetTradingInstrument { Symbol symbol = 1; }
 message RspGetTradingInstrument {}
@@ -37,6 +37,9 @@ message RspSetTradingInstrument {}
 
 message ReqSubscribe { repeated Symbol list = 1; }
 message RspSubscribe {}
+message ReqUnSubscribe { repeated Symbol list = 1; }
+message RspUnSubscribe {}
+
 message ReqSaveKline { KlineSeries series = 1; }
 message RspSaveKline {}
 

@@ -111,6 +111,8 @@ It has these top-level messages:
 	RspSetTradingInstrument
 	ReqSubscribe
 	RspSubscribe
+	ReqUnSubscribe
+	RspUnSubscribe
 	ReqSaveKline
 	RspSaveKline
 	ReqCombineSubscribe
