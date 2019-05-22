@@ -35,6 +35,7 @@ func (h *mdhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
 	options.URL.Scheme = h.c.Scheme
 	options.URL.Host = h.c.Host
 	options.Token = h.c.Token
+	options.WithUploader = true
 	h.cl = datasource.MakeClient(options)
 	h.cl.SetTradingInstrument(&pb.ReqSetTradingInstrument{List: h.tiList})
 

@@ -20,15 +20,18 @@ type Client struct {
 
 // ClientOptions Options
 type ClientOptions struct {
-	URL   url.URL `json:"url"`
-	Token string  `json:"token"`
+	URL          url.URL `json:"url"`
+	Token        string  `json:"token"`
+	WithUploader bool    `json:"withUploader"`
 }
 
 // MakeClient MakeClient
 func MakeClient(options *ClientOptions) *Client {
 	ret := &Client{options: *options}
 	ret.chUploadTick = make(chan *pb.MarketDataSnapshot, 10000)
-	go ret.uploader()
+	if options.WithUploader {
+		go ret.uploader()
+	}
 	return ret
 }
 
