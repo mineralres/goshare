@@ -11,7 +11,10 @@ import (
 type config struct {
 	Port       int                   `json:"port"`
 	TDXOptions tdxclient.PoolOptions `json:"tdxOptions"`
-	GSHost     string                `json:"gsHost"`
+	GSURL      struct {
+		Scheme string `json:"scheme"`
+		Host   string `json:"host"`
+	} `json:"gsurl"`
 }
 
 func loadConfig(f string, out interface{}) error {

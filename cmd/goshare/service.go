@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 
-	"github.com/mineralres/goshare/pkg/util/datasource"
 	"github.com/mineralres/goshare/pkg/pb"
 	"github.com/mineralres/goshare/pkg/service"
 	"github.com/mineralres/goshare/pkg/service/dcenter"
 	"github.com/mineralres/goshare/pkg/service/dcenter/tdxclient"
 	"github.com/mineralres/goshare/pkg/service/ucenter"
+	"github.com/mineralres/goshare/pkg/util/datasource"
 	"google.golang.org/grpc"
 )
 
@@ -40,8 +40,11 @@ func runDCenterSrv(c *config) {
 	var dsList []dcenter.DataSource
 	dsList = append(dsList, ds1)
 	log.Println("使用TDX数据源")
-	gsclient := datasource.MakeClient(&datasource.ClientOptions{Host: c.GSHost})
-	log.Printf("使用goshare官方推送数据源[%s]", c.GSHost)
+	options := &datasource.ClientOptions{}
+	options.URL.Scheme = c.GSURL.Scheme
+	options.URL.Host = c.GSURL.Host
+	gsclient := datasource.MakeClient(options)
+	log.Printf("使用goshare官方推送数据源[%s]", c.GSURL.Host)
 	pb.RegisterDCenterServer(grpcServer, dcenter.MakeRPCHandler(dsList, gsclient))
 	grpcServer.Serve(list)
 }
