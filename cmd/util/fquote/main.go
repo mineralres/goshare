@@ -37,7 +37,8 @@ func (h *mdhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
 	options.Token = h.c.Token
 	options.WithUploader = true
 	h.cl = datasource.MakeClient(options)
-	h.cl.SetTradingInstrument(&pb.ReqSetTradingInstrument{List: h.tiList})
+	err := h.cl.SetTradingInstrument(&pb.ReqSetTradingInstrument{List: h.tiList})
+	log.Printf("上传合约 [%d] 个, %v", len(h.tiList), err)
 
 	var l pb.SymbolList
 	l.List = h.symbolList

@@ -1,15 +1,16 @@
 package datasource
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
 	"time"
 
 	proto "github.com/golang/protobuf/proto"
-	"github.com/mineralres/goshare/pkg/pb"
-
 	"github.com/gorilla/websocket"
+	"github.com/mineralres/goshare/pkg/pb"
+	"github.com/mineralres/goshare/pkg/util"
 )
 
 // Client Client
@@ -47,7 +48,9 @@ func (c *Client) UnSubscribe(req *pb.ReqUnSubscribe, ch chan *pb.MarketDataSnaps
 
 // SetTradingInstrument SetTradingInstrument
 func (c *Client) SetTradingInstrument(req *pb.ReqSetTradingInstrument) error {
-	return nil
+	url := c.options.URL
+	var resp pb.RspSetTradingInstrument
+	return util.PostSome(fmt.Sprintf("%s://%s/api/v1/setTradingInstrument", url.Scheme, url.Host), c.options.Token, req, resp)
 }
 
 // UpdateTick UpdateTick

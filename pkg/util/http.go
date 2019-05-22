@@ -11,7 +11,7 @@ import (
 )
 
 // PostSome post请求
-func PostSome(url string, req, res interface{}) error {
+func PostSome(url string, token string, req, res interface{}) error {
 	client := &http.Client{
 		Timeout: time.Second * 3,
 		Transport: &http.Transport{
@@ -31,6 +31,9 @@ func PostSome(url string, req, res interface{}) error {
 		return err
 	}
 	newreq, err := http.NewRequest("POST", url, bytes.NewReader(d))
+	if token != "" {
+		newreq.Header.Add("token", token)
+	}
 	if err != nil {
 		log.Println(err, url)
 		return err
@@ -45,7 +48,7 @@ func PostSome(url string, req, res interface{}) error {
 	body, err := ioutil.ReadAll(resp.Body)
 	err = json.Unmarshal(body, &res)
 	if err != nil {
-		log.Println(err, string(body))
+		// log.Println(err, string(body))
 		return err
 	}
 	return nil

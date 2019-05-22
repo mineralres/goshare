@@ -139,8 +139,10 @@ func (f *Front) setTradingInstrument(c *gin.Context) {
 	var req pb.ReqSetTradingInstrument
 	err := c.BindJSON(&req)
 	if err != nil {
+		log.Println("setTradingInstrument", err)
 		return
 	}
+	log.Printf("setTradingInstrument [%d] 个 ", len(req.List))
 	f.cache.setTradingInstrument(&req)
 }
 
@@ -190,6 +192,6 @@ func (f *Front) uploadTick(c *gin.Context) {
 		}
 		f.cache.Update(&md)
 		n++
-		log.Printf("received[%d]", n)
+		// log.Printf("received[%d]", n)
 	}
 }
