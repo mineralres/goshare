@@ -25,15 +25,10 @@ type Backend interface {
 
 // XCache 内存中K线
 type XCache struct {
-	ds          dcenter.DataSource         // 数据源
-	backend     Backend                    // 存储
-	sdMap       map[pb.Symbol]*symbolData  // sdmap
-	sdMapLock   sync.RWMutex               // 锁
-	chLastKline chan lastKline             // 用于saver保存最新k线
-	chLastDayTS chan pb.TickSeries         // 用于saver保存最新当日tick序列
-	chLastTick  chan pb.MarketDataSnapshot // 最新tick
-	maxKlineLen int                        // 单个K线序列最多缓存的根数
-	maxTickLen  int                        // 单个tick序列最大缓存个数
+	ds          dcenter.DataSource        // 数据源
+	backend     Backend                   // 存储
+	sdMap       map[pb.Symbol]*symbolData // sdmap
+	sdMapLock   sync.RWMutex              // 锁
 }
 
 // 最新一根K线，用于保存到leveldb
@@ -101,7 +96,7 @@ func initSymbolData(s pb.Symbol, cache *XCache) *symbolData {
 		if i > int(pb.PeriodType_MON1) {
 			break
 		}
-		ks, err := cache.rGetKlineSeries(&s, pb.PeriodType(i), 0, nowT, int64(cache.maxKlineLen))
+		ks, err := cache.rGetKlineSeries(&s, pb.PeriodType(i), 0, nowT, 2)
 		if err != nil {
 			ks = &pb.KlineSeries{Period: pb.PeriodType(i), Symbol: &s}
 		} else {
@@ -123,32 +118,11 @@ func initSymbolData(s pb.Symbol, cache *XCache) *symbolData {
 func makeXCache(ds dcenter.DataSource, backend Backend) *XCache {
 	var c XCache
 	c.sdMap = make(map[pb.Symbol]*symbolData)
-	c.chLastKline = make(chan lastKline, 19999)
-	c.chLastDayTS = make(chan pb.TickSeries, 1000)
-	c.chLastTick = make(chan pb.MarketDataSnapshot, 1000)
 	c.ds = ds
 	c.backend = backend
-	// 保存K线
-	go c.saver()
 	// 每分钟保存
 	go c.flushChecker()
 	return &c
-}
-
-func (cache *XCache) saver() {
-	for {
-		select {
-		case k := <-cache.chLastKline:
-			cache.backend.Save(&k.s, k.period, &k.kline)
-			break
-		case ts := <-cache.chLastDayTS:
-			cache.backend.SaveDayTickSeries(&ts)
-			break
-		case tick := <-cache.chLastTick:
-			cache.backend.SetTick(&tick)
-			break
-		}
-	}
 }
 
 func (cache *XCache) flushChecker() {
@@ -168,19 +142,20 @@ func (cache *XCache) flushChecker() {
 }
 
 func (sd *symbolData) flush() {
-	sd.RLock()
+	sd.Lock()
+	// 保存K线
 	for i := range sd.KlineList {
 		ks := &sd.KlineList[i]
-		if len(ks.List) > 0 {
-			sd.cache.chLastKline <- lastKline{s: sd.Symbol, period: ks.Period, kline: *ks.List[len(ks.List)-1]}
+		sz := len(ks.List)
+		for i := range ks.List {
+			sd.cache.backend.Save(&sd.Symbol, ks.Period, ks.List[i])
+		}
+		if sz > 1 {
+			ks.List = ks.List[sz-1:]
 		}
 	}
-	ts := sd.dayTS
-	ts.List = make([]*pb.MarketDataSnapshot, len(sd.dayTS.List))
-	ts.Symbol = &sd.Symbol
-	copy(ts.List, sd.dayTS.List)
-	sd.cache.chLastDayTS <- ts
-	sd.RUnlock()
+	// daily ts
+	sd.Unlock()
 }
 
 func (sd *symbolData) update(tick *pb.MarketDataSnapshot) {
@@ -211,25 +186,15 @@ func (sd *symbolData) update(tick *pb.MarketDataSnapshot) {
 		}
 		tick.VolumeDelta = tick.Volume - pre.Volume
 	}
-	sd.dayTS.List = append(sd.dayTS.List, tick)
-	if len(sd.dayTS.List) > 999999 {
-		sd.dayTS.List = sd.dayTS.List[len(sd.dayTS.List)-2:]
-	}
-
+	// sd.dayTS.List = append(sd.dayTS.List, tick)
 	for i := range sd.KlineList {
 		ks := &sd.KlineList[i]
-		preLen := len(ks.List)
 		UpdateKlineSeries(ks, tick)
-		if len(ks.List) > preLen {
-			// log.Println(tick.Symbol.Code, ks.Period, len(ks.List), "sd.chLastKline")
-			sd.cache.chLastKline <- lastKline{s: *tick.Symbol, period: ks.Period, kline: *ks.List[preLen]}
-		}
 	}
 	for i := range sd.subscribers {
 		sd.subscribers[i] <- tick
-		// log.Println("sd update to subscribers", tick.Symbol)
 	}
-	sd.cache.chLastTick <- *tick
+	sd.cache.backend.SetTick(tick)
 }
 
 func (sd *symbolData) getLastTick() *pb.MarketDataSnapshot {

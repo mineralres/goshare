@@ -9,3 +9,4 @@ cmd/examples/ctp/*.con
 cmd/util/fquote/*.con
 cmd/goshare/db
 cmd/util/datasource/db*
+*.rar
