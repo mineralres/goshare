@@ -3,7 +3,7 @@ module github.com/mineralres/goshare
 go 1.12
 
 require (
-	git.cyconst.com/mineralres/alps v0.0.0-20190425074432-60249d321486
+	git.cyconst.com/mineralres/alps v0.0.0-20190425074432-60249d321486 // indirect
 	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 // indirect
 	github.com/gin-contrib/static v0.0.0-20190301062546-ed515893e96b
 	github.com/gin-gonic/gin v1.3.0
