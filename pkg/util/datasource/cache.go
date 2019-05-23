@@ -25,10 +25,10 @@ type Backend interface {
 
 // XCache 内存中K线
 type XCache struct {
-	ds          dcenter.DataSource        // 数据源
-	backend     Backend                   // 存储
-	sdMap       map[pb.Symbol]*symbolData // sdmap
-	sdMapLock   sync.RWMutex              // 锁
+	ds        dcenter.DataSource        // 数据源
+	backend   Backend                   // 存储
+	sdMap     map[pb.Symbol]*symbolData // sdmap
+	sdMapLock sync.RWMutex              // 锁
 }
 
 // 最新一根K线，用于保存到leveldb
@@ -66,13 +66,13 @@ func (sd *symbolData) subscribe(ch chan *pb.MarketDataSnapshot) {
 func (sd *symbolData) unsubscribe(ch chan *pb.MarketDataSnapshot) {
 	sd.Lock()
 	defer sd.Unlock()
+	var left []chan *pb.MarketDataSnapshot
 	for i := range sd.subscribers {
-		if ch == sd.subscribers[i] {
-			sd.subscribers = append(sd.subscribers[:i], sd.subscribers[i+1:]...)
-			// 重复订阅
-			return
+		if ch != sd.subscribers[i] {
+			left = append(left, sd.subscribers[i])
 		}
 	}
+	sd.subscribers = left
 }
 
 func initSymbolData(s pb.Symbol, cache *XCache) *symbolData {
@@ -461,13 +461,11 @@ func (cache *XCache) subscribe(req *pb.ReqSubscribe, ch chan *pb.MarketDataSnaps
 }
 
 func (cache *XCache) unsubscribe(req *pb.ReqUnSubscribe, ch chan *pb.MarketDataSnapshot) {
-	for i := range req.List {
-		sd := cache.getSymbolData(req.List[i])
-		if sd != nil {
-			sd.unsubscribe(ch)
-		}
+	cache.sdMapLock.Lock()
+	for _, v := range cache.sdMap {
+		v.unsubscribe(ch)
 	}
-	close(ch)
+	cache.sdMapLock.Unlock()
 }
 
 func (cache *XCache) setTradingInstrument(req *pb.ReqSetTradingInstrument) {

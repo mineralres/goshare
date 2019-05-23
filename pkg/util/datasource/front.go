@@ -75,8 +75,6 @@ func (f *Front) checkToken(c *gin.Context) bool {
 }
 
 func (f *Front) subscribe(c *gin.Context) {
-	log.Println("subscribe")
-	defer log.Println("subscribe exited")
 	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Println("Failed to set websocket upgrade:", err)
@@ -126,7 +124,7 @@ func (f *Front) subscribe(c *gin.Context) {
 					}
 				case <-ctx.Done():
 					f.cache.unsubscribe(&pb.ReqUnSubscribe{}, ch)
-					break
+					return
 				}
 			}
 		}()

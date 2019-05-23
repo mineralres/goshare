@@ -53,7 +53,6 @@ func MakeClient(options *ClientOptions) *Client {
 // Subscribe Subscribe
 func (c *Client) Subscribe(req *pb.ReqSubscribe, ch chan *pb.MarketDataSnapshot) (*pb.RspSubscribe, error) {
 	var ret pb.RspSubscribe
-	log.Println("Subscribe", req)
 	for i := range req.List {
 		symbol := *req.List[i]
 		v, ok := c.mapSubscriber.Load(symbol)

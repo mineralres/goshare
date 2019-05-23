@@ -1,12 +1,14 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"os/signal"
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/mineralres/goshare/pkg/pb"
@@ -142,7 +144,24 @@ func main() {
 	h.api = ctp.MakeTrader(r, &h)
 	h.api.Init()
 
+	timeout := flag.Int("timeout", 0, "exit when timeout")
+	flag.Parse()
+	if *timeout <= 0 {
+		*timeout = 99999999
+	}
+
+	timer := time.NewTimer(time.Second * time.Duration(*timeout))
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
-	<-ch
+	for {
+		select {
+		case sig := <-ch:
+			log.Println("exit on signal ", sig)
+			return
+		case <-timer.C:
+			log.Printf("exit on timeout[%d]", *timeout)
+			return
+		}
+	}
+
 }

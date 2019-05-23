@@ -22,8 +22,6 @@ func (r *XRouter) dcenterInfo(c *gin.Context) {
 }
 
 func (r *XRouter) subscribe(c *gin.Context) {
-	log.Println("subscribe")
-	defer log.Println("subscribe exited")
 	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Println("Failed to set websocket upgrade:", err)
