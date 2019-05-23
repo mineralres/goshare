@@ -35,7 +35,10 @@ message RspGetTradingInstrument {}
 message ReqSetTradingInstrument { repeated TradingInstrument list = 1; }
 message RspSetTradingInstrument {}
 
-message ReqSubscribe { repeated Symbol list = 1; }
+message ReqSubscribe {
+  repeated Symbol list = 1;
+  bool binary_data = 2;
+}
 message RspSubscribe {}
 message ReqUnSubscribe { repeated Symbol list = 1; }
 message RspUnSubscribe {}

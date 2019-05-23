@@ -77,8 +77,6 @@ func MakeAPIRouter() *XRouter {
 	g.GET("/strategies", xr.strategies)
 	g.GET("/dcenter/info", xr.dcenterInfo)
 	g.POST("/dcenter/getTradingInstrument", xr.getTradingInstrument)
-
-	g = r.Group("/ws/v1/")
-	g.GET("/dcenter/subscribe", xr.subscribe)
+	g.GET("/ws/dcenter/subscribe", xr.subscribe)
 	return &xr
 }

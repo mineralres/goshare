@@ -53,6 +53,7 @@ func (f *Front) Run() {
 	g.POST("/getTradingInstrument", f.getTradingInstrument)
 	g.POST("/updateTick", f.updateTick)
 	g.GET("/ws/uploadTick", f.uploadTick)
+	g.GET("/ws/subscribe", f.subscribe)
 
 	r.Run(fmt.Sprintf(":%d", f.options.Port))
 }

@@ -75,6 +75,7 @@ func (h *RPCHandler) CombineSubscribe(req *pb.ReqCombineSubscribe, stream pb.DCe
 // GetDCenterInfo GetDCenterInfo
 func (h *RPCHandler) GetDCenterInfo(ctx context.Context, req *pb.ReqGetDCenterInfo) (*pb.RspGetDCenterInfo, error) {
 	res := &pb.RspGetDCenterInfo{}
+	res.CacheSummary = &pb.CacheSummary{}
 	return res, nil
 }
 

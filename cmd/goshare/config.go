@@ -14,7 +14,7 @@ type config struct {
 	GSURL      struct {
 		Scheme string `json:"scheme"`
 		Host   string `json:"host"`
-	} `json:"gsurl"`
+	} `json:"gsURL"`
 }
 
 func loadConfig(f string, out interface{}) error {
