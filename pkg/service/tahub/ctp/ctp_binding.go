@@ -4,7 +4,7 @@ import (
 	"sync/atomic"
 	"syscall"
 	"unsafe"
-	"github.com/mineralres/goshare/pkg/ta"
+	"github.com/mineralres/goshare/pkg/service/tahub"
 )
 
 const (
@@ -36,13 +36,13 @@ type session struct {
 
 var (
 	started           = false
-	HandlerList       = make([]ta.Handler, 1000)
+	HandlerList       = make([]tahub.Handler, 1000)
 	HandlerListOffset int64
 	mdSpiList         = make([]MarketDataSpi, 1000)
 	mdSpiListOffset   int64
 )
 
-func insertHandler(spi ta.Handler) int64 {
+func insertHandler(spi tahub.Handler) int64 {
 	offset := atomic.LoadInt64(&HandlerListOffset)
 	if offset > 900 {
 		panic("offset > 900")

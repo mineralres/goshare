@@ -1,1 +1,0 @@
-ls -l |grep ^d|awk '{print $9}'|xargs -t -I {} go test -v ./{}

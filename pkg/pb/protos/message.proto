@@ -18,4 +18,18 @@ enum MessageType {
   RSP_SUBSCRIBE_MARKET_DATA = 1;
   // 有新行情
   RTN_MARKET_DATA_UPDATE = 2;
+  // 订阅行情
+  REQ_UNSUBSCRIBE_MARKET_DATA = 3;
+  // 订阅结果
+  RSP_UNSUBSCRIBE_MARKET_DATA = 4;
+  // 心跳
+  HEATBEAT = 5;
+  // 上传tick
+  UPLOAD_TICK = 6;
+}
+
+message StreamMessage {
+  MessageType type = 1;
+  string target = 2;
+  string data = 3;
 }

@@ -12,7 +12,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"github.com/mineralres/goshare/pkg/pb"
-	"github.com/mineralres/goshare/pkg/ta/ctp"
+	"github.com/mineralres/goshare/pkg/service/tahub/ctp"
 	"github.com/mineralres/goshare/pkg/util"
 	"github.com/mineralres/goshare/pkg/util/datasource"
 )
@@ -37,7 +37,6 @@ func (h *mdhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
 	options.URL.Scheme = h.c.Scheme
 	options.URL.Host = h.c.Host
 	options.Token = h.c.Token
-	options.WithUploader = true
 	h.cl = datasource.MakeClient(options)
 	err := h.cl.SetTradingInstrument(&pb.ReqSetTradingInstrument{List: h.tiList})
 	log.Printf("上传合约 [%d] 个, %v", len(h.tiList), err)

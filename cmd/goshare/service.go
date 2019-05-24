@@ -43,6 +43,7 @@ func runDCenterSrv(c *config) {
 	options := &datasource.ClientOptions{}
 	options.URL.Scheme = c.GSURL.Scheme
 	options.URL.Host = c.GSURL.Host
+	options.Token = c.GSURL.Token
 	gsclient := datasource.MakeClient(options)
 	log.Printf("使用goshare官方推送数据源[%s]", c.GSURL.Host)
 	pb.RegisterDCenterServer(grpcServer, dcenter.MakeRPCHandler(dsList, gsclient))

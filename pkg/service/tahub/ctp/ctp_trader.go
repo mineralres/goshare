@@ -12,7 +12,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/mineralres/goshare/pkg/util"
 	"github.com/mineralres/goshare/pkg/pb"
-	"github.com/mineralres/goshare/pkg/ta"
+	"github.com/mineralres/goshare/pkg/service/tahub"
 )
 
 // Trader api
@@ -74,7 +74,7 @@ func onTraderPopupMessage(s *session) {
 }
 
 // MakeTrader 创建接口, 返回接口ID
-func MakeTrader(r *pb.TradingRoute, spi ta.Handler) *Trader {
+func MakeTrader(r *pb.TradingRoute, spi tahub.Handler) *Trader {
 	if spi == nil {
 		panic("")
 	}

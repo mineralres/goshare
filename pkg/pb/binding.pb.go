@@ -140,6 +140,7 @@ It has these top-level messages:
 	SimpleTickSeries
 	Message
 	MessageList
+	StreamMessage
 	OrderID
 	Order
 	OrderList

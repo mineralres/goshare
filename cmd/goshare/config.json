@@ -1,8 +1,9 @@
 {
     "port": 9090,
     "gsURL": {
-        "scheme": "https",
-        "host": "goshare.cyconst.com"
+        "scheme": "http",
+        "host": "localhost:14999",
+        "token": "123465--"
     },
     "tdxOptions": {
         "serverList": [

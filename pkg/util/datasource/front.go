@@ -1,15 +1,11 @@
 package datasource
 
 import (
-	"bytes"
-	"context"
 	"fmt"
 	"log"
 	"net/http"
-	"sync"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/protobuf/jsonpb"
 	proto "github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
 	"github.com/mineralres/goshare/pkg/pb"
@@ -51,9 +47,7 @@ func (f *Front) Run() {
 	g := r.Group("/api/v1")
 	g.POST("/setTradingInstrument", f.setTradingInstrument)
 	g.POST("/getTradingInstrument", f.getTradingInstrument)
-	g.POST("/updateTick", f.updateTick)
-	g.GET("/ws/uploadTick", f.uploadTick)
-	g.GET("/ws/subscribe", f.subscribe)
+	g.GET("/ws/stream", f.handleStream)
 
 	r.Run(fmt.Sprintf(":%d", f.options.Port))
 }
@@ -72,63 +66,6 @@ func (f *Front) checkToken(c *gin.Context) bool {
 	log.Printf("check token failed %s, should be %s", token, f.options.Token)
 	c.JSON(200, &response{Success: false, Code: -1, Msg: "invalide token"})
 	return false
-}
-
-func (f *Front) subscribe(c *gin.Context) {
-	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, nil)
-	if err != nil {
-		log.Println("Failed to set websocket upgrade:", err)
-		return
-	}
-	// 先接收订阅
-	// conn.SetReadDeadline(time.Now().Add(time.Second * 15))
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	var connLock sync.RWMutex
-	for {
-		// 读取
-		t, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(t, p, err)
-			return
-		}
-		if t != websocket.TextMessage {
-			log.Println("t != websocket.TextMessage")
-			return
-		}
-		var l pb.SymbolList
-		err = jsonpb.Unmarshal(bytes.NewReader(p), &l)
-		if err != nil {
-			log.Println(string(p), err)
-			return
-		}
-		go func() {
-			var req pb.ReqSubscribe
-			req.List = l.List
-			ch := make(chan *pb.MarketDataSnapshot, 100)
-			f.cache.subscribe(&req, ch)
-			for {
-				select {
-				case md := <-ch:
-					str, err := (&jsonpb.Marshaler{EmitDefaults: true}).MarshalToString(md)
-					if err != nil {
-						log.Println("err", err)
-						return
-					}
-					connLock.Lock()
-					err = conn.WriteMessage(websocket.TextMessage, []byte(str))
-					connLock.Unlock()
-					if err != nil {
-						log.Println("err", err)
-						return
-					}
-				case <-ctx.Done():
-					f.cache.unsubscribe(&pb.ReqUnSubscribe{}, ch)
-					return
-				}
-			}
-		}()
-	}
 }
 
 func (f *Front) setTradingInstrument(c *gin.Context) {
@@ -154,13 +91,7 @@ func (f *Front) getTradingInstrument(c *gin.Context) {
 	f.cache.getTradingInstrument(&req)
 }
 
-func (f *Front) updateTick(c *gin.Context) {
-	if !f.checkToken(c) {
-		return
-	}
-}
-
-func (f *Front) uploadTick(c *gin.Context) {
+func (f *Front) handleStream(c *gin.Context) {
 	if !f.checkToken(c) {
 		return
 	}
@@ -170,27 +101,79 @@ func (f *Front) uploadTick(c *gin.Context) {
 		return
 	}
 	defer conn.Close()
+	chOut := make(chan *pb.Message, 100)
+	chSub := make(chan *pb.MarketDataSnapshot, 9999)
+	go func() {
+		// 写函数
+		for {
+			select {
+			case msg := <-chOut:
+				d, err := proto.Marshal(msg)
+				if err != nil {
+					continue
+				}
+				err = conn.WriteMessage(websocket.BinaryMessage, d)
+				if err != nil {
+					return
+				}
+			case md := <-chSub:
+				msg := new(pb.Message)
+				msg.Type = pb.MessageType_RTN_MARKET_DATA_UPDATE
+				d, err := proto.Marshal(md)
+				if err != nil {
+					continue
+				}
+				msg.Data = d
+				chOut <- msg
+			}
+		}
+	}()
 	// 先接收订阅
-	// conn.SetReadDeadline(time.Now().Add(time.Second * 15))
-	var n int
 	for {
 		// 读取
 		t, p, err := conn.ReadMessage()
 		if err != nil {
-			// log.Println(t, p, err)
 			return
 		}
 		if t != websocket.BinaryMessage {
-			// log.Println("t != websocket.TextMessage")
 			continue
 		}
-		var md pb.MarketDataSnapshot
-		err = proto.Unmarshal(p, &md)
+		msg := new(pb.Message)
+		err = proto.Unmarshal(p, msg)
 		if err != nil {
 			continue
 		}
-		f.cache.Update(&md)
-		n++
-		// log.Printf("received[%d]", n)
+		switch msg.Type {
+		case pb.MessageType_UPLOAD_TICK:
+			var tick pb.MarketDataSnapshot
+			if err = proto.Unmarshal(msg.Data, &tick); err != nil {
+				log.Println("req", err)
+				continue
+			}
+			f.cache.Update(&tick)
+		case pb.MessageType_REQ_UNSUBSCRIBE_MARKET_DATA:
+			var req pb.ReqUnSubscribe
+			if err = proto.Unmarshal(msg.Data, &req); err != nil {
+				log.Println("req", req, err)
+				continue
+			}
+			f.cache.unsubscribe(&req, chSub)
+		case pb.MessageType_REQ_SUBSCRIBE_MARKET_DATA:
+			// 订阅行情
+			log.Printf("front received msg[%v] len[%d]", msg.Type, len(msg.Data))
+			var req pb.ReqSubscribe
+			if err = proto.Unmarshal(msg.Data, &req); err != nil {
+				log.Println("req", req, err)
+				continue
+			}
+			f.cache.subscribe(&req, chSub)
+			defer f.cache.unsubscribe(&pb.ReqUnSubscribe{List: req.List}, chSub)
+		case pb.MessageType_HEATBEAT:
+			// 心跳
+			log.Printf("front received msg[%v]", msg.Type)
+			chOut <- msg
+		default:
+			log.Printf("front received msg[%v]", msg.Type)
+		}
 	}
 }

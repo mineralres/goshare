@@ -1,7 +1,6 @@
 package datasource
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,7 +8,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/golang/protobuf/jsonpb"
 	proto "github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
 	"github.com/mineralres/goshare/pkg/pb"
@@ -32,9 +30,8 @@ type Client struct {
 
 // ClientOptions Options
 type ClientOptions struct {
-	URL          url.URL `json:"url"`
-	Token        string  `json:"token"`
-	WithUploader bool    `json:"withUploader"`
+	URL   url.URL `json:"url"`
+	Token string  `json:"token"`
 }
 
 // MakeClient MakeClient
@@ -43,10 +40,7 @@ func MakeClient(options *ClientOptions) *Client {
 	ret.chUploadTick = make(chan *pb.MarketDataSnapshot, 10000)
 	ret.chReqSubscribe = make(chan pb.ReqSubscribe, 100)
 	ret.chReqUnSubscribe = make(chan pb.ReqUnSubscribe, 100)
-	if options.WithUploader {
-		go ret.uploader()
-	}
-	go ret.subscribeConn()
+	go ret.clientConn()
 	return ret
 }
 
@@ -68,82 +62,6 @@ func (c *Client) Subscribe(req *pb.ReqSubscribe, ch chan *pb.MarketDataSnapshot)
 	}
 	c.chReqSubscribe <- *req
 	return &ret, nil
-}
-
-func (c *Client) subscribeConn() {
-	defer func() {
-		time.Sleep(time.Second)
-		go c.subscribeConn()
-	}()
-	url := c.options.URL
-	if url.Scheme == "https" {
-		url.Scheme = "wss"
-	} else {
-		url.Scheme = "ws"
-	}
-	url.Path = "/api/v1/ws/subscribe"
-	header := make(http.Header)
-	header.Add("token", c.options.Token)
-	conn, _, err := websocket.DefaultDialer.Dial(url.String(), header)
-	if err != nil {
-		log.Printf("goshare服务器[%s] 连接失败", url.String())
-		return
-	}
-	log.Printf("成功连接推送行情 %s ", url.String())
-	defer conn.Close()
-
-	// write
-	go func() {
-		var req pb.ReqSubscribe
-		c.mapSubscriber.Range(func(k, v interface{}) bool {
-			s := new(pb.Symbol)
-			*s = k.(pb.Symbol)
-			req.List = append(req.List, s)
-			return true
-		})
-		if len(req.List) > 0 {
-			c.chReqSubscribe <- req
-			log.Println("重连之后重新发送订阅请求", len(req.List))
-		}
-		for req := range c.chReqSubscribe {
-			var l pb.SymbolList
-			l.List = req.List
-			str, err := (&jsonpb.Marshaler{}).MarshalToString(&l)
-			err = conn.WriteMessage(websocket.TextMessage, []byte(str))
-			if err != nil {
-				c.chReqSubscribe <- req
-				log.Println(err)
-				// 连接断开重试
-				return
-			}
-		}
-	}()
-	// read
-	for {
-		t, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(t, p, err)
-			return
-		}
-		if t != websocket.TextMessage {
-			log.Println("t != websocket.TextMessage")
-			return
-		}
-		md := new(pb.MarketDataSnapshot)
-		err = jsonpb.Unmarshal(bytes.NewReader(p), md)
-		if err != nil {
-			continue
-		}
-		v, ok := c.mapSubscriber.Load(*md.Symbol)
-		if ok {
-			sub := v.(*symbolSubscriber)
-			sub.tick = md
-			for i := range sub.chList {
-				sub.chList[i] <- md
-			}
-		}
-	}
-
 }
 
 // UnSubscribe UnSubscribe
@@ -181,11 +99,10 @@ func (c *Client) UpdateTick(req *pb.MarketDataSnapshot) error {
 	return nil
 }
 
-// 负责上传数据
-func (c *Client) uploader() {
+func (c *Client) clientConn() {
 	defer func() {
 		time.Sleep(time.Second)
-		go c.uploader()
+		go c.clientConn()
 	}()
 	url := c.options.URL
 	if url.Scheme == "https" {
@@ -193,34 +110,103 @@ func (c *Client) uploader() {
 	} else {
 		url.Scheme = "ws"
 	}
-	url.Path = "/api/v1/ws/uploadTick"
+	url.Path = "/api/v1/ws/stream"
 	header := make(http.Header)
 	header.Add("token", c.options.Token)
 	conn, _, err := websocket.DefaultDialer.Dial(url.String(), header)
 	if err != nil {
-		log.Println("dial:", err, url.String())
+		log.Printf("goshare服务器[%s] 连接失败", url.String())
 		return
 	}
-	log.Printf("成功连接 %s ", url.String())
+	log.Printf("成功连接推送行情 %s ", url.String())
 	defer conn.Close()
 
-	ticker := time.NewTicker(time.Second * 10)
-	for {
-		select {
-		case <-ticker.C:
-			conn.WriteMessage(websocket.TextMessage, []byte("heartbeat"))
-		case md := <-c.chUploadTick:
-			d, err := proto.Marshal(md)
+	fsend := func(t pb.MessageType, d proto.Message) error {
+		var msg pb.Message
+		msg.Type = t
+		if d != nil {
+			out, err := proto.Marshal(d)
 			if err != nil {
-				log.Println(err)
+				return err
+			}
+			msg.Data = out
+		}
+		out, err := proto.Marshal(&msg)
+		if err != nil {
+			return err
+		}
+		return conn.WriteMessage(websocket.BinaryMessage, out)
+	}
+	// write
+	go func() {
+		var req pb.ReqSubscribe
+		c.mapSubscriber.Range(func(k, v interface{}) bool {
+			s := new(pb.Symbol)
+			*s = k.(pb.Symbol)
+			req.List = append(req.List, s)
+			return true
+		})
+		if len(req.List) > 0 {
+			c.chReqSubscribe <- req
+			log.Println("重连之后重新发送订阅请求", len(req.List))
+		}
+		ticker := time.NewTicker(time.Second * 10)
+		for {
+			select {
+			case md := <-c.chUploadTick:
+				err := fsend(pb.MessageType_UPLOAD_TICK, md)
+				if err != nil {
+					return
+				}
+			case <-ticker.C:
+				err := fsend(pb.MessageType_HEATBEAT, nil)
+				if err != nil {
+					return
+				}
+			case req := <-c.chReqUnSubscribe:
+				err := fsend(pb.MessageType_REQ_UNSUBSCRIBE_MARKET_DATA, &req)
+				if err != nil {
+					return
+				}
+			case req := <-c.chReqSubscribe:
+				err := fsend(pb.MessageType_REQ_SUBSCRIBE_MARKET_DATA, &req)
+				if err != nil {
+					return
+				}
+			}
+		}
+	}()
+	// read
+	for {
+		t, p, err := conn.ReadMessage()
+		if err != nil {
+			log.Println(t, p, err)
+			return
+		}
+		if t != websocket.BinaryMessage {
+			log.Println("t != websocket.TextMessage")
+			return
+		}
+		msg := new(pb.Message)
+		if err = proto.Unmarshal(p, msg); err != nil {
+			continue
+		}
+		// log.Printf("client received msg [%v] len[%d]", msg.Type, len(msg.Data))
+		switch msg.Type {
+		case pb.MessageType_RTN_MARKET_DATA_UPDATE:
+			md := new(pb.MarketDataSnapshot)
+			if err = proto.Unmarshal(msg.Data, md); err != nil {
 				continue
 			}
-			err = conn.WriteMessage(websocket.BinaryMessage, d)
-			if err != nil {
-				log.Println(err)
-				// 连接断开重试
-				break
+			v, ok := c.mapSubscriber.Load(*md.Symbol)
+			if ok {
+				sub := v.(*symbolSubscriber)
+				sub.tick = md
+				for i := range sub.chList {
+					sub.chList[i] <- md
+				}
 			}
 		}
 	}
+
 }

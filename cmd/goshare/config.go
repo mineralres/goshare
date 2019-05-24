@@ -14,6 +14,7 @@ type config struct {
 	GSURL      struct {
 		Scheme string `json:"scheme"`
 		Host   string `json:"host"`
+		Token  string `json:"token"`
 	} `json:"gsURL"`
 }
 
