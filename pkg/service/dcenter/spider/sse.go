@@ -155,6 +155,7 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrume
 	var ret []*pb.TradingInstrument
 	for i := range list {
 		ti := new(pb.TradingInstrument)
+		ti.Symbol = new(pb.Symbol)
 		op := &list[i]
 		ti.Symbol.Exchange = pb.ExchangeType_SSE
 		ti.Symbol.Code = op.SecurityID
