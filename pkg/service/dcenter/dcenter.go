@@ -47,7 +47,6 @@ func MakeRPCHandler(dsList []DataSource, realtime RealtimeDataSource) *RPCHandle
 
 // Subscribe 订阅行情
 func (h *RPCHandler) Subscribe(req *pb.ReqSubscribe, stream pb.DCenter_SubscribeServer) error {
-	log.Println("DCenter Subscribe", req)
 	ch := make(chan *pb.MarketDataSnapshot, 9999) // fixme: 这个数量需要调整
 	h.realtime.Subscribe(req, ch)
 	defer h.realtime.UnSubscribe(&pb.ReqUnSubscribe{}, ch)
@@ -60,11 +59,9 @@ func (h *RPCHandler) Subscribe(req *pb.ReqSubscribe, stream pb.DCenter_Subscribe
 				break
 			}
 		case <-stream.Context().Done():
-			log.Println("Context().Done()")
 			return nil
 		}
 	}
-	return nil
 }
 
 // CombineSubscribe 综合订阅

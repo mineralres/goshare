@@ -178,10 +178,10 @@ func (sd *symbolData) update(tick *pb.MarketDataSnapshot) {
 			// 时间不能小
 			return
 		} else if tick.Time == pre.Time {
-			if tick.Price == pre.Price && tick.Volume == pre.Volume {
+			if tick.Price == pre.Price && tick.Volume == pre.Volume && tick.Position == pre.Position {
 				// 没有变化
 				// log.Println("ret2", tick.Symbol.Code, tick.TradingDay, sd.dayTS.TradingDay)
-				// return
+				return
 			}
 		}
 		tick.VolumeDelta = tick.Volume - pre.Volume
@@ -456,6 +456,8 @@ func (cache *XCache) subscribe(req *pb.ReqSubscribe, ch chan *pb.MarketDataSnaps
 		sd := cache.getSymbolData(req.List[i])
 		if sd != nil {
 			sd.subscribe(ch)
+		} else {
+			log.Println("getSymbolData error ", sd.Symbol)
 		}
 	}
 }

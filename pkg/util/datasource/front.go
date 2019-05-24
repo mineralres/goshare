@@ -177,11 +177,11 @@ func (f *Front) uploadTick(c *gin.Context) {
 		// 读取
 		t, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Println(t, p, err)
+			// log.Println(t, p, err)
 			return
 		}
 		if t != websocket.BinaryMessage {
-			log.Println("t != websocket.TextMessage")
+			// log.Println("t != websocket.TextMessage")
 			continue
 		}
 		var md pb.MarketDataSnapshot

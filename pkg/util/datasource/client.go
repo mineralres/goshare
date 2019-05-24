@@ -86,7 +86,7 @@ func (c *Client) subscribeConn() {
 	header.Add("token", c.options.Token)
 	conn, _, err := websocket.DefaultDialer.Dial(url.String(), header)
 	if err != nil {
-		log.Println("dial:", err, url.String())
+		log.Printf("goshare服务器[%s] 连接失败", url.String())
 		return
 	}
 	log.Printf("成功连接推送行情 %s ", url.String())
@@ -94,6 +94,17 @@ func (c *Client) subscribeConn() {
 
 	// write
 	go func() {
+		var req pb.ReqSubscribe
+		c.mapSubscriber.Range(func(k, v interface{}) bool {
+			s := new(pb.Symbol)
+			*s = k.(pb.Symbol)
+			req.List = append(req.List, s)
+			return true
+		})
+		if len(req.List) > 0 {
+			c.chReqSubscribe <- req
+			log.Println("重连之后重新发送订阅请求", len(req.List))
+		}
 		for req := range c.chReqSubscribe {
 			var l pb.SymbolList
 			l.List = req.List
