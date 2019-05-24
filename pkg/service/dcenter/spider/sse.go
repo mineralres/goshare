@@ -145,16 +145,16 @@ func (s *Spider) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 }
 
 // GetSSEStockOptionTradingInstrumentList 上证所ETF期权合约列表
-func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstrument, error) {
+func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrument, error) {
 	list, err := s.GetSSEStockOptionList()
 	if err != nil {
 		return nil, err
 	}
 	// 期权行情
 	var symbols []pb.Symbol
-	var ret []pb.TradingInstrument
+	var ret []*pb.TradingInstrument
 	for i := range list {
-		var ti pb.TradingInstrument
+		ti := new(pb.TradingInstrument)
 		op := &list[i]
 		ti.Symbol.Exchange = pb.ExchangeType_SSE
 		ti.Symbol.Code = op.SecurityID
@@ -205,7 +205,7 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]pb.TradingInstrumen
 		return ret, err
 	}
 	for i := range ret {
-		ti := &ret[i]
+		ti := ret[i]
 		for j := range mdsList {
 			m := &mdsList[j]
 			if m.Symbol.Code == ti.Symbol.Code {
