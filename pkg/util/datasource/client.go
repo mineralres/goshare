@@ -193,17 +193,23 @@ func (c *Client) uploader() {
 	log.Printf("成功连接 %s ", url.String())
 	defer conn.Close()
 
-	for md := range c.chUploadTick {
-		d, err := proto.Marshal(md)
-		if err != nil {
-			log.Println(err)
-			continue
-		}
-		err = conn.WriteMessage(websocket.BinaryMessage, d)
-		if err != nil {
-			log.Println(err)
-			// 连接断开重试
-			break
+	ticker := time.NewTicker(time.Second * 10)
+	for {
+		select {
+		case <-ticker.C:
+			conn.WriteMessage(websocket.TextMessage, []byte("heartbeat"))
+		case md := <-c.chUploadTick:
+			d, err := proto.Marshal(md)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+			err = conn.WriteMessage(websocket.BinaryMessage, d)
+			if err != nil {
+				log.Println(err)
+				// 连接断开重试
+				break
+			}
 		}
 	}
 }

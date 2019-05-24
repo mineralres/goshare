@@ -182,7 +182,7 @@ func (f *Front) uploadTick(c *gin.Context) {
 		}
 		if t != websocket.BinaryMessage {
 			log.Println("t != websocket.TextMessage")
-			return
+			continue
 		}
 		var md pb.MarketDataSnapshot
 		err = proto.Unmarshal(p, &md)

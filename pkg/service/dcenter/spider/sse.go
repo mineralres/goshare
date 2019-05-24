@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
 	"github.com/mineralres/goshare/pkg/pb"
 	"github.com/mineralres/goshare/pkg/util"
 )
@@ -156,6 +157,8 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrume
 	for i := range list {
 		ti := new(pb.TradingInstrument)
 		ti.Symbol = new(pb.Symbol)
+		ti.InstrumentInfo = new(pb.InstrumentInfo)
+		ti.ProductInfo = new(pb.ProductInfo)
 		op := &list[i]
 		ti.Symbol.Exchange = pb.ExchangeType_SSE
 		ti.Symbol.Code = op.SecurityID
@@ -185,6 +188,7 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrume
 		ti.ProductInfo.PriceTick = 0.0001
 		ti.ProductInfo.Type = pb.ProductType_PT_SSE_ETF_OPTION
 		ti.ProductInfo.VolumeMultiple = int32(util.ParseInt(op.ContractUnit))
+		ti.ProductInfo.ProductId = new(pb.ProductID)
 		ti.ProductInfo.ProductId.Exchange = pb.ExchangeType_SSE
 		ti.ProductInfo.ProductId.Code = "SHOP"
 		ti.ProductInfo.DistinguishPositionTime = false
