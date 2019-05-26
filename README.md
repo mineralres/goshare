@@ -26,9 +26,9 @@ goshare是一个开源的golang量化数据工具集合。(注意:项目当前�
 
 ```shell
 go get -u github.com/mineralres/goshare
-cd goshare/cmd/server
+cd goshare/cmd/goshare
 go build -mod vendor
-./server
+./goshare
 ```
 server需要监听一些端口提供http服务，如果有360等防护软件提示，请允许，否则浏览器无法访问
 

@@ -128,6 +128,7 @@ func (c *SyncExternClient) write(b []byte) (int, error) {
 	n, err := c.conn.Write(b)
 	if err != nil {
 		c.ready = false
+		return n, err
 	}
 	if n != len(b) {
 		panic("n != len(b)")
