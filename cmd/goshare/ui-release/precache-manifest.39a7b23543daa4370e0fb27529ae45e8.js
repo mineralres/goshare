@@ -56,11 +56,11 @@ self.__precacheManifest = [
     "url": "/p__chart__highCharts__index.async.js"
   },
   {
-    "revision": "7601a83e794ee04bd4d3",
+    "revision": "7a5aca10c0b77701f602",
     "url": "/p__dashboard__index.chunk.css"
   },
   {
-    "revision": "7601a83e794ee04bd4d3",
+    "revision": "7a5aca10c0b77701f602",
     "url": "/p__dashboard__index.async.js"
   },
   {
