@@ -122,7 +122,7 @@ func (s *Spider) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startT
 			k.High = k.Open
 			k.Low = k.Open
 			k.Close = k.Open
-			k.Volume = util.ParseFloat(items[2])
+			k.Volume = int32(util.ParseInt(items[2]))
 			ret.List = append(ret.List, &k)
 		}
 	} else {
@@ -139,7 +139,7 @@ func (s *Spider) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startT
 				k.Close = util.ParseFloat(items[2])
 				k.High = util.ParseFloat(items[3])
 				k.Low = util.ParseFloat(items[4])
-				k.Volume = util.ParseFloat(items[5])
+				k.Volume = int32(util.ParseInt(items[5]))
 				if strings.Contains(items[6], "万") {
 					val := strings.Replace(items[6], "万", "", -1)
 					k.Amount = util.ParseFloat(val) * 10000

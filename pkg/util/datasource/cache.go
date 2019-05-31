@@ -22,6 +22,10 @@ type Backend interface {
 	SetTradingInstrument(*pb.TradingInstrument) error
 	// 保存tick
 	SetTick(*pb.MarketDataSnapshot) error
+	// 保存主力合约
+	SetMainContract(day int32, l *pb.TradingInstrumentList) error
+	// 读取主力合约
+	GetMainContract(ctx *api.Context, day int32) (*pb.TradingInstrumentList, error)
 }
 
 func makeKey(s *pb.Symbol) string {
@@ -30,10 +34,10 @@ func makeKey(s *pb.Symbol) string {
 
 // XCache 内存中K线
 type XCache struct {
-	ds        api.DataSource       // 数据源
-	backend   Backend              // 存储
+	ds        api.DataSource         // 数据源
+	backend   Backend                // 存储
 	sdMap     map[string]*symbolData // sdmap
-	sdMapLock sync.RWMutex         // 锁
+	sdMapLock sync.RWMutex           // 锁
 }
 
 // 最新一根K线，用于保存到leveldb

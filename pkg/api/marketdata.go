@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"sync/atomic"
@@ -115,32 +116,25 @@ func (g *Gateway) instrumentList(r *http.Request) (interface{}, error) {
 }
 
 func (g *Gateway) mainContract(r *http.Request) (interface{}, error) {
-	var ctx Context
-	var resp []*pb.TradingInstrument
-	var err error
-	for _, ds := range g.cache.dsList {
-		if resp, err = ds.TradingInstrumentList(&ctx, &pb.ReqGetTradingInstrumentList{}); err == nil {
-			break
-		}
+	day := getDay()
+	key := []byte(fmt.Sprintf("-main-contract-%d", day))
+	var l []*pb.TradingInstrument
+	d, err := g.cache.backend.Get(key)
+	if err != nil {
+		l, _ = g.cache.getMainContract()
+		out, _ := json.Marshal(&l)
+		g.cache.backend.Set(key, out)
+	} else {
+		json.Unmarshal(d, &l)
 	}
-	m := make(map[string]*pb.MarketDataSnapshot)
-	for _, ti := range resp {
+	var ctx Context
+	var ret []*pb.MarketDataSnapshot
+	for _, ti := range l {
 		for _, ds := range g.cache.dsList {
 			if md, err := ds.GetLastTick(&ctx, ti.Symbol); err == nil && md != nil && md.Symbol != nil {
-				v, ok := m[ti.ProductInfo.ProductId.Code]
-				if ok {
-					if md.PrePosition >= v.PrePosition {
-						m[ti.ProductInfo.ProductId.Code] = md
-					}
-				} else {
-					m[ti.ProductInfo.ProductId.Code] = md
-				}
+				ret = append(ret, md)
 			}
 		}
-	}
-	var ret []*pb.MarketDataSnapshot
-	for _, v := range m {
-		ret = append(ret, v)
 	}
 	return ret, nil
 }

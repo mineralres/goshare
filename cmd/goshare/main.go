@@ -52,7 +52,7 @@ func main() {
 		dsList = append(dsList, gsclient)
 		var realtimeList []api.RealtimeDataSource
 		realtimeList = append(realtimeList, gsclient)
-		gw := api.NewGateway(api.NewCache2(dsList, realtimeList, nil, nil, nil))
+		gw := api.NewGateway(api.NewCache(dsList, realtimeList, nil, nil, nil))
 		gw.Run(9090)
 	}()
 	ch := make(chan os.Signal, 1)

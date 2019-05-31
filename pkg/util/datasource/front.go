@@ -164,7 +164,7 @@ func (f *Front) handleStream(w http.ResponseWriter, r *http.Request) {
 			}
 			nUpload++
 			f.cache.Update(&tick)
-			if nUpload % 100 == 0 {
+			if nUpload%100 == 0 {
 				log.Printf("front[%d] received msg[%v] len[%d]", index, msg.Type, len(msg.Data))
 			}
 		case pb.MessageType_REQ_UNSUBSCRIBE_MARKET_DATA:

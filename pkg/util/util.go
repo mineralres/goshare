@@ -89,6 +89,15 @@ func ParseInt(src string) int {
 	return i
 }
 
+// ParseInt32 ParseInt
+func ParseInt32(src string) int32 {
+	i, err := strconv.Atoi(src)
+	if err != nil {
+		return 0
+	}
+	return int32(i)
+}
+
 // ParseFloat ParseFloat
 func ParseFloat(src string) float64 {
 	f, err := strconv.ParseFloat(src, 10)

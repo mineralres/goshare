@@ -322,3 +322,25 @@ func (db *XLevelDB) GetLastTick(ctx *api.Context, req *pb.Symbol) (*pb.MarketDat
 	err = proto.Unmarshal(d, &tick)
 	return &tick, nil
 }
+
+// SetMainContract 保存合约信息
+func (db *XLevelDB) SetMainContract(day int32, l *pb.TradingInstrumentList) error {
+	key := fmt.Sprintf("-main-contract-%d", day)
+	d, err := proto.Marshal(l)
+	if err != nil {
+		return err
+	}
+	return db.common.Put([]byte(key), d, nil)
+}
+
+// GetMainContract 读取合约信息
+func (db *XLevelDB) GetMainContract(ctx *api.Context, day int32) (*pb.TradingInstrumentList, error) {
+	var l pb.TradingInstrumentList
+	key := fmt.Sprintf("-main-contract-%d", day)
+	d, err := db.common.Get([]byte(key), nil)
+	if err != nil {
+		return &l, err
+	}
+	err = proto.Unmarshal(d, &l)
+	return &l, nil
+}
