@@ -30,7 +30,6 @@ func main() {
 
 	go func() {
 		time.Sleep(time.Second) // 等listen准备好,打开默认浏览器
-		return
 		cmd := exec.Command("explorer", "http://localhost:9090")
 		err := cmd.Start()
 		if err != nil {
@@ -53,7 +52,7 @@ func main() {
 		var realtimeList []api.RealtimeDataSource
 		realtimeList = append(realtimeList, gsclient)
 		gw := api.NewGateway(api.NewCache(dsList, realtimeList, nil, nil, nil))
-		gw.Run(9090)
+		gw.Run("./ui-release", 9090)
 	}()
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)

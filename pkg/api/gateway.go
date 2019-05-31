@@ -48,9 +48,8 @@ func NewGateway(cache *Cache) *Gateway {
 }
 
 // Run Run
-func (g *Gateway) Run(port int) {
+func (g *Gateway) Run(staticDir string, port int) {
 	log.Printf("RunTinyGateway on %d", port)
-	staticDir := "C:\\develop\\github.com\\mineralres\\goshare-ui\\dist"
 	util.RunTinyGateway(staticDir, port, func(path string, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 		switch path {
 		case "/api/v1/ws/stream":
