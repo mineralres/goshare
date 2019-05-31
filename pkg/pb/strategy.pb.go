@@ -3,27 +3,58 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 // Strategy 策略
 type Strategy struct {
-	Id     string            `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Name   string            `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	User   string            `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
-	Params map[string]string `protobuf:"bytes,4,rep,name=params" json:"params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Id                   string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	Name                 string            `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	User                 string            `protobuf:"bytes,3,opt,name=user,proto3" json:"user"`
+	Params               map[string]string `protobuf:"bytes,4,rep,name=params,proto3" json:"params" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *Strategy) Reset()                    { *m = Strategy{} }
-func (m *Strategy) String() string            { return proto.CompactTextString(m) }
-func (*Strategy) ProtoMessage()               {}
-func (*Strategy) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{0} }
+func (m *Strategy) Reset()         { *m = Strategy{} }
+func (m *Strategy) String() string { return proto.CompactTextString(m) }
+func (*Strategy) ProtoMessage()    {}
+func (*Strategy) Descriptor() ([]byte, []int) {
+	return fileDescriptor_46ec5ce6dd46feab, []int{0}
+}
+
+func (m *Strategy) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Strategy.Unmarshal(m, b)
+}
+func (m *Strategy) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Strategy.Marshal(b, m, deterministic)
+}
+func (m *Strategy) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Strategy.Merge(m, src)
+}
+func (m *Strategy) XXX_Size() int {
+	return xxx_messageInfo_Strategy.Size(m)
+}
+func (m *Strategy) XXX_DiscardUnknown() {
+	xxx_messageInfo_Strategy.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Strategy proto.InternalMessageInfo
 
 func (m *Strategy) GetId() string {
 	if m != nil {
@@ -54,13 +85,36 @@ func (m *Strategy) GetParams() map[string]string {
 }
 
 type StrategyList struct {
-	List []*Strategy `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*Strategy `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *StrategyList) Reset()                    { *m = StrategyList{} }
-func (m *StrategyList) String() string            { return proto.CompactTextString(m) }
-func (*StrategyList) ProtoMessage()               {}
-func (*StrategyList) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{1} }
+func (m *StrategyList) Reset()         { *m = StrategyList{} }
+func (m *StrategyList) String() string { return proto.CompactTextString(m) }
+func (*StrategyList) ProtoMessage()    {}
+func (*StrategyList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_46ec5ce6dd46feab, []int{1}
+}
+
+func (m *StrategyList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StrategyList.Unmarshal(m, b)
+}
+func (m *StrategyList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StrategyList.Marshal(b, m, deterministic)
+}
+func (m *StrategyList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StrategyList.Merge(m, src)
+}
+func (m *StrategyList) XXX_Size() int {
+	return xxx_messageInfo_StrategyList.Size(m)
+}
+func (m *StrategyList) XXX_DiscardUnknown() {
+	xxx_messageInfo_StrategyList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StrategyList proto.InternalMessageInfo
 
 func (m *StrategyList) GetList() []*Strategy {
 	if m != nil {
@@ -70,13 +124,36 @@ func (m *StrategyList) GetList() []*Strategy {
 }
 
 type ReqDeleteStrategy struct {
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ReqDeleteStrategy) Reset()                    { *m = ReqDeleteStrategy{} }
-func (m *ReqDeleteStrategy) String() string            { return proto.CompactTextString(m) }
-func (*ReqDeleteStrategy) ProtoMessage()               {}
-func (*ReqDeleteStrategy) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{2} }
+func (m *ReqDeleteStrategy) Reset()         { *m = ReqDeleteStrategy{} }
+func (m *ReqDeleteStrategy) String() string { return proto.CompactTextString(m) }
+func (*ReqDeleteStrategy) ProtoMessage()    {}
+func (*ReqDeleteStrategy) Descriptor() ([]byte, []int) {
+	return fileDescriptor_46ec5ce6dd46feab, []int{2}
+}
+
+func (m *ReqDeleteStrategy) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqDeleteStrategy.Unmarshal(m, b)
+}
+func (m *ReqDeleteStrategy) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqDeleteStrategy.Marshal(b, m, deterministic)
+}
+func (m *ReqDeleteStrategy) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqDeleteStrategy.Merge(m, src)
+}
+func (m *ReqDeleteStrategy) XXX_Size() int {
+	return xxx_messageInfo_ReqDeleteStrategy.Size(m)
+}
+func (m *ReqDeleteStrategy) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqDeleteStrategy.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqDeleteStrategy proto.InternalMessageInfo
 
 func (m *ReqDeleteStrategy) GetId() string {
 	if m != nil {
@@ -86,13 +163,36 @@ func (m *ReqDeleteStrategy) GetId() string {
 }
 
 type ReqGetStrategy struct {
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ReqGetStrategy) Reset()                    { *m = ReqGetStrategy{} }
-func (m *ReqGetStrategy) String() string            { return proto.CompactTextString(m) }
-func (*ReqGetStrategy) ProtoMessage()               {}
-func (*ReqGetStrategy) Descriptor() ([]byte, []int) { return fileDescriptor12, []int{3} }
+func (m *ReqGetStrategy) Reset()         { *m = ReqGetStrategy{} }
+func (m *ReqGetStrategy) String() string { return proto.CompactTextString(m) }
+func (*ReqGetStrategy) ProtoMessage()    {}
+func (*ReqGetStrategy) Descriptor() ([]byte, []int) {
+	return fileDescriptor_46ec5ce6dd46feab, []int{3}
+}
+
+func (m *ReqGetStrategy) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqGetStrategy.Unmarshal(m, b)
+}
+func (m *ReqGetStrategy) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqGetStrategy.Marshal(b, m, deterministic)
+}
+func (m *ReqGetStrategy) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetStrategy.Merge(m, src)
+}
+func (m *ReqGetStrategy) XXX_Size() int {
+	return xxx_messageInfo_ReqGetStrategy.Size(m)
+}
+func (m *ReqGetStrategy) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetStrategy.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetStrategy proto.InternalMessageInfo
 
 func (m *ReqGetStrategy) GetId() string {
 	if m != nil {
@@ -103,14 +203,15 @@ func (m *ReqGetStrategy) GetId() string {
 
 func init() {
 	proto.RegisterType((*Strategy)(nil), "pb.Strategy")
+	proto.RegisterMapType((map[string]string)(nil), "pb.Strategy.ParamsEntry")
 	proto.RegisterType((*StrategyList)(nil), "pb.StrategyList")
 	proto.RegisterType((*ReqDeleteStrategy)(nil), "pb.ReqDeleteStrategy")
 	proto.RegisterType((*ReqGetStrategy)(nil), "pb.ReqGetStrategy")
 }
 
-func init() { proto.RegisterFile("strategy.proto", fileDescriptor12) }
+func init() { proto.RegisterFile("strategy.proto", fileDescriptor_46ec5ce6dd46feab) }
 
-var fileDescriptor12 = []byte{
+var fileDescriptor_46ec5ce6dd46feab = []byte{
 	// 231 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0xc1, 0x4a, 0xc4, 0x30,
 	0x10, 0x86, 0x49, 0x5a, 0x17, 0x9d, 0x2d, 0x45, 0x07, 0x0f, 0x61, 0x4f, 0xa5, 0x5e, 0xf6, 0x54,

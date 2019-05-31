@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/mineralres/goshare/pkg/pb"
-	"github.com/mineralres/goshare/pkg/service/dcenter"
+	"github.com/mineralres/goshare/pkg/api"
 )
 
 // PoolOptions PoolOptions
@@ -100,7 +100,7 @@ func (p *Pool) getExternClient() *SyncExternClient {
 }
 
 // GetTick GetTick
-func (p *Pool) GetTick(ctx *dcenter.DataSourceContext, s *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func (p *Pool) GetTick(ctx *api.Context, s *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	var ret pb.MarketDataSnapshot
 	if (s.Exchange >= 0 && s.Exchange <= pb.ExchangeType_CFFEX) || s.Exchange <= pb.ExchangeType_INE {
 		// 期货行情还是使用自己接收的行情字段比较完整
@@ -137,31 +137,31 @@ func (p *Pool) GetTick(ctx *dcenter.DataSourceContext, s *pb.Symbol) (*pb.Market
 }
 
 // GetLastTickSerires GetLastTickSerires
-func (p *Pool) GetLastTickSerires(*dcenter.DataSourceContext, *pb.Symbol) (*pb.TickSeries, error) {
+func (p *Pool) GetLastTickSerires(*api.Context, *pb.Symbol) (*pb.TickSeries, error) {
 	// log.Println("TDXPOOL GetLastTickSerires")
 	return nil, errors.New("tdxunsupported")
 }
 
 // GetTradingInstrument GetTradingInstrument
-func (p *Pool) GetTradingInstrument(*dcenter.DataSourceContext, *pb.Symbol) (*pb.TradingInstrument, error) {
+func (p *Pool) GetTradingInstrument(*api.Context, *pb.Symbol) (*pb.TradingInstrument, error) {
 	// log.Println("TDXPOOL GetTradingInstrument")
 	return nil, errors.New("tdxunsupported")
 }
 
 // TradingInstrumentList TradingInstrumentList
-func (p *Pool) TradingInstrumentList(*dcenter.DataSourceContext, *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error) {
+func (p *Pool) TradingInstrumentList(*api.Context, *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error) {
 	log.Println("TDXPOOL TradingInstrumentList")
 	return nil, errors.New("tdxunsupported")
 }
 
 // RGetKlineSeries RGetKlineSeries
-func (p *Pool) RGetKlineSeries(ctx *dcenter.DataSourceContext, s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
+func (p *Pool) RGetKlineSeries(ctx *api.Context, s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
 	// log.Println("TDXPOOL RGetKlineSeries")
 	return nil, errors.New("tdxunsupported")
 }
 
 // GetKlineSeries GetKlineSeries
-func (p *Pool) GetKlineSeries(ctx *dcenter.DataSourceContext, s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
+func (p *Pool) GetKlineSeries(ctx *api.Context, s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
 	// log.Println("TDXPOOL GetKlineSeries")
 	return nil, errors.New("tdxunsupported")
 }

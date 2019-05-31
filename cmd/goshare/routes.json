@@ -134,9 +134,9 @@
         {
             "id": "9",
             "breadcrumbParentId": "1",
-            "name": "Radar",
+            "name": "MarketData",
             "zh": {
-                "name": "市场雷达"
+                "name": "市场行情"
             },
             "icon": "bar-chart"
         },
@@ -144,12 +144,12 @@
             "id": "91",
             "breadcrumbParentId": "9",
             "menuParentId": "9",
-            "name": "CNFutures",
+            "name": "InstrumentList",
             "zh": {
-                "name": "内盘期货"
+                "name": "合约列表"
             },
             "icon": "line-chart",
-            "route": "/radar/cnfutures"
+            "route": "/marketdata/instrument-list"
         }
     ]
 }

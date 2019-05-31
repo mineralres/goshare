@@ -3,14 +3,22 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type BranchStatus int32
 
@@ -23,6 +31,7 @@ var BranchStatus_name = map[int32]string{
 	0: "BS_NORMAL",
 	1: "BS_FROZEN",
 }
+
 var BranchStatus_value = map[string]int32{
 	"BS_NORMAL": 0,
 	"BS_FROZEN": 1,
@@ -31,18 +40,44 @@ var BranchStatus_value = map[string]int32{
 func (x BranchStatus) String() string {
 	return proto.EnumName(BranchStatus_name, int32(x))
 }
-func (BranchStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
+
+func (BranchStatus) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_20ce1f5884b7e047, []int{0}
+}
 
 // 单纯树形结构体
 type BranchTreeNode struct {
-	Id       string            `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Children []*BranchTreeNode `protobuf:"bytes,2,rep,name=children" json:"children,omitempty"`
+	Id                   string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	Children             []*BranchTreeNode `protobuf:"bytes,2,rep,name=children,proto3" json:"children"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *BranchTreeNode) Reset()                    { *m = BranchTreeNode{} }
-func (m *BranchTreeNode) String() string            { return proto.CompactTextString(m) }
-func (*BranchTreeNode) ProtoMessage()               {}
-func (*BranchTreeNode) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{0} }
+func (m *BranchTreeNode) Reset()         { *m = BranchTreeNode{} }
+func (m *BranchTreeNode) String() string { return proto.CompactTextString(m) }
+func (*BranchTreeNode) ProtoMessage()    {}
+func (*BranchTreeNode) Descriptor() ([]byte, []int) {
+	return fileDescriptor_20ce1f5884b7e047, []int{0}
+}
+
+func (m *BranchTreeNode) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_BranchTreeNode.Unmarshal(m, b)
+}
+func (m *BranchTreeNode) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_BranchTreeNode.Marshal(b, m, deterministic)
+}
+func (m *BranchTreeNode) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_BranchTreeNode.Merge(m, src)
+}
+func (m *BranchTreeNode) XXX_Size() int {
+	return xxx_messageInfo_BranchTreeNode.Size(m)
+}
+func (m *BranchTreeNode) XXX_DiscardUnknown() {
+	xxx_messageInfo_BranchTreeNode.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_BranchTreeNode proto.InternalMessageInfo
 
 func (m *BranchTreeNode) GetId() string {
 	if m != nil {
@@ -61,25 +96,48 @@ func (m *BranchTreeNode) GetChildren() []*BranchTreeNode {
 // 部门
 type Branch struct {
 	// 编号
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 	// 名称
-	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
 	// 备注
-	Comment string `protobuf:"bytes,3,opt,name=comment" json:"comment,omitempty"`
+	Comment string `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment"`
 	// 邀请码
-	InviteCode []string `protobuf:"bytes,4,rep,name=invite_code,json=inviteCode" json:"invite_code,omitempty"`
+	InviteCode []string `protobuf:"bytes,4,rep,name=invite_code,json=inviteCode,proto3" json:"inviteCode"`
 	// 上级
-	Parent string `protobuf:"bytes,5,opt,name=parent" json:"parent,omitempty"`
+	Parent string `protobuf:"bytes,5,opt,name=parent,proto3" json:"parent"`
 	// 创建时间
-	CreateTime int64 `protobuf:"varint,6,opt,name=create_time,json=createTime" json:"create_time,omitempty"`
+	CreateTime int64 `protobuf:"varint,6,opt,name=create_time,json=createTime,proto3" json:"createTime"`
 	// 部门状态
-	Status BranchStatus `protobuf:"varint,7,opt,name=status,enum=pb.BranchStatus" json:"status,omitempty"`
+	Status               BranchStatus `protobuf:"varint,7,opt,name=status,proto3,enum=pb.BranchStatus" json:"status"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *Branch) Reset()                    { *m = Branch{} }
-func (m *Branch) String() string            { return proto.CompactTextString(m) }
-func (*Branch) ProtoMessage()               {}
-func (*Branch) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{1} }
+func (m *Branch) Reset()         { *m = Branch{} }
+func (m *Branch) String() string { return proto.CompactTextString(m) }
+func (*Branch) ProtoMessage()    {}
+func (*Branch) Descriptor() ([]byte, []int) {
+	return fileDescriptor_20ce1f5884b7e047, []int{1}
+}
+
+func (m *Branch) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Branch.Unmarshal(m, b)
+}
+func (m *Branch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Branch.Marshal(b, m, deterministic)
+}
+func (m *Branch) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Branch.Merge(m, src)
+}
+func (m *Branch) XXX_Size() int {
+	return xxx_messageInfo_Branch.Size(m)
+}
+func (m *Branch) XXX_DiscardUnknown() {
+	xxx_messageInfo_Branch.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Branch proto.InternalMessageInfo
 
 func (m *Branch) GetId() string {
 	if m != nil {
@@ -131,14 +189,14 @@ func (m *Branch) GetStatus() BranchStatus {
 }
 
 func init() {
+	proto.RegisterEnum("pb.BranchStatus", BranchStatus_name, BranchStatus_value)
 	proto.RegisterType((*BranchTreeNode)(nil), "pb.BranchTreeNode")
 	proto.RegisterType((*Branch)(nil), "pb.Branch")
-	proto.RegisterEnum("pb.BranchStatus", BranchStatus_name, BranchStatus_value)
 }
 
-func init() { proto.RegisterFile("branch.proto", fileDescriptor1) }
+func init() { proto.RegisterFile("branch.proto", fileDescriptor_20ce1f5884b7e047) }
 
-var fileDescriptor1 = []byte{
+var fileDescriptor_20ce1f5884b7e047 = []byte{
 	// 259 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x90, 0xbd, 0x4e, 0xc3, 0x30,
 	0x14, 0x85, 0x71, 0x52, 0x52, 0x72, 0x5b, 0xa2, 0xc8, 0x03, 0xf2, 0x46, 0xd4, 0xc9, 0x42, 0x28,

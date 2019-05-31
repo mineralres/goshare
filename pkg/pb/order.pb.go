@@ -3,14 +3,22 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type OrderStatus int32
 
@@ -37,6 +45,7 @@ var OrderStatus_name = map[int32]string{
 	4: "OS_CANCELED",
 	5: "OS_UNKOWN",
 }
+
 var OrderStatus_value = map[string]int32{
 	"OS_DONE":                       0,
 	"OS_PENDING_WITH_PARTIAL_DONE":  1,
@@ -49,7 +58,10 @@ var OrderStatus_value = map[string]int32{
 func (x OrderStatus) String() string {
 	return proto.EnumName(OrderStatus_name, int32(x))
 }
-func (OrderStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
+
+func (OrderStatus) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{0}
+}
 
 type OrderPriceType int32
 
@@ -70,6 +82,7 @@ var OrderPriceType_name = map[int32]string{
 	2: "OPT_BEST_PRICE",
 	3: "OPT_LAST_PRICE",
 }
+
 var OrderPriceType_value = map[string]int32{
 	"OPT_LIMIT_PRICE":  0,
 	"OPT_MARKET_PRICE": 1,
@@ -80,7 +93,10 @@ var OrderPriceType_value = map[string]int32{
 func (x OrderPriceType) String() string {
 	return proto.EnumName(OrderPriceType_name, int32(x))
 }
-func (OrderPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
+
+func (OrderPriceType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{1}
+}
 
 type OffsetFlag int32
 
@@ -106,6 +122,7 @@ var OffsetFlag_name = map[int32]string{
 	4: "OF_CLOSE_TODAY",
 	5: "OF_CLOSE_YESTERDAY",
 }
+
 var OffsetFlag_value = map[string]int32{
 	"OF_NONE":            0,
 	"OF_OPEN":            1,
@@ -118,7 +135,10 @@ var OffsetFlag_value = map[string]int32{
 func (x OffsetFlag) String() string {
 	return proto.EnumName(OffsetFlag_name, int32(x))
 }
-func (OffsetFlag) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
+
+func (OffsetFlag) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{2}
+}
 
 // 报单方向
 type OrderDirection int32
@@ -132,6 +152,7 @@ var OrderDirection_name = map[int32]string{
 	0: "OD_LONG",
 	1: "OD_SHORT",
 }
+
 var OrderDirection_value = map[string]int32{
 	"OD_LONG":  0,
 	"OD_SHORT": 1,
@@ -140,7 +161,10 @@ var OrderDirection_value = map[string]int32{
 func (x OrderDirection) String() string {
 	return proto.EnumName(OrderDirection_name, int32(x))
 }
-func (OrderDirection) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{3} }
+
+func (OrderDirection) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{3}
+}
 
 // 强平类型
 type ForceCloseType int32
@@ -171,6 +195,7 @@ var ForceCloseType_name = map[int32]string{
 	5: "FCT_other",
 	6: "FCT_person_deliver",
 }
+
 var ForceCloseType_value = map[string]int32{
 	"FCT_NOT":                         0,
 	"FCT_NOT_ENOUGH_MARGIN":           1,
@@ -184,7 +209,10 @@ var ForceCloseType_value = map[string]int32{
 func (x ForceCloseType) String() string {
 	return proto.EnumName(ForceCloseType_name, int32(x))
 }
-func (ForceCloseType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{4} }
+
+func (ForceCloseType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{4}
+}
 
 // 报单来源
 type OrderSourceType int32
@@ -230,6 +258,7 @@ var OrderSourceType_name = map[int32]string{
 	10: "OST_CTP_UPLOAD",
 	11: "OST_UNKOWN",
 }
+
 var OrderSourceType_value = map[string]int32{
 	"OST_CLIENT":                    0,
 	"OST_ADMINISTRATOR":             1,
@@ -248,7 +277,10 @@ var OrderSourceType_value = map[string]int32{
 func (x OrderSourceType) String() string {
 	return proto.EnumName(OrderSourceType_name, int32(x))
 }
-func (OrderSourceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{5} }
+
+func (OrderSourceType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{5}
+}
 
 // 价格类型
 type ConditionOrderTriggerPriceType int32
@@ -267,6 +299,7 @@ var ConditionOrderTriggerPriceType_name = map[int32]string{
 	1: "COTPT_BID_PRICE",
 	2: "COTPT_ASK_PRICE",
 }
+
 var ConditionOrderTriggerPriceType_value = map[string]int32{
 	"COTPT_LAST_PRICE": 0,
 	"COTPT_BID_PRICE":  1,
@@ -276,8 +309,9 @@ var ConditionOrderTriggerPriceType_value = map[string]int32{
 func (x ConditionOrderTriggerPriceType) String() string {
 	return proto.EnumName(ConditionOrderTriggerPriceType_name, int32(x))
 }
+
 func (ConditionOrderTriggerPriceType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor8, []int{6}
+	return fileDescriptor_cd01338c35d87077, []int{6}
 }
 
 // 条件单触发方式
@@ -294,6 +328,7 @@ var ConditionOrderTriggerType_name = map[int32]string{
 	0: "COTT_GREATER_THAN_OR_EQUAL",
 	1: "COTT_LESS_THAN_OR_EQUAL",
 }
+
 var ConditionOrderTriggerType_value = map[string]int32{
 	"COTT_GREATER_THAN_OR_EQUAL": 0,
 	"COTT_LESS_THAN_OR_EQUAL":    1,
@@ -302,7 +337,10 @@ var ConditionOrderTriggerType_value = map[string]int32{
 func (x ConditionOrderTriggerType) String() string {
 	return proto.EnumName(ConditionOrderTriggerType_name, int32(x))
 }
-func (ConditionOrderTriggerType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{7} }
+
+func (ConditionOrderTriggerType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{7}
+}
 
 // 发送委托价格类型
 type SendOrderPriceType int32
@@ -321,6 +359,7 @@ var SendOrderPriceType_name = map[int32]string{
 	1: "SOPT_MARKET",
 	2: "SOPT_BID_ASK_MINUS",
 }
+
 var SendOrderPriceType_value = map[string]int32{
 	"SOPT_BID_ASK":       0,
 	"SOPT_MARKET":        1,
@@ -330,7 +369,10 @@ var SendOrderPriceType_value = map[string]int32{
 func (x SendOrderPriceType) String() string {
 	return proto.EnumName(SendOrderPriceType_name, int32(x))
 }
-func (SendOrderPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{8} }
+
+func (SendOrderPriceType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{8}
+}
 
 // TradeCmdType 指令类型
 type TradeCmdType int32
@@ -348,6 +390,7 @@ var TradeCmdType_name = map[int32]string{
 	2: "TCT_QUERY_BALANCE",
 	3: "TCT_QUERY_POSITION_DETAIL",
 }
+
 var TradeCmdType_value = map[string]int32{
 	"TCT_ORDER":                 0,
 	"TCT_CANCEL":                1,
@@ -358,19 +401,45 @@ var TradeCmdType_value = map[string]int32{
 func (x TradeCmdType) String() string {
 	return proto.EnumName(TradeCmdType_name, int32(x))
 }
-func (TradeCmdType) EnumDescriptor() ([]byte, []int) { return fileDescriptor8, []int{9} }
+
+func (TradeCmdType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{9}
+}
 
 // 报单ID
 type OrderID struct {
-	FrontId   int32 `protobuf:"varint,1,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
-	SessionId int32 `protobuf:"varint,2,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
-	OrderRef  int32 `protobuf:"varint,3,opt,name=order_ref,json=orderRef" json:"order_ref,omitempty"`
+	FrontId              int32    `protobuf:"varint,1,opt,name=front_id,json=frontId,proto3" json:"frontId"`
+	SessionId            int32    `protobuf:"varint,2,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
+	OrderRef             int32    `protobuf:"varint,3,opt,name=order_ref,json=orderRef,proto3" json:"orderRef"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *OrderID) Reset()                    { *m = OrderID{} }
-func (m *OrderID) String() string            { return proto.CompactTextString(m) }
-func (*OrderID) ProtoMessage()               {}
-func (*OrderID) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{0} }
+func (m *OrderID) Reset()         { *m = OrderID{} }
+func (m *OrderID) String() string { return proto.CompactTextString(m) }
+func (*OrderID) ProtoMessage()    {}
+func (*OrderID) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{0}
+}
+
+func (m *OrderID) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderID.Unmarshal(m, b)
+}
+func (m *OrderID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderID.Marshal(b, m, deterministic)
+}
+func (m *OrderID) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderID.Merge(m, src)
+}
+func (m *OrderID) XXX_Size() int {
+	return xxx_messageInfo_OrderID.Size(m)
+}
+func (m *OrderID) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderID.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderID proto.InternalMessageInfo
 
 func (m *OrderID) GetFrontId() int32 {
 	if m != nil {
@@ -396,117 +465,140 @@ func (m *OrderID) GetOrderRef() int32 {
 // 委托
 type Order struct {
 	// 合约
-	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
 	// id
-	Id *OrderID `protobuf:"bytes,2,opt,name=id" json:"id,omitempty"`
+	Id *OrderID `protobuf:"bytes,2,opt,name=id,proto3" json:"id"`
 	// 账号
-	Account string `protobuf:"bytes,3,opt,name=account" json:"account,omitempty"`
+	Account string `protobuf:"bytes,3,opt,name=account,proto3" json:"account"`
 	// 方向
-	Direction OrderDirection `protobuf:"varint,4,opt,name=direction,enum=pb.OrderDirection" json:"direction,omitempty"`
+	Direction OrderDirection `protobuf:"varint,4,opt,name=direction,proto3,enum=pb.OrderDirection" json:"direction"`
 	// 状态
-	Status OrderStatus `protobuf:"varint,5,opt,name=status,enum=pb.OrderStatus" json:"status,omitempty"`
+	Status OrderStatus `protobuf:"varint,5,opt,name=status,proto3,enum=pb.OrderStatus" json:"status"`
 	// 价格类型
-	PriceType OrderPriceType `protobuf:"varint,6,opt,name=price_type,json=priceType,enum=pb.OrderPriceType" json:"price_type,omitempty"`
+	PriceType OrderPriceType `protobuf:"varint,6,opt,name=price_type,json=priceType,proto3,enum=pb.OrderPriceType" json:"priceType"`
 	// 限价
-	LimitPrice float64 `protobuf:"fixed64,7,opt,name=limit_price,json=limitPrice" json:"limit_price,omitempty"`
+	LimitPrice float64 `protobuf:"fixed64,7,opt,name=limit_price,json=limitPrice,proto3" json:"limitPrice"`
 	// 数量
-	Volume int32 `protobuf:"varint,8,opt,name=volume" json:"volume,omitempty"`
+	Volume int32 `protobuf:"varint,8,opt,name=volume,proto3" json:"volume"`
 	// 成交数量
-	VolumeTraded int32 `protobuf:"varint,9,opt,name=volume_traded,json=volumeTraded" json:"volume_traded,omitempty"`
+	VolumeTraded int32 `protobuf:"varint,9,opt,name=volume_traded,json=volumeTraded,proto3" json:"volumeTraded"`
 	// 撤单数量
-	VolumeCanceled int32 `protobuf:"varint,10,opt,name=volume_canceled,json=volumeCanceled" json:"volume_canceled,omitempty"`
+	VolumeCanceled int32 `protobuf:"varint,10,opt,name=volume_canceled,json=volumeCanceled,proto3" json:"volumeCanceled"`
 	// 冻结手续费
-	FrozenCommission float64 `protobuf:"fixed64,11,opt,name=frozen_commission,json=frozenCommission" json:"frozen_commission,omitempty"`
+	FrozenCommission float64 `protobuf:"fixed64,11,opt,name=frozen_commission,json=frozenCommission,proto3" json:"frozenCommission"`
 	// 发送时间（成交时间)
-	SendOrderTime int64 `protobuf:"varint,12,opt,name=send_order_time,json=sendOrderTime" json:"send_order_time,omitempty"`
+	SendOrderTime int64 `protobuf:"varint,12,opt,name=send_order_time,json=sendOrderTime,proto3" json:"sendOrderTime"`
 	// 交易日
-	TradingDay int32 `protobuf:"varint,13,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
+	TradingDay int32 `protobuf:"varint,13,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
 	// 备注
-	Comment string `protobuf:"bytes,14,opt,name=comment" json:"comment,omitempty"`
+	Comment string `protobuf:"bytes,14,opt,name=comment,proto3" json:"comment"`
 	// 请求编号
-	RequestId int32 `protobuf:"varint,15,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
+	RequestId int32 `protobuf:"varint,15,opt,name=request_id,json=requestId,proto3" json:"requestId"`
 	// 序号
-	LocalOrderSeq int32 `protobuf:"varint,16,opt,name=local_order_seq,json=localOrderSeq" json:"local_order_seq,omitempty"`
+	LocalOrderSeq int32 `protobuf:"varint,16,opt,name=local_order_seq,json=localOrderSeq,proto3" json:"localOrderSeq"`
 	// 强平类型
-	ForceCloseType ForceCloseType `protobuf:"varint,17,opt,name=force_close_type,json=forceCloseType,enum=pb.ForceCloseType" json:"force_close_type,omitempty"`
+	ForceCloseType ForceCloseType `protobuf:"varint,17,opt,name=force_close_type,json=forceCloseType,proto3,enum=pb.ForceCloseType" json:"forceCloseType"`
 	// 来源
-	OrderSourceType OrderSourceType `protobuf:"varint,18,opt,name=order_source_type,json=orderSourceType,enum=pb.OrderSourceType" json:"order_source_type,omitempty"`
+	OrderSourceType OrderSourceType `protobuf:"varint,18,opt,name=order_source_type,json=orderSourceType,proto3,enum=pb.OrderSourceType" json:"orderSourceType"`
 	// 投机套保类型
-	OrderHedgeType int32 `protobuf:"varint,19,opt,name=order_hedge_type,json=orderHedgeType" json:"order_hedge_type,omitempty"`
+	OrderHedgeType int32 `protobuf:"varint,19,opt,name=order_hedge_type,json=orderHedgeType,proto3" json:"orderHedgeType"`
 	// 产品标识
-	UserProductInfo string `protobuf:"bytes,20,opt,name=user_product_info,json=userProductInfo" json:"user_product_info,omitempty"`
+	UserProductInfo string `protobuf:"bytes,20,opt,name=user_product_info,json=userProductInfo,proto3" json:"userProductInfo"`
 	// 币种
-	CurrencyType int32 `protobuf:"varint,21,opt,name=currency_type,json=currencyType" json:"currency_type,omitempty"`
+	CurrencyType int32 `protobuf:"varint,21,opt,name=currency_type,json=currencyType,proto3" json:"currencyType"`
 	// 父ID
-	LocalOrderId *OrderID `protobuf:"bytes,22,opt,name=local_order_id,json=localOrderId" json:"local_order_id,omitempty"`
+	LocalOrderId *OrderID `protobuf:"bytes,22,opt,name=local_order_id,json=localOrderId,proto3" json:"localOrderId"`
 	// 交易所ID
-	ExchangeOrderId string `protobuf:"bytes,23,opt,name=exchange_order_id,json=exchangeOrderId" json:"exchange_order_id,omitempty"`
+	ExchangeOrderId string `protobuf:"bytes,23,opt,name=exchange_order_id,json=exchangeOrderId,proto3" json:"exchangeOrderId"`
 	// 有效期类型
-	TimeConditionType int32 `protobuf:"varint,24,opt,name=time_condition_type,json=timeConditionType" json:"time_condition_type,omitempty"`
+	TimeConditionType int32 `protobuf:"varint,24,opt,name=time_condition_type,json=timeConditionType,proto3" json:"timeConditionType"`
 	// 是否继续变化,优化手续费计算
-	IsPending int32 `protobuf:"varint,25,opt,name=is_pending,json=isPending" json:"is_pending,omitempty"`
+	IsPending int32 `protobuf:"varint,25,opt,name=is_pending,json=isPending,proto3" json:"isPending"`
 	// 下级通道
-	RouteAccount string `protobuf:"bytes,26,opt,name=route_account,json=routeAccount" json:"route_account,omitempty"`
+	RouteAccount string `protobuf:"bytes,26,opt,name=route_account,json=routeAccount,proto3" json:"routeAccount"`
 	// 本地编号类型
-	LocalTypeId int32 `protobuf:"varint,27,opt,name=local_type_id,json=localTypeId" json:"local_type_id,omitempty"`
+	LocalTypeId int32 `protobuf:"varint,27,opt,name=local_type_id,json=localTypeId,proto3" json:"localTypeId"`
 	// 委托收费
-	Commission float64 `protobuf:"fixed64,28,opt,name=commission" json:"commission,omitempty"`
+	Commission float64 `protobuf:"fixed64,28,opt,name=commission,proto3" json:"commission"`
 	// 保证金
-	Margin float64 `protobuf:"fixed64,29,opt,name=margin" json:"margin,omitempty"`
+	Margin float64 `protobuf:"fixed64,29,opt,name=margin,proto3" json:"margin"`
 	// 开平标志
-	OffsetFlag OffsetFlag `protobuf:"varint,30,opt,name=offset_flag,json=offsetFlag,enum=pb.OffsetFlag" json:"offset_flag,omitempty"`
+	OffsetFlag OffsetFlag `protobuf:"varint,30,opt,name=offset_flag,json=offsetFlag,proto3,enum=pb.OffsetFlag" json:"offsetFlag"`
 	// 错误代码
-	ErrorCode int32 `protobuf:"varint,31,opt,name=error_code,json=errorCode" json:"error_code,omitempty"`
+	ErrorCode int32 `protobuf:"varint,31,opt,name=error_code,json=errorCode,proto3" json:"errorCode"`
 	// 交易品种类型
-	ProductType ProductType `protobuf:"varint,32,opt,name=product_type,json=productType,enum=pb.ProductType" json:"product_type,omitempty"`
+	ProductType ProductType `protobuf:"varint,32,opt,name=product_type,json=productType,proto3,enum=pb.ProductType" json:"productType"`
 	// 结算组
-	SettlementGroup int32 `protobuf:"varint,33,opt,name=settlement_group,json=settlementGroup" json:"settlement_group,omitempty"`
+	SettlementGroup int32 `protobuf:"varint,33,opt,name=settlement_group,json=settlementGroup,proto3" json:"settlementGroup"`
 	// token
-	Token string `protobuf:"bytes,34,opt,name=token" json:"token,omitempty"`
+	Token string `protobuf:"bytes,34,opt,name=token,proto3" json:"token"`
 	// 成交金额
-	TradedAmount float64 `protobuf:"fixed64,35,opt,name=traded_amount,json=tradedAmount" json:"traded_amount,omitempty"`
+	TradedAmount float64 `protobuf:"fixed64,35,opt,name=traded_amount,json=tradedAmount,proto3" json:"tradedAmount"`
 	// 合约乘数
-	VolumeMultiple int32 `protobuf:"varint,36,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
+	VolumeMultiple int32 `protobuf:"varint,36,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
 	// 产品
-	ProductId *ProductID `protobuf:"bytes,37,opt,name=product_id,json=productId" json:"product_id,omitempty"`
+	ProductId *ProductID `protobuf:"bytes,37,opt,name=product_id,json=productId,proto3" json:"productId"`
 	// 最小变动价位
-	PriceTick float64 `protobuf:"fixed64,38,opt,name=price_tick,json=priceTick" json:"price_tick,omitempty"`
+	PriceTick float64 `protobuf:"fixed64,38,opt,name=price_tick,json=priceTick,proto3" json:"priceTick"`
 	// 冻结保证金
-	FrozenMargin float64 `protobuf:"fixed64,39,opt,name=frozen_margin,json=frozenMargin" json:"frozen_margin,omitempty"`
+	FrozenMargin float64 `protobuf:"fixed64,39,opt,name=frozen_margin,json=frozenMargin,proto3" json:"frozenMargin"`
 	// 合约名称
-	SymbolName string `protobuf:"bytes,40,opt,name=symbol_name,json=symbolName" json:"symbol_name,omitempty"`
+	SymbolName string `protobuf:"bytes,40,opt,name=symbol_name,json=symbolName,proto3" json:"symbolName"`
 	// 发送原因
-	ReasonComment string `protobuf:"bytes,41,opt,name=reason_comment,json=reasonComment" json:"reason_comment,omitempty"`
+	ReasonComment string `protobuf:"bytes,41,opt,name=reason_comment,json=reasonComment,proto3" json:"reasonComment"`
 	// 印花税
-	StampTax float64 `protobuf:"fixed64,42,opt,name=stamp_tax,json=stampTax" json:"stamp_tax,omitempty"`
+	StampTax float64 `protobuf:"fixed64,42,opt,name=stamp_tax,json=stampTax,proto3" json:"stampTax"`
 	// 过户费
-	TransferFee float64 `protobuf:"fixed64,43,opt,name=transfer_fee,json=transferFee" json:"transfer_fee,omitempty"`
+	TransferFee float64 `protobuf:"fixed64,43,opt,name=transfer_fee,json=transferFee,proto3" json:"transferFee"`
 	// 用户名
-	AccountName string `protobuf:"bytes,44,opt,name=account_name,json=accountName" json:"account_name,omitempty"`
+	AccountName string `protobuf:"bytes,44,opt,name=account_name,json=accountName,proto3" json:"accountName"`
 	// 客户端ip
-	Ip string `protobuf:"bytes,45,opt,name=ip" json:"ip,omitempty"`
+	Ip string `protobuf:"bytes,45,opt,name=ip,proto3" json:"ip"`
 	// 客户端mac
-	Mac string `protobuf:"bytes,46,opt,name=mac" json:"mac,omitempty"`
+	Mac string `protobuf:"bytes,46,opt,name=mac,proto3" json:"mac"`
 	// 部门
-	Branch string `protobuf:"bytes,47,opt,name=branch" json:"branch,omitempty"`
+	Branch string `protobuf:"bytes,47,opt,name=branch,proto3" json:"branch"`
 	// 部门名称
-	BranchName string `protobuf:"bytes,48,opt,name=branch_name,json=branchName" json:"branch_name,omitempty"`
+	BranchName string `protobuf:"bytes,48,opt,name=branch_name,json=branchName,proto3" json:"branchName"`
 	// 方案编号
-	RouteTemplateId int64 `protobuf:"varint,49,opt,name=route_template_id,json=routeTemplateId" json:"route_template_id,omitempty"`
+	RouteTemplateId int64 `protobuf:"varint,49,opt,name=route_template_id,json=routeTemplateId,proto3" json:"routeTemplateId"`
 	// 方案名称
-	RouteTemplateName string `protobuf:"bytes,50,opt,name=route_template_name,json=routeTemplateName" json:"route_template_name,omitempty"`
+	RouteTemplateName string `protobuf:"bytes,50,opt,name=route_template_name,json=routeTemplateName,proto3" json:"routeTemplateName"`
 	// 账户类型
-	TradingAccountType TradingAccountType `protobuf:"varint,51,opt,name=trading_account_type,json=tradingAccountType,enum=pb.TradingAccountType" json:"trading_account_type,omitempty"`
+	TradingAccountType TradingAccountType `protobuf:"varint,51,opt,name=trading_account_type,json=tradingAccountType,proto3,enum=pb.TradingAccountType" json:"tradingAccountType"`
 	// 调试信息
-	Debug string `protobuf:"bytes,52,opt,name=debug" json:"debug,omitempty"`
+	Debug string `protobuf:"bytes,52,opt,name=debug,proto3" json:"debug"`
 	// 用户编号
-	User string `protobuf:"bytes,53,opt,name=user" json:"user,omitempty"`
+	User                 string   `protobuf:"bytes,53,opt,name=user,proto3" json:"user"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Order) Reset()                    { *m = Order{} }
-func (m *Order) String() string            { return proto.CompactTextString(m) }
-func (*Order) ProtoMessage()               {}
-func (*Order) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{1} }
+func (m *Order) Reset()         { *m = Order{} }
+func (m *Order) String() string { return proto.CompactTextString(m) }
+func (*Order) ProtoMessage()    {}
+func (*Order) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{1}
+}
+
+func (m *Order) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Order.Unmarshal(m, b)
+}
+func (m *Order) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Order.Marshal(b, m, deterministic)
+}
+func (m *Order) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Order.Merge(m, src)
+}
+func (m *Order) XXX_Size() int {
+	return xxx_messageInfo_Order.Size(m)
+}
+func (m *Order) XXX_DiscardUnknown() {
+	xxx_messageInfo_Order.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Order proto.InternalMessageInfo
 
 func (m *Order) GetSymbol() *Symbol {
 	if m != nil {
@@ -880,13 +972,36 @@ func (m *Order) GetUser() string {
 }
 
 type OrderList struct {
-	List []*Order `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*Order `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *OrderList) Reset()                    { *m = OrderList{} }
-func (m *OrderList) String() string            { return proto.CompactTextString(m) }
-func (*OrderList) ProtoMessage()               {}
-func (*OrderList) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{2} }
+func (m *OrderList) Reset()         { *m = OrderList{} }
+func (m *OrderList) String() string { return proto.CompactTextString(m) }
+func (*OrderList) ProtoMessage()    {}
+func (*OrderList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{2}
+}
+
+func (m *OrderList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderList.Unmarshal(m, b)
+}
+func (m *OrderList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderList.Marshal(b, m, deterministic)
+}
+func (m *OrderList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderList.Merge(m, src)
+}
+func (m *OrderList) XXX_Size() int {
+	return xxx_messageInfo_OrderList.Size(m)
+}
+func (m *OrderList) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderList proto.InternalMessageInfo
 
 func (m *OrderList) GetList() []*Order {
 	if m != nil {
@@ -896,14 +1011,37 @@ func (m *OrderList) GetList() []*Order {
 }
 
 type JointOrder struct {
-	LocalOrder    *Order `protobuf:"bytes,1,opt,name=local_order,json=localOrder" json:"local_order,omitempty"`
-	ExchangeOrder *Order `protobuf:"bytes,2,opt,name=exchange_order,json=exchangeOrder" json:"exchange_order,omitempty"`
+	LocalOrder           *Order   `protobuf:"bytes,1,opt,name=local_order,json=localOrder,proto3" json:"localOrder"`
+	ExchangeOrder        *Order   `protobuf:"bytes,2,opt,name=exchange_order,json=exchangeOrder,proto3" json:"exchangeOrder"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *JointOrder) Reset()                    { *m = JointOrder{} }
-func (m *JointOrder) String() string            { return proto.CompactTextString(m) }
-func (*JointOrder) ProtoMessage()               {}
-func (*JointOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{3} }
+func (m *JointOrder) Reset()         { *m = JointOrder{} }
+func (m *JointOrder) String() string { return proto.CompactTextString(m) }
+func (*JointOrder) ProtoMessage()    {}
+func (*JointOrder) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{3}
+}
+
+func (m *JointOrder) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_JointOrder.Unmarshal(m, b)
+}
+func (m *JointOrder) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_JointOrder.Marshal(b, m, deterministic)
+}
+func (m *JointOrder) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_JointOrder.Merge(m, src)
+}
+func (m *JointOrder) XXX_Size() int {
+	return xxx_messageInfo_JointOrder.Size(m)
+}
+func (m *JointOrder) XXX_DiscardUnknown() {
+	xxx_messageInfo_JointOrder.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_JointOrder proto.InternalMessageInfo
 
 func (m *JointOrder) GetLocalOrder() *Order {
 	if m != nil {
@@ -920,14 +1058,37 @@ func (m *JointOrder) GetExchangeOrder() *Order {
 }
 
 type OrderLink struct {
-	Local    *Order   `protobuf:"bytes,1,opt,name=local" json:"local,omitempty"`
-	Upstream []*Order `protobuf:"bytes,2,rep,name=upstream" json:"upstream,omitempty"`
+	Local                *Order   `protobuf:"bytes,1,opt,name=local,proto3" json:"local"`
+	Upstream             []*Order `protobuf:"bytes,2,rep,name=upstream,proto3" json:"upstream"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *OrderLink) Reset()                    { *m = OrderLink{} }
-func (m *OrderLink) String() string            { return proto.CompactTextString(m) }
-func (*OrderLink) ProtoMessage()               {}
-func (*OrderLink) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{4} }
+func (m *OrderLink) Reset()         { *m = OrderLink{} }
+func (m *OrderLink) String() string { return proto.CompactTextString(m) }
+func (*OrderLink) ProtoMessage()    {}
+func (*OrderLink) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{4}
+}
+
+func (m *OrderLink) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderLink.Unmarshal(m, b)
+}
+func (m *OrderLink) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderLink.Marshal(b, m, deterministic)
+}
+func (m *OrderLink) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderLink.Merge(m, src)
+}
+func (m *OrderLink) XXX_Size() int {
+	return xxx_messageInfo_OrderLink.Size(m)
+}
+func (m *OrderLink) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderLink.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderLink proto.InternalMessageInfo
 
 func (m *OrderLink) GetLocal() *Order {
 	if m != nil {
@@ -946,39 +1107,62 @@ func (m *OrderLink) GetUpstream() []*Order {
 // 发送撤单请求
 type CancelOrderRequest struct {
 	// 帐户
-	Account string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
+	Account string `protobuf:"bytes,1,opt,name=account,proto3" json:"account"`
 	// 委托编号
-	OrderId *OrderID `protobuf:"bytes,2,opt,name=order_id,json=orderId" json:"order_id,omitempty"`
+	OrderId *OrderID `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"orderId"`
 	// 合约
-	Symbol *Symbol `protobuf:"bytes,3,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol *Symbol `protobuf:"bytes,3,opt,name=symbol,proto3" json:"symbol"`
 	// 请求id
-	RequestId int32 `protobuf:"varint,4,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
+	RequestId int32 `protobuf:"varint,4,opt,name=request_id,json=requestId,proto3" json:"requestId"`
 	// 发起前置
-	FrontId int32 `protobuf:"varint,5,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
+	FrontId int32 `protobuf:"varint,5,opt,name=front_id,json=frontId,proto3" json:"frontId"`
 	// 发起session
-	SessionId int32 `protobuf:"varint,6,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
+	SessionId int32 `protobuf:"varint,6,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
 	// 发起终端信息
-	ExchangeOrderId string `protobuf:"bytes,7,opt,name=exchange_order_id,json=exchangeOrderId" json:"exchange_order_id,omitempty"`
+	ExchangeOrderId string `protobuf:"bytes,7,opt,name=exchange_order_id,json=exchangeOrderId,proto3" json:"exchangeOrderId"`
 	// token
-	Token string `protobuf:"bytes,8,opt,name=token" json:"token,omitempty"`
+	Token string `protobuf:"bytes,8,opt,name=token,proto3" json:"token"`
 	// route account id
-	RouteAccount string `protobuf:"bytes,9,opt,name=route_account,json=routeAccount" json:"route_account,omitempty"`
+	RouteAccount string `protobuf:"bytes,9,opt,name=route_account,json=routeAccount,proto3" json:"routeAccount"`
 	// 结算组
-	SettlementGroup int32 `protobuf:"varint,10,opt,name=settlement_group,json=settlementGroup" json:"settlement_group,omitempty"`
+	SettlementGroup int32 `protobuf:"varint,10,opt,name=settlement_group,json=settlementGroup,proto3" json:"settlementGroup"`
 	// 所属
-	Company int64 `protobuf:"varint,11,opt,name=company" json:"company,omitempty"`
+	Company int64 `protobuf:"varint,11,opt,name=company,proto3" json:"company"`
 	// 发送时间
-	SendTime int64 `protobuf:"varint,12,opt,name=send_time,json=sendTime" json:"send_time,omitempty"`
+	SendTime int64 `protobuf:"varint,12,opt,name=send_time,json=sendTime,proto3" json:"sendTime"`
 	// usertype
-	UserType TradingAccountType `protobuf:"varint,13,opt,name=user_type,json=userType,enum=pb.TradingAccountType" json:"user_type,omitempty"`
+	UserType TradingAccountType `protobuf:"varint,13,opt,name=user_type,json=userType,proto3,enum=pb.TradingAccountType" json:"userType"`
 	// 用户编号
-	User string `protobuf:"bytes,15,opt,name=user" json:"user,omitempty"`
+	User                 string   `protobuf:"bytes,15,opt,name=user,proto3" json:"user"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CancelOrderRequest) Reset()                    { *m = CancelOrderRequest{} }
-func (m *CancelOrderRequest) String() string            { return proto.CompactTextString(m) }
-func (*CancelOrderRequest) ProtoMessage()               {}
-func (*CancelOrderRequest) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{5} }
+func (m *CancelOrderRequest) Reset()         { *m = CancelOrderRequest{} }
+func (m *CancelOrderRequest) String() string { return proto.CompactTextString(m) }
+func (*CancelOrderRequest) ProtoMessage()    {}
+func (*CancelOrderRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{5}
+}
+
+func (m *CancelOrderRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CancelOrderRequest.Unmarshal(m, b)
+}
+func (m *CancelOrderRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CancelOrderRequest.Marshal(b, m, deterministic)
+}
+func (m *CancelOrderRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CancelOrderRequest.Merge(m, src)
+}
+func (m *CancelOrderRequest) XXX_Size() int {
+	return xxx_messageInfo_CancelOrderRequest.Size(m)
+}
+func (m *CancelOrderRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CancelOrderRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CancelOrderRequest proto.InternalMessageInfo
 
 func (m *CancelOrderRequest) GetAccount() string {
 	if m != nil {
@@ -1080,23 +1264,46 @@ func (m *CancelOrderRequest) GetUser() string {
 
 // OnRtnCancelOrder 撤单响应
 type OnRtnCancelOrder struct {
-	Account          string   `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
-	OrderID          *OrderID `protobuf:"bytes,2,opt,name=OrderID" json:"OrderID,omitempty"`
-	ExchangeOrderId  string   `protobuf:"bytes,3,opt,name=exchange_order_id,json=exchangeOrderId" json:"exchange_order_id,omitempty"`
-	Symbol           *Symbol  `protobuf:"bytes,4,opt,name=symbol" json:"symbol,omitempty"`
-	RequestId        int32    `protobuf:"varint,5,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	ErrorType        int32    `protobuf:"varint,6,opt,name=error_type,json=errorType" json:"error_type,omitempty"`
-	Error            int32    `protobuf:"varint,7,opt,name=error" json:"error,omitempty"`
-	Msg              string   `protobuf:"bytes,8,opt,name=msg" json:"msg,omitempty"`
-	RouteAccount     string   `protobuf:"bytes,9,opt,name=route_account,json=routeAccount" json:"route_account,omitempty"`
-	UpstreamNotFound bool     `protobuf:"varint,10,opt,name=upstream_not_found,json=upstreamNotFound" json:"upstream_not_found,omitempty"`
-	User             string   `protobuf:"bytes,70,opt,name=user" json:"user,omitempty"`
+	Account              string   `protobuf:"bytes,1,opt,name=account,proto3" json:"account"`
+	OrderID              *OrderID `protobuf:"bytes,2,opt,name=OrderID,proto3" json:"OrderID"`
+	ExchangeOrderId      string   `protobuf:"bytes,3,opt,name=exchange_order_id,json=exchangeOrderId,proto3" json:"exchangeOrderId"`
+	Symbol               *Symbol  `protobuf:"bytes,4,opt,name=symbol,proto3" json:"symbol"`
+	RequestId            int32    `protobuf:"varint,5,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	ErrorType            int32    `protobuf:"varint,6,opt,name=error_type,json=errorType,proto3" json:"errorType"`
+	Error                int32    `protobuf:"varint,7,opt,name=error,proto3" json:"error"`
+	Msg                  string   `protobuf:"bytes,8,opt,name=msg,proto3" json:"msg"`
+	RouteAccount         string   `protobuf:"bytes,9,opt,name=route_account,json=routeAccount,proto3" json:"routeAccount"`
+	UpstreamNotFound     bool     `protobuf:"varint,10,opt,name=upstream_not_found,json=upstreamNotFound,proto3" json:"upstreamNotFound"`
+	User                 string   `protobuf:"bytes,70,opt,name=user,proto3" json:"user"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *OnRtnCancelOrder) Reset()                    { *m = OnRtnCancelOrder{} }
-func (m *OnRtnCancelOrder) String() string            { return proto.CompactTextString(m) }
-func (*OnRtnCancelOrder) ProtoMessage()               {}
-func (*OnRtnCancelOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{6} }
+func (m *OnRtnCancelOrder) Reset()         { *m = OnRtnCancelOrder{} }
+func (m *OnRtnCancelOrder) String() string { return proto.CompactTextString(m) }
+func (*OnRtnCancelOrder) ProtoMessage()    {}
+func (*OnRtnCancelOrder) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{6}
+}
+
+func (m *OnRtnCancelOrder) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OnRtnCancelOrder.Unmarshal(m, b)
+}
+func (m *OnRtnCancelOrder) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OnRtnCancelOrder.Marshal(b, m, deterministic)
+}
+func (m *OnRtnCancelOrder) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OnRtnCancelOrder.Merge(m, src)
+}
+func (m *OnRtnCancelOrder) XXX_Size() int {
+	return xxx_messageInfo_OnRtnCancelOrder.Size(m)
+}
+func (m *OnRtnCancelOrder) XXX_DiscardUnknown() {
+	xxx_messageInfo_OnRtnCancelOrder.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OnRtnCancelOrder proto.InternalMessageInfo
 
 func (m *OnRtnCancelOrder) GetAccount() string {
 	if m != nil {
@@ -1178,67 +1385,90 @@ func (m *OnRtnCancelOrder) GetUser() string {
 // ConditionOrder 条件单
 type ConditionOrder struct {
 	// 编号
-	Id int64 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
 	// 账号
-	Account string `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
+	Account string `protobuf:"bytes,2,opt,name=account,proto3" json:"account"`
 	// 合约代码
-	Symbol *Symbol `protobuf:"bytes,3,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol *Symbol `protobuf:"bytes,3,opt,name=symbol,proto3" json:"symbol"`
 	// 持仓方向
-	PositionDirection OrderDirection `protobuf:"varint,4,opt,name=position_direction,json=positionDirection,enum=pb.OrderDirection" json:"position_direction,omitempty"`
+	PositionDirection OrderDirection `protobuf:"varint,4,opt,name=position_direction,json=positionDirection,proto3,enum=pb.OrderDirection" json:"positionDirection"`
 	// 条件单方向
-	Direction OrderDirection `protobuf:"varint,5,opt,name=direction,enum=pb.OrderDirection" json:"direction,omitempty"`
+	Direction OrderDirection `protobuf:"varint,5,opt,name=direction,proto3,enum=pb.OrderDirection" json:"direction"`
 	// 开平标志
-	OffsetFlag OffsetFlag `protobuf:"varint,6,opt,name=offset_flag,json=offsetFlag,enum=pb.OffsetFlag" json:"offset_flag,omitempty"`
+	OffsetFlag OffsetFlag `protobuf:"varint,6,opt,name=offset_flag,json=offsetFlag,proto3,enum=pb.OffsetFlag" json:"offsetFlag"`
 	// 合约名称
-	SymbolName string `protobuf:"bytes,7,opt,name=symbol_name,json=symbolName" json:"symbol_name,omitempty"`
+	SymbolName string `protobuf:"bytes,7,opt,name=symbol_name,json=symbolName,proto3" json:"symbolName"`
 	// 合约乘数
-	VolumeMultiple int32 `protobuf:"varint,8,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
+	VolumeMultiple int32 `protobuf:"varint,8,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
 	// 品种代码
-	ProductId *ProductID `protobuf:"bytes,9,opt,name=product_id,json=productId" json:"product_id,omitempty"`
+	ProductId *ProductID `protobuf:"bytes,9,opt,name=product_id,json=productId,proto3" json:"productId"`
 	// 波动点
-	PriceTick float64 `protobuf:"fixed64,10,opt,name=price_tick,json=priceTick" json:"price_tick,omitempty"`
+	PriceTick float64 `protobuf:"fixed64,10,opt,name=price_tick,json=priceTick,proto3" json:"priceTick"`
 	// 是否触发
-	Triggered bool `protobuf:"varint,11,opt,name=triggered" json:"triggered,omitempty"`
+	Triggered bool `protobuf:"varint,11,opt,name=triggered,proto3" json:"triggered"`
 	// 触发时间
-	TriggeredTime int64 `protobuf:"varint,12,opt,name=triggered_time,json=triggeredTime" json:"triggered_time,omitempty"`
+	TriggeredTime int64 `protobuf:"varint,12,opt,name=triggered_time,json=triggeredTime,proto3" json:"triggeredTime"`
 	// 数量
-	Volume float64 `protobuf:"fixed64,13,opt,name=volume" json:"volume,omitempty"`
+	Volume float64 `protobuf:"fixed64,13,opt,name=volume,proto3" json:"volume"`
 	// 委托价格
-	Price float64 `protobuf:"fixed64,14,opt,name=price" json:"price,omitempty"`
+	Price float64 `protobuf:"fixed64,14,opt,name=price,proto3" json:"price"`
 	// 触发条件价格.
-	TriggerConditionPrice float64 `protobuf:"fixed64,15,opt,name=trigger_condition_price,json=triggerConditionPrice" json:"trigger_condition_price,omitempty"`
+	TriggerConditionPrice float64 `protobuf:"fixed64,15,opt,name=trigger_condition_price,json=triggerConditionPrice,proto3" json:"triggerConditionPrice"`
 	// 触发价格类型. 最新价， 买一价， 卖一价
-	TriggerPriceType ConditionOrderTriggerPriceType `protobuf:"varint,16,opt,name=trigger_price_type,json=triggerPriceType,enum=pb.ConditionOrderTriggerPriceType" json:"trigger_price_type,omitempty"`
+	TriggerPriceType ConditionOrderTriggerPriceType `protobuf:"varint,16,opt,name=trigger_price_type,json=triggerPriceType,proto3,enum=pb.ConditionOrderTriggerPriceType" json:"triggerPriceType"`
 	// 触发方式. 大于等于，小于等于
-	TriggerType ConditionOrderTriggerType `protobuf:"varint,17,opt,name=trigger_type,json=triggerType,enum=pb.ConditionOrderTriggerType" json:"trigger_type,omitempty"`
+	TriggerType ConditionOrderTriggerType `protobuf:"varint,17,opt,name=trigger_type,json=triggerType,proto3,enum=pb.ConditionOrderTriggerType" json:"triggerType"`
 	// 发单价格方式. 对手，市价
-	SendOrderPriceType SendOrderPriceType `protobuf:"varint,18,opt,name=send_order_price_type,json=sendOrderPriceType,enum=pb.SendOrderPriceType" json:"send_order_price_type,omitempty"`
+	SendOrderPriceType SendOrderPriceType `protobuf:"varint,18,opt,name=send_order_price_type,json=sendOrderPriceType,proto3,enum=pb.SendOrderPriceType" json:"sendOrderPriceType"`
 	// 委托结果
-	SendResult string `protobuf:"bytes,19,opt,name=send_result,json=sendResult" json:"send_result,omitempty"`
+	SendResult string `protobuf:"bytes,19,opt,name=send_result,json=sendResult,proto3" json:"sendResult"`
 	// 创建时间
-	CreateTime int64 `protobuf:"varint,20,opt,name=create_time,json=createTime" json:"create_time,omitempty"`
+	CreateTime int64 `protobuf:"varint,20,opt,name=create_time,json=createTime,proto3" json:"createTime"`
 	// 标记
-	Tag string `protobuf:"bytes,21,opt,name=tag" json:"tag,omitempty"`
+	Tag string `protobuf:"bytes,21,opt,name=tag,proto3" json:"tag"`
 	// 截止时间
-	Deadline int64 `protobuf:"varint,22,opt,name=deadline" json:"deadline,omitempty"`
+	Deadline int64 `protobuf:"varint,22,opt,name=deadline,proto3" json:"deadline"`
 	// sg
-	SettlementGroup int32 `protobuf:"varint,23,opt,name=settlement_group,json=settlementGroup" json:"settlement_group,omitempty"`
+	SettlementGroup int32 `protobuf:"varint,23,opt,name=settlement_group,json=settlementGroup,proto3" json:"settlementGroup"`
 	// stoploss
-	StopLoss bool `protobuf:"varint,24,opt,name=stop_loss,json=stopLoss" json:"stop_loss,omitempty"`
+	StopLoss bool `protobuf:"varint,24,opt,name=stop_loss,json=stopLoss,proto3" json:"stopLoss"`
 	// 客户端ip
-	Ip string `protobuf:"bytes,25,opt,name=ip" json:"ip,omitempty"`
+	Ip string `protobuf:"bytes,25,opt,name=ip,proto3" json:"ip"`
 	// 客户端mac
-	Mac string `protobuf:"bytes,26,opt,name=mac" json:"mac,omitempty"`
+	Mac string `protobuf:"bytes,26,opt,name=mac,proto3" json:"mac"`
 	// 用户名
-	UserName string `protobuf:"bytes,27,opt,name=user_name,json=userName" json:"user_name,omitempty"`
+	UserName string `protobuf:"bytes,27,opt,name=user_name,json=userName,proto3" json:"userName"`
 	// 用户编号
-	User string `protobuf:"bytes,70,opt,name=user" json:"user,omitempty"`
+	User                 string   `protobuf:"bytes,70,opt,name=user,proto3" json:"user"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ConditionOrder) Reset()                    { *m = ConditionOrder{} }
-func (m *ConditionOrder) String() string            { return proto.CompactTextString(m) }
-func (*ConditionOrder) ProtoMessage()               {}
-func (*ConditionOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{7} }
+func (m *ConditionOrder) Reset()         { *m = ConditionOrder{} }
+func (m *ConditionOrder) String() string { return proto.CompactTextString(m) }
+func (*ConditionOrder) ProtoMessage()    {}
+func (*ConditionOrder) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{7}
+}
+
+func (m *ConditionOrder) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ConditionOrder.Unmarshal(m, b)
+}
+func (m *ConditionOrder) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ConditionOrder.Marshal(b, m, deterministic)
+}
+func (m *ConditionOrder) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConditionOrder.Merge(m, src)
+}
+func (m *ConditionOrder) XXX_Size() int {
+	return xxx_messageInfo_ConditionOrder.Size(m)
+}
+func (m *ConditionOrder) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConditionOrder.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ConditionOrder proto.InternalMessageInfo
 
 func (m *ConditionOrder) GetId() int64 {
 	if m != nil {
@@ -1438,16 +1668,39 @@ func (m *ConditionOrder) GetUser() string {
 
 // TradeCmd 交易指令
 type TradeCmd struct {
-	Type      TradeCmdType `protobuf:"varint,1,opt,name=type,enum=pb.TradeCmdType" json:"type,omitempty"`
-	Data      []byte       `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
-	NodeId    int64        `protobuf:"varint,3,opt,name=node_id,json=nodeId" json:"node_id,omitempty"`
-	RequestId int64        `protobuf:"varint,4,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
+	Type                 TradeCmdType `protobuf:"varint,1,opt,name=type,proto3,enum=pb.TradeCmdType" json:"type"`
+	Data                 []byte       `protobuf:"bytes,2,opt,name=data,proto3" json:"data"`
+	NodeId               int64        `protobuf:"varint,3,opt,name=node_id,json=nodeId,proto3" json:"nodeId"`
+	RequestId            int64        `protobuf:"varint,4,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *TradeCmd) Reset()                    { *m = TradeCmd{} }
-func (m *TradeCmd) String() string            { return proto.CompactTextString(m) }
-func (*TradeCmd) ProtoMessage()               {}
-func (*TradeCmd) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{8} }
+func (m *TradeCmd) Reset()         { *m = TradeCmd{} }
+func (m *TradeCmd) String() string { return proto.CompactTextString(m) }
+func (*TradeCmd) ProtoMessage()    {}
+func (*TradeCmd) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{8}
+}
+
+func (m *TradeCmd) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TradeCmd.Unmarshal(m, b)
+}
+func (m *TradeCmd) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TradeCmd.Marshal(b, m, deterministic)
+}
+func (m *TradeCmd) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TradeCmd.Merge(m, src)
+}
+func (m *TradeCmd) XXX_Size() int {
+	return xxx_messageInfo_TradeCmd.Size(m)
+}
+func (m *TradeCmd) XXX_DiscardUnknown() {
+	xxx_messageInfo_TradeCmd.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TradeCmd proto.InternalMessageInfo
 
 func (m *TradeCmd) GetType() TradeCmdType {
 	if m != nil {
@@ -1478,19 +1731,42 @@ func (m *TradeCmd) GetRequestId() int64 {
 }
 
 type DemoOrder struct {
-	Order                *Order          `protobuf:"bytes,1,opt,name=order" json:"order,omitempty"`
-	UpperLimitPrice      float64         `protobuf:"fixed64,2,opt,name=upper_limit_price,json=upperLimitPrice" json:"upper_limit_price,omitempty"`
-	LowerLimitPrice      float64         `protobuf:"fixed64,3,opt,name=lower_limit_price,json=lowerLimitPrice" json:"lower_limit_price,omitempty"`
-	MinLimitOrderVolume  int32           `protobuf:"varint,4,opt,name=min_limit_order_volume,json=minLimitOrderVolume" json:"min_limit_order_volume,omitempty"`
-	MinMarketOrderVolume int32           `protobuf:"varint,5,opt,name=min_market_order_volume,json=minMarketOrderVolume" json:"min_market_order_volume,omitempty"`
-	TimeRule             *MarketTimeRule `protobuf:"bytes,6,opt,name=time_rule,json=timeRule" json:"time_rule,omitempty"`
-	UpdateTradingDay     int32           `protobuf:"varint,7,opt,name=update_trading_day,json=updateTradingDay" json:"update_trading_day,omitempty"`
+	Order                *Order          `protobuf:"bytes,1,opt,name=order,proto3" json:"order"`
+	UpperLimitPrice      float64         `protobuf:"fixed64,2,opt,name=upper_limit_price,json=upperLimitPrice,proto3" json:"upperLimitPrice"`
+	LowerLimitPrice      float64         `protobuf:"fixed64,3,opt,name=lower_limit_price,json=lowerLimitPrice,proto3" json:"lowerLimitPrice"`
+	MinLimitOrderVolume  int32           `protobuf:"varint,4,opt,name=min_limit_order_volume,json=minLimitOrderVolume,proto3" json:"minLimitOrderVolume"`
+	MinMarketOrderVolume int32           `protobuf:"varint,5,opt,name=min_market_order_volume,json=minMarketOrderVolume,proto3" json:"minMarketOrderVolume"`
+	TimeRule             *MarketTimeRule `protobuf:"bytes,6,opt,name=time_rule,json=timeRule,proto3" json:"timeRule"`
+	UpdateTradingDay     int32           `protobuf:"varint,7,opt,name=update_trading_day,json=updateTradingDay,proto3" json:"updateTradingDay"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *DemoOrder) Reset()                    { *m = DemoOrder{} }
-func (m *DemoOrder) String() string            { return proto.CompactTextString(m) }
-func (*DemoOrder) ProtoMessage()               {}
-func (*DemoOrder) Descriptor() ([]byte, []int) { return fileDescriptor8, []int{9} }
+func (m *DemoOrder) Reset()         { *m = DemoOrder{} }
+func (m *DemoOrder) String() string { return proto.CompactTextString(m) }
+func (*DemoOrder) ProtoMessage()    {}
+func (*DemoOrder) Descriptor() ([]byte, []int) {
+	return fileDescriptor_cd01338c35d87077, []int{9}
+}
+
+func (m *DemoOrder) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DemoOrder.Unmarshal(m, b)
+}
+func (m *DemoOrder) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DemoOrder.Marshal(b, m, deterministic)
+}
+func (m *DemoOrder) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DemoOrder.Merge(m, src)
+}
+func (m *DemoOrder) XXX_Size() int {
+	return xxx_messageInfo_DemoOrder.Size(m)
+}
+func (m *DemoOrder) XXX_DiscardUnknown() {
+	xxx_messageInfo_DemoOrder.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DemoOrder proto.InternalMessageInfo
 
 func (m *DemoOrder) GetOrder() *Order {
 	if m != nil {
@@ -1542,16 +1818,6 @@ func (m *DemoOrder) GetUpdateTradingDay() int32 {
 }
 
 func init() {
-	proto.RegisterType((*OrderID)(nil), "pb.OrderID")
-	proto.RegisterType((*Order)(nil), "pb.Order")
-	proto.RegisterType((*OrderList)(nil), "pb.OrderList")
-	proto.RegisterType((*JointOrder)(nil), "pb.JointOrder")
-	proto.RegisterType((*OrderLink)(nil), "pb.OrderLink")
-	proto.RegisterType((*CancelOrderRequest)(nil), "pb.CancelOrderRequest")
-	proto.RegisterType((*OnRtnCancelOrder)(nil), "pb.OnRtnCancelOrder")
-	proto.RegisterType((*ConditionOrder)(nil), "pb.ConditionOrder")
-	proto.RegisterType((*TradeCmd)(nil), "pb.TradeCmd")
-	proto.RegisterType((*DemoOrder)(nil), "pb.DemoOrder")
 	proto.RegisterEnum("pb.OrderStatus", OrderStatus_name, OrderStatus_value)
 	proto.RegisterEnum("pb.OrderPriceType", OrderPriceType_name, OrderPriceType_value)
 	proto.RegisterEnum("pb.OffsetFlag", OffsetFlag_name, OffsetFlag_value)
@@ -1562,11 +1828,21 @@ func init() {
 	proto.RegisterEnum("pb.ConditionOrderTriggerType", ConditionOrderTriggerType_name, ConditionOrderTriggerType_value)
 	proto.RegisterEnum("pb.SendOrderPriceType", SendOrderPriceType_name, SendOrderPriceType_value)
 	proto.RegisterEnum("pb.TradeCmdType", TradeCmdType_name, TradeCmdType_value)
+	proto.RegisterType((*OrderID)(nil), "pb.OrderID")
+	proto.RegisterType((*Order)(nil), "pb.Order")
+	proto.RegisterType((*OrderList)(nil), "pb.OrderList")
+	proto.RegisterType((*JointOrder)(nil), "pb.JointOrder")
+	proto.RegisterType((*OrderLink)(nil), "pb.OrderLink")
+	proto.RegisterType((*CancelOrderRequest)(nil), "pb.CancelOrderRequest")
+	proto.RegisterType((*OnRtnCancelOrder)(nil), "pb.OnRtnCancelOrder")
+	proto.RegisterType((*ConditionOrder)(nil), "pb.ConditionOrder")
+	proto.RegisterType((*TradeCmd)(nil), "pb.TradeCmd")
+	proto.RegisterType((*DemoOrder)(nil), "pb.DemoOrder")
 }
 
-func init() { proto.RegisterFile("order.proto", fileDescriptor8) }
+func init() { proto.RegisterFile("order.proto", fileDescriptor_cd01338c35d87077) }
 
-var fileDescriptor8 = []byte{
+var fileDescriptor_cd01338c35d87077 = []byte{
 	// 2525 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x58, 0xdf, 0x76, 0xdb, 0xc6,
 	0xd1, 0x17, 0x49, 0x51, 0x22, 0x87, 0x12, 0x09, 0xad, 0x65, 0x0b, 0xb6, 0x62, 0x5b, 0x51, 0xe2,

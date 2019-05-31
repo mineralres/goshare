@@ -3,14 +3,22 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // enum 用户类型
 type UserType int32
@@ -26,6 +34,7 @@ var UserType_name = map[int32]string{
 	1: "UT_BRANCH_ADMIN",
 	2: "UT_SYSTEM_ADMIN",
 }
+
 var UserType_value = map[string]int32{
 	"UT_NORMAL":       0,
 	"UT_BRANCH_ADMIN": 1,
@@ -35,7 +44,10 @@ var UserType_value = map[string]int32{
 func (x UserType) String() string {
 	return proto.EnumName(UserType_name, int32(x))
 }
-func (UserType) EnumDescriptor() ([]byte, []int) { return fileDescriptor17, []int{0} }
+
+func (UserType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{0}
+}
 
 // UserStatus 状态
 type UserStatus int32
@@ -51,6 +63,7 @@ var UserStatus_name = map[int32]string{
 	1: "US_FROZEN",
 	2: "US_DELETED",
 }
+
 var UserStatus_value = map[string]int32{
 	"US_NORMAL":  0,
 	"US_FROZEN":  1,
@@ -60,21 +73,47 @@ var UserStatus_value = map[string]int32{
 func (x UserStatus) String() string {
 	return proto.EnumName(UserStatus_name, int32(x))
 }
-func (UserStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor17, []int{1} }
+
+func (UserStatus) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{1}
+}
 
 // 用户
 type User struct {
-	Id     string     `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Name   string     `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Type   UserType   `protobuf:"varint,3,opt,name=type,enum=pb.UserType" json:"type,omitempty"`
-	Status UserStatus `protobuf:"varint,4,opt,name=status,enum=pb.UserStatus" json:"status,omitempty"`
-	Roles  []int64    `protobuf:"varint,5,rep,packed,name=roles" json:"roles,omitempty"`
+	Id                   string     `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	Name                 string     `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	Type                 UserType   `protobuf:"varint,3,opt,name=type,proto3,enum=pb.UserType" json:"type"`
+	Status               UserStatus `protobuf:"varint,4,opt,name=status,proto3,enum=pb.UserStatus" json:"status"`
+	Roles                []int64    `protobuf:"varint,5,rep,packed,name=roles,proto3" json:"roles"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
 }
 
-func (m *User) Reset()                    { *m = User{} }
-func (m *User) String() string            { return proto.CompactTextString(m) }
-func (*User) ProtoMessage()               {}
-func (*User) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{0} }
+func (m *User) Reset()         { *m = User{} }
+func (m *User) String() string { return proto.CompactTextString(m) }
+func (*User) ProtoMessage()    {}
+func (*User) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{0}
+}
+
+func (m *User) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_User.Unmarshal(m, b)
+}
+func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_User.Marshal(b, m, deterministic)
+}
+func (m *User) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_User.Merge(m, src)
+}
+func (m *User) XXX_Size() int {
+	return xxx_messageInfo_User.Size(m)
+}
+func (m *User) XXX_DiscardUnknown() {
+	xxx_messageInfo_User.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_User proto.InternalMessageInfo
 
 func (m *User) GetId() string {
 	if m != nil {
@@ -112,13 +151,36 @@ func (m *User) GetRoles() []int64 {
 }
 
 type UserList struct {
-	List []*User `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*User  `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *UserList) Reset()                    { *m = UserList{} }
-func (m *UserList) String() string            { return proto.CompactTextString(m) }
-func (*UserList) ProtoMessage()               {}
-func (*UserList) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{1} }
+func (m *UserList) Reset()         { *m = UserList{} }
+func (m *UserList) String() string { return proto.CompactTextString(m) }
+func (*UserList) ProtoMessage()    {}
+func (*UserList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{1}
+}
+
+func (m *UserList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserList.Unmarshal(m, b)
+}
+func (m *UserList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserList.Marshal(b, m, deterministic)
+}
+func (m *UserList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserList.Merge(m, src)
+}
+func (m *UserList) XXX_Size() int {
+	return xxx_messageInfo_UserList.Size(m)
+}
+func (m *UserList) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserList proto.InternalMessageInfo
 
 func (m *UserList) GetList() []*User {
 	if m != nil {
@@ -129,16 +191,39 @@ func (m *UserList) GetList() []*User {
 
 // Permission 权限
 type Permission struct {
-	Id    int64    `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
-	Name  string   `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Menus []string `protobuf:"bytes,3,rep,name=menus" json:"menus,omitempty"`
-	Apis  []string `protobuf:"bytes,4,rep,name=apis" json:"apis,omitempty"`
+	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	Menus                []string `protobuf:"bytes,3,rep,name=menus,proto3" json:"menus"`
+	Apis                 []string `protobuf:"bytes,4,rep,name=apis,proto3" json:"apis"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Permission) Reset()                    { *m = Permission{} }
-func (m *Permission) String() string            { return proto.CompactTextString(m) }
-func (*Permission) ProtoMessage()               {}
-func (*Permission) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{2} }
+func (m *Permission) Reset()         { *m = Permission{} }
+func (m *Permission) String() string { return proto.CompactTextString(m) }
+func (*Permission) ProtoMessage()    {}
+func (*Permission) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{2}
+}
+
+func (m *Permission) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Permission.Unmarshal(m, b)
+}
+func (m *Permission) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Permission.Marshal(b, m, deterministic)
+}
+func (m *Permission) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Permission.Merge(m, src)
+}
+func (m *Permission) XXX_Size() int {
+	return xxx_messageInfo_Permission.Size(m)
+}
+func (m *Permission) XXX_DiscardUnknown() {
+	xxx_messageInfo_Permission.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Permission proto.InternalMessageInfo
 
 func (m *Permission) GetId() int64 {
 	if m != nil {
@@ -170,15 +255,38 @@ func (m *Permission) GetApis() []string {
 
 // PermissionTreeNode 权限树节点
 type PermissionTreeNode struct {
-	Permission *Permission           `protobuf:"bytes,1,opt,name=permission" json:"permission,omitempty"`
-	Selected   bool                  `protobuf:"varint,2,opt,name=selected" json:"selected,omitempty"`
-	Children   []*PermissionTreeNode `protobuf:"bytes,3,rep,name=children" json:"children,omitempty"`
+	Permission           *Permission           `protobuf:"bytes,1,opt,name=permission,proto3" json:"permission"`
+	Selected             bool                  `protobuf:"varint,2,opt,name=selected,proto3" json:"selected"`
+	Children             []*PermissionTreeNode `protobuf:"bytes,3,rep,name=children,proto3" json:"children"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *PermissionTreeNode) Reset()                    { *m = PermissionTreeNode{} }
-func (m *PermissionTreeNode) String() string            { return proto.CompactTextString(m) }
-func (*PermissionTreeNode) ProtoMessage()               {}
-func (*PermissionTreeNode) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{3} }
+func (m *PermissionTreeNode) Reset()         { *m = PermissionTreeNode{} }
+func (m *PermissionTreeNode) String() string { return proto.CompactTextString(m) }
+func (*PermissionTreeNode) ProtoMessage()    {}
+func (*PermissionTreeNode) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{3}
+}
+
+func (m *PermissionTreeNode) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PermissionTreeNode.Unmarshal(m, b)
+}
+func (m *PermissionTreeNode) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PermissionTreeNode.Marshal(b, m, deterministic)
+}
+func (m *PermissionTreeNode) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PermissionTreeNode.Merge(m, src)
+}
+func (m *PermissionTreeNode) XXX_Size() int {
+	return xxx_messageInfo_PermissionTreeNode.Size(m)
+}
+func (m *PermissionTreeNode) XXX_DiscardUnknown() {
+	xxx_messageInfo_PermissionTreeNode.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PermissionTreeNode proto.InternalMessageInfo
 
 func (m *PermissionTreeNode) GetPermission() *Permission {
 	if m != nil {
@@ -203,13 +311,36 @@ func (m *PermissionTreeNode) GetChildren() []*PermissionTreeNode {
 
 // PermissionList 权限列表
 type PermissionList struct {
-	List []*Permission `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*Permission `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *PermissionList) Reset()                    { *m = PermissionList{} }
-func (m *PermissionList) String() string            { return proto.CompactTextString(m) }
-func (*PermissionList) ProtoMessage()               {}
-func (*PermissionList) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{4} }
+func (m *PermissionList) Reset()         { *m = PermissionList{} }
+func (m *PermissionList) String() string { return proto.CompactTextString(m) }
+func (*PermissionList) ProtoMessage()    {}
+func (*PermissionList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{4}
+}
+
+func (m *PermissionList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PermissionList.Unmarshal(m, b)
+}
+func (m *PermissionList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PermissionList.Marshal(b, m, deterministic)
+}
+func (m *PermissionList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PermissionList.Merge(m, src)
+}
+func (m *PermissionList) XXX_Size() int {
+	return xxx_messageInfo_PermissionList.Size(m)
+}
+func (m *PermissionList) XXX_DiscardUnknown() {
+	xxx_messageInfo_PermissionList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PermissionList proto.InternalMessageInfo
 
 func (m *PermissionList) GetList() []*Permission {
 	if m != nil {
@@ -220,16 +351,39 @@ func (m *PermissionList) GetList() []*Permission {
 
 // 角色
 type UserRole struct {
-	Id          int64         `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
-	Name        string        `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Discription string        `protobuf:"bytes,3,opt,name=discription" json:"discription,omitempty"`
-	Permissions []*Permission `protobuf:"bytes,4,rep,name=permissions" json:"permissions,omitempty"`
+	Id                   int64         `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	Name                 string        `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	Discription          string        `protobuf:"bytes,3,opt,name=discription,proto3" json:"discription"`
+	Permissions          []*Permission `protobuf:"bytes,4,rep,name=permissions,proto3" json:"permissions"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *UserRole) Reset()                    { *m = UserRole{} }
-func (m *UserRole) String() string            { return proto.CompactTextString(m) }
-func (*UserRole) ProtoMessage()               {}
-func (*UserRole) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{5} }
+func (m *UserRole) Reset()         { *m = UserRole{} }
+func (m *UserRole) String() string { return proto.CompactTextString(m) }
+func (*UserRole) ProtoMessage()    {}
+func (*UserRole) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{5}
+}
+
+func (m *UserRole) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserRole.Unmarshal(m, b)
+}
+func (m *UserRole) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserRole.Marshal(b, m, deterministic)
+}
+func (m *UserRole) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserRole.Merge(m, src)
+}
+func (m *UserRole) XXX_Size() int {
+	return xxx_messageInfo_UserRole.Size(m)
+}
+func (m *UserRole) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserRole.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserRole proto.InternalMessageInfo
 
 func (m *UserRole) GetId() int64 {
 	if m != nil {
@@ -261,18 +415,41 @@ func (m *UserRole) GetPermissions() []*Permission {
 
 // 用户会话
 type UserSession struct {
-	Id       string     `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Token    string     `protobuf:"bytes,2,opt,name=token" json:"token,omitempty"`
-	Type     UserType   `protobuf:"varint,3,opt,name=type,enum=pb.UserType" json:"type,omitempty"`
-	Status   UserStatus `protobuf:"varint,4,opt,name=status,enum=pb.UserStatus" json:"status,omitempty"`
-	Roles    []int64    `protobuf:"varint,5,rep,packed,name=roles" json:"roles,omitempty"`
-	Deadline int64      `protobuf:"varint,6,opt,name=deadline" json:"deadline,omitempty"`
+	Id                   string     `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	Token                string     `protobuf:"bytes,2,opt,name=token,proto3" json:"token"`
+	Type                 UserType   `protobuf:"varint,3,opt,name=type,proto3,enum=pb.UserType" json:"type"`
+	Status               UserStatus `protobuf:"varint,4,opt,name=status,proto3,enum=pb.UserStatus" json:"status"`
+	Roles                []int64    `protobuf:"varint,5,rep,packed,name=roles,proto3" json:"roles"`
+	Deadline             int64      `protobuf:"varint,6,opt,name=deadline,proto3" json:"deadline"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
 }
 
-func (m *UserSession) Reset()                    { *m = UserSession{} }
-func (m *UserSession) String() string            { return proto.CompactTextString(m) }
-func (*UserSession) ProtoMessage()               {}
-func (*UserSession) Descriptor() ([]byte, []int) { return fileDescriptor17, []int{6} }
+func (m *UserSession) Reset()         { *m = UserSession{} }
+func (m *UserSession) String() string { return proto.CompactTextString(m) }
+func (*UserSession) ProtoMessage()    {}
+func (*UserSession) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{6}
+}
+
+func (m *UserSession) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserSession.Unmarshal(m, b)
+}
+func (m *UserSession) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserSession.Marshal(b, m, deterministic)
+}
+func (m *UserSession) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserSession.Merge(m, src)
+}
+func (m *UserSession) XXX_Size() int {
+	return xxx_messageInfo_UserSession.Size(m)
+}
+func (m *UserSession) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserSession.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserSession proto.InternalMessageInfo
 
 func (m *UserSession) GetId() string {
 	if m != nil {
@@ -317,6 +494,8 @@ func (m *UserSession) GetDeadline() int64 {
 }
 
 func init() {
+	proto.RegisterEnum("pb.UserType", UserType_name, UserType_value)
+	proto.RegisterEnum("pb.UserStatus", UserStatus_name, UserStatus_value)
 	proto.RegisterType((*User)(nil), "pb.User")
 	proto.RegisterType((*UserList)(nil), "pb.UserList")
 	proto.RegisterType((*Permission)(nil), "pb.Permission")
@@ -324,13 +503,11 @@ func init() {
 	proto.RegisterType((*PermissionList)(nil), "pb.PermissionList")
 	proto.RegisterType((*UserRole)(nil), "pb.UserRole")
 	proto.RegisterType((*UserSession)(nil), "pb.UserSession")
-	proto.RegisterEnum("pb.UserType", UserType_name, UserType_value)
-	proto.RegisterEnum("pb.UserStatus", UserStatus_name, UserStatus_value)
 }
 
-func init() { proto.RegisterFile("user.proto", fileDescriptor17) }
+func init() { proto.RegisterFile("user.proto", fileDescriptor_116e343673f7ffaf) }
 
-var fileDescriptor17 = []byte{
+var fileDescriptor_116e343673f7ffaf = []byte{
 	// 463 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x53, 0x31, 0x8f, 0xd3, 0x30,
 	0x14, 0xc6, 0x49, 0x5a, 0xa5, 0x2f, 0x10, 0x2a, 0x53, 0xa1, 0x08, 0x31, 0x44, 0x19, 0x50, 0x74,

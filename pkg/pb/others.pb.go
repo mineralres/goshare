@@ -3,24 +3,55 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 type NetInAmountDetail struct {
-	Amount     float64 `protobuf:"fixed64,1,opt,name=amount" json:"amount,omitempty"`
-	Percentage float64 `protobuf:"fixed64,2,opt,name=percentage" json:"percentage,omitempty"`
+	Amount               float64  `protobuf:"fixed64,1,opt,name=amount,proto3" json:"amount"`
+	Percentage           float64  `protobuf:"fixed64,2,opt,name=percentage,proto3" json:"percentage"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *NetInAmountDetail) Reset()                    { *m = NetInAmountDetail{} }
-func (m *NetInAmountDetail) String() string            { return proto.CompactTextString(m) }
-func (*NetInAmountDetail) ProtoMessage()               {}
-func (*NetInAmountDetail) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{0} }
+func (m *NetInAmountDetail) Reset()         { *m = NetInAmountDetail{} }
+func (m *NetInAmountDetail) String() string { return proto.CompactTextString(m) }
+func (*NetInAmountDetail) ProtoMessage()    {}
+func (*NetInAmountDetail) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9597193cc8d6d418, []int{0}
+}
+
+func (m *NetInAmountDetail) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NetInAmountDetail.Unmarshal(m, b)
+}
+func (m *NetInAmountDetail) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NetInAmountDetail.Marshal(b, m, deterministic)
+}
+func (m *NetInAmountDetail) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NetInAmountDetail.Merge(m, src)
+}
+func (m *NetInAmountDetail) XXX_Size() int {
+	return xxx_messageInfo_NetInAmountDetail.Size(m)
+}
+func (m *NetInAmountDetail) XXX_DiscardUnknown() {
+	xxx_messageInfo_NetInAmountDetail.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NetInAmountDetail proto.InternalMessageInfo
 
 func (m *NetInAmountDetail) GetAmount() float64 {
 	if m != nil {
@@ -37,27 +68,50 @@ func (m *NetInAmountDetail) GetPercentage() float64 {
 }
 
 type RealtimeMoneyTrendItem struct {
-	Symbol           *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
-	Name             string  `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Price            float64 `protobuf:"fixed64,3,opt,name=price" json:"price,omitempty"`
-	UpdownPercentage float64 `protobuf:"fixed64,4,opt,name=updown_percentage,json=updownPercentage" json:"updown_percentage,omitempty"`
-	Time             int64   `protobuf:"varint,6,opt,name=time" json:"time,omitempty"`
+	Symbol           *Symbol `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	Name             string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	Price            float64 `protobuf:"fixed64,3,opt,name=price,proto3" json:"price"`
+	UpdownPercentage float64 `protobuf:"fixed64,4,opt,name=updown_percentage,json=updownPercentage,proto3" json:"updownPercentage"`
+	Time             int64   `protobuf:"varint,6,opt,name=time,proto3" json:"time"`
 	// 主力净流入
-	SuperSuperBigOrder *NetInAmountDetail `protobuf:"bytes,7,opt,name=super_super_big_order,json=superSuperBigOrder" json:"super_super_big_order,omitempty"`
+	SuperSuperBigOrder *NetInAmountDetail `protobuf:"bytes,7,opt,name=super_super_big_order,json=superSuperBigOrder,proto3" json:"superSuperBigOrder"`
 	// 超大单净流入
-	SuperBigOrder *NetInAmountDetail `protobuf:"bytes,8,opt,name=super_big_order,json=superBigOrder" json:"super_big_order,omitempty"`
+	SuperBigOrder *NetInAmountDetail `protobuf:"bytes,8,opt,name=super_big_order,json=superBigOrder,proto3" json:"superBigOrder"`
 	// 大单净流入
-	BigOrder *NetInAmountDetail `protobuf:"bytes,9,opt,name=big_order,json=bigOrder" json:"big_order,omitempty"`
+	BigOrder *NetInAmountDetail `protobuf:"bytes,9,opt,name=big_order,json=bigOrder,proto3" json:"bigOrder"`
 	// 中单净流入
-	MiddleOrder *NetInAmountDetail `protobuf:"bytes,10,opt,name=middle_order,json=middleOrder" json:"middle_order,omitempty"`
+	MiddleOrder *NetInAmountDetail `protobuf:"bytes,10,opt,name=middle_order,json=middleOrder,proto3" json:"middleOrder"`
 	// 小单净流入
-	SmallOrder *NetInAmountDetail `protobuf:"bytes,11,opt,name=small_order,json=smallOrder" json:"small_order,omitempty"`
+	SmallOrder           *NetInAmountDetail `protobuf:"bytes,11,opt,name=small_order,json=smallOrder,proto3" json:"smallOrder"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
-func (m *RealtimeMoneyTrendItem) Reset()                    { *m = RealtimeMoneyTrendItem{} }
-func (m *RealtimeMoneyTrendItem) String() string            { return proto.CompactTextString(m) }
-func (*RealtimeMoneyTrendItem) ProtoMessage()               {}
-func (*RealtimeMoneyTrendItem) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{1} }
+func (m *RealtimeMoneyTrendItem) Reset()         { *m = RealtimeMoneyTrendItem{} }
+func (m *RealtimeMoneyTrendItem) String() string { return proto.CompactTextString(m) }
+func (*RealtimeMoneyTrendItem) ProtoMessage()    {}
+func (*RealtimeMoneyTrendItem) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9597193cc8d6d418, []int{1}
+}
+
+func (m *RealtimeMoneyTrendItem) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RealtimeMoneyTrendItem.Unmarshal(m, b)
+}
+func (m *RealtimeMoneyTrendItem) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RealtimeMoneyTrendItem.Marshal(b, m, deterministic)
+}
+func (m *RealtimeMoneyTrendItem) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RealtimeMoneyTrendItem.Merge(m, src)
+}
+func (m *RealtimeMoneyTrendItem) XXX_Size() int {
+	return xxx_messageInfo_RealtimeMoneyTrendItem.Size(m)
+}
+func (m *RealtimeMoneyTrendItem) XXX_DiscardUnknown() {
+	xxx_messageInfo_RealtimeMoneyTrendItem.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RealtimeMoneyTrendItem proto.InternalMessageInfo
 
 func (m *RealtimeMoneyTrendItem) GetSymbol() *Symbol {
 	if m != nil {
@@ -130,13 +184,36 @@ func (m *RealtimeMoneyTrendItem) GetSmallOrder() *NetInAmountDetail {
 }
 
 type RealtimeMoneyTrendItemList struct {
-	List []*RealtimeMoneyTrendItem `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*RealtimeMoneyTrendItem `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}                  `json:"-"`
+	XXX_unrecognized     []byte                    `json:"-"`
+	XXX_sizecache        int32                     `json:"-"`
 }
 
-func (m *RealtimeMoneyTrendItemList) Reset()                    { *m = RealtimeMoneyTrendItemList{} }
-func (m *RealtimeMoneyTrendItemList) String() string            { return proto.CompactTextString(m) }
-func (*RealtimeMoneyTrendItemList) ProtoMessage()               {}
-func (*RealtimeMoneyTrendItemList) Descriptor() ([]byte, []int) { return fileDescriptor9, []int{2} }
+func (m *RealtimeMoneyTrendItemList) Reset()         { *m = RealtimeMoneyTrendItemList{} }
+func (m *RealtimeMoneyTrendItemList) String() string { return proto.CompactTextString(m) }
+func (*RealtimeMoneyTrendItemList) ProtoMessage()    {}
+func (*RealtimeMoneyTrendItemList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9597193cc8d6d418, []int{2}
+}
+
+func (m *RealtimeMoneyTrendItemList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RealtimeMoneyTrendItemList.Unmarshal(m, b)
+}
+func (m *RealtimeMoneyTrendItemList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RealtimeMoneyTrendItemList.Marshal(b, m, deterministic)
+}
+func (m *RealtimeMoneyTrendItemList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RealtimeMoneyTrendItemList.Merge(m, src)
+}
+func (m *RealtimeMoneyTrendItemList) XXX_Size() int {
+	return xxx_messageInfo_RealtimeMoneyTrendItemList.Size(m)
+}
+func (m *RealtimeMoneyTrendItemList) XXX_DiscardUnknown() {
+	xxx_messageInfo_RealtimeMoneyTrendItemList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RealtimeMoneyTrendItemList proto.InternalMessageInfo
 
 func (m *RealtimeMoneyTrendItemList) GetList() []*RealtimeMoneyTrendItem {
 	if m != nil {
@@ -151,9 +228,9 @@ func init() {
 	proto.RegisterType((*RealtimeMoneyTrendItemList)(nil), "pb.RealtimeMoneyTrendItemList")
 }
 
-func init() { proto.RegisterFile("others.proto", fileDescriptor9) }
+func init() { proto.RegisterFile("others.proto", fileDescriptor_9597193cc8d6d418) }
 
-var fileDescriptor9 = []byte{
+var fileDescriptor_9597193cc8d6d418 = []byte{
 	// 345 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0x4f, 0x4b, 0xc3, 0x40,
 	0x10, 0xc5, 0x49, 0x53, 0x63, 0x3b, 0xa9, 0x68, 0x17, 0x5b, 0x42, 0x0f, 0x52, 0x72, 0x2a, 0x08,

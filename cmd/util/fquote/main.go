@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/signal"
 	"strings"
-	"sync"
 	"syscall"
 	"time"
 
@@ -18,12 +17,13 @@ import (
 )
 
 type mdhandler struct {
-	mdAPI      *ctp.MarketDataAPI
-	symbolList []*pb.Symbol
-	tiMap      sync.Map
-	tiList     []*pb.TradingInstrument
-	c          config
-	cl         *datasource.Client
+	mdAPI         *ctp.MarketDataAPI
+	symbolList    []*pb.Symbol
+	tiMap         map[string]*pb.TradingInstrument
+	tiList        []*pb.TradingInstrument
+	c             config
+	cl            *datasource.Client
+	nPriceUpdated int64
 }
 
 func (h *mdhandler) OnFrontConnected() {
@@ -43,16 +43,36 @@ func (h *mdhandler) OnRspUserLogin(rsp *pb.RspTradingAccountLogin) {
 
 	var l pb.SymbolList
 	l.List = h.symbolList
+	h.tiMap = make(map[string]*pb.TradingInstrument)
 	for _, ti := range h.tiList {
-		h.tiMap.Store(ti.Symbol.Code, ti)
+		h.tiMap[ti.Symbol.Code] = ti
 	}
 	h.mdAPI.Subscribe(&l)
 }
 
 func (h *mdhandler) OnRtnDepthMarketData(md *pb.MarketDataSnapshot) {
-	v, ok := h.tiMap.Load(md.Symbol.Code)
+	ti, ok := h.tiMap[md.Symbol.Code]
 	if ok {
-		ti := v.(*pb.TradingInstrument)
+		if ti.InstrumentInfo.PrePosition == 0 {
+			h.nPriceUpdated++
+			ti.InstrumentInfo.PrePosition = md.PrePosition
+			ti.InstrumentInfo.UpperLimitPrice = md.UpperLimitPrice
+			ti.InstrumentInfo.LowerLimitPrice = md.LowerLimitPrice
+			ti.InstrumentInfo.PreClosePrice = md.PreClose
+			ti.InstrumentInfo.PreSettlementPrice = md.PreSettlementPrice
+			ti.InstrumentInfo.SettlementPrice = md.SettlementPrice
+			ti.InstrumentInfo.UpdateTradingDay = md.TradingDay
+			ti.InstrumentInfo.UpdateTime = md.Time
+			if int(h.nPriceUpdated) == len(h.tiMap) {
+				// 完成价格修补再上传合约
+				var l []*pb.TradingInstrument
+				for _, ti := range h.tiMap {
+					l = append(l, ti)
+				}
+				err := h.cl.SetTradingInstrument(&pb.ReqSetTradingInstrument{List: l})
+				log.Printf("二次上传合约 [%d] 个, %v", len(h.tiList), err)
+			}
+		}
 		md.Symbol.Exchange = ti.Symbol.Exchange
 		md.PriceTick = ti.ProductInfo.PriceTick
 		md.VolumeMultiple = ti.ProductInfo.VolumeMultiple
@@ -129,6 +149,8 @@ var (
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	s := pb.Symbol{Exchange: pb.ExchangeType_CFFEX, Code: "IF1906"}
+	log.Println("s", s.String())
 	var c config
 	err := loadConfig("config.json", &c)
 	if err != nil {

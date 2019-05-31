@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[11],{"/5pc":function(n,e,a){n.exports={normal:"normal___3ATiN"}},xxPE:function(n,e,a){"use strict";a.r(e);var t=a("q1tI"),c=a.n(t),o=a("/5pc"),r=a.n(o);e["default"]=function(){return c.a.createElement("div",{className:r.a.normal},c.a.createElement("h1",null,"\u6570\u636e\u7ba1\u7406"))}}}]);

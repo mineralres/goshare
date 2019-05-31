@@ -3,14 +3,22 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // 接口类型
 type RouteType int32
@@ -41,6 +49,7 @@ var RouteType_name = map[int32]string{
 	5: "RT_CTP_STOCK_OPTION",
 	7: "RT_KSOP",
 }
+
 var RouteType_value = map[string]int32{
 	"RT_CTP_FUTURE":         0,
 	"RT_CTP_STOCK":          1,
@@ -54,26 +63,52 @@ var RouteType_value = map[string]int32{
 func (x RouteType) String() string {
 	return proto.EnumName(RouteType_name, int32(x))
 }
-func (RouteType) EnumDescriptor() ([]byte, []int) { return fileDescriptor15, []int{0} }
+
+func (RouteType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{0}
+}
 
 // TradingRoute 交易通道
 type TradingRoute struct {
-	Id                  int64     `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
-	Name                string    `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Comment             string    `protobuf:"bytes,3,opt,name=comment" json:"comment,omitempty"`
-	BrokerId            string    `protobuf:"bytes,4,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	RouteType           RouteType `protobuf:"varint,5,opt,name=route_type,json=routeType,enum=pb.RouteType" json:"route_type,omitempty"`
-	TradingFrontList    []string  `protobuf:"bytes,6,rep,name=trading_front_list,json=tradingFrontList" json:"trading_front_list,omitempty"`
-	MarketDataFrontList []string  `protobuf:"bytes,7,rep,name=market_data_front_list,json=marketDataFrontList" json:"market_data_front_list,omitempty"`
-	UserProductInfo     string    `protobuf:"bytes,8,opt,name=user_product_info,json=userProductInfo" json:"user_product_info,omitempty"`
-	AuthCode            string    `protobuf:"bytes,9,opt,name=auth_code,json=authCode" json:"auth_code,omitempty"`
-	User                string    `protobuf:"bytes,10,opt,name=user" json:"user,omitempty"`
+	Id                   int64     `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	Name                 string    `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	Comment              string    `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment"`
+	BrokerId             string    `protobuf:"bytes,4,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	RouteType            RouteType `protobuf:"varint,5,opt,name=route_type,json=routeType,proto3,enum=pb.RouteType" json:"routeType"`
+	TradingFrontList     []string  `protobuf:"bytes,6,rep,name=trading_front_list,json=tradingFrontList,proto3" json:"tradingFrontList"`
+	MarketDataFrontList  []string  `protobuf:"bytes,7,rep,name=market_data_front_list,json=marketDataFrontList,proto3" json:"marketDataFrontList"`
+	UserProductInfo      string    `protobuf:"bytes,8,opt,name=user_product_info,json=userProductInfo,proto3" json:"userProductInfo"`
+	AuthCode             string    `protobuf:"bytes,9,opt,name=auth_code,json=authCode,proto3" json:"authCode"`
+	User                 string    `protobuf:"bytes,10,opt,name=user,proto3" json:"user"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *TradingRoute) Reset()                    { *m = TradingRoute{} }
-func (m *TradingRoute) String() string            { return proto.CompactTextString(m) }
-func (*TradingRoute) ProtoMessage()               {}
-func (*TradingRoute) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{0} }
+func (m *TradingRoute) Reset()         { *m = TradingRoute{} }
+func (m *TradingRoute) String() string { return proto.CompactTextString(m) }
+func (*TradingRoute) ProtoMessage()    {}
+func (*TradingRoute) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{0}
+}
+
+func (m *TradingRoute) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TradingRoute.Unmarshal(m, b)
+}
+func (m *TradingRoute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TradingRoute.Marshal(b, m, deterministic)
+}
+func (m *TradingRoute) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TradingRoute.Merge(m, src)
+}
+func (m *TradingRoute) XXX_Size() int {
+	return xxx_messageInfo_TradingRoute.Size(m)
+}
+func (m *TradingRoute) XXX_DiscardUnknown() {
+	xxx_messageInfo_TradingRoute.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TradingRoute proto.InternalMessageInfo
 
 func (m *TradingRoute) GetId() int64 {
 	if m != nil {
@@ -146,13 +181,36 @@ func (m *TradingRoute) GetUser() string {
 }
 
 type TradingRouteList struct {
-	List []*TradingRoute `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*TradingRoute `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *TradingRouteList) Reset()                    { *m = TradingRouteList{} }
-func (m *TradingRouteList) String() string            { return proto.CompactTextString(m) }
-func (*TradingRouteList) ProtoMessage()               {}
-func (*TradingRouteList) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{1} }
+func (m *TradingRouteList) Reset()         { *m = TradingRouteList{} }
+func (m *TradingRouteList) String() string { return proto.CompactTextString(m) }
+func (*TradingRouteList) ProtoMessage()    {}
+func (*TradingRouteList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{1}
+}
+
+func (m *TradingRouteList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TradingRouteList.Unmarshal(m, b)
+}
+func (m *TradingRouteList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TradingRouteList.Marshal(b, m, deterministic)
+}
+func (m *TradingRouteList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TradingRouteList.Merge(m, src)
+}
+func (m *TradingRouteList) XXX_Size() int {
+	return xxx_messageInfo_TradingRouteList.Size(m)
+}
+func (m *TradingRouteList) XXX_DiscardUnknown() {
+	xxx_messageInfo_TradingRouteList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TradingRouteList proto.InternalMessageInfo
 
 func (m *TradingRouteList) GetList() []*TradingRoute {
 	if m != nil {
@@ -164,35 +222,58 @@ func (m *TradingRouteList) GetList() []*TradingRoute {
 // TradingAccount 交易账号
 type TradingAccount struct {
 	// id
-	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 	// 名称
-	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
 	// 备注
-	Comment string `protobuf:"bytes,3,opt,name=comment" json:"comment,omitempty"`
+	Comment string `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment"`
 	// 通道
-	TradingRoute *TradingRoute `protobuf:"bytes,4,opt,name=trading_route,json=tradingRoute" json:"trading_route,omitempty"`
+	TradingRoute *TradingRoute `protobuf:"bytes,4,opt,name=trading_route,json=tradingRoute,proto3" json:"tradingRoute"`
 	// 账号
-	Account string `protobuf:"bytes,5,opt,name=account" json:"account,omitempty"`
+	Account string `protobuf:"bytes,5,opt,name=account,proto3" json:"account"`
 	// 密码
-	Password string `protobuf:"bytes,6,opt,name=password" json:"password,omitempty"`
+	Password string `protobuf:"bytes,6,opt,name=password,proto3" json:"password"`
 	// 密码2
-	Password2 string `protobuf:"bytes,7,opt,name=password2" json:"password2,omitempty"`
+	Password2 string `protobuf:"bytes,7,opt,name=password2,proto3" json:"password2"`
 	// 密码3
-	Password3 string `protobuf:"bytes,8,opt,name=password3" json:"password3,omitempty"`
+	Password3 string `protobuf:"bytes,8,opt,name=password3,proto3" json:"password3"`
 	// 防止自成交
-	PreventSelfMatching bool `protobuf:"varint,9,opt,name=prevent_self_matching,json=preventSelfMatching" json:"prevent_self_matching,omitempty"`
+	PreventSelfMatching bool `protobuf:"varint,9,opt,name=prevent_self_matching,json=preventSelfMatching,proto3" json:"preventSelfMatching"`
 	// 期权限仓数量
-	StockOptionPositionLimit int32 `protobuf:"varint,10,opt,name=stock_option_position_limit,json=stockOptionPositionLimit" json:"stock_option_position_limit,omitempty"`
+	StockOptionPositionLimit int32 `protobuf:"varint,10,opt,name=stock_option_position_limit,json=stockOptionPositionLimit,proto3" json:"stockOptionPositionLimit"`
 	// 撤单次数限制
-	CancelLimit int32 `protobuf:"varint,11,opt,name=cancel_limit,json=cancelLimit" json:"cancel_limit,omitempty"`
+	CancelLimit int32 `protobuf:"varint,11,opt,name=cancel_limit,json=cancelLimit,proto3" json:"cancelLimit"`
 	// 用户
-	User string `protobuf:"bytes,12,opt,name=user" json:"user,omitempty"`
+	User                 string   `protobuf:"bytes,12,opt,name=user,proto3" json:"user"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TradingAccount) Reset()                    { *m = TradingAccount{} }
-func (m *TradingAccount) String() string            { return proto.CompactTextString(m) }
-func (*TradingAccount) ProtoMessage()               {}
-func (*TradingAccount) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{2} }
+func (m *TradingAccount) Reset()         { *m = TradingAccount{} }
+func (m *TradingAccount) String() string { return proto.CompactTextString(m) }
+func (*TradingAccount) ProtoMessage()    {}
+func (*TradingAccount) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{2}
+}
+
+func (m *TradingAccount) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TradingAccount.Unmarshal(m, b)
+}
+func (m *TradingAccount) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TradingAccount.Marshal(b, m, deterministic)
+}
+func (m *TradingAccount) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TradingAccount.Merge(m, src)
+}
+func (m *TradingAccount) XXX_Size() int {
+	return xxx_messageInfo_TradingAccount.Size(m)
+}
+func (m *TradingAccount) XXX_DiscardUnknown() {
+	xxx_messageInfo_TradingAccount.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TradingAccount proto.InternalMessageInfo
 
 func (m *TradingAccount) GetId() string {
 	if m != nil {
@@ -279,13 +360,36 @@ func (m *TradingAccount) GetUser() string {
 }
 
 type TradingAccountList struct {
-	List []*TradingAccount `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*TradingAccount `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *TradingAccountList) Reset()                    { *m = TradingAccountList{} }
-func (m *TradingAccountList) String() string            { return proto.CompactTextString(m) }
-func (*TradingAccountList) ProtoMessage()               {}
-func (*TradingAccountList) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{3} }
+func (m *TradingAccountList) Reset()         { *m = TradingAccountList{} }
+func (m *TradingAccountList) String() string { return proto.CompactTextString(m) }
+func (*TradingAccountList) ProtoMessage()    {}
+func (*TradingAccountList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{3}
+}
+
+func (m *TradingAccountList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TradingAccountList.Unmarshal(m, b)
+}
+func (m *TradingAccountList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TradingAccountList.Marshal(b, m, deterministic)
+}
+func (m *TradingAccountList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TradingAccountList.Merge(m, src)
+}
+func (m *TradingAccountList) XXX_Size() int {
+	return xxx_messageInfo_TradingAccountList.Size(m)
+}
+func (m *TradingAccountList) XXX_DiscardUnknown() {
+	xxx_messageInfo_TradingAccountList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TradingAccountList proto.InternalMessageInfo
 
 func (m *TradingAccountList) GetList() []*TradingAccount {
 	if m != nil {
@@ -297,141 +401,164 @@ func (m *TradingAccountList) GetList() []*TradingAccount {
 // TradingAccountSummary 资金信息
 type TradingAccountSummary struct {
 	// 账号
-	Account string `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
+	Account string `protobuf:"bytes,1,opt,name=account,proto3" json:"account"`
 	// 结算组（可能单个结算组给个摘要)
-	User string `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	User string `protobuf:"bytes,2,opt,name=user,proto3" json:"user"`
 	// 币种
-	Currency string `protobuf:"bytes,3,opt,name=currency" json:"currency,omitempty"`
-	// / 余额
-	Balance float64 `protobuf:"fixed64,4,opt,name=balance" json:"balance,omitempty"`
-	// / 手续费
-	Commission float64 `protobuf:"fixed64,5,opt,name=commission" json:"commission,omitempty"`
-	// / 占用保证金
-	CurMargin float64 `protobuf:"fixed64,6,opt,name=cur_margin,json=curMargin" json:"cur_margin,omitempty"`
-	// / 持仓市值
-	NetPositionAmount float64 `protobuf:"fixed64,7,opt,name=net_position_amount,json=netPositionAmount" json:"net_position_amount,omitempty"`
-	// / 上次余额
-	PreBalance float64 `protobuf:"fixed64,8,opt,name=pre_balance,json=preBalance" json:"pre_balance,omitempty"`
-	// / 利息收入
-	InterestIn float64 `protobuf:"fixed64,9,opt,name=interest_in,json=interestIn" json:"interest_in,omitempty"`
-	// / 存款
-	Deposit float64 `protobuf:"fixed64,10,opt,name=deposit" json:"deposit,omitempty"`
-	// / 取款
-	Withdraw float64 `protobuf:"fixed64,11,opt,name=withdraw" json:"withdraw,omitempty"`
-	// / 冻结保证金
-	FrozenMargin float64 `protobuf:"fixed64,12,opt,name=frozen_margin,json=frozenMargin" json:"frozen_margin,omitempty"`
-	// / 冻结手续费
-	FrozenCommission float64 `protobuf:"fixed64,13,opt,name=frozen_commission,json=frozenCommission" json:"frozen_commission,omitempty"`
-	// / 可用资金
-	Available float64 `protobuf:"fixed64,14,opt,name=available" json:"available,omitempty"`
-	// / 平仓盈亏
-	CloseProfit float64 `protobuf:"fixed64,15,opt,name=close_profit,json=closeProfit" json:"close_profit,omitempty"`
-	// / 持仓盈亏
-	PositionProfit float64 `protobuf:"fixed64,16,opt,name=position_profit,json=positionProfit" json:"position_profit,omitempty"`
+	Currency string `protobuf:"bytes,3,opt,name=currency,proto3" json:"currency"`
+	/// 余额
+	Balance float64 `protobuf:"fixed64,4,opt,name=balance,proto3" json:"balance"`
+	/// 手续费
+	Commission float64 `protobuf:"fixed64,5,opt,name=commission,proto3" json:"commission"`
+	/// 占用保证金
+	CurMargin float64 `protobuf:"fixed64,6,opt,name=cur_margin,json=curMargin,proto3" json:"curMargin"`
+	/// 持仓市值
+	NetPositionAmount float64 `protobuf:"fixed64,7,opt,name=net_position_amount,json=netPositionAmount,proto3" json:"netPositionAmount"`
+	/// 上次余额
+	PreBalance float64 `protobuf:"fixed64,8,opt,name=pre_balance,json=preBalance,proto3" json:"preBalance"`
+	/// 利息收入
+	InterestIn float64 `protobuf:"fixed64,9,opt,name=interest_in,json=interestIn,proto3" json:"interestIn"`
+	/// 存款
+	Deposit float64 `protobuf:"fixed64,10,opt,name=deposit,proto3" json:"deposit"`
+	/// 取款
+	Withdraw float64 `protobuf:"fixed64,11,opt,name=withdraw,proto3" json:"withdraw"`
+	/// 冻结保证金
+	FrozenMargin float64 `protobuf:"fixed64,12,opt,name=frozen_margin,json=frozenMargin,proto3" json:"frozenMargin"`
+	/// 冻结手续费
+	FrozenCommission float64 `protobuf:"fixed64,13,opt,name=frozen_commission,json=frozenCommission,proto3" json:"frozenCommission"`
+	/// 可用资金
+	Available float64 `protobuf:"fixed64,14,opt,name=available,proto3" json:"available"`
+	/// 平仓盈亏
+	CloseProfit float64 `protobuf:"fixed64,15,opt,name=close_profit,json=closeProfit,proto3" json:"closeProfit"`
+	/// 持仓盈亏
+	PositionProfit float64 `protobuf:"fixed64,16,opt,name=position_profit,json=positionProfit,proto3" json:"positionProfit"`
 	// 上次质押金额
-	PreMortgate float64 `protobuf:"fixed64,17,opt,name=pre_mortgate,json=preMortgate" json:"pre_mortgate,omitempty"`
+	PreMortgate float64 `protobuf:"fixed64,17,opt,name=pre_mortgate,json=preMortgate,proto3" json:"preMortgate"`
 	// 上次信用额度
-	PreCredit float64 `protobuf:"fixed64,18,opt,name=pre_credit,json=preCredit" json:"pre_credit,omitempty"`
+	PreCredit float64 `protobuf:"fixed64,18,opt,name=pre_credit,json=preCredit,proto3" json:"preCredit"`
 	// 利息基数
-	InterestBase float64 `protobuf:"fixed64,19,opt,name=interest_base,json=interestBase" json:"interest_base,omitempty"`
+	InterestBase float64 `protobuf:"fixed64,19,opt,name=interest_base,json=interestBase,proto3" json:"interestBase"`
 	// 可取资金
-	WithdrawAvailable float64 `protobuf:"fixed64,20,opt,name=withdraw_available,json=withdrawAvailable" json:"withdraw_available,omitempty"`
+	WithdrawAvailable float64 `protobuf:"fixed64,20,opt,name=withdraw_available,json=withdrawAvailable,proto3" json:"withdrawAvailable"`
 	// 基本准备金
-	Reserve float64 `protobuf:"fixed64,21,opt,name=reserve" json:"reserve,omitempty"`
+	Reserve float64 `protobuf:"fixed64,21,opt,name=reserve,proto3" json:"reserve"`
 	// 交易日
-	TradingDay int32 `protobuf:"varint,22,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
+	TradingDay int32 `protobuf:"varint,22,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
 	// 信用额度
-	Credit float64 `protobuf:"fixed64,23,opt,name=credit" json:"credit,omitempty"`
+	Credit float64 `protobuf:"fixed64,23,opt,name=credit,proto3" json:"credit"`
 	// 质押金额
-	Mortgate float64 `protobuf:"fixed64,24,opt,name=mortgate" json:"mortgate,omitempty"`
+	Mortgate float64 `protobuf:"fixed64,24,opt,name=mortgate,proto3" json:"mortgate"`
 	// 交易所保证金
-	ExchangeMargin float64 `protobuf:"fixed64,25,opt,name=exchange_margin,json=exchangeMargin" json:"exchange_margin,omitempty"`
+	ExchangeMargin float64 `protobuf:"fixed64,25,opt,name=exchange_margin,json=exchangeMargin,proto3" json:"exchangeMargin"`
 	// 交割保证金
-	DeliveryMargin float64 `protobuf:"fixed64,26,opt,name=delivery_margin,json=deliveryMargin" json:"delivery_margin,omitempty"`
+	DeliveryMargin float64 `protobuf:"fixed64,26,opt,name=delivery_margin,json=deliveryMargin,proto3" json:"deliveryMargin"`
 	// 交易所交割保证金
-	ExchangeDeliveryMargin float64 `protobuf:"fixed64,27,opt,name=exchange_delivery_margin,json=exchangeDeliveryMargin" json:"exchange_delivery_margin,omitempty"`
+	ExchangeDeliveryMargin float64 `protobuf:"fixed64,27,opt,name=exchange_delivery_margin,json=exchangeDeliveryMargin,proto3" json:"exchangeDeliveryMargin"`
 	// 保底期货结算准备金
-	ReserveBalance float64 `protobuf:"fixed64,28,opt,name=reserve_balance,json=reserveBalance" json:"reserve_balance,omitempty"`
+	ReserveBalance float64 `protobuf:"fixed64,28,opt,name=reserve_balance,json=reserveBalance,proto3" json:"reserveBalance"`
 	// 交割手续费
-	DeliveryCommission float64 `protobuf:"fixed64,29,opt,name=delivery_commission,json=deliveryCommission" json:"delivery_commission,omitempty"`
+	DeliveryCommission float64 `protobuf:"fixed64,29,opt,name=delivery_commission,json=deliveryCommission,proto3" json:"deliveryCommission"`
 	// 冻结过户费
-	FrozenTransferFee float64 `protobuf:"fixed64,30,opt,name=frozen_transfer_fee,json=frozenTransferFee" json:"frozen_transfer_fee,omitempty"`
+	FrozenTransferFee float64 `protobuf:"fixed64,30,opt,name=frozen_transfer_fee,json=frozenTransferFee,proto3" json:"frozenTransferFee"`
 	// 冻结的印花税
-	FrozenStampTax float64 `protobuf:"fixed64,31,opt,name=frozen_stamp_tax,json=frozenStampTax" json:"frozen_stamp_tax,omitempty"`
+	FrozenStampTax float64 `protobuf:"fixed64,31,opt,name=frozen_stamp_tax,json=frozenStampTax,proto3" json:"frozenStampTax"`
 	// 过户费
-	TransferFee float64 `protobuf:"fixed64,32,opt,name=transfer_fee,json=transferFee" json:"transfer_fee,omitempty"`
+	TransferFee float64 `protobuf:"fixed64,32,opt,name=transfer_fee,json=transferFee,proto3" json:"transferFee"`
 	// 印花税
-	StampTax float64 `protobuf:"fixed64,33,opt,name=stamp_tax,json=stampTax" json:"stamp_tax,omitempty"`
-	// / 盯市盈亏
-	MtmProfit float64 `protobuf:"fixed64,34,opt,name=mtm_profit,json=mtmProfit" json:"mtm_profit,omitempty"`
-	// / 盯市权益
-	MtmBalance float64 `protobuf:"fixed64,35,opt,name=mtm_balance,json=mtmBalance" json:"mtm_balance,omitempty"`
-	// /证券总价值
-	StockValue float64 `protobuf:"fixed64,36,opt,name=stock_value,json=stockValue" json:"stock_value,omitempty"`
-	// /国债回购占用资金
-	BondRepurchaseAmount float64 `protobuf:"fixed64,37,opt,name=bond_repurchase_amount,json=bondRepurchaseAmount" json:"bond_repurchase_amount,omitempty"`
-	// /国债逆回购占用资金
-	ReverseRepurchaseAmount float64 `protobuf:"fixed64,38,opt,name=reverse_repurchase_amount,json=reverseRepurchaseAmount" json:"reverse_repurchase_amount,omitempty"`
-	// /融资买入金额
-	MarginTradeAmount float64 `protobuf:"fixed64,39,opt,name=margin_trade_amount,json=marginTradeAmount" json:"margin_trade_amount,omitempty"`
-	// /融券卖出金额
-	ShortSellAmount float64 `protobuf:"fixed64,40,opt,name=short_sell_amount,json=shortSellAmount" json:"short_sell_amount,omitempty"`
-	// /融资持仓盈亏
-	MarginTradeProfit float64 `protobuf:"fixed64,41,opt,name=margin_trade_profit,json=marginTradeProfit" json:"margin_trade_profit,omitempty"`
-	// /融券持仓盈亏
-	PrePreferedBalance float64 `protobuf:"fixed64,42,opt,name=pre_prefered_balance,json=prePreferedBalance" json:"pre_prefered_balance,omitempty"`
+	StampTax float64 `protobuf:"fixed64,33,opt,name=stamp_tax,json=stampTax,proto3" json:"stampTax"`
+	/// 盯市盈亏
+	MtmProfit float64 `protobuf:"fixed64,34,opt,name=mtm_profit,json=mtmProfit,proto3" json:"mtmProfit"`
+	/// 盯市权益
+	MtmBalance float64 `protobuf:"fixed64,35,opt,name=mtm_balance,json=mtmBalance,proto3" json:"mtmBalance"`
+	///证券总价值
+	StockValue float64 `protobuf:"fixed64,36,opt,name=stock_value,json=stockValue,proto3" json:"stockValue"`
+	///国债回购占用资金
+	BondRepurchaseAmount float64 `protobuf:"fixed64,37,opt,name=bond_repurchase_amount,json=bondRepurchaseAmount,proto3" json:"bondRepurchaseAmount"`
+	///国债逆回购占用资金
+	ReverseRepurchaseAmount float64 `protobuf:"fixed64,38,opt,name=reverse_repurchase_amount,json=reverseRepurchaseAmount,proto3" json:"reverseRepurchaseAmount"`
+	///融资买入金额
+	MarginTradeAmount float64 `protobuf:"fixed64,39,opt,name=margin_trade_amount,json=marginTradeAmount,proto3" json:"marginTradeAmount"`
+	///融券卖出金额
+	ShortSellAmount float64 `protobuf:"fixed64,40,opt,name=short_sell_amount,json=shortSellAmount,proto3" json:"shortSellAmount"`
+	///融资持仓盈亏
+	MarginTradeProfit float64 `protobuf:"fixed64,41,opt,name=margin_trade_profit,json=marginTradeProfit,proto3" json:"marginTradeProfit"`
+	///融券持仓盈亏
+	PrePreferedBalance float64 `protobuf:"fixed64,42,opt,name=pre_prefered_balance,json=prePreferedBalance,proto3" json:"prePreferedBalance"`
 	// 冻结平仓所需要费用
-	FrozenCloseCommission float64 `protobuf:"fixed64,43,opt,name=frozen_close_commission,json=frozenCloseCommission" json:"frozen_close_commission,omitempty"`
+	FrozenCloseCommission float64 `protobuf:"fixed64,43,opt,name=frozen_close_commission,json=frozenCloseCommission,proto3" json:"frozenCloseCommission"`
 	// 劣后
-	CommonBalance float64 `protobuf:"fixed64,44,opt,name=common_balance,json=commonBalance" json:"common_balance,omitempty"`
+	CommonBalance float64 `protobuf:"fixed64,44,opt,name=common_balance,json=commonBalance,proto3" json:"commonBalance"`
 	// 优先资金
-	PreferedBalance float64 `protobuf:"fixed64,45,opt,name=prefered_balance,json=preferedBalance" json:"prefered_balance,omitempty"`
+	PreferedBalance float64 `protobuf:"fixed64,45,opt,name=prefered_balance,json=preferedBalance,proto3" json:"preferedBalance"`
 	// 兑换基础货币汇率
-	BaseExchangeRate float64 `protobuf:"fixed64,46,opt,name=base_exchange_rate,json=baseExchangeRate" json:"base_exchange_rate,omitempty"`
+	BaseExchangeRate float64 `protobuf:"fixed64,46,opt,name=base_exchange_rate,json=baseExchangeRate,proto3" json:"baseExchangeRate"`
 	// 报警
-	WarningLevel float64 `protobuf:"fixed64,47,opt,name=warning_level,json=warningLevel" json:"warning_level,omitempty"`
+	WarningLevel float64 `protobuf:"fixed64,47,opt,name=warning_level,json=warningLevel,proto3" json:"warningLevel"`
 	// 强平
-	ForceCloseLevel float64 `protobuf:"fixed64,48,opt,name=force_close_level,json=forceCloseLevel" json:"force_close_level,omitempty"`
+	ForceCloseLevel float64 `protobuf:"fixed64,48,opt,name=force_close_level,json=forceCloseLevel,proto3" json:"forceCloseLevel"`
 	// 进入清算的平仓盈亏
-	ClearedClosedProfit float64 `protobuf:"fixed64,49,opt,name=cleared_closed_profit,json=clearedClosedProfit" json:"cleared_closed_profit,omitempty"`
+	ClearedClosedProfit float64 `protobuf:"fixed64,49,opt,name=cleared_closed_profit,json=clearedClosedProfit,proto3" json:"clearedClosedProfit"`
 	// 名称
-	AccountName string `protobuf:"bytes,50,opt,name=account_name,json=accountName" json:"account_name,omitempty"`
+	AccountName string `protobuf:"bytes,50,opt,name=account_name,json=accountName,proto3" json:"accountName"`
 	// 利息
-	Interest float64 `protobuf:"fixed64,51,opt,name=interest" json:"interest,omitempty"`
+	Interest float64 `protobuf:"fixed64,51,opt,name=interest,proto3" json:"interest"`
 	// 冻结利息
-	FrozenInterest float64 `protobuf:"fixed64,52,opt,name=frozen_interest,json=frozenInterest" json:"frozen_interest,omitempty"`
+	FrozenInterest float64 `protobuf:"fixed64,52,opt,name=frozen_interest,json=frozenInterest,proto3" json:"frozenInterest"`
 	// 风控方案
-	OptionsId int64 `protobuf:"varint,53,opt,name=options_id,json=optionsId" json:"options_id,omitempty"`
+	OptionsId int64 `protobuf:"varint,53,opt,name=options_id,json=optionsId,proto3" json:"optionsId"`
 	// 方案名称
-	OptionsName string `protobuf:"bytes,54,opt,name=options_name,json=optionsName" json:"options_name,omitempty"`
+	OptionsName string `protobuf:"bytes,54,opt,name=options_name,json=optionsName,proto3" json:"optionsName"`
 	// 是否激活
-	Activated bool `protobuf:"varint,55,opt,name=activated" json:"activated,omitempty"`
+	Activated bool `protobuf:"varint,55,opt,name=activated,proto3" json:"activated"`
 	// 隔夜费
-	OvernightFee float64 `protobuf:"fixed64,56,opt,name=overnight_fee,json=overnightFee" json:"overnight_fee,omitempty"`
+	OvernightFee float64 `protobuf:"fixed64,56,opt,name=overnight_fee,json=overnightFee,proto3" json:"overnightFee"`
 	// 运营手续费
-	CommissionL0 float64 `protobuf:"fixed64,57,opt,name=commission_l0,json=commissionL0" json:"commission_l0,omitempty"`
+	CommissionL0 float64 `protobuf:"fixed64,57,opt,name=commission_l0,json=commissionL0,proto3" json:"commissionL0"`
 	// 多头持仓市值
-	LongPositionMarketValue float64 `protobuf:"fixed64,58,opt,name=long_position_market_value,json=longPositionMarketValue" json:"long_position_market_value,omitempty"`
+	LongPositionMarketValue float64 `protobuf:"fixed64,58,opt,name=long_position_market_value,json=longPositionMarketValue,proto3" json:"longPositionMarketValue"`
 	// 空头持仓市值
-	ShortPositionMarketValue float64 `protobuf:"fixed64,59,opt,name=short_position_market_value,json=shortPositionMarketValue" json:"short_position_market_value,omitempty"`
+	ShortPositionMarketValue float64 `protobuf:"fixed64,59,opt,name=short_position_market_value,json=shortPositionMarketValue,proto3" json:"shortPositionMarketValue"`
 	// 优先入金
-	PreferedDeposit float64 `protobuf:"fixed64,60,opt,name=prefered_deposit,json=preferedDeposit" json:"prefered_deposit,omitempty"`
+	PreferedDeposit float64 `protobuf:"fixed64,60,opt,name=prefered_deposit,json=preferedDeposit,proto3" json:"preferedDeposit"`
 	// 劣后入金
-	CommonDeposit float64 `protobuf:"fixed64,61,opt,name=common_deposit,json=commonDeposit" json:"common_deposit,omitempty"`
+	CommonDeposit float64 `protobuf:"fixed64,61,opt,name=common_deposit,json=commonDeposit,proto3" json:"commonDeposit"`
 	// 优先出金
-	PreferedWithdraw float64 `protobuf:"fixed64,62,opt,name=prefered_withdraw,json=preferedWithdraw" json:"prefered_withdraw,omitempty"`
+	PreferedWithdraw float64 `protobuf:"fixed64,62,opt,name=prefered_withdraw,json=preferedWithdraw,proto3" json:"preferedWithdraw"`
 	// 劣后出金
-	CommonWithdraw float64 `protobuf:"fixed64,63,opt,name=common_withdraw,json=commonWithdraw" json:"common_withdraw,omitempty"`
+	CommonWithdraw float64 `protobuf:"fixed64,63,opt,name=common_withdraw,json=commonWithdraw,proto3" json:"commonWithdraw"`
 	// 部门
-	Branch string `protobuf:"bytes,64,opt,name=branch" json:"branch,omitempty"`
+	Branch string `protobuf:"bytes,64,opt,name=branch,proto3" json:"branch"`
 	// 部门名称
-	BranchName string `protobuf:"bytes,65,opt,name=branch_name,json=branchName" json:"branch_name,omitempty"`
+	BranchName           string   `protobuf:"bytes,65,opt,name=branch_name,json=branchName,proto3" json:"branchName"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TradingAccountSummary) Reset()                    { *m = TradingAccountSummary{} }
-func (m *TradingAccountSummary) String() string            { return proto.CompactTextString(m) }
-func (*TradingAccountSummary) ProtoMessage()               {}
-func (*TradingAccountSummary) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{4} }
+func (m *TradingAccountSummary) Reset()         { *m = TradingAccountSummary{} }
+func (m *TradingAccountSummary) String() string { return proto.CompactTextString(m) }
+func (*TradingAccountSummary) ProtoMessage()    {}
+func (*TradingAccountSummary) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{4}
+}
+
+func (m *TradingAccountSummary) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TradingAccountSummary.Unmarshal(m, b)
+}
+func (m *TradingAccountSummary) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TradingAccountSummary.Marshal(b, m, deterministic)
+}
+func (m *TradingAccountSummary) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TradingAccountSummary.Merge(m, src)
+}
+func (m *TradingAccountSummary) XXX_Size() int {
+	return xxx_messageInfo_TradingAccountSummary.Size(m)
+}
+func (m *TradingAccountSummary) XXX_DiscardUnknown() {
+	xxx_messageInfo_TradingAccountSummary.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TradingAccountSummary proto.InternalMessageInfo
 
 func (m *TradingAccountSummary) GetAccount() string {
 	if m != nil {
@@ -889,29 +1016,52 @@ func (m *TradingAccountSummary) GetBranchName() string {
 }
 
 type RspTradingAccountLogin struct {
-	ErrorId     int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg    []byte `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`
-	RequestId   int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast      bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	TradingDay  int32  `protobuf:"varint,5,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
-	LoginTime   string `protobuf:"bytes,6,opt,name=login_time,json=loginTime" json:"login_time,omitempty"`
-	BrokerId    string `protobuf:"bytes,7,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	UserId      string `protobuf:"bytes,8,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-	SystemName  string `protobuf:"bytes,9,opt,name=system_name,json=systemName" json:"system_name,omitempty"`
-	FrontId     int32  `protobuf:"varint,10,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
-	SessionId   int32  `protobuf:"varint,11,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
-	MaxOrderRef string `protobuf:"bytes,12,opt,name=max_order_ref,json=maxOrderRef" json:"max_order_ref,omitempty"`
-	SHFETime    string `protobuf:"bytes,13,opt,name=SHFE_time,json=SHFETime" json:"SHFE_time,omitempty"`
-	DCETime     string `protobuf:"bytes,14,opt,name=DCE_time,json=DCETime" json:"DCE_time,omitempty"`
-	CZCETime    string `protobuf:"bytes,15,opt,name=CZCE_time,json=CZCETime" json:"CZCE_time,omitempty"`
-	FFEXTime    string `protobuf:"bytes,16,opt,name=FFEX_time,json=FFEXTime" json:"FFEX_time,omitempty"`
-	INETime     string `protobuf:"bytes,17,opt,name=INE_time,json=INETime" json:"INE_time,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             []byte   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	TradingDay           int32    `protobuf:"varint,5,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
+	LoginTime            string   `protobuf:"bytes,6,opt,name=login_time,json=loginTime,proto3" json:"loginTime"`
+	BrokerId             string   `protobuf:"bytes,7,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	UserId               string   `protobuf:"bytes,8,opt,name=user_id,json=userId,proto3" json:"userId"`
+	SystemName           string   `protobuf:"bytes,9,opt,name=system_name,json=systemName,proto3" json:"systemName"`
+	FrontId              int32    `protobuf:"varint,10,opt,name=front_id,json=frontId,proto3" json:"frontId"`
+	SessionId            int32    `protobuf:"varint,11,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
+	MaxOrderRef          string   `protobuf:"bytes,12,opt,name=max_order_ref,json=maxOrderRef,proto3" json:"maxOrderRef"`
+	SHFETime             string   `protobuf:"bytes,13,opt,name=SHFE_time,json=SHFETime,proto3" json:"SHFETime"`
+	DCETime              string   `protobuf:"bytes,14,opt,name=DCE_time,json=DCETime,proto3" json:"DCETime"`
+	CZCETime             string   `protobuf:"bytes,15,opt,name=CZCE_time,json=CZCETime,proto3" json:"CZCETime"`
+	FFEXTime             string   `protobuf:"bytes,16,opt,name=FFEX_time,json=FFEXTime,proto3" json:"FFEXTime"`
+	INETime              string   `protobuf:"bytes,17,opt,name=INE_time,json=INETime,proto3" json:"INETime"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspTradingAccountLogin) Reset()                    { *m = RspTradingAccountLogin{} }
-func (m *RspTradingAccountLogin) String() string            { return proto.CompactTextString(m) }
-func (*RspTradingAccountLogin) ProtoMessage()               {}
-func (*RspTradingAccountLogin) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{5} }
+func (m *RspTradingAccountLogin) Reset()         { *m = RspTradingAccountLogin{} }
+func (m *RspTradingAccountLogin) String() string { return proto.CompactTextString(m) }
+func (*RspTradingAccountLogin) ProtoMessage()    {}
+func (*RspTradingAccountLogin) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{5}
+}
+
+func (m *RspTradingAccountLogin) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspTradingAccountLogin.Unmarshal(m, b)
+}
+func (m *RspTradingAccountLogin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspTradingAccountLogin.Marshal(b, m, deterministic)
+}
+func (m *RspTradingAccountLogin) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspTradingAccountLogin.Merge(m, src)
+}
+func (m *RspTradingAccountLogin) XXX_Size() int {
+	return xxx_messageInfo_RspTradingAccountLogin.Size(m)
+}
+func (m *RspTradingAccountLogin) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspTradingAccountLogin.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspTradingAccountLogin proto.InternalMessageInfo
 
 func (m *RspTradingAccountLogin) GetErrorId() int32 {
 	if m != nil {
@@ -1033,15 +1183,38 @@ func (m *RspTradingAccountLogin) GetINETime() string {
 }
 
 type RspOrderInsert struct {
-	ErrorId  int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg []byte `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`
-	OrderRef string `protobuf:"bytes,3,opt,name=order_ref,json=orderRef" json:"order_ref,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             []byte   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	OrderRef             string   `protobuf:"bytes,3,opt,name=order_ref,json=orderRef,proto3" json:"orderRef"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspOrderInsert) Reset()                    { *m = RspOrderInsert{} }
-func (m *RspOrderInsert) String() string            { return proto.CompactTextString(m) }
-func (*RspOrderInsert) ProtoMessage()               {}
-func (*RspOrderInsert) Descriptor() ([]byte, []int) { return fileDescriptor15, []int{6} }
+func (m *RspOrderInsert) Reset()         { *m = RspOrderInsert{} }
+func (m *RspOrderInsert) String() string { return proto.CompactTextString(m) }
+func (*RspOrderInsert) ProtoMessage()    {}
+func (*RspOrderInsert) Descriptor() ([]byte, []int) {
+	return fileDescriptor_102317da1eced062, []int{6}
+}
+
+func (m *RspOrderInsert) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspOrderInsert.Unmarshal(m, b)
+}
+func (m *RspOrderInsert) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspOrderInsert.Marshal(b, m, deterministic)
+}
+func (m *RspOrderInsert) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspOrderInsert.Merge(m, src)
+}
+func (m *RspOrderInsert) XXX_Size() int {
+	return xxx_messageInfo_RspOrderInsert.Size(m)
+}
+func (m *RspOrderInsert) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspOrderInsert.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspOrderInsert proto.InternalMessageInfo
 
 func (m *RspOrderInsert) GetErrorId() int32 {
 	if m != nil {
@@ -1065,6 +1238,7 @@ func (m *RspOrderInsert) GetOrderRef() string {
 }
 
 func init() {
+	proto.RegisterEnum("pb.RouteType", RouteType_name, RouteType_value)
 	proto.RegisterType((*TradingRoute)(nil), "pb.TradingRoute")
 	proto.RegisterType((*TradingRouteList)(nil), "pb.TradingRouteList")
 	proto.RegisterType((*TradingAccount)(nil), "pb.TradingAccount")
@@ -1072,12 +1246,11 @@ func init() {
 	proto.RegisterType((*TradingAccountSummary)(nil), "pb.TradingAccountSummary")
 	proto.RegisterType((*RspTradingAccountLogin)(nil), "pb.RspTradingAccountLogin")
 	proto.RegisterType((*RspOrderInsert)(nil), "pb.RspOrderInsert")
-	proto.RegisterEnum("pb.RouteType", RouteType_name, RouteType_value)
 }
 
-func init() { proto.RegisterFile("trading.proto", fileDescriptor15) }
+func init() { proto.RegisterFile("trading.proto", fileDescriptor_102317da1eced062) }
 
-var fileDescriptor15 = []byte{
+var fileDescriptor_102317da1eced062 = []byte{
 	// 1846 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x58, 0xeb, 0x56, 0x1b, 0xc9,
 	0x11, 0x8e, 0xb8, 0x49, 0x53, 0x42, 0x20, 0x5a, 0x06, 0x06, 0x63, 0xd6, 0x18, 0xef, 0x2e, 0xac,

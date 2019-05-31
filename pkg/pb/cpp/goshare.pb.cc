@@ -8,64 +8,58 @@
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-
-extern PROTOBUF_INTERNAL_EXPORT_common_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_SSEStockOption_common_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_common_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SSEStockOption_common_2eproto;
 namespace pb {
 class ReqSSEStockOptionListDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ReqSSEStockOptionList> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ReqSSEStockOptionList> _instance;
 } _ReqSSEStockOptionList_default_instance_;
 class RspSSEStockOptionListDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<RspSSEStockOptionList> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<RspSSEStockOptionList> _instance;
 } _RspSSEStockOptionList_default_instance_;
 }  // namespace pb
-static void InitDefaultsReqSSEStockOptionList_goshare_2eproto() {
+static void InitDefaultsscc_info_ReqSSEStockOptionList_goshare_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::pb::_ReqSSEStockOptionList_default_instance_;
     new (ptr) ::pb::ReqSSEStockOptionList();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::pb::ReqSSEStockOptionList::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_ReqSSEStockOptionList_goshare_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsReqSSEStockOptionList_goshare_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ReqSSEStockOptionList_goshare_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_ReqSSEStockOptionList_goshare_2eproto}, {}};
 
-static void InitDefaultsRspSSEStockOptionList_goshare_2eproto() {
+static void InitDefaultsscc_info_RspSSEStockOptionList_goshare_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::pb::_RspSSEStockOptionList_default_instance_;
     new (ptr) ::pb::RspSSEStockOptionList();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::pb::RspSSEStockOptionList::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_RspSSEStockOptionList_goshare_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsRspSSEStockOptionList_goshare_2eproto}, {
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_RspSSEStockOptionList_goshare_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsscc_info_RspSSEStockOptionList_goshare_2eproto}, {
       &scc_info_SSEStockOption_common_2eproto.base,}};
 
-void InitDefaults_goshare_2eproto() {
-  ::google::protobuf::internal::InitSCC(&scc_info_ReqSSEStockOptionList_goshare_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_RspSSEStockOptionList_goshare_2eproto.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_goshare_2eproto[2];
+static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_goshare_2eproto = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_goshare_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata_goshare_2eproto[2];
-constexpr ::google::protobuf::EnumDescriptor const** file_level_enum_descriptors_goshare_2eproto = nullptr;
-constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_goshare_2eproto = nullptr;
-
-const ::google::protobuf::uint32 TableStruct_goshare_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_goshare_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::pb::ReqSSEStockOptionList, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -78,77 +72,55 @@ const ::google::protobuf::uint32 TableStruct_goshare_2eproto::offsets[] PROTOBUF
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::pb::RspSSEStockOptionList, list_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::pb::ReqSSEStockOptionList)},
   { 5, -1, sizeof(::pb::RspSSEStockOptionList)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_ReqSSEStockOptionList_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_RspSSEStockOptionList_default_instance_),
-};
-
-::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_goshare_2eproto = {
-  {}, AddDescriptors_goshare_2eproto, "goshare.proto", schemas,
-  file_default_instances, TableStruct_goshare_2eproto::offsets,
-  file_level_metadata_goshare_2eproto, 2, file_level_enum_descriptors_goshare_2eproto, file_level_service_descriptors_goshare_2eproto,
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::pb::_ReqSSEStockOptionList_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::pb::_RspSSEStockOptionList_default_instance_),
 };
 
 const char descriptor_table_protodef_goshare_2eproto[] =
   "\n\rgoshare.proto\022\002pb\032\014common.proto\032\021marke"
-  "t_data.proto\032\034google/api/annotations.pro"
-  "to\032\016strategy.proto\032\rtrading.proto\"\027\n\025Req"
-  "SSEStockOptionList\"9\n\025RspSSEStockOptionL"
-  "ist\022 \n\004list\030\001 \003(\0132\022.pb.SSEStockOption2\327\010"
-  "\n\007GoShare\022q\n\010LastTick\022\n.pb.Symbol\032\026.pb.M"
-  "arketDataSnapshot\"A\202\323\344\223\002;\"\020/api/v1/lastT"
-  "ick:\001*Z$\022\"/api/v1/lastTick/{exchange}/{c"
-  "ode}\022\217\001\n\022SSEStockOptionList\022\031.pb.ReqSSES"
-  "tockOptionList\032\031.pb.RspSSEStockOptionLis"
-  "t\"C\202\323\344\223\002=\"\032/api/v1/sseStockOptionList:\001*"
-  "Z\034\022\032/api/v1/sseStockOptionList\022p\n\023Subscr"
-  "ibeMarketData\022\032.pb.ReqSubscribeMarketDat"
-  "a\032\026.pb.MarketDataSnapshot\"#\202\323\344\223\002\035\022\033/api/"
-  "v1/subscribeMarketData0\001\022f\n\010PushTick\022\026.p"
-  "b.MarketDataSnapshot\032\021.pb.EmptyResponse\""
-  "/\202\323\344\223\002)\"\020/api/v1/pushTick:\001*Z\022\022\020/api/v1/"
-  "pushTick\022Q\n\017GetStrategyList\022\020.pb.EmptyRe"
-  "quest\032\020.pb.StrategyList\"\032\202\323\344\223\002\024\022\022/api/v1"
-  "/strategies\022N\n\013GetStrategy\022\022.pb.ReqGetSt"
-  "rategy\032\014.pb.Strategy\"\035\202\323\344\223\002\027\022\025/api/v1/st"
-  "rategy/{id}\022N\n\016CreateStrategy\022\014.pb.Strat"
-  "egy\032\021.pb.EmptyResponse\"\033\202\323\344\223\002\025\"\020/api/v1/"
-  "strategy:\001*\022Y\n\016DeleteStrategy\022\025.pb.ReqDe"
-  "leteStrategy\032\021.pb.EmptyResponse\"\035\202\323\344\223\002\027*"
-  "\025/api/v1/strategy/{id}\022_\n\023GetTradingRout"
-  "eList\022\020.pb.EmptyRequest\032\024.pb.TradingRout"
-  "eList\" \202\323\344\223\002\032\022\030/api/v1/tradingRouteList\022"
-  "W\n\017AddTradingRoute\022\020.pb.TradingRoute\032\021.p"
-  "b.EmptyResponse\"\037\202\323\344\223\002\031\"\024/api/v1/trading"
-  "Route:\001*\022e\n\022DeleteTradingRoute\022\031.pb.ReqD"
-  "eleteTradingRoute\032\021.pb.EmptyResponse\"!\202\323"
-  "\344\223\002\033*\031/api/v1/tradingRoute/{id}b\006proto3"
+  "t_data.proto\032\016strategy.proto\"\027\n\025ReqSSESt"
+  "ockOptionList\"9\n\025RspSSEStockOptionList\022 "
+  "\n\004list\030\001 \003(\0132\022.pb.SSEStockOption2\360\003\n\007GoS"
+  "hare\0220\n\010LastTick\022\n.pb.Symbol\032\026.pb.Market"
+  "DataSnapshot\"\000\022L\n\022SSEStockOptionList\022\031.p"
+  "b.ReqSSEStockOptionList\032\031.pb.RspSSEStock"
+  "OptionList\"\000\022M\n\023SubscribeMarketData\022\032.pb"
+  ".ReqSubscribeMarketData\032\026.pb.MarketDataS"
+  "napshot\"\0000\001\0227\n\010PushTick\022\026.pb.MarketDataS"
+  "napshot\032\021.pb.EmptyResponse\"\000\0227\n\017GetStrat"
+  "egyList\022\020.pb.EmptyRequest\032\020.pb.StrategyL"
+  "ist\"\000\0221\n\013GetStrategy\022\022.pb.ReqGetStrategy"
+  "\032\014.pb.Strategy\"\000\0223\n\016CreateStrategy\022\014.pb."
+  "Strategy\032\021.pb.EmptyResponse\"\000\022<\n\016DeleteS"
+  "trategy\022\025.pb.ReqDeleteStrategy\032\021.pb.Empt"
+  "yResponse\"\000b\006proto3"
   ;
-::google::protobuf::internal::DescriptorTable descriptor_table_goshare_2eproto = {
-  false, InitDefaults_goshare_2eproto, 
-  descriptor_table_protodef_goshare_2eproto,
-  "goshare.proto", &assign_descriptors_table_goshare_2eproto, 1319,
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_goshare_2eproto_deps[3] = {
+  &::descriptor_table_common_2eproto,
+  &::descriptor_table_market_5fdata_2eproto,
+  &::descriptor_table_strategy_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_goshare_2eproto_sccs[2] = {
+  &scc_info_ReqSSEStockOptionList_goshare_2eproto.base,
+  &scc_info_RspSSEStockOptionList_goshare_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_goshare_2eproto_once;
+static bool descriptor_table_goshare_2eproto_initialized = false;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_goshare_2eproto = {
+  &descriptor_table_goshare_2eproto_initialized, descriptor_table_protodef_goshare_2eproto, "goshare.proto", 659,
+  &descriptor_table_goshare_2eproto_once, descriptor_table_goshare_2eproto_sccs, descriptor_table_goshare_2eproto_deps, 2, 3,
+  schemas, file_default_instances, TableStruct_goshare_2eproto::offsets,
+  file_level_metadata_goshare_2eproto, 2, file_level_enum_descriptors_goshare_2eproto, file_level_service_descriptors_goshare_2eproto,
 };
 
-void AddDescriptors_goshare_2eproto() {
-  static constexpr ::google::protobuf::internal::InitFunc deps[5] =
-  {
-    ::AddDescriptors_common_2eproto,
-    ::AddDescriptors_market_5fdata_2eproto,
-    ::AddDescriptors_google_2fapi_2fannotations_2eproto,
-    ::AddDescriptors_strategy_2eproto,
-    ::AddDescriptors_trading_2eproto,
-  };
- ::google::protobuf::internal::AddDescriptors(&descriptor_table_goshare_2eproto, deps, 5);
-}
-
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_goshare_2eproto = []() { AddDescriptors_goshare_2eproto(); return true; }();
+static bool dynamic_init_dummy_goshare_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_goshare_2eproto), true);
 namespace pb {
 
 // ===================================================================
@@ -163,12 +135,12 @@ class ReqSSEStockOptionList::HasBitSetters {
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ReqSSEStockOptionList::ReqSSEStockOptionList()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:pb.ReqSSEStockOptionList)
 }
 ReqSSEStockOptionList::ReqSSEStockOptionList(const ReqSSEStockOptionList& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:pb.ReqSSEStockOptionList)
@@ -189,14 +161,14 @@ void ReqSSEStockOptionList::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const ReqSSEStockOptionList& ReqSSEStockOptionList::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_ReqSSEStockOptionList_goshare_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ReqSSEStockOptionList_goshare_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void ReqSSEStockOptionList::Clear() {
 // @@protoc_insertion_point(message_clear_start:pb.ReqSSEStockOptionList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -204,48 +176,46 @@ void ReqSSEStockOptionList::Clear() {
 }
 
 #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* ReqSSEStockOptionList::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<ReqSSEStockOptionList*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* ReqSSEStockOptionList::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       default: {
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
+success:
   return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 #else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 bool ReqSSEStockOptionList::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
   // @@protoc_insertion_point(parse_start:pb.ReqSSEStockOptionList)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
   handle_unusual:
     if (tag == 0) {
       goto success;
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
+    DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
           input, tag, _internal_metadata_.mutable_unknown_fields()));
   }
 success:
@@ -259,26 +229,26 @@ failure:
 #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 
 void ReqSSEStockOptionList::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:pb.ReqSSEStockOptionList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:pb.ReqSSEStockOptionList)
 }
 
-::google::protobuf::uint8* ReqSSEStockOptionList::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* ReqSSEStockOptionList::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:pb.ReqSSEStockOptionList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:pb.ReqSSEStockOptionList)
@@ -291,27 +261,27 @@ size_t ReqSSEStockOptionList::ByteSizeLong() const {
 
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void ReqSSEStockOptionList::MergeFrom(const ::google::protobuf::Message& from) {
+void ReqSSEStockOptionList::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:pb.ReqSSEStockOptionList)
   GOOGLE_DCHECK_NE(&from, this);
   const ReqSSEStockOptionList* source =
-      ::google::protobuf::DynamicCastToGenerated<ReqSSEStockOptionList>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ReqSSEStockOptionList>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.ReqSSEStockOptionList)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.ReqSSEStockOptionList)
     MergeFrom(*source);
@@ -322,12 +292,12 @@ void ReqSSEStockOptionList::MergeFrom(const ReqSSEStockOptionList& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:pb.ReqSSEStockOptionList)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
 }
 
-void ReqSSEStockOptionList::CopyFrom(const ::google::protobuf::Message& from) {
+void ReqSSEStockOptionList::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:pb.ReqSSEStockOptionList)
   if (&from == this) return;
   Clear();
@@ -354,9 +324,8 @@ void ReqSSEStockOptionList::InternalSwap(ReqSSEStockOptionList* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ReqSSEStockOptionList::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_goshare_2eproto);
-  return ::file_level_metadata_goshare_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata ReqSSEStockOptionList::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -376,12 +345,12 @@ const int RspSSEStockOptionList::kListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RspSSEStockOptionList::RspSSEStockOptionList()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:pb.RspSSEStockOptionList)
 }
 RspSSEStockOptionList::RspSSEStockOptionList(const RspSSEStockOptionList& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
       list_(from.list_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
@@ -389,8 +358,7 @@ RspSSEStockOptionList::RspSSEStockOptionList(const RspSSEStockOptionList& from)
 }
 
 void RspSSEStockOptionList::SharedCtor() {
-  ::google::protobuf::internal::InitSCC(
-      &scc_info_RspSSEStockOptionList_goshare_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_RspSSEStockOptionList_goshare_2eproto.base);
 }
 
 RspSSEStockOptionList::~RspSSEStockOptionList() {
@@ -405,14 +373,14 @@ void RspSSEStockOptionList::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const RspSSEStockOptionList& RspSSEStockOptionList::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_RspSSEStockOptionList_goshare_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_RspSSEStockOptionList_goshare_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void RspSSEStockOptionList::Clear() {
 // @@protoc_insertion_point(message_clear_start:pb.RspSSEStockOptionList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -421,68 +389,59 @@ void RspSSEStockOptionList::Clear() {
 }
 
 #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* RspSSEStockOptionList::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<RspSSEStockOptionList*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* RspSSEStockOptionList::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // repeated .pb.SSEStockOption list = 1;
-      case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 10) goto handle_unusual;
-        do {
-          ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-          GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-          parser_till_end = ::pb::SSEStockOption::_InternalParse;
-          object = msg->add_list();
-          if (size > end - ptr) goto len_delim_till_end;
-          ptr += size;
-          GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-              {parser_till_end, object}, ptr - size, ptr));
-          if (ptr >= end) break;
-        } while ((::google::protobuf::io::UnalignedLoad<::google::protobuf::uint64>(ptr) & 255) == 10 && (ptr += 1));
-        break;
-      }
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(add_list(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<::PROTOBUF_NAMESPACE_ID::uint8>(ptr) == 10);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
+success:
   return ptr;
-len_delim_till_end:
-  return ctx->StoreAndTailCall(ptr, end, {_InternalParse, msg},
-                               {parser_till_end, object}, size);
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 #else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 bool RspSSEStockOptionList::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
   // @@protoc_insertion_point(parse_start:pb.RspSSEStockOptionList)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+    switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .pb.SSEStockOption list = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (10 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (10 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                 input, add_list()));
         } else {
           goto handle_unusual;
@@ -495,7 +454,7 @@ bool RspSSEStockOptionList::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
+        DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
               input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
@@ -512,43 +471,43 @@ failure:
 #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 
 void RspSSEStockOptionList::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:pb.RspSSEStockOptionList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // repeated .pb.SSEStockOption list = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->list_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       1,
       this->list(static_cast<int>(i)),
       output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:pb.RspSSEStockOptionList)
 }
 
-::google::protobuf::uint8* RspSSEStockOptionList::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* RspSSEStockOptionList::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:pb.RspSSEStockOptionList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // repeated .pb.SSEStockOption list = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->list_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         1, this->list(static_cast<int>(i)), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:pb.RspSSEStockOptionList)
@@ -561,10 +520,10 @@ size_t RspSSEStockOptionList::ByteSizeLong() const {
 
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -574,25 +533,25 @@ size_t RspSSEStockOptionList::ByteSizeLong() const {
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           this->list(static_cast<int>(i)));
     }
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void RspSSEStockOptionList::MergeFrom(const ::google::protobuf::Message& from) {
+void RspSSEStockOptionList::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:pb.RspSSEStockOptionList)
   GOOGLE_DCHECK_NE(&from, this);
   const RspSSEStockOptionList* source =
-      ::google::protobuf::DynamicCastToGenerated<RspSSEStockOptionList>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<RspSSEStockOptionList>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.RspSSEStockOptionList)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.RspSSEStockOptionList)
     MergeFrom(*source);
@@ -603,13 +562,13 @@ void RspSSEStockOptionList::MergeFrom(const RspSSEStockOptionList& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:pb.RspSSEStockOptionList)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   list_.MergeFrom(from.list_);
 }
 
-void RspSSEStockOptionList::CopyFrom(const ::google::protobuf::Message& from) {
+void RspSSEStockOptionList::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:pb.RspSSEStockOptionList)
   if (&from == this) return;
   Clear();
@@ -637,24 +596,21 @@ void RspSSEStockOptionList::InternalSwap(RspSSEStockOptionList* other) {
   CastToBase(&list_)->InternalSwap(CastToBase(&other->list_));
 }
 
-::google::protobuf::Metadata RspSSEStockOptionList::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_goshare_2eproto);
-  return ::file_level_metadata_goshare_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata RspSSEStockOptionList::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace pb
-namespace google {
-namespace protobuf {
+PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::pb::ReqSSEStockOptionList* Arena::CreateMaybeMessage< ::pb::ReqSSEStockOptionList >(Arena* arena) {
   return Arena::CreateInternal< ::pb::ReqSSEStockOptionList >(arena);
 }
 template<> PROTOBUF_NOINLINE ::pb::RspSSEStockOptionList* Arena::CreateMaybeMessage< ::pb::RspSSEStockOptionList >(Arena* arena) {
   return Arena::CreateInternal< ::pb::RspSSEStockOptionList >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 #include <google/protobuf/port_undef.inc>

@@ -7,11 +7,11 @@ message OrderBook {
   /// 卖价
   double ask = 1;
   /// 卖量
-  double ask_volume = 2;
+  int32 ask_volume = 2;
   /// 买价
   double bid = 3;
   /// 买量
-  double bid_volume = 4;
+  int32 bid_volume = 4;
 }
 
 // 深度行情
@@ -31,11 +31,11 @@ message MarketDataSnapshot {
   // 收盘
   double close = 7;
   // 成交量
-  double volume = 8;
+  int32 volume = 8;
   // 成交金额
   double amount = 9;
   // 持仓
-  double position = 10;
+  int32 position = 10;
   // 最新价格
   double price = 11;
   // 昨收
@@ -43,7 +43,7 @@ message MarketDataSnapshot {
   // 昨结
   double pre_settlement_price = 13;
   // 昨持仓
-  double pre_position = 14;
+  int32 pre_position = 14;
   // 结算价
   double settlement_price = 15;
   // 涨停
@@ -65,7 +65,7 @@ message MarketDataSnapshot {
   // 执行价
   double exercise_price = 24;
   // 成交增量
-  double volume_delta = 25;
+  int32 volume_delta = 25;
   // 字符串时间
   string time2 = 26;
   // 交易所字符串
@@ -127,11 +127,11 @@ message Kline {
   // 收盘
   double close = 5;
   // 成交量
-  double volume = 6;
+  int32 volume = 6;
   // 成交额
   double amount = 7;
   // 持仓量
-  double position = 8;
+  int32 position = 8;
   // 交易日
   int32 trading_day = 9;
 }
@@ -175,7 +175,7 @@ message TickSeries {
 message SimpleTick {
   int64 time = 1;
   double price = 2;
-  double volume = 3;
+  int32 volume = 3;
 }
 
 message SimpleTickSeries {

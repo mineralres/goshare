@@ -269,17 +269,17 @@ func (c *SyncExternClient) GetInstrumentQuote(req *ReqGetInstrumentQuote) (*pb.M
 	ret.Low = float64(rsp.Low)
 	ret.Close = float64(rsp.Price)
 	ret.Price = ret.Close
-	ret.Position = float64(rsp.Position)
-	ret.Volume = float64(rsp.Volume)
-	ob := &pb.OrderBook{Ask: float64(rsp.Ask1), Bid: float64(rsp.Bid1), AskVolume: float64(rsp.AskVolume1), BidVolume: float64(rsp.BidVolume1)}
+	ret.Position = rsp.Position
+	ret.Volume = rsp.Volume
+	ob := &pb.OrderBook{Ask: float64(rsp.Ask1), Bid: float64(rsp.Bid1), AskVolume: rsp.AskVolume1, BidVolume: rsp.BidVolume1}
 	ret.OrderBookList = append(ret.OrderBookList, ob)
-	ob = &pb.OrderBook{Ask: float64(rsp.Ask2), Bid: float64(rsp.Bid2), AskVolume: float64(rsp.AskVolume2), BidVolume: float64(rsp.BidVolume2)}
+	ob = &pb.OrderBook{Ask: float64(rsp.Ask2), Bid: float64(rsp.Bid2), AskVolume: (rsp.AskVolume2), BidVolume: (rsp.BidVolume2)}
 	ret.OrderBookList = append(ret.OrderBookList, ob)
-	ob = &pb.OrderBook{Ask: float64(rsp.Ask3), Bid: float64(rsp.Bid3), AskVolume: float64(rsp.AskVolume3), BidVolume: float64(rsp.BidVolume3)}
+	ob = &pb.OrderBook{Ask: float64(rsp.Ask3), Bid: float64(rsp.Bid3), AskVolume: (rsp.AskVolume3), BidVolume: (rsp.BidVolume3)}
 	ret.OrderBookList = append(ret.OrderBookList, ob)
-	ob = &pb.OrderBook{Ask: float64(rsp.Ask4), Bid: float64(rsp.Bid4), AskVolume: float64(rsp.AskVolume4), BidVolume: float64(rsp.BidVolume4)}
+	ob = &pb.OrderBook{Ask: float64(rsp.Ask4), Bid: float64(rsp.Bid4), AskVolume: (rsp.AskVolume4), BidVolume: (rsp.BidVolume4)}
 	ret.OrderBookList = append(ret.OrderBookList, ob)
-	ob = &pb.OrderBook{Ask: float64(rsp.Ask5), Bid: float64(rsp.Bid5), AskVolume: float64(rsp.AskVolume5), BidVolume: float64(rsp.BidVolume5)}
+	ob = &pb.OrderBook{Ask: float64(rsp.Ask5), Bid: float64(rsp.Bid5), AskVolume: (rsp.AskVolume5), BidVolume: (rsp.BidVolume5)}
 	ret.OrderBookList = append(ret.OrderBookList, ob)
 	ret.Time = time.Now().Unix()
 	if ret.Open == 0 && ret.Price == 0 {

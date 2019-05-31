@@ -3,14 +3,22 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type MessageType int32
 
@@ -40,6 +48,7 @@ var MessageType_name = map[int32]string{
 	5: "HEATBEAT",
 	6: "UPLOAD_TICK",
 }
+
 var MessageType_value = map[string]int32{
 	"REQ_SUBSCRIBE_MARKET_DATA":   0,
 	"RSP_SUBSCRIBE_MARKET_DATA":   1,
@@ -53,19 +62,45 @@ var MessageType_value = map[string]int32{
 func (x MessageType) String() string {
 	return proto.EnumName(MessageType_name, int32(x))
 }
-func (MessageType) EnumDescriptor() ([]byte, []int) { return fileDescriptor7, []int{0} }
+
+func (MessageType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_33c57e4bae7b9afd, []int{0}
+}
 
 // Message 消息
 type Message struct {
-	Type   MessageType `protobuf:"varint,1,opt,name=type,enum=pb.MessageType" json:"type,omitempty"`
-	Target string      `protobuf:"bytes,2,opt,name=target" json:"target,omitempty"`
-	Data   []byte      `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	Type                 MessageType `protobuf:"varint,1,opt,name=type,proto3,enum=pb.MessageType" json:"type"`
+	Target               string      `protobuf:"bytes,2,opt,name=target,proto3" json:"target"`
+	Data                 []byte      `protobuf:"bytes,3,opt,name=data,proto3" json:"data"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *Message) Reset()                    { *m = Message{} }
-func (m *Message) String() string            { return proto.CompactTextString(m) }
-func (*Message) ProtoMessage()               {}
-func (*Message) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{0} }
+func (m *Message) Reset()         { *m = Message{} }
+func (m *Message) String() string { return proto.CompactTextString(m) }
+func (*Message) ProtoMessage()    {}
+func (*Message) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33c57e4bae7b9afd, []int{0}
+}
+
+func (m *Message) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Message.Unmarshal(m, b)
+}
+func (m *Message) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Message.Marshal(b, m, deterministic)
+}
+func (m *Message) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Message.Merge(m, src)
+}
+func (m *Message) XXX_Size() int {
+	return xxx_messageInfo_Message.Size(m)
+}
+func (m *Message) XXX_DiscardUnknown() {
+	xxx_messageInfo_Message.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Message proto.InternalMessageInfo
 
 func (m *Message) GetType() MessageType {
 	if m != nil {
@@ -90,13 +125,36 @@ func (m *Message) GetData() []byte {
 
 // MessageList 消息list
 type MessageList struct {
-	List []*Message `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*Message `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
 }
 
-func (m *MessageList) Reset()                    { *m = MessageList{} }
-func (m *MessageList) String() string            { return proto.CompactTextString(m) }
-func (*MessageList) ProtoMessage()               {}
-func (*MessageList) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{1} }
+func (m *MessageList) Reset()         { *m = MessageList{} }
+func (m *MessageList) String() string { return proto.CompactTextString(m) }
+func (*MessageList) ProtoMessage()    {}
+func (*MessageList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33c57e4bae7b9afd, []int{1}
+}
+
+func (m *MessageList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MessageList.Unmarshal(m, b)
+}
+func (m *MessageList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MessageList.Marshal(b, m, deterministic)
+}
+func (m *MessageList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MessageList.Merge(m, src)
+}
+func (m *MessageList) XXX_Size() int {
+	return xxx_messageInfo_MessageList.Size(m)
+}
+func (m *MessageList) XXX_DiscardUnknown() {
+	xxx_messageInfo_MessageList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MessageList proto.InternalMessageInfo
 
 func (m *MessageList) GetList() []*Message {
 	if m != nil {
@@ -106,15 +164,38 @@ func (m *MessageList) GetList() []*Message {
 }
 
 type StreamMessage struct {
-	Type   MessageType `protobuf:"varint,1,opt,name=type,enum=pb.MessageType" json:"type,omitempty"`
-	Target string      `protobuf:"bytes,2,opt,name=target" json:"target,omitempty"`
-	Data   string      `protobuf:"bytes,3,opt,name=data" json:"data,omitempty"`
+	Type                 MessageType `protobuf:"varint,1,opt,name=type,proto3,enum=pb.MessageType" json:"type"`
+	Target               string      `protobuf:"bytes,2,opt,name=target,proto3" json:"target"`
+	Data                 string      `protobuf:"bytes,3,opt,name=data,proto3" json:"data"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *StreamMessage) Reset()                    { *m = StreamMessage{} }
-func (m *StreamMessage) String() string            { return proto.CompactTextString(m) }
-func (*StreamMessage) ProtoMessage()               {}
-func (*StreamMessage) Descriptor() ([]byte, []int) { return fileDescriptor7, []int{2} }
+func (m *StreamMessage) Reset()         { *m = StreamMessage{} }
+func (m *StreamMessage) String() string { return proto.CompactTextString(m) }
+func (*StreamMessage) ProtoMessage()    {}
+func (*StreamMessage) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33c57e4bae7b9afd, []int{2}
+}
+
+func (m *StreamMessage) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_StreamMessage.Unmarshal(m, b)
+}
+func (m *StreamMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_StreamMessage.Marshal(b, m, deterministic)
+}
+func (m *StreamMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StreamMessage.Merge(m, src)
+}
+func (m *StreamMessage) XXX_Size() int {
+	return xxx_messageInfo_StreamMessage.Size(m)
+}
+func (m *StreamMessage) XXX_DiscardUnknown() {
+	xxx_messageInfo_StreamMessage.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StreamMessage proto.InternalMessageInfo
 
 func (m *StreamMessage) GetType() MessageType {
 	if m != nil {
@@ -138,15 +219,15 @@ func (m *StreamMessage) GetData() string {
 }
 
 func init() {
+	proto.RegisterEnum("pb.MessageType", MessageType_name, MessageType_value)
 	proto.RegisterType((*Message)(nil), "pb.Message")
 	proto.RegisterType((*MessageList)(nil), "pb.MessageList")
 	proto.RegisterType((*StreamMessage)(nil), "pb.StreamMessage")
-	proto.RegisterEnum("pb.MessageType", MessageType_name, MessageType_value)
 }
 
-func init() { proto.RegisterFile("message.proto", fileDescriptor7) }
+func init() { proto.RegisterFile("message.proto", fileDescriptor_33c57e4bae7b9afd) }
 
-var fileDescriptor7 = []byte{
+var fileDescriptor_33c57e4bae7b9afd = []byte{
 	// 277 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x91, 0x4f, 0x4f, 0x83, 0x30,
 	0x18, 0xc6, 0x2d, 0x20, 0xba, 0x97, 0xcd, 0x91, 0xf7, 0xb0, 0xa0, 0xc6, 0x8c, 0xe0, 0x85, 0x78,

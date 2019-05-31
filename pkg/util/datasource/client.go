@@ -1,6 +1,7 @@
 package datasource
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -10,11 +11,13 @@ import (
 
 	proto "github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
+	"github.com/mineralres/goshare/pkg/api"
 	"github.com/mineralres/goshare/pkg/pb"
 	"github.com/mineralres/goshare/pkg/util"
 )
 
 type symbolSubscriber struct {
+	symbol pb.Symbol
 	tick   *pb.MarketDataSnapshot
 	chList []chan *pb.MarketDataSnapshot
 }
@@ -45,19 +48,19 @@ func MakeClient(options *ClientOptions) *Client {
 }
 
 // Subscribe Subscribe
-func (c *Client) Subscribe(req *pb.ReqSubscribe, ch chan *pb.MarketDataSnapshot) (*pb.RspSubscribe, error) {
+func (c *Client) Subscribe(ctx *api.Context, req *pb.ReqSubscribe, ch chan *pb.MarketDataSnapshot) (*pb.RspSubscribe, error) {
 	var ret pb.RspSubscribe
 	for i := range req.List {
-		symbol := *req.List[i]
-		v, ok := c.mapSubscriber.Load(symbol)
+		symbol := req.List[i]
+		v, ok := c.mapSubscriber.Load(makeKey(symbol))
 		if ok {
 			p := v.(*symbolSubscriber)
 			p.chList = append(p.chList, ch)
 			ch <- p.tick
 		} else {
-			p := &symbolSubscriber{}
+			p := &symbolSubscriber{symbol: *symbol}
 			p.chList = append(p.chList, ch)
-			c.mapSubscriber.Store(symbol, p)
+			c.mapSubscriber.Store(makeKey(symbol), p)
 		}
 	}
 	c.chReqSubscribe <- *req
@@ -65,10 +68,10 @@ func (c *Client) Subscribe(req *pb.ReqSubscribe, ch chan *pb.MarketDataSnapshot)
 }
 
 // UnSubscribe UnSubscribe
-func (c *Client) UnSubscribe(req *pb.ReqUnSubscribe, ch chan *pb.MarketDataSnapshot) (*pb.RspUnSubscribe, error) {
+func (c *Client) UnSubscribe(ctx *api.Context, req *pb.ReqUnSubscribe, ch chan *pb.MarketDataSnapshot) (*pb.RspUnSubscribe, error) {
 	for i := range req.List {
-		symbol := *req.List[i]
-		v, ok := c.mapSubscriber.Load(symbol)
+		symbol := req.List[i]
+		v, ok := c.mapSubscriber.Load(makeKey(symbol))
 		if ok {
 			sub := v.(*symbolSubscriber)
 			var left []chan *pb.MarketDataSnapshot
@@ -142,7 +145,7 @@ func (c *Client) clientConn() {
 		var req pb.ReqSubscribe
 		c.mapSubscriber.Range(func(k, v interface{}) bool {
 			s := new(pb.Symbol)
-			*s = k.(pb.Symbol)
+			*s = v.(*symbolSubscriber).symbol
 			req.List = append(req.List, s)
 			return true
 		})
@@ -169,6 +172,7 @@ func (c *Client) clientConn() {
 					return
 				}
 			case req := <-c.chReqSubscribe:
+				log.Println("发送订阅请求", len(req.List))
 				err := fsend(pb.MessageType_REQ_SUBSCRIBE_MARKET_DATA, &req)
 				if err != nil {
 					return
@@ -178,6 +182,7 @@ func (c *Client) clientConn() {
 	}()
 	// read
 	for {
+		conn.SetReadDeadline(time.Now().Add(15 * time.Second))
 		t, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Println(t, p, err)
@@ -193,12 +198,14 @@ func (c *Client) clientConn() {
 		}
 		// log.Printf("client received msg [%v] len[%d]", msg.Type, len(msg.Data))
 		switch msg.Type {
+		case pb.MessageType_HEATBEAT:
+			log.Printf("client received msg [%v] len[%d]", msg.Type, len(msg.Data))
 		case pb.MessageType_RTN_MARKET_DATA_UPDATE:
 			md := new(pb.MarketDataSnapshot)
 			if err = proto.Unmarshal(msg.Data, md); err != nil {
 				continue
 			}
-			v, ok := c.mapSubscriber.Load(*md.Symbol)
+			v, ok := c.mapSubscriber.Load(makeKey(md.Symbol))
 			if ok {
 				sub := v.(*symbolSubscriber)
 				sub.tick = md
@@ -209,4 +216,38 @@ func (c *Client) clientConn() {
 		}
 	}
 
+}
+
+// GetKlineSeries GetKlineSeries
+func (c *Client) GetKlineSeries(ctx *api.Context, req *pb.ReqGetKlineSeries) (*pb.RspGetKlineSeries, error) {
+	return nil, errors.New("unsported")
+}
+
+// RGetKlineSeries RGetKlineSeries
+func (c *Client) RGetKlineSeries(ctx *api.Context, req *pb.ReqGetKlineSeries) (*pb.RspGetKlineSeries, error) {
+	return nil, errors.New("unsported")
+}
+
+// GetLastTick GetLastTick
+func (c *Client) GetLastTick(ctx *api.Context, req *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+	url := c.options.URL
+	var resp pb.MarketDataSnapshot
+	return &resp, util.PostSome(fmt.Sprintf("%s://%s/api/v1/lastTick", url.Scheme, url.Host), c.options.Token, req, &resp)
+}
+
+// GetTickSerires GetTickSerires
+func (c *Client) GetTickSerires(ctx *api.Context, req *pb.ReqGetTickSeries) (*pb.RspGetTickSeries, error) {
+	return nil, errors.New("unsported")
+}
+
+// GetTradingInstrument GetTradingInstrument
+func (c *Client) GetTradingInstrument(ctx *api.Context, s *pb.Symbol) (*pb.TradingInstrument, error) {
+	return nil, errors.New("unsported")
+}
+
+// TradingInstrumentList TradingInstrumentList
+func (c *Client) TradingInstrumentList(ctx *api.Context, req *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error) {
+	url := c.options.URL
+	var resp []*pb.TradingInstrument
+	return resp, util.PostSome(fmt.Sprintf("%s://%s/api/v1/instrumentList", url.Scheme, url.Host), c.options.Token, req, &resp)
 }

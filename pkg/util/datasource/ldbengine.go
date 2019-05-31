@@ -8,8 +8,8 @@ import (
 
 	proto "github.com/golang/protobuf/proto"
 
+	"github.com/mineralres/goshare/pkg/api"
 	"github.com/mineralres/goshare/pkg/pb"
-	"github.com/mineralres/goshare/pkg/service/dcenter"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/util"
 )
@@ -131,7 +131,12 @@ func periodInSeconds(period pb.PeriodType) int32 {
 }
 
 // GetKlineSeries GetKlineSeries
-func (db *XLevelDB) GetKlineSeries(ctx *dcenter.DataSourceContext, s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
+func (db *XLevelDB) GetKlineSeries(ctx *api.Context, req *pb.ReqGetKlineSeries) (*pb.RspGetKlineSeries, error) {
+	s := req.Symbol
+	period := req.Period
+	startTime := req.Start
+	endTime := req.End
+	lenLimit := req.LenLimit
 	var ret pb.KlineSeries
 	ret.Symbol = s
 	ret.Period = period
@@ -150,15 +155,20 @@ func (db *XLevelDB) GetKlineSeries(ctx *dcenter.DataSourceContext, s *pb.Symbol,
 		}
 	}
 	iter.Release()
-	return &ret, nil
+	return &pb.RspGetKlineSeries{Symbol: s, Period: period, List: ret.List}, nil
 }
 
 // RGetKlineSeries 反向取
-func (db *XLevelDB) RGetKlineSeries(ctx *dcenter.DataSourceContext, s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
-	var ret pb.KlineSeries
+func (db *XLevelDB) RGetKlineSeries(ctx *api.Context, req *pb.ReqGetKlineSeries) (*pb.RspGetKlineSeries, error) {
+	s := req.Symbol
+	period := req.Period
+	startTime := req.Start
+	endTime := req.End
+	lenLimit := req.LenLimit
+
+	var ret pb.RspGetKlineSeries
 	ret.Symbol = s
 	ret.Period = period
-	ret.PeriodInSeconds = periodInSeconds(period)
 	keyStart := makeKlineKey(s, period, startTime)
 	keyEnd := makeKlineKey(s, period, endTime)
 	iter := db.kdb.NewIterator(&util.Range{Start: []byte(keyStart), Limit: []byte(keyEnd)}, nil)
@@ -203,8 +213,9 @@ func (db *XLevelDB) getDayTickSeries(s *pb.Symbol, tradingDay int32) *pb.TickSer
 	return &ret
 }
 
-// GetLastTickSerires 取最后一天的tick序列
-func (db *XLevelDB) GetLastTickSerires(ctx *dcenter.DataSourceContext, s *pb.Symbol) (*pb.TickSeries, error) {
+// GetTickSerires 取最后一天的tick序列
+func (db *XLevelDB) GetTickSerires(ctx *api.Context, req *pb.ReqGetTickSeries) (*pb.RspGetTickSeries, error) {
+	s := req.Symbol
 	keyStart := fmt.Sprintf("%d-%s-%d", s.Exchange, s.Code, 0)
 	keyEnd := fmt.Sprintf("%d-%s-%d", s.Exchange, s.Code, 99999999)
 	iter := db.daytsdb.NewIterator(&util.Range{Start: []byte(keyStart), Limit: []byte(keyEnd)}, nil)
@@ -215,9 +226,9 @@ func (db *XLevelDB) GetLastTickSerires(ctx *dcenter.DataSourceContext, s *pb.Sym
 		if err != nil {
 			return nil, err
 		}
-		return &ret, nil
+		return &pb.RspGetTickSeries{List: ret.List}, nil
 	}
-	return &pb.TickSeries{}, nil
+	return &pb.RspGetTickSeries{}, nil
 }
 
 // 保存行情
@@ -258,7 +269,7 @@ func (db *XLevelDB) SetTradingInstrument(inst *pb.TradingInstrument) error {
 }
 
 // GetTradingInstrument 读取合约信息
-func (db *XLevelDB) GetTradingInstrument(ctx *dcenter.DataSourceContext, s *pb.Symbol) (*pb.TradingInstrument, error) {
+func (db *XLevelDB) GetTradingInstrument(ctx *api.Context, s *pb.Symbol) (*pb.TradingInstrument, error) {
 	var inst pb.TradingInstrument
 	key := fmt.Sprintf("%s-%d-%s", tradingInstrumentPrefix, s.Exchange, s.Code)
 	d, err := db.common.Get([]byte(key), nil)
@@ -270,7 +281,7 @@ func (db *XLevelDB) GetTradingInstrument(ctx *dcenter.DataSourceContext, s *pb.S
 }
 
 // TradingInstrumentList 全部合约信息
-func (db *XLevelDB) TradingInstrumentList(ctx *dcenter.DataSourceContext, req *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error) {
+func (db *XLevelDB) TradingInstrumentList(ctx *api.Context, req *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error) {
 	log.Print("TradingInstrumentList ldb")
 	var ret []*pb.TradingInstrument
 	iter := db.common.NewIterator(util.BytesPrefix([]byte(tradingInstrumentPrefix)), nil)
@@ -300,8 +311,8 @@ func (db *XLevelDB) SetTick(req *pb.MarketDataSnapshot) error {
 	return db.common.Put([]byte(key), d, nil)
 }
 
-// GetTick GetTick
-func (db *XLevelDB) GetTick(ctx *dcenter.DataSourceContext, req *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+// GetLastTick GetTick
+func (db *XLevelDB) GetLastTick(ctx *api.Context, req *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 	var tick pb.MarketDataSnapshot
 	key := fmt.Sprintf("%s-%d-%s", tickPrefix, req.Exchange, req.Code)
 	d, err := db.common.Get([]byte(key), nil)

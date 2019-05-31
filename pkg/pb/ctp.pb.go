@@ -3,14 +3,22 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 // 方向
 type CTPDirection int32
@@ -24,6 +32,7 @@ var CTPDirection_name = map[int32]string{
 	0: "LONG",
 	1: "SHORT",
 }
+
 var CTPDirection_value = map[string]int32{
 	"LONG":  0,
 	"SHORT": 1,
@@ -32,7 +41,10 @@ var CTPDirection_value = map[string]int32{
 func (x CTPDirection) String() string {
 	return proto.EnumName(CTPDirection_name, int32(x))
 }
-func (CTPDirection) EnumDescriptor() ([]byte, []int) { return fileDescriptor3, []int{0} }
+
+func (CTPDirection) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{0}
+}
 
 // 状态
 type CTPOrderStatus int32
@@ -60,6 +72,7 @@ var CTPOrderStatus_name = map[int32]string{
 	4: "CTP_OS_CANCELED",
 	5: "CTP_OS_UNKOWN",
 }
+
 var CTPOrderStatus_value = map[string]int32{
 	"CTP_OS_DONE":                       0,
 	"CTP_OS_PENDING_WITH_PARTIAL_DONE":  1,
@@ -72,7 +85,10 @@ var CTPOrderStatus_value = map[string]int32{
 func (x CTPOrderStatus) String() string {
 	return proto.EnumName(CTPOrderStatus_name, int32(x))
 }
-func (CTPOrderStatus) EnumDescriptor() ([]byte, []int) { return fileDescriptor3, []int{1} }
+
+func (CTPOrderStatus) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{1}
+}
 
 type CTPPriceType int32
 
@@ -93,6 +109,7 @@ var CTPPriceType_name = map[int32]string{
 	2: "BEST_PRICE",
 	3: "LAST_PRICE",
 }
+
 var CTPPriceType_value = map[string]int32{
 	"LIMIT_PRICE":  0,
 	"MARKET_PRICE": 1,
@@ -103,7 +120,10 @@ var CTPPriceType_value = map[string]int32{
 func (x CTPPriceType) String() string {
 	return proto.EnumName(CTPPriceType_name, int32(x))
 }
-func (CTPPriceType) EnumDescriptor() ([]byte, []int) { return fileDescriptor3, []int{2} }
+
+func (CTPPriceType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{2}
+}
 
 type CTPOffsetFlag int32
 
@@ -129,6 +149,7 @@ var CTPOffsetFlag_name = map[int32]string{
 	4: "CLOSE_TODAY",
 	5: "CLOSE_YESTERDAY",
 }
+
 var CTPOffsetFlag_value = map[string]int32{
 	"NONE":            0,
 	"OPEN":            1,
@@ -141,7 +162,10 @@ var CTPOffsetFlag_value = map[string]int32{
 func (x CTPOffsetFlag) String() string {
 	return proto.EnumName(CTPOffsetFlag_name, int32(x))
 }
-func (CTPOffsetFlag) EnumDescriptor() ([]byte, []int) { return fileDescriptor3, []int{3} }
+
+func (CTPOffsetFlag) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{3}
+}
 
 // 投机套保标志
 type CTPHedgeType int32
@@ -160,6 +184,7 @@ var CTPHedgeType_name = map[int32]string{
 	1: "ARBITRAGE",
 	2: "HEDGE",
 }
+
 var CTPHedgeType_value = map[string]int32{
 	"SPECULATION": 0,
 	"ARBITRAGE":   1,
@@ -169,7 +194,10 @@ var CTPHedgeType_value = map[string]int32{
 func (x CTPHedgeType) String() string {
 	return proto.EnumName(CTPHedgeType_name, int32(x))
 }
-func (CTPHedgeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor3, []int{4} }
+
+func (CTPHedgeType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{4}
+}
 
 // 成交类型
 type CTPTradeType int32
@@ -203,6 +231,7 @@ var CTPTradeType_name = map[int32]string{
 	6: "SETTLEMENT_DERIVED",
 	7: "PLACEMENT_DERIVED",
 }
+
 var CTPTradeType_value = map[string]int32{
 	"NORMAL":              0,
 	"OPTIONS_EXECUTION":   1,
@@ -217,20 +246,46 @@ var CTPTradeType_value = map[string]int32{
 func (x CTPTradeType) String() string {
 	return proto.EnumName(CTPTradeType_name, int32(x))
 }
-func (CTPTradeType) EnumDescriptor() ([]byte, []int) { return fileDescriptor3, []int{5} }
+
+func (CTPTradeType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{5}
+}
 
 // 报单ID
 type CTPOrderID struct {
-	FrontId   int64  `protobuf:"varint,1,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
-	SessionId int64  `protobuf:"varint,2,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
-	OrderRef  int64  `protobuf:"varint,3,opt,name=order_ref,json=orderRef" json:"order_ref,omitempty"`
-	StringId  string `protobuf:"bytes,4,opt,name=string_id,json=stringId" json:"string_id,omitempty"`
+	FrontId              int64    `protobuf:"varint,1,opt,name=front_id,json=frontId,proto3" json:"frontId"`
+	SessionId            int64    `protobuf:"varint,2,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
+	OrderRef             int64    `protobuf:"varint,3,opt,name=order_ref,json=orderRef,proto3" json:"orderRef"`
+	StringId             string   `protobuf:"bytes,4,opt,name=string_id,json=stringId,proto3" json:"stringId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPOrderID) Reset()                    { *m = CTPOrderID{} }
-func (m *CTPOrderID) String() string            { return proto.CompactTextString(m) }
-func (*CTPOrderID) ProtoMessage()               {}
-func (*CTPOrderID) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{0} }
+func (m *CTPOrderID) Reset()         { *m = CTPOrderID{} }
+func (m *CTPOrderID) String() string { return proto.CompactTextString(m) }
+func (*CTPOrderID) ProtoMessage()    {}
+func (*CTPOrderID) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{0}
+}
+
+func (m *CTPOrderID) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOrderID.Unmarshal(m, b)
+}
+func (m *CTPOrderID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOrderID.Marshal(b, m, deterministic)
+}
+func (m *CTPOrderID) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOrderID.Merge(m, src)
+}
+func (m *CTPOrderID) XXX_Size() int {
+	return xxx_messageInfo_CTPOrderID.Size(m)
+}
+func (m *CTPOrderID) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOrderID.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOrderID proto.InternalMessageInfo
 
 func (m *CTPOrderID) GetFrontId() int64 {
 	if m != nil {
@@ -262,75 +317,98 @@ func (m *CTPOrderID) GetStringId() string {
 
 // 委托
 type CTPOrderField struct {
-	BrokerId             string  `protobuf:"bytes,1,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	InvestorId           string  `protobuf:"bytes,2,opt,name=investor_id,json=investorId" json:"investor_id,omitempty"`
-	InstrumentId         string  `protobuf:"bytes,3,opt,name=instrument_id,json=instrumentId" json:"instrument_id,omitempty"`
-	OrderRef             string  `protobuf:"bytes,4,opt,name=order_ref,json=orderRef" json:"order_ref,omitempty"`
-	UserId               string  `protobuf:"bytes,5,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-	OrderPriceType       int32   `protobuf:"varint,6,opt,name=order_price_type,json=orderPriceType" json:"order_price_type,omitempty"`
-	Direction            int32   `protobuf:"varint,7,opt,name=direction" json:"direction,omitempty"`
-	CombOffsetFlag       int32   `protobuf:"varint,8,opt,name=comb_offset_flag,json=combOffsetFlag" json:"comb_offset_flag,omitempty"`
-	CombHedgeFlag        int32   `protobuf:"varint,9,opt,name=comb_hedge_flag,json=combHedgeFlag" json:"comb_hedge_flag,omitempty"`
-	LimitPrice           float64 `protobuf:"fixed64,10,opt,name=limit_price,json=limitPrice" json:"limit_price,omitempty"`
-	VolumeTotalOriginal  int32   `protobuf:"varint,11,opt,name=volume_total_original,json=volumeTotalOriginal" json:"volume_total_original,omitempty"`
-	TimeCondition        int32   `protobuf:"varint,12,opt,name=time_condition,json=timeCondition" json:"time_condition,omitempty"`
-	GTDDate              string  `protobuf:"bytes,13,opt,name=GTD_date,json=GTDDate" json:"GTD_date,omitempty"`
-	VolumeCondition      int32   `protobuf:"varint,14,opt,name=volume_condition,json=volumeCondition" json:"volume_condition,omitempty"`
-	MinVolume            int32   `protobuf:"varint,15,opt,name=min_volume,json=minVolume" json:"min_volume,omitempty"`
-	ContingentCondition  int32   `protobuf:"varint,16,opt,name=contingent_condition,json=contingentCondition" json:"contingent_condition,omitempty"`
-	StopPrice            float64 `protobuf:"fixed64,17,opt,name=stop_price,json=stopPrice" json:"stop_price,omitempty"`
-	ForceCloseReason     int32   `protobuf:"varint,18,opt,name=force_close_reason,json=forceCloseReason" json:"force_close_reason,omitempty"`
-	IsAutoSuspend        bool    `protobuf:"varint,19,opt,name=is_auto_suspend,json=isAutoSuspend" json:"is_auto_suspend,omitempty"`
-	BusinessUnit         string  `protobuf:"bytes,20,opt,name=business_unit,json=businessUnit" json:"business_unit,omitempty"`
-	RequestId            int32   `protobuf:"varint,21,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	OrderLocalId         string  `protobuf:"bytes,22,opt,name=order_local_id,json=orderLocalId" json:"order_local_id,omitempty"`
-	ExchangeId           string  `protobuf:"bytes,23,opt,name=exchange_id,json=exchangeId" json:"exchange_id,omitempty"`
-	ParticipantId        string  `protobuf:"bytes,24,opt,name=participant_id,json=participantId" json:"participant_id,omitempty"`
-	ClientId             string  `protobuf:"bytes,25,opt,name=client_id,json=clientId" json:"client_id,omitempty"`
-	ExchangeInstId       string  `protobuf:"bytes,26,opt,name=exchange_inst_id,json=exchangeInstId" json:"exchange_inst_id,omitempty"`
-	TraderId             string  `protobuf:"bytes,27,opt,name=trader_id,json=traderId" json:"trader_id,omitempty"`
-	InstallId            int32   `protobuf:"varint,28,opt,name=install_id,json=installId" json:"install_id,omitempty"`
-	OrderSubmitStatus    int32   `protobuf:"varint,29,opt,name=order_submit_status,json=orderSubmitStatus" json:"order_submit_status,omitempty"`
-	NotifySequence       int32   `protobuf:"varint,30,opt,name=notify_sequence,json=notifySequence" json:"notify_sequence,omitempty"`
-	TradingDay           int32   `protobuf:"varint,31,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
-	SettlementId         int32   `protobuf:"varint,32,opt,name=settlement_id,json=settlementId" json:"settlement_id,omitempty"`
-	OrderSysId           string  `protobuf:"bytes,33,opt,name=order_sys_id,json=orderSysId" json:"order_sys_id,omitempty"`
-	OrderSource          int32   `protobuf:"varint,34,opt,name=order_source,json=orderSource" json:"order_source,omitempty"`
-	OrderStatus          int32   `protobuf:"varint,35,opt,name=order_status,json=orderStatus" json:"order_status,omitempty"`
-	OrderType            int32   `protobuf:"varint,36,opt,name=order_type,json=orderType" json:"order_type,omitempty"`
-	VolumeTraded         int32   `protobuf:"varint,37,opt,name=volume_traded,json=volumeTraded" json:"volume_traded,omitempty"`
-	VolumeTotal          int32   `protobuf:"varint,38,opt,name=volume_total,json=volumeTotal" json:"volume_total,omitempty"`
-	InsertDate           string  `protobuf:"bytes,39,opt,name=insert_date,json=insertDate" json:"insert_date,omitempty"`
-	InsertTime           string  `protobuf:"bytes,40,opt,name=insert_time,json=insertTime" json:"insert_time,omitempty"`
-	ActiveTime           string  `protobuf:"bytes,41,opt,name=active_time,json=activeTime" json:"active_time,omitempty"`
-	SuspendTime          string  `protobuf:"bytes,42,opt,name=suspend_time,json=suspendTime" json:"suspend_time,omitempty"`
-	UpdateTime           string  `protobuf:"bytes,43,opt,name=update_time,json=updateTime" json:"update_time,omitempty"`
-	CancelTime           string  `protobuf:"bytes,44,opt,name=cancel_time,json=cancelTime" json:"cancel_time,omitempty"`
-	ActiveTraderId       string  `protobuf:"bytes,45,opt,name=active_trader_id,json=activeTraderId" json:"active_trader_id,omitempty"`
-	ClearingPartId       string  `protobuf:"bytes,46,opt,name=clearing_part_id,json=clearingPartId" json:"clearing_part_id,omitempty"`
-	SequenceNo           int32   `protobuf:"varint,47,opt,name=sequence_no,json=sequenceNo" json:"sequence_no,omitempty"`
-	FrontId              int32   `protobuf:"varint,48,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
-	SessionId            int32   `protobuf:"varint,49,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
-	UserProductInfo      string  `protobuf:"bytes,50,opt,name=user_product_info,json=userProductInfo" json:"user_product_info,omitempty"`
-	StatusMsg            []byte  `protobuf:"bytes,51,opt,name=status_msg,json=statusMsg,proto3" json:"status_msg,omitempty"`
-	UserForceClose       bool    `protobuf:"varint,52,opt,name=user_force_close,json=userForceClose" json:"user_force_close,omitempty"`
-	ActiveUserId         string  `protobuf:"bytes,53,opt,name=active_user_id,json=activeUserId" json:"active_user_id,omitempty"`
-	BrokerOrderSeq       int32   `protobuf:"varint,54,opt,name=broker_order_seq,json=brokerOrderSeq" json:"broker_order_seq,omitempty"`
-	RelativeOrderSysId   string  `protobuf:"bytes,55,opt,name=relative_order_sys_id,json=relativeOrderSysId" json:"relative_order_sys_id,omitempty"`
-	ZCETotalTradedVolume int32   `protobuf:"varint,56,opt,name=ZCE_total_traded_volume,json=ZCETotalTradedVolume" json:"ZCE_total_traded_volume,omitempty"`
-	IsSwapOrder          bool    `protobuf:"varint,57,opt,name=is_swap_order,json=isSwapOrder" json:"is_swap_order,omitempty"`
-	BranchId             string  `protobuf:"bytes,58,opt,name=branch_id,json=branchId" json:"branch_id,omitempty"`
-	InvestUnitId         string  `protobuf:"bytes,59,opt,name=invest_unit_id,json=investUnitId" json:"invest_unit_id,omitempty"`
-	AccountId            string  `protobuf:"bytes,60,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
-	CurrencyId           string  `protobuf:"bytes,61,opt,name=currency_id,json=currencyId" json:"currency_id,omitempty"`
-	IPAddress            string  `protobuf:"bytes,62,opt,name=IP_address,json=IPAddress" json:"IP_address,omitempty"`
-	MacAddress           string  `protobuf:"bytes,63,opt,name=Mac_address,json=MacAddress" json:"Mac_address,omitempty"`
+	BrokerId             string   `protobuf:"bytes,1,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	InvestorId           string   `protobuf:"bytes,2,opt,name=investor_id,json=investorId,proto3" json:"investorId"`
+	InstrumentId         string   `protobuf:"bytes,3,opt,name=instrument_id,json=instrumentId,proto3" json:"instrumentId"`
+	OrderRef             string   `protobuf:"bytes,4,opt,name=order_ref,json=orderRef,proto3" json:"orderRef"`
+	UserId               string   `protobuf:"bytes,5,opt,name=user_id,json=userId,proto3" json:"userId"`
+	OrderPriceType       int32    `protobuf:"varint,6,opt,name=order_price_type,json=orderPriceType,proto3" json:"orderPriceType"`
+	Direction            int32    `protobuf:"varint,7,opt,name=direction,proto3" json:"direction"`
+	CombOffsetFlag       int32    `protobuf:"varint,8,opt,name=comb_offset_flag,json=combOffsetFlag,proto3" json:"combOffsetFlag"`
+	CombHedgeFlag        int32    `protobuf:"varint,9,opt,name=comb_hedge_flag,json=combHedgeFlag,proto3" json:"combHedgeFlag"`
+	LimitPrice           float64  `protobuf:"fixed64,10,opt,name=limit_price,json=limitPrice,proto3" json:"limitPrice"`
+	VolumeTotalOriginal  int32    `protobuf:"varint,11,opt,name=volume_total_original,json=volumeTotalOriginal,proto3" json:"volumeTotalOriginal"`
+	TimeCondition        int32    `protobuf:"varint,12,opt,name=time_condition,json=timeCondition,proto3" json:"timeCondition"`
+	GTDDate              string   `protobuf:"bytes,13,opt,name=GTD_date,json=GTDDate,proto3" json:"GTDDate"`
+	VolumeCondition      int32    `protobuf:"varint,14,opt,name=volume_condition,json=volumeCondition,proto3" json:"volumeCondition"`
+	MinVolume            int32    `protobuf:"varint,15,opt,name=min_volume,json=minVolume,proto3" json:"minVolume"`
+	ContingentCondition  int32    `protobuf:"varint,16,opt,name=contingent_condition,json=contingentCondition,proto3" json:"contingentCondition"`
+	StopPrice            float64  `protobuf:"fixed64,17,opt,name=stop_price,json=stopPrice,proto3" json:"stopPrice"`
+	ForceCloseReason     int32    `protobuf:"varint,18,opt,name=force_close_reason,json=forceCloseReason,proto3" json:"forceCloseReason"`
+	IsAutoSuspend        bool     `protobuf:"varint,19,opt,name=is_auto_suspend,json=isAutoSuspend,proto3" json:"isAutoSuspend"`
+	BusinessUnit         string   `protobuf:"bytes,20,opt,name=business_unit,json=businessUnit,proto3" json:"businessUnit"`
+	RequestId            int32    `protobuf:"varint,21,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	OrderLocalId         string   `protobuf:"bytes,22,opt,name=order_local_id,json=orderLocalId,proto3" json:"orderLocalId"`
+	ExchangeId           string   `protobuf:"bytes,23,opt,name=exchange_id,json=exchangeId,proto3" json:"exchangeId"`
+	ParticipantId        string   `protobuf:"bytes,24,opt,name=participant_id,json=participantId,proto3" json:"participantId"`
+	ClientId             string   `protobuf:"bytes,25,opt,name=client_id,json=clientId,proto3" json:"clientId"`
+	ExchangeInstId       string   `protobuf:"bytes,26,opt,name=exchange_inst_id,json=exchangeInstId,proto3" json:"exchangeInstId"`
+	TraderId             string   `protobuf:"bytes,27,opt,name=trader_id,json=traderId,proto3" json:"traderId"`
+	InstallId            int32    `protobuf:"varint,28,opt,name=install_id,json=installId,proto3" json:"installId"`
+	OrderSubmitStatus    int32    `protobuf:"varint,29,opt,name=order_submit_status,json=orderSubmitStatus,proto3" json:"orderSubmitStatus"`
+	NotifySequence       int32    `protobuf:"varint,30,opt,name=notify_sequence,json=notifySequence,proto3" json:"notifySequence"`
+	TradingDay           int32    `protobuf:"varint,31,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
+	SettlementId         int32    `protobuf:"varint,32,opt,name=settlement_id,json=settlementId,proto3" json:"settlementId"`
+	OrderSysId           string   `protobuf:"bytes,33,opt,name=order_sys_id,json=orderSysId,proto3" json:"orderSysId"`
+	OrderSource          int32    `protobuf:"varint,34,opt,name=order_source,json=orderSource,proto3" json:"orderSource"`
+	OrderStatus          int32    `protobuf:"varint,35,opt,name=order_status,json=orderStatus,proto3" json:"orderStatus"`
+	OrderType            int32    `protobuf:"varint,36,opt,name=order_type,json=orderType,proto3" json:"orderType"`
+	VolumeTraded         int32    `protobuf:"varint,37,opt,name=volume_traded,json=volumeTraded,proto3" json:"volumeTraded"`
+	VolumeTotal          int32    `protobuf:"varint,38,opt,name=volume_total,json=volumeTotal,proto3" json:"volumeTotal"`
+	InsertDate           string   `protobuf:"bytes,39,opt,name=insert_date,json=insertDate,proto3" json:"insertDate"`
+	InsertTime           string   `protobuf:"bytes,40,opt,name=insert_time,json=insertTime,proto3" json:"insertTime"`
+	ActiveTime           string   `protobuf:"bytes,41,opt,name=active_time,json=activeTime,proto3" json:"activeTime"`
+	SuspendTime          string   `protobuf:"bytes,42,opt,name=suspend_time,json=suspendTime,proto3" json:"suspendTime"`
+	UpdateTime           string   `protobuf:"bytes,43,opt,name=update_time,json=updateTime,proto3" json:"updateTime"`
+	CancelTime           string   `protobuf:"bytes,44,opt,name=cancel_time,json=cancelTime,proto3" json:"cancelTime"`
+	ActiveTraderId       string   `protobuf:"bytes,45,opt,name=active_trader_id,json=activeTraderId,proto3" json:"activeTraderId"`
+	ClearingPartId       string   `protobuf:"bytes,46,opt,name=clearing_part_id,json=clearingPartId,proto3" json:"clearingPartId"`
+	SequenceNo           int32    `protobuf:"varint,47,opt,name=sequence_no,json=sequenceNo,proto3" json:"sequenceNo"`
+	FrontId              int32    `protobuf:"varint,48,opt,name=front_id,json=frontId,proto3" json:"frontId"`
+	SessionId            int32    `protobuf:"varint,49,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
+	UserProductInfo      string   `protobuf:"bytes,50,opt,name=user_product_info,json=userProductInfo,proto3" json:"userProductInfo"`
+	StatusMsg            []byte   `protobuf:"bytes,51,opt,name=status_msg,json=statusMsg,proto3" json:"statusMsg"`
+	UserForceClose       bool     `protobuf:"varint,52,opt,name=user_force_close,json=userForceClose,proto3" json:"userForceClose"`
+	ActiveUserId         string   `protobuf:"bytes,53,opt,name=active_user_id,json=activeUserId,proto3" json:"activeUserId"`
+	BrokerOrderSeq       int32    `protobuf:"varint,54,opt,name=broker_order_seq,json=brokerOrderSeq,proto3" json:"brokerOrderSeq"`
+	RelativeOrderSysId   string   `protobuf:"bytes,55,opt,name=relative_order_sys_id,json=relativeOrderSysId,proto3" json:"relativeOrderSysId"`
+	ZCETotalTradedVolume int32    `protobuf:"varint,56,opt,name=ZCE_total_traded_volume,json=ZCETotalTradedVolume,proto3" json:"ZCETotalTradedVolume"`
+	IsSwapOrder          bool     `protobuf:"varint,57,opt,name=is_swap_order,json=isSwapOrder,proto3" json:"isSwapOrder"`
+	BranchId             string   `protobuf:"bytes,58,opt,name=branch_id,json=branchId,proto3" json:"branchId"`
+	InvestUnitId         string   `protobuf:"bytes,59,opt,name=invest_unit_id,json=investUnitId,proto3" json:"investUnitId"`
+	AccountId            string   `protobuf:"bytes,60,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	CurrencyId           string   `protobuf:"bytes,61,opt,name=currency_id,json=currencyId,proto3" json:"currencyId"`
+	IPAddress            string   `protobuf:"bytes,62,opt,name=IP_address,json=IPAddress,proto3" json:"IPAddress"`
+	MacAddress           string   `protobuf:"bytes,63,opt,name=Mac_address,json=MacAddress,proto3" json:"MacAddress"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPOrderField) Reset()                    { *m = CTPOrderField{} }
-func (m *CTPOrderField) String() string            { return proto.CompactTextString(m) }
-func (*CTPOrderField) ProtoMessage()               {}
-func (*CTPOrderField) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{1} }
+func (m *CTPOrderField) Reset()         { *m = CTPOrderField{} }
+func (m *CTPOrderField) String() string { return proto.CompactTextString(m) }
+func (*CTPOrderField) ProtoMessage()    {}
+func (*CTPOrderField) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{1}
+}
+
+func (m *CTPOrderField) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOrderField.Unmarshal(m, b)
+}
+func (m *CTPOrderField) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOrderField.Marshal(b, m, deterministic)
+}
+func (m *CTPOrderField) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOrderField.Merge(m, src)
+}
+func (m *CTPOrderField) XXX_Size() int {
+	return xxx_messageInfo_CTPOrderField.Size(m)
+}
+func (m *CTPOrderField) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOrderField.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOrderField proto.InternalMessageInfo
 
 func (m *CTPOrderField) GetBrokerId() string {
 	if m != nil {
@@ -774,13 +852,36 @@ func (m *CTPOrderField) GetMacAddress() string {
 }
 
 type CTPOrderList struct {
-	List []*CTPOrderField `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*CTPOrderField `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *CTPOrderList) Reset()                    { *m = CTPOrderList{} }
-func (m *CTPOrderList) String() string            { return proto.CompactTextString(m) }
-func (*CTPOrderList) ProtoMessage()               {}
-func (*CTPOrderList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{2} }
+func (m *CTPOrderList) Reset()         { *m = CTPOrderList{} }
+func (m *CTPOrderList) String() string { return proto.CompactTextString(m) }
+func (*CTPOrderList) ProtoMessage()    {}
+func (*CTPOrderList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{2}
+}
+
+func (m *CTPOrderList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOrderList.Unmarshal(m, b)
+}
+func (m *CTPOrderList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOrderList.Marshal(b, m, deterministic)
+}
+func (m *CTPOrderList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOrderList.Merge(m, src)
+}
+func (m *CTPOrderList) XXX_Size() int {
+	return xxx_messageInfo_CTPOrderList.Size(m)
+}
+func (m *CTPOrderList) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOrderList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOrderList proto.InternalMessageInfo
 
 func (m *CTPOrderList) GetList() []*CTPOrderField {
 	if m != nil {
@@ -790,14 +891,37 @@ func (m *CTPOrderList) GetList() []*CTPOrderField {
 }
 
 type CTPOrderLink struct {
-	Parent   *CTPOrderField   `protobuf:"bytes,1,opt,name=parent" json:"parent,omitempty"`
-	Children []*CTPOrderField `protobuf:"bytes,2,rep,name=children" json:"children,omitempty"`
+	Parent               *CTPOrderField   `protobuf:"bytes,1,opt,name=parent,proto3" json:"parent"`
+	Children             []*CTPOrderField `protobuf:"bytes,2,rep,name=children,proto3" json:"children"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *CTPOrderLink) Reset()                    { *m = CTPOrderLink{} }
-func (m *CTPOrderLink) String() string            { return proto.CompactTextString(m) }
-func (*CTPOrderLink) ProtoMessage()               {}
-func (*CTPOrderLink) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{3} }
+func (m *CTPOrderLink) Reset()         { *m = CTPOrderLink{} }
+func (m *CTPOrderLink) String() string { return proto.CompactTextString(m) }
+func (*CTPOrderLink) ProtoMessage()    {}
+func (*CTPOrderLink) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{3}
+}
+
+func (m *CTPOrderLink) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOrderLink.Unmarshal(m, b)
+}
+func (m *CTPOrderLink) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOrderLink.Marshal(b, m, deterministic)
+}
+func (m *CTPOrderLink) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOrderLink.Merge(m, src)
+}
+func (m *CTPOrderLink) XXX_Size() int {
+	return xxx_messageInfo_CTPOrderLink.Size(m)
+}
+func (m *CTPOrderLink) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOrderLink.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOrderLink proto.InternalMessageInfo
 
 func (m *CTPOrderLink) GetParent() *CTPOrderField {
 	if m != nil {
@@ -816,29 +940,52 @@ func (m *CTPOrderLink) GetChildren() []*CTPOrderField {
 // 发送撤单请求
 type CTPCancelOrderRequest struct {
 	// 帐户
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
+	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"accountId"`
 	// 委托编号
-	CTPOrderID *CTPOrderID `protobuf:"bytes,2,opt,name=CTPOrderID" json:"CTPOrderID,omitempty"`
+	CTPOrderID *CTPOrderID `protobuf:"bytes,2,opt,name=CTPOrderID,proto3" json:"CTPOrderID"`
 	// 合约
-	Symbol *Symbol `protobuf:"bytes,3,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol *Symbol `protobuf:"bytes,3,opt,name=symbol,proto3" json:"symbol"`
 	// 请求id
-	RequestId int32 `protobuf:"varint,4,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
+	RequestId int32 `protobuf:"varint,4,opt,name=request_id,json=requestId,proto3" json:"requestId"`
 	// 发起前置
-	FrontId int32 `protobuf:"varint,5,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
+	FrontId int32 `protobuf:"varint,5,opt,name=front_id,json=frontId,proto3" json:"frontId"`
 	// 发起session
-	SessionId int32 `protobuf:"varint,6,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
+	SessionId int32 `protobuf:"varint,6,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
 	// 发起终端信息
-	ExchangeOrderId string `protobuf:"bytes,7,opt,name=exchange_order_id,json=exchangeOrderId" json:"exchange_order_id,omitempty"`
+	ExchangeOrderId string `protobuf:"bytes,7,opt,name=exchange_order_id,json=exchangeOrderId,proto3" json:"exchangeOrderId"`
 	// token
-	Token string `protobuf:"bytes,8,opt,name=token" json:"token,omitempty"`
+	Token string `protobuf:"bytes,8,opt,name=token,proto3" json:"token"`
 	// router account id
-	RouteAccountId string `protobuf:"bytes,9,opt,name=route_account_id,json=routeAccountId" json:"route_account_id,omitempty"`
+	RouteAccountId       string   `protobuf:"bytes,9,opt,name=route_account_id,json=routeAccountId,proto3" json:"routeAccountId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPCancelOrderRequest) Reset()                    { *m = CTPCancelOrderRequest{} }
-func (m *CTPCancelOrderRequest) String() string            { return proto.CompactTextString(m) }
-func (*CTPCancelOrderRequest) ProtoMessage()               {}
-func (*CTPCancelOrderRequest) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{4} }
+func (m *CTPCancelOrderRequest) Reset()         { *m = CTPCancelOrderRequest{} }
+func (m *CTPCancelOrderRequest) String() string { return proto.CompactTextString(m) }
+func (*CTPCancelOrderRequest) ProtoMessage()    {}
+func (*CTPCancelOrderRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{4}
+}
+
+func (m *CTPCancelOrderRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPCancelOrderRequest.Unmarshal(m, b)
+}
+func (m *CTPCancelOrderRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPCancelOrderRequest.Marshal(b, m, deterministic)
+}
+func (m *CTPCancelOrderRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPCancelOrderRequest.Merge(m, src)
+}
+func (m *CTPCancelOrderRequest) XXX_Size() int {
+	return xxx_messageInfo_CTPCancelOrderRequest.Size(m)
+}
+func (m *CTPCancelOrderRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPCancelOrderRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPCancelOrderRequest proto.InternalMessageInfo
 
 func (m *CTPCancelOrderRequest) GetAccountId() string {
 	if m != nil {
@@ -904,21 +1051,44 @@ func (m *CTPCancelOrderRequest) GetRouteAccountId() string {
 }
 
 type CTPOnRtnCancelOrder struct {
-	AccountId       string      `protobuf:"bytes,1,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
-	OrderId         *CTPOrderID `protobuf:"bytes,2,opt,name=order_id,json=orderId" json:"order_id,omitempty"`
-	ExchangeOrderId string      `protobuf:"bytes,3,opt,name=exchange_order_id,json=exchangeOrderId" json:"exchange_order_id,omitempty"`
-	Symbol          *Symbol     `protobuf:"bytes,4,opt,name=symbol" json:"symbol,omitempty"`
-	RequestId       int32       `protobuf:"varint,5,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	ErrorType       int32       `protobuf:"varint,6,opt,name=error_type,json=errorType" json:"error_type,omitempty"`
-	Error           int32       `protobuf:"varint,7,opt,name=error" json:"error,omitempty"`
-	Msg             string      `protobuf:"bytes,8,opt,name=msg" json:"msg,omitempty"`
-	RouteAccountId  string      `protobuf:"bytes,9,opt,name=route_account_id,json=routeAccountId" json:"route_account_id,omitempty"`
+	AccountId            string      `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	OrderId              *CTPOrderID `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"orderId"`
+	ExchangeOrderId      string      `protobuf:"bytes,3,opt,name=exchange_order_id,json=exchangeOrderId,proto3" json:"exchangeOrderId"`
+	Symbol               *Symbol     `protobuf:"bytes,4,opt,name=symbol,proto3" json:"symbol"`
+	RequestId            int32       `protobuf:"varint,5,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	ErrorType            int32       `protobuf:"varint,6,opt,name=error_type,json=errorType,proto3" json:"errorType"`
+	Error                int32       `protobuf:"varint,7,opt,name=error,proto3" json:"error"`
+	Msg                  string      `protobuf:"bytes,8,opt,name=msg,proto3" json:"msg"`
+	RouteAccountId       string      `protobuf:"bytes,9,opt,name=route_account_id,json=routeAccountId,proto3" json:"routeAccountId"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *CTPOnRtnCancelOrder) Reset()                    { *m = CTPOnRtnCancelOrder{} }
-func (m *CTPOnRtnCancelOrder) String() string            { return proto.CompactTextString(m) }
-func (*CTPOnRtnCancelOrder) ProtoMessage()               {}
-func (*CTPOnRtnCancelOrder) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{5} }
+func (m *CTPOnRtnCancelOrder) Reset()         { *m = CTPOnRtnCancelOrder{} }
+func (m *CTPOnRtnCancelOrder) String() string { return proto.CompactTextString(m) }
+func (*CTPOnRtnCancelOrder) ProtoMessage()    {}
+func (*CTPOnRtnCancelOrder) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{5}
+}
+
+func (m *CTPOnRtnCancelOrder) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOnRtnCancelOrder.Unmarshal(m, b)
+}
+func (m *CTPOnRtnCancelOrder) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOnRtnCancelOrder.Marshal(b, m, deterministic)
+}
+func (m *CTPOnRtnCancelOrder) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOnRtnCancelOrder.Merge(m, src)
+}
+func (m *CTPOnRtnCancelOrder) XXX_Size() int {
+	return xxx_messageInfo_CTPOnRtnCancelOrder.Size(m)
+}
+func (m *CTPOnRtnCancelOrder) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOnRtnCancelOrder.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOnRtnCancelOrder proto.InternalMessageInfo
 
 func (m *CTPOnRtnCancelOrder) GetAccountId() string {
 	if m != nil {
@@ -985,43 +1155,66 @@ func (m *CTPOnRtnCancelOrder) GetRouteAccountId() string {
 
 // 成交
 type CTPTradeField struct {
-	BrokerId       string  `protobuf:"bytes,1,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	InvestorId     string  `protobuf:"bytes,2,opt,name=investor_id,json=investorId" json:"investor_id,omitempty"`
-	InstrumentId   string  `protobuf:"bytes,3,opt,name=instrument_id,json=instrumentId" json:"instrument_id,omitempty"`
-	OrderRef       string  `protobuf:"bytes,4,opt,name=order_ref,json=orderRef" json:"order_ref,omitempty"`
-	UserId         string  `protobuf:"bytes,5,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-	ExchangeId     string  `protobuf:"bytes,6,opt,name=exchange_id,json=exchangeId" json:"exchange_id,omitempty"`
-	TradeId        string  `protobuf:"bytes,7,opt,name=trade_id,json=tradeId" json:"trade_id,omitempty"`
-	Direction      int32   `protobuf:"varint,8,opt,name=direction" json:"direction,omitempty"`
-	OrderSysId     string  `protobuf:"bytes,9,opt,name=order_sys_id,json=orderSysId" json:"order_sys_id,omitempty"`
-	ParticipantId  string  `protobuf:"bytes,10,opt,name=participant_id,json=participantId" json:"participant_id,omitempty"`
-	ClientId       string  `protobuf:"bytes,11,opt,name=client_id,json=clientId" json:"client_id,omitempty"`
-	TradingRole    int32   `protobuf:"varint,12,opt,name=trading_role,json=tradingRole" json:"trading_role,omitempty"`
-	ExchangeInstId string  `protobuf:"bytes,13,opt,name=exchange_inst_id,json=exchangeInstId" json:"exchange_inst_id,omitempty"`
-	OffsetFlag     int32   `protobuf:"varint,14,opt,name=offset_flag,json=offsetFlag" json:"offset_flag,omitempty"`
-	HedgeFlag      int32   `protobuf:"varint,15,opt,name=hedge_flag,json=hedgeFlag" json:"hedge_flag,omitempty"`
-	Price          float64 `protobuf:"fixed64,16,opt,name=price" json:"price,omitempty"`
-	Volume         int32   `protobuf:"varint,17,opt,name=volume" json:"volume,omitempty"`
-	TradeDate      string  `protobuf:"bytes,18,opt,name=trade_date,json=tradeDate" json:"trade_date,omitempty"`
-	TradeTime      string  `protobuf:"bytes,19,opt,name=trade_time,json=tradeTime" json:"trade_time,omitempty"`
-	TradeType      int32   `protobuf:"varint,20,opt,name=trade_type,json=tradeType" json:"trade_type,omitempty"`
-	PriceSource    int32   `protobuf:"varint,21,opt,name=price_source,json=priceSource" json:"price_source,omitempty"`
-	TraderId       string  `protobuf:"bytes,22,opt,name=trader_id,json=traderId" json:"trader_id,omitempty"`
-	OrderLocalId   string  `protobuf:"bytes,23,opt,name=order_local_id,json=orderLocalId" json:"order_local_id,omitempty"`
-	ClearingPartId string  `protobuf:"bytes,24,opt,name=clearing_part_id,json=clearingPartId" json:"clearing_part_id,omitempty"`
-	BusinessUnit   string  `protobuf:"bytes,25,opt,name=business_unit,json=businessUnit" json:"business_unit,omitempty"`
-	SequenceNo     int32   `protobuf:"varint,26,opt,name=sequence_no,json=sequenceNo" json:"sequence_no,omitempty"`
-	TradingDay     int32   `protobuf:"varint,27,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
-	SettlementId   int32   `protobuf:"varint,28,opt,name=settlement_id,json=settlementId" json:"settlement_id,omitempty"`
-	BrokerOrderSeq int32   `protobuf:"varint,29,opt,name=broker_order_seq,json=brokerOrderSeq" json:"broker_order_seq,omitempty"`
-	TradeSource    int32   `protobuf:"varint,30,opt,name=trade_source,json=tradeSource" json:"trade_source,omitempty"`
-	InvestUnitId   string  `protobuf:"bytes,31,opt,name=invest_unit_id,json=investUnitId" json:"invest_unit_id,omitempty"`
+	BrokerId             string   `protobuf:"bytes,1,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	InvestorId           string   `protobuf:"bytes,2,opt,name=investor_id,json=investorId,proto3" json:"investorId"`
+	InstrumentId         string   `protobuf:"bytes,3,opt,name=instrument_id,json=instrumentId,proto3" json:"instrumentId"`
+	OrderRef             string   `protobuf:"bytes,4,opt,name=order_ref,json=orderRef,proto3" json:"orderRef"`
+	UserId               string   `protobuf:"bytes,5,opt,name=user_id,json=userId,proto3" json:"userId"`
+	ExchangeId           string   `protobuf:"bytes,6,opt,name=exchange_id,json=exchangeId,proto3" json:"exchangeId"`
+	TradeId              string   `protobuf:"bytes,7,opt,name=trade_id,json=tradeId,proto3" json:"tradeId"`
+	Direction            int32    `protobuf:"varint,8,opt,name=direction,proto3" json:"direction"`
+	OrderSysId           string   `protobuf:"bytes,9,opt,name=order_sys_id,json=orderSysId,proto3" json:"orderSysId"`
+	ParticipantId        string   `protobuf:"bytes,10,opt,name=participant_id,json=participantId,proto3" json:"participantId"`
+	ClientId             string   `protobuf:"bytes,11,opt,name=client_id,json=clientId,proto3" json:"clientId"`
+	TradingRole          int32    `protobuf:"varint,12,opt,name=trading_role,json=tradingRole,proto3" json:"tradingRole"`
+	ExchangeInstId       string   `protobuf:"bytes,13,opt,name=exchange_inst_id,json=exchangeInstId,proto3" json:"exchangeInstId"`
+	OffsetFlag           int32    `protobuf:"varint,14,opt,name=offset_flag,json=offsetFlag,proto3" json:"offsetFlag"`
+	HedgeFlag            int32    `protobuf:"varint,15,opt,name=hedge_flag,json=hedgeFlag,proto3" json:"hedgeFlag"`
+	Price                float64  `protobuf:"fixed64,16,opt,name=price,proto3" json:"price"`
+	Volume               int32    `protobuf:"varint,17,opt,name=volume,proto3" json:"volume"`
+	TradeDate            string   `protobuf:"bytes,18,opt,name=trade_date,json=tradeDate,proto3" json:"tradeDate"`
+	TradeTime            string   `protobuf:"bytes,19,opt,name=trade_time,json=tradeTime,proto3" json:"tradeTime"`
+	TradeType            int32    `protobuf:"varint,20,opt,name=trade_type,json=tradeType,proto3" json:"tradeType"`
+	PriceSource          int32    `protobuf:"varint,21,opt,name=price_source,json=priceSource,proto3" json:"priceSource"`
+	TraderId             string   `protobuf:"bytes,22,opt,name=trader_id,json=traderId,proto3" json:"traderId"`
+	OrderLocalId         string   `protobuf:"bytes,23,opt,name=order_local_id,json=orderLocalId,proto3" json:"orderLocalId"`
+	ClearingPartId       string   `protobuf:"bytes,24,opt,name=clearing_part_id,json=clearingPartId,proto3" json:"clearingPartId"`
+	BusinessUnit         string   `protobuf:"bytes,25,opt,name=business_unit,json=businessUnit,proto3" json:"businessUnit"`
+	SequenceNo           int32    `protobuf:"varint,26,opt,name=sequence_no,json=sequenceNo,proto3" json:"sequenceNo"`
+	TradingDay           int32    `protobuf:"varint,27,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
+	SettlementId         int32    `protobuf:"varint,28,opt,name=settlement_id,json=settlementId,proto3" json:"settlementId"`
+	BrokerOrderSeq       int32    `protobuf:"varint,29,opt,name=broker_order_seq,json=brokerOrderSeq,proto3" json:"brokerOrderSeq"`
+	TradeSource          int32    `protobuf:"varint,30,opt,name=trade_source,json=tradeSource,proto3" json:"tradeSource"`
+	InvestUnitId         string   `protobuf:"bytes,31,opt,name=invest_unit_id,json=investUnitId,proto3" json:"investUnitId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPTradeField) Reset()                    { *m = CTPTradeField{} }
-func (m *CTPTradeField) String() string            { return proto.CompactTextString(m) }
-func (*CTPTradeField) ProtoMessage()               {}
-func (*CTPTradeField) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{6} }
+func (m *CTPTradeField) Reset()         { *m = CTPTradeField{} }
+func (m *CTPTradeField) String() string { return proto.CompactTextString(m) }
+func (*CTPTradeField) ProtoMessage()    {}
+func (*CTPTradeField) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{6}
+}
+
+func (m *CTPTradeField) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPTradeField.Unmarshal(m, b)
+}
+func (m *CTPTradeField) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPTradeField.Marshal(b, m, deterministic)
+}
+func (m *CTPTradeField) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPTradeField.Merge(m, src)
+}
+func (m *CTPTradeField) XXX_Size() int {
+	return xxx_messageInfo_CTPTradeField.Size(m)
+}
+func (m *CTPTradeField) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPTradeField.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPTradeField proto.InternalMessageInfo
 
 func (m *CTPTradeField) GetBrokerId() string {
 	if m != nil {
@@ -1241,13 +1434,36 @@ func (m *CTPTradeField) GetInvestUnitId() string {
 }
 
 type CTPTradeReportList struct {
-	List []*CTPTradeField `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*CTPTradeField `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *CTPTradeReportList) Reset()                    { *m = CTPTradeReportList{} }
-func (m *CTPTradeReportList) String() string            { return proto.CompactTextString(m) }
-func (*CTPTradeReportList) ProtoMessage()               {}
-func (*CTPTradeReportList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{7} }
+func (m *CTPTradeReportList) Reset()         { *m = CTPTradeReportList{} }
+func (m *CTPTradeReportList) String() string { return proto.CompactTextString(m) }
+func (*CTPTradeReportList) ProtoMessage()    {}
+func (*CTPTradeReportList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{7}
+}
+
+func (m *CTPTradeReportList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPTradeReportList.Unmarshal(m, b)
+}
+func (m *CTPTradeReportList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPTradeReportList.Marshal(b, m, deterministic)
+}
+func (m *CTPTradeReportList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPTradeReportList.Merge(m, src)
+}
+func (m *CTPTradeReportList) XXX_Size() int {
+	return xxx_messageInfo_CTPTradeReportList.Size(m)
+}
+func (m *CTPTradeReportList) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPTradeReportList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPTradeReportList proto.InternalMessageInfo
 
 func (m *CTPTradeReportList) GetList() []*CTPTradeField {
 	if m != nil {
@@ -1259,47 +1475,70 @@ func (m *CTPTradeReportList) GetList() []*CTPTradeField {
 // 持仓统计
 type CTPPositionSummation struct {
 	// 方向
-	Direction CTPDirection `protobuf:"varint,1,opt,name=direction,enum=pb.CTPDirection" json:"direction,omitempty"`
+	Direction CTPDirection `protobuf:"varint,1,opt,name=direction,proto3,enum=pb.CTPDirection" json:"direction"`
 	// 类型
-	Type int32 `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
+	Type int32 `protobuf:"varint,2,opt,name=type,proto3" json:"type"`
 	// 路由分组
-	RouteAccountId string `protobuf:"bytes,3,opt,name=route_account_id,json=routeAccountId" json:"route_account_id,omitempty"`
+	RouteAccountId string `protobuf:"bytes,3,opt,name=route_account_id,json=routeAccountId,proto3" json:"routeAccountId"`
 	// 持仓
-	Position int32 `protobuf:"varint,4,opt,name=position" json:"position,omitempty"`
+	Position int32 `protobuf:"varint,4,opt,name=position,proto3" json:"position"`
 	// 金额
-	Amount float64 `protobuf:"fixed64,5,opt,name=amount" json:"amount,omitempty"`
+	Amount float64 `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount"`
 	// 成本
-	Cost float64 `protobuf:"fixed64,6,opt,name=cost" json:"cost,omitempty"`
+	Cost float64 `protobuf:"fixed64,6,opt,name=cost,proto3" json:"cost"`
 	// 冻结
-	Frozen int32 `protobuf:"varint,7,opt,name=frozen" json:"frozen,omitempty"`
+	Frozen int32 `protobuf:"varint,7,opt,name=frozen,proto3" json:"frozen"`
 	// 可用
-	Available int32 `protobuf:"varint,8,opt,name=available" json:"available,omitempty"`
+	Available int32 `protobuf:"varint,8,opt,name=available,proto3" json:"available"`
 	// 盈亏
-	PositionProfit float64 `protobuf:"fixed64,9,opt,name=position_profit,json=positionProfit" json:"position_profit,omitempty"`
+	PositionProfit float64 `protobuf:"fixed64,9,opt,name=position_profit,json=positionProfit,proto3" json:"positionProfit"`
 	// 平盈
-	ClosedProfit float64 `protobuf:"fixed64,10,opt,name=closed_profit,json=closedProfit" json:"closed_profit,omitempty"`
+	ClosedProfit float64 `protobuf:"fixed64,10,opt,name=closed_profit,json=closedProfit,proto3" json:"closedProfit"`
 	// 保证金
-	Margin float64 `protobuf:"fixed64,11,opt,name=margin" json:"margin,omitempty"`
+	Margin float64 `protobuf:"fixed64,11,opt,name=margin,proto3" json:"margin"`
 	// 冻结保证金
-	FrozenMargin float64 `protobuf:"fixed64,12,opt,name=frozen_margin,json=frozenMargin" json:"frozen_margin,omitempty"`
+	FrozenMargin float64 `protobuf:"fixed64,12,opt,name=frozen_margin,json=frozenMargin,proto3" json:"frozenMargin"`
 	// 手续费
-	Commission float64 `protobuf:"fixed64,13,opt,name=commission" json:"commission,omitempty"`
+	Commission float64 `protobuf:"fixed64,13,opt,name=commission,proto3" json:"commission"`
 	// 冻结手续费
-	FrozenCommission float64 `protobuf:"fixed64,14,opt,name=frozen_commission,json=frozenCommission" json:"frozen_commission,omitempty"`
+	FrozenCommission float64 `protobuf:"fixed64,14,opt,name=frozen_commission,json=frozenCommission,proto3" json:"frozenCommission"`
 	// 利息
-	Interest float64 `protobuf:"fixed64,15,opt,name=interest" json:"interest,omitempty"`
+	Interest float64 `protobuf:"fixed64,15,opt,name=interest,proto3" json:"interest"`
 	// 冻结利息
-	FrozenInterest float64 `protobuf:"fixed64,16,opt,name=frozen_interest,json=frozenInterest" json:"frozen_interest,omitempty"`
+	FrozenInterest float64 `protobuf:"fixed64,16,opt,name=frozen_interest,json=frozenInterest,proto3" json:"frozenInterest"`
 	// 盯市盈亏
-	MtmProfit float64 `protobuf:"fixed64,17,opt,name=mtm_profit,json=mtmProfit" json:"mtm_profit,omitempty"`
+	MtmProfit float64 `protobuf:"fixed64,17,opt,name=mtm_profit,json=mtmProfit,proto3" json:"mtmProfit"`
 	// 进入清算的平仓盈亏
-	ClearedClosedProfit float64 `protobuf:"fixed64,18,opt,name=cleared_closed_profit,json=clearedClosedProfit" json:"cleared_closed_profit,omitempty"`
+	ClearedClosedProfit  float64  `protobuf:"fixed64,18,opt,name=cleared_closed_profit,json=clearedClosedProfit,proto3" json:"clearedClosedProfit"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPPositionSummation) Reset()                    { *m = CTPPositionSummation{} }
-func (m *CTPPositionSummation) String() string            { return proto.CompactTextString(m) }
-func (*CTPPositionSummation) ProtoMessage()               {}
-func (*CTPPositionSummation) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{8} }
+func (m *CTPPositionSummation) Reset()         { *m = CTPPositionSummation{} }
+func (m *CTPPositionSummation) String() string { return proto.CompactTextString(m) }
+func (*CTPPositionSummation) ProtoMessage()    {}
+func (*CTPPositionSummation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{8}
+}
+
+func (m *CTPPositionSummation) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPPositionSummation.Unmarshal(m, b)
+}
+func (m *CTPPositionSummation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPPositionSummation.Marshal(b, m, deterministic)
+}
+func (m *CTPPositionSummation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPPositionSummation.Merge(m, src)
+}
+func (m *CTPPositionSummation) XXX_Size() int {
+	return xxx_messageInfo_CTPPositionSummation.Size(m)
+}
+func (m *CTPPositionSummation) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPPositionSummation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPPositionSummation proto.InternalMessageInfo
 
 func (m *CTPPositionSummation) GetDirection() CTPDirection {
 	if m != nil {
@@ -1429,40 +1668,63 @@ func (m *CTPPositionSummation) GetClearedClosedProfit() float64 {
 
 // 持仓
 type CTPPosition struct {
-	// / 合约编号
-	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
+	/// 合约编号
+	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
 	// 统计
-	Summation *CTPPositionSummation `protobuf:"bytes,2,opt,name=summation" json:"summation,omitempty"`
+	Summation *CTPPositionSummation `protobuf:"bytes,2,opt,name=summation,proto3" json:"summation"`
 	// 今仓
-	TodaySummation *CTPPositionSummation `protobuf:"bytes,3,opt,name=today_summation,json=todaySummation" json:"today_summation,omitempty"`
+	TodaySummation *CTPPositionSummation `protobuf:"bytes,3,opt,name=today_summation,json=todaySummation,proto3" json:"todaySummation"`
 	// 今仓
-	YesterdaySummation *CTPPositionSummation `protobuf:"bytes,4,opt,name=yesterday_summation,json=yesterdaySummation" json:"yesterday_summation,omitempty"`
+	YesterdaySummation *CTPPositionSummation `protobuf:"bytes,4,opt,name=yesterday_summation,json=yesterdaySummation,proto3" json:"yesterdaySummation"`
 	// 昨结算
-	PreSettlementPrice float64 `protobuf:"fixed64,5,opt,name=pre_settlement_price,json=preSettlementPrice" json:"pre_settlement_price,omitempty"`
+	PreSettlementPrice float64 `protobuf:"fixed64,5,opt,name=pre_settlement_price,json=preSettlementPrice,proto3" json:"preSettlementPrice"`
 	// 今结算
-	SettlementPrice float64 `protobuf:"fixed64,6,opt,name=settlement_price,json=settlementPrice" json:"settlement_price,omitempty"`
+	SettlementPrice float64 `protobuf:"fixed64,6,opt,name=settlement_price,json=settlementPrice,proto3" json:"settlementPrice"`
 	// 最新价
-	LastPrice float64 `protobuf:"fixed64,7,opt,name=last_price,json=lastPrice" json:"last_price,omitempty"`
+	LastPrice float64 `protobuf:"fixed64,7,opt,name=last_price,json=lastPrice,proto3" json:"lastPrice"`
 	// 交易日
-	TradingDay int32 `protobuf:"varint,8,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
+	TradingDay int32 `protobuf:"varint,8,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
 	// 交易品种类型
-	ProductType int32 `protobuf:"varint,9,opt,name=product_type,json=productType" json:"product_type,omitempty"`
+	ProductType int32 `protobuf:"varint,9,opt,name=product_type,json=productType,proto3" json:"productType"`
 	// 合约乘数
-	VolumeMultiple int32 `protobuf:"varint,11,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
+	VolumeMultiple int32 `protobuf:"varint,11,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
 	// 产品
-	ProductId *ProductID `protobuf:"bytes,12,opt,name=product_id,json=productId" json:"product_id,omitempty"`
+	ProductId *ProductID `protobuf:"bytes,12,opt,name=product_id,json=productId,proto3" json:"productId"`
 	// 最小变动价位
-	PriceTick float64 `protobuf:"fixed64,13,opt,name=price_tick,json=priceTick" json:"price_tick,omitempty"`
+	PriceTick float64 `protobuf:"fixed64,13,opt,name=price_tick,json=priceTick,proto3" json:"priceTick"`
 	// 名称
-	SymbolName string `protobuf:"bytes,14,opt,name=symbol_name,json=symbolName" json:"symbol_name,omitempty"`
+	SymbolName string `protobuf:"bytes,14,opt,name=symbol_name,json=symbolName,proto3" json:"symbolName"`
 	// 账号
-	AccountId string `protobuf:"bytes,15,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
+	AccountId            string   `protobuf:"bytes,15,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPPosition) Reset()                    { *m = CTPPosition{} }
-func (m *CTPPosition) String() string            { return proto.CompactTextString(m) }
-func (*CTPPosition) ProtoMessage()               {}
-func (*CTPPosition) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{9} }
+func (m *CTPPosition) Reset()         { *m = CTPPosition{} }
+func (m *CTPPosition) String() string { return proto.CompactTextString(m) }
+func (*CTPPosition) ProtoMessage()    {}
+func (*CTPPosition) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{9}
+}
+
+func (m *CTPPosition) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPPosition.Unmarshal(m, b)
+}
+func (m *CTPPosition) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPPosition.Marshal(b, m, deterministic)
+}
+func (m *CTPPosition) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPPosition.Merge(m, src)
+}
+func (m *CTPPosition) XXX_Size() int {
+	return xxx_messageInfo_CTPPosition.Size(m)
+}
+func (m *CTPPosition) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPPosition.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPPosition proto.InternalMessageInfo
 
 func (m *CTPPosition) GetSymbol() *Symbol {
 	if m != nil {
@@ -1563,13 +1825,36 @@ func (m *CTPPosition) GetAccountId() string {
 }
 
 type CTPPositionList struct {
-	List []*CTPPosition `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*CTPPosition `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
 }
 
-func (m *CTPPositionList) Reset()                    { *m = CTPPositionList{} }
-func (m *CTPPositionList) String() string            { return proto.CompactTextString(m) }
-func (*CTPPositionList) ProtoMessage()               {}
-func (*CTPPositionList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{10} }
+func (m *CTPPositionList) Reset()         { *m = CTPPositionList{} }
+func (m *CTPPositionList) String() string { return proto.CompactTextString(m) }
+func (*CTPPositionList) ProtoMessage()    {}
+func (*CTPPositionList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{10}
+}
+
+func (m *CTPPositionList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPPositionList.Unmarshal(m, b)
+}
+func (m *CTPPositionList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPPositionList.Marshal(b, m, deterministic)
+}
+func (m *CTPPositionList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPPositionList.Merge(m, src)
+}
+func (m *CTPPositionList) XXX_Size() int {
+	return xxx_messageInfo_CTPPositionList.Size(m)
+}
+func (m *CTPPositionList) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPPositionList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPPositionList proto.InternalMessageInfo
 
 func (m *CTPPositionList) GetList() []*CTPPosition {
 	if m != nil {
@@ -1581,71 +1866,94 @@ func (m *CTPPositionList) GetList() []*CTPPosition {
 // 平仓明细.
 type CTPCloseTradeRecord struct {
 	// 帐号
-	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
+	AccountId string `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"accountId"`
 	// 合约
-	Symbol *Symbol `protobuf:"bytes,2,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol *Symbol `protobuf:"bytes,2,opt,name=symbol,proto3" json:"symbol"`
 	// 方向
-	Direction CTPDirection `protobuf:"varint,3,opt,name=direction,enum=pb.CTPDirection" json:"direction,omitempty"`
+	Direction CTPDirection `protobuf:"varint,3,opt,name=direction,proto3,enum=pb.CTPDirection" json:"direction"`
 	// 数量
-	OpenVolume int32 `protobuf:"varint,4,opt,name=open_volume,json=openVolume" json:"open_volume,omitempty"`
+	OpenVolume int32 `protobuf:"varint,4,opt,name=open_volume,json=openVolume,proto3" json:"openVolume"`
 	// 开仓金额
-	OpenAmount float64 `protobuf:"fixed64,5,opt,name=open_amount,json=openAmount" json:"open_amount,omitempty"`
+	OpenAmount float64 `protobuf:"fixed64,5,opt,name=open_amount,json=openAmount,proto3" json:"openAmount"`
 	// 平仓数量
-	ClosedVolume int32 `protobuf:"varint,6,opt,name=closed_volume,json=closedVolume" json:"closed_volume,omitempty"`
+	ClosedVolume int32 `protobuf:"varint,6,opt,name=closed_volume,json=closedVolume,proto3" json:"closedVolume"`
 	// 平仓金额
-	ClosedAmount float64 `protobuf:"fixed64,7,opt,name=closed_amount,json=closedAmount" json:"closed_amount,omitempty"`
+	ClosedAmount float64 `protobuf:"fixed64,7,opt,name=closed_amount,json=closedAmount,proto3" json:"closedAmount"`
 	// 开仓时间
-	OpenTime int64 `protobuf:"varint,8,opt,name=open_time,json=openTime" json:"open_time,omitempty"`
+	OpenTime int64 `protobuf:"varint,8,opt,name=open_time,json=openTime,proto3" json:"openTime"`
 	// 开仓交易日
-	OpenTradingDay int32 `protobuf:"varint,9,opt,name=open_trading_day,json=openTradingDay" json:"open_trading_day,omitempty"`
+	OpenTradingDay int32 `protobuf:"varint,9,opt,name=open_trading_day,json=openTradingDay,proto3" json:"openTradingDay"`
 	// 开仓委托单号
-	OpenOrderId *CTPOrderID `protobuf:"bytes,10,opt,name=open_order_id,json=openOrderId" json:"open_order_id,omitempty"`
+	OpenOrderId *CTPOrderID `protobuf:"bytes,10,opt,name=open_order_id,json=openOrderId,proto3" json:"openOrderId"`
 	// 开仓成交编号
-	OpenTradeId string `protobuf:"bytes,11,opt,name=open_trade_id,json=openTradeId" json:"open_trade_id,omitempty"`
+	OpenTradeId string `protobuf:"bytes,11,opt,name=open_trade_id,json=openTradeId,proto3" json:"openTradeId"`
 	// 开仓成交类型
-	OpenTradeType int32 `protobuf:"varint,12,opt,name=open_trade_type,json=openTradeType" json:"open_trade_type,omitempty"`
+	OpenTradeType int32 `protobuf:"varint,12,opt,name=open_trade_type,json=openTradeType,proto3" json:"openTradeType"`
 	// 开仓投机套保类型
-	OpenHedgeType int32 `protobuf:"varint,13,opt,name=open_hedge_type,json=openHedgeType" json:"open_hedge_type,omitempty"`
+	OpenHedgeType int32 `protobuf:"varint,13,opt,name=open_hedge_type,json=openHedgeType,proto3" json:"openHedgeType"`
 	// 平仓时间
-	CloseTime int64 `protobuf:"varint,14,opt,name=close_time,json=closeTime" json:"close_time,omitempty"`
+	CloseTime int64 `protobuf:"varint,14,opt,name=close_time,json=closeTime,proto3" json:"closeTime"`
 	// 平仓交易日
-	CloseTradingDay int32 `protobuf:"varint,15,opt,name=close_trading_day,json=closeTradingDay" json:"close_trading_day,omitempty"`
+	CloseTradingDay int32 `protobuf:"varint,15,opt,name=close_trading_day,json=closeTradingDay,proto3" json:"closeTradingDay"`
 	// 平仓委托单号
-	CloseOrderId *CTPOrderID `protobuf:"bytes,16,opt,name=close_order_id,json=closeOrderId" json:"close_order_id,omitempty"`
+	CloseOrderId *CTPOrderID `protobuf:"bytes,16,opt,name=close_order_id,json=closeOrderId,proto3" json:"closeOrderId"`
 	// 平仓成交编号
-	CloseTradeId string `protobuf:"bytes,17,opt,name=close_trade_id,json=closeTradeId" json:"close_trade_id,omitempty"`
+	CloseTradeId string `protobuf:"bytes,17,opt,name=close_trade_id,json=closeTradeId,proto3" json:"closeTradeId"`
 	// 平仓成交类型
-	CloseTradeType int32 `protobuf:"varint,18,opt,name=close_trade_type,json=closeTradeType" json:"close_trade_type,omitempty"`
+	CloseTradeType int32 `protobuf:"varint,18,opt,name=close_trade_type,json=closeTradeType,proto3" json:"closeTradeType"`
 	// 平仓投机套保类型
-	CloseHedgeType int32 `protobuf:"varint,19,opt,name=close_hedge_type,json=closeHedgeType" json:"close_hedge_type,omitempty"`
+	CloseHedgeType int32 `protobuf:"varint,19,opt,name=close_hedge_type,json=closeHedgeType,proto3" json:"closeHedgeType"`
 	// 平仓盈亏
-	CloseProfit float64 `protobuf:"fixed64,20,opt,name=close_profit,json=closeProfit" json:"close_profit,omitempty"`
+	CloseProfit float64 `protobuf:"fixed64,20,opt,name=close_profit,json=closeProfit,proto3" json:"closeProfit"`
 	// 昨结
-	PreSettlementPrice float64 `protobuf:"fixed64,21,opt,name=pre_settlement_price,json=preSettlementPrice" json:"pre_settlement_price,omitempty"`
+	PreSettlementPrice float64 `protobuf:"fixed64,21,opt,name=pre_settlement_price,json=preSettlementPrice,proto3" json:"preSettlementPrice"`
 	// 币种
-	CurrencyType CurrencyType `protobuf:"varint,22,opt,name=currency_type,json=currencyType,enum=pb.CurrencyType" json:"currency_type,omitempty"`
+	CurrencyType CurrencyType `protobuf:"varint,22,opt,name=currency_type,json=currencyType,proto3,enum=pb.CurrencyType" json:"currencyType"`
 	// 开仓手续费
-	OpenCommission float64 `protobuf:"fixed64,23,opt,name=open_commission,json=openCommission" json:"open_commission,omitempty"`
+	OpenCommission float64 `protobuf:"fixed64,23,opt,name=open_commission,json=openCommission,proto3" json:"openCommission"`
 	// 平仓手续费
-	CloseCommission float64 `protobuf:"fixed64,24,opt,name=close_commission,json=closeCommission" json:"close_commission,omitempty"`
+	CloseCommission float64 `protobuf:"fixed64,24,opt,name=close_commission,json=closeCommission,proto3" json:"closeCommission"`
 	// 保证金占用
-	Margin float64 `protobuf:"fixed64,25,opt,name=margin" json:"margin,omitempty"`
+	Margin float64 `protobuf:"fixed64,25,opt,name=margin,proto3" json:"margin"`
 	// 初始开仓金额
-	InitialOpenAmount float64 `protobuf:"fixed64,26,opt,name=initial_open_amount,json=initialOpenAmount" json:"initial_open_amount,omitempty"`
+	InitialOpenAmount float64 `protobuf:"fixed64,26,opt,name=initial_open_amount,json=initialOpenAmount,proto3" json:"initialOpenAmount"`
 	// 合约乘数
-	VolumeMultiple int32 `protobuf:"varint,27,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
+	VolumeMultiple int32 `protobuf:"varint,27,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
 	// 冻结利息
-	FrozenInterest float64 `protobuf:"fixed64,28,opt,name=frozen_interest,json=frozenInterest" json:"frozen_interest,omitempty"`
+	FrozenInterest float64 `protobuf:"fixed64,28,opt,name=frozen_interest,json=frozenInterest,proto3" json:"frozenInterest"`
 	// 上游账户
-	RouteAccountId string `protobuf:"bytes,29,opt,name=route_account_id,json=routeAccountId" json:"route_account_id,omitempty"`
+	RouteAccountId string `protobuf:"bytes,29,opt,name=route_account_id,json=routeAccountId,proto3" json:"routeAccountId"`
 	// 持仓盈亏
-	PositionProfit float64 `protobuf:"fixed64,30,opt,name=position_profit,json=positionProfit" json:"position_profit,omitempty"`
+	PositionProfit       float64  `protobuf:"fixed64,30,opt,name=position_profit,json=positionProfit,proto3" json:"positionProfit"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPCloseTradeRecord) Reset()                    { *m = CTPCloseTradeRecord{} }
-func (m *CTPCloseTradeRecord) String() string            { return proto.CompactTextString(m) }
-func (*CTPCloseTradeRecord) ProtoMessage()               {}
-func (*CTPCloseTradeRecord) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{11} }
+func (m *CTPCloseTradeRecord) Reset()         { *m = CTPCloseTradeRecord{} }
+func (m *CTPCloseTradeRecord) String() string { return proto.CompactTextString(m) }
+func (*CTPCloseTradeRecord) ProtoMessage()    {}
+func (*CTPCloseTradeRecord) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{11}
+}
+
+func (m *CTPCloseTradeRecord) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPCloseTradeRecord.Unmarshal(m, b)
+}
+func (m *CTPCloseTradeRecord) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPCloseTradeRecord.Marshal(b, m, deterministic)
+}
+func (m *CTPCloseTradeRecord) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPCloseTradeRecord.Merge(m, src)
+}
+func (m *CTPCloseTradeRecord) XXX_Size() int {
+	return xxx_messageInfo_CTPCloseTradeRecord.Size(m)
+}
+func (m *CTPCloseTradeRecord) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPCloseTradeRecord.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPCloseTradeRecord proto.InternalMessageInfo
 
 func (m *CTPCloseTradeRecord) GetAccountId() string {
 	if m != nil {
@@ -1858,13 +2166,36 @@ func (m *CTPCloseTradeRecord) GetPositionProfit() float64 {
 }
 
 type CTPCloseTradeRecordList struct {
-	List []*CTPCloseTradeRecord `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*CTPCloseTradeRecord `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
+	XXX_unrecognized     []byte                 `json:"-"`
+	XXX_sizecache        int32                  `json:"-"`
 }
 
-func (m *CTPCloseTradeRecordList) Reset()                    { *m = CTPCloseTradeRecordList{} }
-func (m *CTPCloseTradeRecordList) String() string            { return proto.CompactTextString(m) }
-func (*CTPCloseTradeRecordList) ProtoMessage()               {}
-func (*CTPCloseTradeRecordList) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{12} }
+func (m *CTPCloseTradeRecordList) Reset()         { *m = CTPCloseTradeRecordList{} }
+func (m *CTPCloseTradeRecordList) String() string { return proto.CompactTextString(m) }
+func (*CTPCloseTradeRecordList) ProtoMessage()    {}
+func (*CTPCloseTradeRecordList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{12}
+}
+
+func (m *CTPCloseTradeRecordList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPCloseTradeRecordList.Unmarshal(m, b)
+}
+func (m *CTPCloseTradeRecordList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPCloseTradeRecordList.Marshal(b, m, deterministic)
+}
+func (m *CTPCloseTradeRecordList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPCloseTradeRecordList.Merge(m, src)
+}
+func (m *CTPCloseTradeRecordList) XXX_Size() int {
+	return xxx_messageInfo_CTPCloseTradeRecordList.Size(m)
+}
+func (m *CTPCloseTradeRecordList) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPCloseTradeRecordList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPCloseTradeRecordList proto.InternalMessageInfo
 
 func (m *CTPCloseTradeRecordList) GetList() []*CTPCloseTradeRecord {
 	if m != nil {
@@ -1876,27 +2207,50 @@ func (m *CTPCloseTradeRecordList) GetList() []*CTPCloseTradeRecord {
 // 保证金率
 type CTPMarginRate struct {
 	// 交易所
-	Exchange ExchangeType `protobuf:"varint,1,opt,name=exchange,enum=pb.ExchangeType" json:"exchange,omitempty"`
+	Exchange ExchangeType `protobuf:"varint,1,opt,name=exchange,proto3,enum=pb.ExchangeType" json:"exchange"`
 	// symbol
-	Symbol string `protobuf:"bytes,2,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol string `protobuf:"bytes,2,opt,name=symbol,proto3" json:"symbol"`
 	// product
-	Product string `protobuf:"bytes,3,opt,name=product" json:"product,omitempty"`
-	// / 多头保证金率（按手数)
-	LongByVolume float64 `protobuf:"fixed64,4,opt,name=long_by_volume,json=longByVolume" json:"long_by_volume,omitempty"`
-	// / 多头保证金率（按金额)
-	LongByAmount float64 `protobuf:"fixed64,5,opt,name=long_by_amount,json=longByAmount" json:"long_by_amount,omitempty"`
-	// / 空头保证金率（按手数)
-	ShortByVolume float64 `protobuf:"fixed64,6,opt,name=short_by_volume,json=shortByVolume" json:"short_by_volume,omitempty"`
-	// / 空头保证金率（按金额)
-	ShortByAmount float64 `protobuf:"fixed64,7,opt,name=short_by_amount,json=shortByAmount" json:"short_by_amount,omitempty"`
+	Product string `protobuf:"bytes,3,opt,name=product,proto3" json:"product"`
+	/// 多头保证金率（按手数)
+	LongByVolume float64 `protobuf:"fixed64,4,opt,name=long_by_volume,json=longByVolume,proto3" json:"longByVolume"`
+	/// 多头保证金率（按金额)
+	LongByAmount float64 `protobuf:"fixed64,5,opt,name=long_by_amount,json=longByAmount,proto3" json:"longByAmount"`
+	/// 空头保证金率（按手数)
+	ShortByVolume float64 `protobuf:"fixed64,6,opt,name=short_by_volume,json=shortByVolume,proto3" json:"shortByVolume"`
+	/// 空头保证金率（按金额)
+	ShortByAmount float64 `protobuf:"fixed64,7,opt,name=short_by_amount,json=shortByAmount,proto3" json:"shortByAmount"`
 	// uid
-	Id int64 `protobuf:"varint,10,opt,name=id" json:"id,omitempty"`
+	Id                   int64    `protobuf:"varint,10,opt,name=id,proto3" json:"id"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPMarginRate) Reset()                    { *m = CTPMarginRate{} }
-func (m *CTPMarginRate) String() string            { return proto.CompactTextString(m) }
-func (*CTPMarginRate) ProtoMessage()               {}
-func (*CTPMarginRate) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{13} }
+func (m *CTPMarginRate) Reset()         { *m = CTPMarginRate{} }
+func (m *CTPMarginRate) String() string { return proto.CompactTextString(m) }
+func (*CTPMarginRate) ProtoMessage()    {}
+func (*CTPMarginRate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{13}
+}
+
+func (m *CTPMarginRate) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPMarginRate.Unmarshal(m, b)
+}
+func (m *CTPMarginRate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPMarginRate.Marshal(b, m, deterministic)
+}
+func (m *CTPMarginRate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPMarginRate.Merge(m, src)
+}
+func (m *CTPMarginRate) XXX_Size() int {
+	return xxx_messageInfo_CTPMarginRate.Size(m)
+}
+func (m *CTPMarginRate) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPMarginRate.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPMarginRate proto.InternalMessageInfo
 
 func (m *CTPMarginRate) GetExchange() ExchangeType {
 	if m != nil {
@@ -1956,20 +2310,43 @@ func (m *CTPMarginRate) GetId() int64 {
 
 // CTPMarginItem
 type CTPMarginItem struct {
-	// / 多头保证金率（按手数)
-	LongByVolume float64 `protobuf:"fixed64,1,opt,name=long_by_volume,json=longByVolume" json:"long_by_volume,omitempty"`
-	// / 多头保证金率（按金额)
-	LongByAmount float64 `protobuf:"fixed64,2,opt,name=long_by_amount,json=longByAmount" json:"long_by_amount,omitempty"`
-	// / 空头保证金率（按手数)
-	ShortByVolume float64 `protobuf:"fixed64,3,opt,name=short_by_volume,json=shortByVolume" json:"short_by_volume,omitempty"`
-	// / 空头保证金率（按金额)
-	ShortByAmount float64 `protobuf:"fixed64,4,opt,name=short_by_amount,json=shortByAmount" json:"short_by_amount,omitempty"`
+	/// 多头保证金率（按手数)
+	LongByVolume float64 `protobuf:"fixed64,1,opt,name=long_by_volume,json=longByVolume,proto3" json:"longByVolume"`
+	/// 多头保证金率（按金额)
+	LongByAmount float64 `protobuf:"fixed64,2,opt,name=long_by_amount,json=longByAmount,proto3" json:"longByAmount"`
+	/// 空头保证金率（按手数)
+	ShortByVolume float64 `protobuf:"fixed64,3,opt,name=short_by_volume,json=shortByVolume,proto3" json:"shortByVolume"`
+	/// 空头保证金率（按金额)
+	ShortByAmount        float64  `protobuf:"fixed64,4,opt,name=short_by_amount,json=shortByAmount,proto3" json:"shortByAmount"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPMarginItem) Reset()                    { *m = CTPMarginItem{} }
-func (m *CTPMarginItem) String() string            { return proto.CompactTextString(m) }
-func (*CTPMarginItem) ProtoMessage()               {}
-func (*CTPMarginItem) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{14} }
+func (m *CTPMarginItem) Reset()         { *m = CTPMarginItem{} }
+func (m *CTPMarginItem) String() string { return proto.CompactTextString(m) }
+func (*CTPMarginItem) ProtoMessage()    {}
+func (*CTPMarginItem) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{14}
+}
+
+func (m *CTPMarginItem) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPMarginItem.Unmarshal(m, b)
+}
+func (m *CTPMarginItem) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPMarginItem.Marshal(b, m, deterministic)
+}
+func (m *CTPMarginItem) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPMarginItem.Merge(m, src)
+}
+func (m *CTPMarginItem) XXX_Size() int {
+	return xxx_messageInfo_CTPMarginItem.Size(m)
+}
+func (m *CTPMarginItem) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPMarginItem.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPMarginItem proto.InternalMessageInfo
 
 func (m *CTPMarginItem) GetLongByVolume() float64 {
 	if m != nil {
@@ -2001,17 +2378,40 @@ func (m *CTPMarginItem) GetShortByAmount() float64 {
 
 // 手续费
 type CTPCommissionRateItem struct {
-	ByAmount   float64       `protobuf:"fixed64,1,opt,name=by_amount,json=byAmount" json:"by_amount,omitempty"`
-	ByVolume   float64       `protobuf:"fixed64,2,opt,name=by_volume,json=byVolume" json:"by_volume,omitempty"`
-	Minimum    float64       `protobuf:"fixed64,3,opt,name=minimum" json:"minimum,omitempty"`
-	OffsetFlag CTPOffsetFlag `protobuf:"varint,4,opt,name=offset_flag,json=offsetFlag,enum=pb.CTPOffsetFlag" json:"offset_flag,omitempty"`
-	Tag        string        `protobuf:"bytes,5,opt,name=tag" json:"tag,omitempty"`
+	ByAmount             float64       `protobuf:"fixed64,1,opt,name=by_amount,json=byAmount,proto3" json:"byAmount"`
+	ByVolume             float64       `protobuf:"fixed64,2,opt,name=by_volume,json=byVolume,proto3" json:"byVolume"`
+	Minimum              float64       `protobuf:"fixed64,3,opt,name=minimum,proto3" json:"minimum"`
+	OffsetFlag           CTPOffsetFlag `protobuf:"varint,4,opt,name=offset_flag,json=offsetFlag,proto3,enum=pb.CTPOffsetFlag" json:"offsetFlag"`
+	Tag                  string        `protobuf:"bytes,5,opt,name=tag,proto3" json:"tag"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *CTPCommissionRateItem) Reset()                    { *m = CTPCommissionRateItem{} }
-func (m *CTPCommissionRateItem) String() string            { return proto.CompactTextString(m) }
-func (*CTPCommissionRateItem) ProtoMessage()               {}
-func (*CTPCommissionRateItem) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{15} }
+func (m *CTPCommissionRateItem) Reset()         { *m = CTPCommissionRateItem{} }
+func (m *CTPCommissionRateItem) String() string { return proto.CompactTextString(m) }
+func (*CTPCommissionRateItem) ProtoMessage()    {}
+func (*CTPCommissionRateItem) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{15}
+}
+
+func (m *CTPCommissionRateItem) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPCommissionRateItem.Unmarshal(m, b)
+}
+func (m *CTPCommissionRateItem) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPCommissionRateItem.Marshal(b, m, deterministic)
+}
+func (m *CTPCommissionRateItem) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPCommissionRateItem.Merge(m, src)
+}
+func (m *CTPCommissionRateItem) XXX_Size() int {
+	return xxx_messageInfo_CTPCommissionRateItem.Size(m)
+}
+func (m *CTPCommissionRateItem) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPCommissionRateItem.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPCommissionRateItem proto.InternalMessageInfo
 
 func (m *CTPCommissionRateItem) GetByAmount() float64 {
 	if m != nil {
@@ -2051,21 +2451,44 @@ func (m *CTPCommissionRateItem) GetTag() string {
 // 手续费率
 type CTPCommissionRate struct {
 	// 交易所
-	Exchange ExchangeType `protobuf:"varint,1,opt,name=exchange,enum=pb.ExchangeType" json:"exchange,omitempty"`
+	Exchange ExchangeType `protobuf:"varint,1,opt,name=exchange,proto3,enum=pb.ExchangeType" json:"exchange"`
 	// symbol
-	Symbol string `protobuf:"bytes,2,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol string `protobuf:"bytes,2,opt,name=symbol,proto3" json:"symbol"`
 	// product
-	Product string `protobuf:"bytes,3,opt,name=product" json:"product,omitempty"`
+	Product string `protobuf:"bytes,3,opt,name=product,proto3" json:"product"`
 	// 设置
-	Settings []*CTPCommissionRateItem `protobuf:"bytes,4,rep,name=settings" json:"settings,omitempty"`
+	Settings []*CTPCommissionRateItem `protobuf:"bytes,4,rep,name=settings,proto3" json:"settings"`
 	// ID
-	Id int64 `protobuf:"varint,5,opt,name=id" json:"id,omitempty"`
+	Id                   int64    `protobuf:"varint,5,opt,name=id,proto3" json:"id"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPCommissionRate) Reset()                    { *m = CTPCommissionRate{} }
-func (m *CTPCommissionRate) String() string            { return proto.CompactTextString(m) }
-func (*CTPCommissionRate) ProtoMessage()               {}
-func (*CTPCommissionRate) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{16} }
+func (m *CTPCommissionRate) Reset()         { *m = CTPCommissionRate{} }
+func (m *CTPCommissionRate) String() string { return proto.CompactTextString(m) }
+func (*CTPCommissionRate) ProtoMessage()    {}
+func (*CTPCommissionRate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{16}
+}
+
+func (m *CTPCommissionRate) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPCommissionRate.Unmarshal(m, b)
+}
+func (m *CTPCommissionRate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPCommissionRate.Marshal(b, m, deterministic)
+}
+func (m *CTPCommissionRate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPCommissionRate.Merge(m, src)
+}
+func (m *CTPCommissionRate) XXX_Size() int {
+	return xxx_messageInfo_CTPCommissionRate.Size(m)
+}
+func (m *CTPCommissionRate) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPCommissionRate.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPCommissionRate proto.InternalMessageInfo
 
 func (m *CTPCommissionRate) GetExchange() ExchangeType {
 	if m != nil {
@@ -2104,38 +2527,61 @@ func (m *CTPCommissionRate) GetId() int64 {
 
 // 交易单元
 type CTPTradingUnit struct {
-	// / 合约编号
-	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
+	/// 合约编号
+	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
 	// 统计
-	Position []*CTPPosition `protobuf:"bytes,2,rep,name=position" json:"position,omitempty"`
+	Position []*CTPPosition `protobuf:"bytes,2,rep,name=position,proto3" json:"position"`
 	// 报单
-	OrderLinkList []*CTPOrderLink `protobuf:"bytes,3,rep,name=order_link_list,json=orderLinkList" json:"order_link_list,omitempty"`
+	OrderLinkList []*CTPOrderLink `protobuf:"bytes,3,rep,name=order_link_list,json=orderLinkList,proto3" json:"orderLinkList"`
 	// 持仓明细
-	PositionDetailList []*CTPCloseTradeRecord `protobuf:"bytes,4,rep,name=position_detail_list,json=positionDetailList" json:"position_detail_list,omitempty"`
+	PositionDetailList []*CTPCloseTradeRecord `protobuf:"bytes,4,rep,name=position_detail_list,json=positionDetailList,proto3" json:"positionDetailList"`
 	// 平仓明细
-	HistoryCtrList []*CTPCloseTradeRecord `protobuf:"bytes,5,rep,name=history_ctr_list,json=historyCtrList" json:"history_ctr_list,omitempty"`
+	HistoryCtrList []*CTPCloseTradeRecord `protobuf:"bytes,5,rep,name=history_ctr_list,json=historyCtrList,proto3" json:"historyCtrList"`
 	// 历史单
-	HistoryOrderList []*CTPOrderField `protobuf:"bytes,6,rep,name=history_order_list,json=historyOrderList" json:"history_order_list,omitempty"`
+	HistoryOrderList []*CTPOrderField `protobuf:"bytes,6,rep,name=history_order_list,json=historyOrderList,proto3" json:"historyOrderList"`
 	// 成交
-	HistoryTradeList []*CTPTradeField `protobuf:"bytes,7,rep,name=history_trade_list,json=historyTradeList" json:"history_trade_list,omitempty"`
+	HistoryTradeList []*CTPTradeField `protobuf:"bytes,7,rep,name=history_trade_list,json=historyTradeList,proto3" json:"historyTradeList"`
 	// 最新价
-	LastPrice float64 `protobuf:"fixed64,10,opt,name=last_price,json=lastPrice" json:"last_price,omitempty"`
+	LastPrice float64 `protobuf:"fixed64,10,opt,name=last_price,json=lastPrice,proto3" json:"lastPrice"`
 	// 行情更新时间
-	LastMdsUpdateTime int64 `protobuf:"varint,11,opt,name=last_mds_update_time,json=lastMdsUpdateTime" json:"last_mds_update_time,omitempty"`
+	LastMdsUpdateTime int64 `protobuf:"varint,11,opt,name=last_mds_update_time,json=lastMdsUpdateTime,proto3" json:"lastMdsUpdateTime"`
 	// 合约信息
-	PriceTick float64 `protobuf:"fixed64,12,opt,name=price_tick,json=priceTick" json:"price_tick,omitempty"`
+	PriceTick float64 `protobuf:"fixed64,12,opt,name=price_tick,json=priceTick,proto3" json:"priceTick"`
 	// 合约乘数
-	VolumeMultiple int32 `protobuf:"varint,13,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
+	VolumeMultiple int32 `protobuf:"varint,13,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
 	// 手续费
-	Cr *CTPCommissionRate `protobuf:"bytes,14,opt,name=cr" json:"cr,omitempty"`
+	Cr *CTPCommissionRate `protobuf:"bytes,14,opt,name=cr,proto3" json:"cr"`
 	// 保证金
-	Mr *CTPMarginRate `protobuf:"bytes,15,opt,name=mr" json:"mr,omitempty"`
+	Mr                   *CTPMarginRate `protobuf:"bytes,15,opt,name=mr,proto3" json:"mr"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
 }
 
-func (m *CTPTradingUnit) Reset()                    { *m = CTPTradingUnit{} }
-func (m *CTPTradingUnit) String() string            { return proto.CompactTextString(m) }
-func (*CTPTradingUnit) ProtoMessage()               {}
-func (*CTPTradingUnit) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{17} }
+func (m *CTPTradingUnit) Reset()         { *m = CTPTradingUnit{} }
+func (m *CTPTradingUnit) String() string { return proto.CompactTextString(m) }
+func (*CTPTradingUnit) ProtoMessage()    {}
+func (*CTPTradingUnit) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{17}
+}
+
+func (m *CTPTradingUnit) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPTradingUnit.Unmarshal(m, b)
+}
+func (m *CTPTradingUnit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPTradingUnit.Marshal(b, m, deterministic)
+}
+func (m *CTPTradingUnit) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPTradingUnit.Merge(m, src)
+}
+func (m *CTPTradingUnit) XXX_Size() int {
+	return xxx_messageInfo_CTPTradingUnit.Size(m)
+}
+func (m *CTPTradingUnit) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPTradingUnit.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPTradingUnit proto.InternalMessageInfo
 
 func (m *CTPTradingUnit) GetSymbol() *Symbol {
 	if m != nil {
@@ -2229,15 +2675,38 @@ func (m *CTPTradingUnit) GetMr() *CTPMarginRate {
 }
 
 type CTPForceCloseTimeRule struct {
-	Start            int64 `protobuf:"varint,1,opt,name=start" json:"start,omitempty"`
-	End              int64 `protobuf:"varint,2,opt,name=end" json:"end,omitempty"`
-	DisableOpenStart int64 `protobuf:"varint,3,opt,name=disable_open_start,json=disableOpenStart" json:"disable_open_start,omitempty"`
+	Start                int64    `protobuf:"varint,1,opt,name=start,proto3" json:"start"`
+	End                  int64    `protobuf:"varint,2,opt,name=end,proto3" json:"end"`
+	DisableOpenStart     int64    `protobuf:"varint,3,opt,name=disable_open_start,json=disableOpenStart,proto3" json:"disableOpenStart"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPForceCloseTimeRule) Reset()                    { *m = CTPForceCloseTimeRule{} }
-func (m *CTPForceCloseTimeRule) String() string            { return proto.CompactTextString(m) }
-func (*CTPForceCloseTimeRule) ProtoMessage()               {}
-func (*CTPForceCloseTimeRule) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{18} }
+func (m *CTPForceCloseTimeRule) Reset()         { *m = CTPForceCloseTimeRule{} }
+func (m *CTPForceCloseTimeRule) String() string { return proto.CompactTextString(m) }
+func (*CTPForceCloseTimeRule) ProtoMessage()    {}
+func (*CTPForceCloseTimeRule) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{18}
+}
+
+func (m *CTPForceCloseTimeRule) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPForceCloseTimeRule.Unmarshal(m, b)
+}
+func (m *CTPForceCloseTimeRule) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPForceCloseTimeRule.Marshal(b, m, deterministic)
+}
+func (m *CTPForceCloseTimeRule) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPForceCloseTimeRule.Merge(m, src)
+}
+func (m *CTPForceCloseTimeRule) XXX_Size() int {
+	return xxx_messageInfo_CTPForceCloseTimeRule.Size(m)
+}
+func (m *CTPForceCloseTimeRule) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPForceCloseTimeRule.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPForceCloseTimeRule proto.InternalMessageInfo
 
 func (m *CTPForceCloseTimeRule) GetStart() int64 {
 	if m != nil {
@@ -2263,45 +2732,68 @@ func (m *CTPForceCloseTimeRule) GetDisableOpenStart() int64 {
 // CTPTradingUnitOption 品种参数
 type CTPTradingUnitOption struct {
 	// 涨跌停N点内禁止开仓
-	LimitPriceDisableOpen int32 `protobuf:"varint,1,opt,name=limit_price_disable_open,json=limitPriceDisableOpen" json:"limit_price_disable_open,omitempty"`
+	LimitPriceDisableOpen int32 `protobuf:"varint,1,opt,name=limit_price_disable_open,json=limitPriceDisableOpen,proto3" json:"limitPriceDisableOpen"`
 	// 涨跌停N点内强制平仓
-	LimitPriceForceClose int32 `protobuf:"varint,2,opt,name=limit_price_force_close,json=limitPriceForceClose" json:"limit_price_force_close,omitempty"`
+	LimitPriceForceClose int32 `protobuf:"varint,2,opt,name=limit_price_force_close,json=limitPriceForceClose,proto3" json:"limitPriceForceClose"`
 	// 昨持仓阀值
-	PrePositionPercentageThreshold float64 `protobuf:"fixed64,3,opt,name=pre_position_percentage_threshold,json=prePositionPercentageThreshold" json:"pre_position_percentage_threshold,omitempty"`
+	PrePositionPercentageThreshold float64 `protobuf:"fixed64,3,opt,name=pre_position_percentage_threshold,json=prePositionPercentageThreshold,proto3" json:"prePositionPercentageThreshold"`
 	// 昨持仓绝对数量阀值
-	PrePositionThreshold float64 `protobuf:"fixed64,4,opt,name=pre_position_threshold,json=prePositionThreshold" json:"pre_position_threshold,omitempty"`
+	PrePositionThreshold float64 `protobuf:"fixed64,4,opt,name=pre_position_threshold,json=prePositionThreshold,proto3" json:"prePositionThreshold"`
 	// 昨成交占比阀值
-	PreVolumePercentageThreshold float64 `protobuf:"fixed64,5,opt,name=pre_volume_percentage_threshold,json=preVolumePercentageThreshold" json:"pre_volume_percentage_threshold,omitempty"`
+	PreVolumePercentageThreshold float64 `protobuf:"fixed64,5,opt,name=pre_volume_percentage_threshold,json=preVolumePercentageThreshold,proto3" json:"preVolumePercentageThreshold"`
 	// 昨成交量绝对数量阀值
-	PreVolumeThreshold float64 `protobuf:"fixed64,6,opt,name=pre_volume_threshold,json=preVolumeThreshold" json:"pre_volume_threshold,omitempty"`
+	PreVolumeThreshold float64 `protobuf:"fixed64,6,opt,name=pre_volume_threshold,json=preVolumeThreshold,proto3" json:"preVolumeThreshold"`
 	// 单资产持仓限制
-	SingleProductMarginWeightLimit float64 `protobuf:"fixed64,7,opt,name=single_product_margin_weight_limit,json=singleProductMarginWeightLimit" json:"single_product_margin_weight_limit,omitempty"`
+	SingleProductMarginWeightLimit float64 `protobuf:"fixed64,7,opt,name=single_product_margin_weight_limit,json=singleProductMarginWeightLimit,proto3" json:"singleProductMarginWeightLimit"`
 	// 开始时间
-	FcrList []*CTPForceCloseTimeRule `protobuf:"bytes,8,rep,name=fcr_list,json=fcrList" json:"fcr_list,omitempty"`
+	FcrList []*CTPForceCloseTimeRule `protobuf:"bytes,8,rep,name=fcr_list,json=fcrList,proto3" json:"fcrList"`
 	// 禁止开仓
-	DisableOpen bool `protobuf:"varint,9,opt,name=disable_open,json=disableOpen" json:"disable_open,omitempty"`
+	DisableOpen bool `protobuf:"varint,9,opt,name=disable_open,json=disableOpen,proto3" json:"disableOpen"`
 	// 手续费
-	CrSettings []*CTPCommissionRateItem `protobuf:"bytes,10,rep,name=cr_settings,json=crSettings" json:"cr_settings,omitempty"`
+	CrSettings []*CTPCommissionRateItem `protobuf:"bytes,10,rep,name=cr_settings,json=crSettings,proto3" json:"crSettings"`
 	// 保证金
-	MarginRate *CTPMarginItem `protobuf:"bytes,11,opt,name=margin_rate,json=marginRate" json:"margin_rate,omitempty"`
+	MarginRate *CTPMarginItem `protobuf:"bytes,11,opt,name=margin_rate,json=marginRate,proto3" json:"marginRate"`
 	// 止损点数
-	StoplossCandidates []int32 `protobuf:"varint,12,rep,packed,name=stoploss_candidates,json=stoplossCandidates" json:"stoploss_candidates,omitempty"`
+	StoplossCandidates []int32 `protobuf:"varint,12,rep,packed,name=stoploss_candidates,json=stoplossCandidates,proto3" json:"stoplossCandidates"`
 	// 止赢点数
-	TakeProfitCandidates []int32 `protobuf:"varint,13,rep,packed,name=take_profit_candidates,json=takeProfitCandidates" json:"take_profit_candidates,omitempty"`
+	TakeProfitCandidates []int32 `protobuf:"varint,13,rep,packed,name=take_profit_candidates,json=takeProfitCandidates,proto3" json:"takeProfitCandidates"`
 	// 手数
-	VolumeCandidates []int32 `protobuf:"varint,14,rep,packed,name=volume_candidates,json=volumeCandidates" json:"volume_candidates,omitempty"`
+	VolumeCandidates []int32 `protobuf:"varint,14,rep,packed,name=volume_candidates,json=volumeCandidates,proto3" json:"volumeCandidates"`
 	// 禁止开仓
-	DisableOpenSymbolList []string `protobuf:"bytes,15,rep,name=disable_open_symbol_list,json=disableOpenSymbolList" json:"disable_open_symbol_list,omitempty"`
+	DisableOpenSymbolList []string `protobuf:"bytes,15,rep,name=disable_open_symbol_list,json=disableOpenSymbolList,proto3" json:"disableOpenSymbolList"`
 	// 禁止开仓
-	DisableOpenClassList []string `protobuf:"bytes,16,rep,name=disable_open_class_list,json=disableOpenClassList" json:"disable_open_class_list,omitempty"`
+	DisableOpenClassList []string `protobuf:"bytes,16,rep,name=disable_open_class_list,json=disableOpenClassList,proto3" json:"disableOpenClassList"`
 	// 上市<N天的品种禁止开仓
-	OpenDaysLimit int32 `protobuf:"varint,17,opt,name=open_days_limit,json=openDaysLimit" json:"open_days_limit,omitempty"`
+	OpenDaysLimit        int32    `protobuf:"varint,17,opt,name=open_days_limit,json=openDaysLimit,proto3" json:"openDaysLimit"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPTradingUnitOption) Reset()                    { *m = CTPTradingUnitOption{} }
-func (m *CTPTradingUnitOption) String() string            { return proto.CompactTextString(m) }
-func (*CTPTradingUnitOption) ProtoMessage()               {}
-func (*CTPTradingUnitOption) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{19} }
+func (m *CTPTradingUnitOption) Reset()         { *m = CTPTradingUnitOption{} }
+func (m *CTPTradingUnitOption) String() string { return proto.CompactTextString(m) }
+func (*CTPTradingUnitOption) ProtoMessage()    {}
+func (*CTPTradingUnitOption) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{19}
+}
+
+func (m *CTPTradingUnitOption) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPTradingUnitOption.Unmarshal(m, b)
+}
+func (m *CTPTradingUnitOption) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPTradingUnitOption.Marshal(b, m, deterministic)
+}
+func (m *CTPTradingUnitOption) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPTradingUnitOption.Merge(m, src)
+}
+func (m *CTPTradingUnitOption) XXX_Size() int {
+	return xxx_messageInfo_CTPTradingUnitOption.Size(m)
+}
+func (m *CTPTradingUnitOption) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPTradingUnitOption.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPTradingUnitOption proto.InternalMessageInfo
 
 func (m *CTPTradingUnitOption) GetLimitPriceDisableOpen() int32 {
 	if m != nil {
@@ -2425,37 +2917,60 @@ func (m *CTPTradingUnitOption) GetOpenDaysLimit() int32 {
 // 隔夜自有资金检查.
 type MarginCheckRule struct {
 	// 开始时间
-	Start int64 `protobuf:"varint,1,opt,name=start" json:"start,omitempty"`
+	Start int64 `protobuf:"varint,1,opt,name=start,proto3" json:"start"`
 	// 结束时间
-	End int64 `protobuf:"varint,2,opt,name=end" json:"end,omitempty"`
+	End int64 `protobuf:"varint,2,opt,name=end,proto3" json:"end"`
 	// 平仓顺序
-	ForceCloseOrder int32 `protobuf:"varint,3,opt,name=force_close_order,json=forceCloseOrder" json:"force_close_order,omitempty"`
+	ForceCloseOrder int32 `protobuf:"varint,3,opt,name=force_close_order,json=forceCloseOrder,proto3" json:"forceCloseOrder"`
 	// 报警
-	WarningLevel float64 `protobuf:"fixed64,4,opt,name=warning_level,json=warningLevel" json:"warning_level,omitempty"`
+	WarningLevel float64 `protobuf:"fixed64,4,opt,name=warning_level,json=warningLevel,proto3" json:"warningLevel"`
 	// 强平
-	ForceCloseLevel float64 `protobuf:"fixed64,5,opt,name=force_close_level,json=forceCloseLevel" json:"force_close_level,omitempty"`
+	ForceCloseLevel float64 `protobuf:"fixed64,5,opt,name=force_close_level,json=forceCloseLevel,proto3" json:"forceCloseLevel"`
 	// 自有可用倍率
-	CommonBalanceMultiple float64 `protobuf:"fixed64,6,opt,name=common_balance_multiple,json=commonBalanceMultiple" json:"common_balance_multiple,omitempty"`
+	CommonBalanceMultiple float64 `protobuf:"fixed64,6,opt,name=common_balance_multiple,json=commonBalanceMultiple,proto3" json:"commonBalanceMultiple"`
 	// 报警线下禁止开仓
-	DisableOpenUnderWarningLevel bool `protobuf:"varint,7,opt,name=disable_open_under_warning_level,json=disableOpenUnderWarningLevel" json:"disable_open_under_warning_level,omitempty"`
+	DisableOpenUnderWarningLevel bool `protobuf:"varint,7,opt,name=disable_open_under_warning_level,json=disableOpenUnderWarningLevel,proto3" json:"disableOpenUnderWarningLevel"`
 	// 按比例报警
-	WarningLevelByPreferRatio float64 `protobuf:"fixed64,8,opt,name=warning_level_by_prefer_ratio,json=warningLevelByPreferRatio" json:"warning_level_by_prefer_ratio,omitempty"`
+	WarningLevelByPreferRatio float64 `protobuf:"fixed64,8,opt,name=warning_level_by_prefer_ratio,json=warningLevelByPreferRatio,proto3" json:"warningLevelByPreferRatio"`
 	// 按比例强平
-	ForceCloseLevelByPreferRatio float64 `protobuf:"fixed64,9,opt,name=force_close_level_by_prefer_ratio,json=forceCloseLevelByPreferRatio" json:"force_close_level_by_prefer_ratio,omitempty"`
+	ForceCloseLevelByPreferRatio float64 `protobuf:"fixed64,9,opt,name=force_close_level_by_prefer_ratio,json=forceCloseLevelByPreferRatio,proto3" json:"forceCloseLevelByPreferRatio"`
 	// 报警按市值比例
-	WarningLevelByMargin float64 `protobuf:"fixed64,10,opt,name=warning_level_by_margin,json=warningLevelByMargin" json:"warning_level_by_margin,omitempty"`
+	WarningLevelByMargin float64 `protobuf:"fixed64,10,opt,name=warning_level_by_margin,json=warningLevelByMargin,proto3" json:"warningLevelByMargin"`
 	// 强平按市值比例
-	ForceCloseLevelByMargin float64 `protobuf:"fixed64,11,opt,name=force_close_level_by_margin,json=forceCloseLevelByMargin" json:"force_close_level_by_margin,omitempty"`
+	ForceCloseLevelByMargin float64 `protobuf:"fixed64,11,opt,name=force_close_level_by_margin,json=forceCloseLevelByMargin,proto3" json:"forceCloseLevelByMargin"`
 	// 总持仓占用上限
-	MarginCeiling float64 `protobuf:"fixed64,12,opt,name=margin_ceiling,json=marginCeiling" json:"margin_ceiling,omitempty"`
+	MarginCeiling float64 `protobuf:"fixed64,12,opt,name=margin_ceiling,json=marginCeiling,proto3" json:"marginCeiling"`
 	// 买入金额上限
-	PositionAmountCeiling float64 `protobuf:"fixed64,13,opt,name=position_amount_ceiling,json=positionAmountCeiling" json:"position_amount_ceiling,omitempty"`
+	PositionAmountCeiling float64  `protobuf:"fixed64,13,opt,name=position_amount_ceiling,json=positionAmountCeiling,proto3" json:"positionAmountCeiling"`
+	XXX_NoUnkeyedLiteral  struct{} `json:"-"`
+	XXX_unrecognized      []byte   `json:"-"`
+	XXX_sizecache         int32    `json:"-"`
 }
 
-func (m *MarginCheckRule) Reset()                    { *m = MarginCheckRule{} }
-func (m *MarginCheckRule) String() string            { return proto.CompactTextString(m) }
-func (*MarginCheckRule) ProtoMessage()               {}
-func (*MarginCheckRule) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{20} }
+func (m *MarginCheckRule) Reset()         { *m = MarginCheckRule{} }
+func (m *MarginCheckRule) String() string { return proto.CompactTextString(m) }
+func (*MarginCheckRule) ProtoMessage()    {}
+func (*MarginCheckRule) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{20}
+}
+
+func (m *MarginCheckRule) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_MarginCheckRule.Unmarshal(m, b)
+}
+func (m *MarginCheckRule) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_MarginCheckRule.Marshal(b, m, deterministic)
+}
+func (m *MarginCheckRule) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MarginCheckRule.Merge(m, src)
+}
+func (m *MarginCheckRule) XXX_Size() int {
+	return xxx_messageInfo_MarginCheckRule.Size(m)
+}
+func (m *MarginCheckRule) XXX_DiscardUnknown() {
+	xxx_messageInfo_MarginCheckRule.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MarginCheckRule proto.InternalMessageInfo
 
 func (m *MarginCheckRule) GetStart() int64 {
 	if m != nil {
@@ -2551,25 +3066,48 @@ func (m *MarginCheckRule) GetPositionAmountCeiling() float64 {
 // SettlementUnitOption 结算组参数
 type SettlementUnitOption struct {
 	// ID
-	Id int64 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	Id int64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
 	// 备注
-	Comment string `protobuf:"bytes,2,opt,name=comment" json:"comment,omitempty"`
+	Comment string `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment"`
 	// 结算组
-	SettlementGroup int32 `protobuf:"varint,3,opt,name=settlement_group,json=settlementGroup" json:"settlement_group,omitempty"`
+	SettlementGroup int32 `protobuf:"varint,3,opt,name=settlement_group,json=settlementGroup,proto3" json:"settlementGroup"`
 	// 资金检查水平
-	AvailableCheckLevel int32 `protobuf:"varint,4,opt,name=available_check_level,json=availableCheckLevel" json:"available_check_level,omitempty"`
+	AvailableCheckLevel int32 `protobuf:"varint,4,opt,name=available_check_level,json=availableCheckLevel,proto3" json:"availableCheckLevel"`
 	// 强平开启
-	ForceCloseOn bool `protobuf:"varint,5,opt,name=force_close_on,json=forceCloseOn" json:"force_close_on,omitempty"`
+	ForceCloseOn bool `protobuf:"varint,5,opt,name=force_close_on,json=forceCloseOn,proto3" json:"forceCloseOn"`
 	// 强平检查
-	McrList []*MarginCheckRule `protobuf:"bytes,6,rep,name=mcr_list,json=mcrList" json:"mcr_list,omitempty"`
+	McrList []*MarginCheckRule `protobuf:"bytes,6,rep,name=mcr_list,json=mcrList,proto3" json:"mcrList"`
 	// 禁止开仓
-	DisableOpen bool `protobuf:"varint,7,opt,name=disable_open,json=disableOpen" json:"disable_open,omitempty"`
+	DisableOpen          bool     `protobuf:"varint,7,opt,name=disable_open,json=disableOpen,proto3" json:"disableOpen"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SettlementUnitOption) Reset()                    { *m = SettlementUnitOption{} }
-func (m *SettlementUnitOption) String() string            { return proto.CompactTextString(m) }
-func (*SettlementUnitOption) ProtoMessage()               {}
-func (*SettlementUnitOption) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{21} }
+func (m *SettlementUnitOption) Reset()         { *m = SettlementUnitOption{} }
+func (m *SettlementUnitOption) String() string { return proto.CompactTextString(m) }
+func (*SettlementUnitOption) ProtoMessage()    {}
+func (*SettlementUnitOption) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{21}
+}
+
+func (m *SettlementUnitOption) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SettlementUnitOption.Unmarshal(m, b)
+}
+func (m *SettlementUnitOption) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SettlementUnitOption.Marshal(b, m, deterministic)
+}
+func (m *SettlementUnitOption) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SettlementUnitOption.Merge(m, src)
+}
+func (m *SettlementUnitOption) XXX_Size() int {
+	return xxx_messageInfo_SettlementUnitOption.Size(m)
+}
+func (m *SettlementUnitOption) XXX_DiscardUnknown() {
+	xxx_messageInfo_SettlementUnitOption.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SettlementUnitOption proto.InternalMessageInfo
 
 func (m *SettlementUnitOption) GetId() int64 {
 	if m != nil {
@@ -2623,21 +3161,44 @@ func (m *SettlementUnitOption) GetDisableOpen() bool {
 // 普通结算
 type CTPTradingAccount struct {
 	// 合计
-	Summary *AccountMoneySummary `protobuf:"bytes,1,opt,name=summary" json:"summary,omitempty"`
+	Summary *AccountMoneySummary `protobuf:"bytes,1,opt,name=summary,proto3" json:"summary"`
 	// 出入金
-	MtrList []*MoneyTransferRecord `protobuf:"bytes,2,rep,name=mtr_list,json=mtrList" json:"mtr_list,omitempty"`
+	MtrList []*MoneyTransferRecord `protobuf:"bytes,2,rep,name=mtr_list,json=mtrList,proto3" json:"mtrList"`
 	// 交易明细
-	TuList []*CTPTradingUnit `protobuf:"bytes,3,rep,name=tu_list,json=tuList" json:"tu_list,omitempty"`
+	TuList []*CTPTradingUnit `protobuf:"bytes,3,rep,name=tu_list,json=tuList,proto3" json:"tuList"`
 	// 最后结算日期
-	LastSettleDate int32 `protobuf:"varint,4,opt,name=last_settle_date,json=lastSettleDate" json:"last_settle_date,omitempty"`
+	LastSettleDate int32 `protobuf:"varint,4,opt,name=last_settle_date,json=lastSettleDate,proto3" json:"lastSettleDate"`
 	// 设置
-	Options *SettlementUnitOption `protobuf:"bytes,5,opt,name=options" json:"options,omitempty"`
+	Options              *SettlementUnitOption `protobuf:"bytes,5,opt,name=options,proto3" json:"options"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *CTPTradingAccount) Reset()                    { *m = CTPTradingAccount{} }
-func (m *CTPTradingAccount) String() string            { return proto.CompactTextString(m) }
-func (*CTPTradingAccount) ProtoMessage()               {}
-func (*CTPTradingAccount) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{22} }
+func (m *CTPTradingAccount) Reset()         { *m = CTPTradingAccount{} }
+func (m *CTPTradingAccount) String() string { return proto.CompactTextString(m) }
+func (*CTPTradingAccount) ProtoMessage()    {}
+func (*CTPTradingAccount) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{22}
+}
+
+func (m *CTPTradingAccount) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPTradingAccount.Unmarshal(m, b)
+}
+func (m *CTPTradingAccount) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPTradingAccount.Marshal(b, m, deterministic)
+}
+func (m *CTPTradingAccount) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPTradingAccount.Merge(m, src)
+}
+func (m *CTPTradingAccount) XXX_Size() int {
+	return xxx_messageInfo_CTPTradingAccount.Size(m)
+}
+func (m *CTPTradingAccount) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPTradingAccount.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPTradingAccount proto.InternalMessageInfo
 
 func (m *CTPTradingAccount) GetSummary() *AccountMoneySummary {
 	if m != nil {
@@ -2677,17 +3238,40 @@ func (m *CTPTradingAccount) GetOptions() *SettlementUnitOption {
 // 账户快照
 type CTPTradingAccountSnapshot struct {
 	// 账户
-	Account *CTPTradingAccount `protobuf:"bytes,1,opt,name=account" json:"account,omitempty"`
+	Account *CTPTradingAccount `protobuf:"bytes,1,opt,name=account,proto3" json:"account"`
 	// 快照时间
-	Time int64 `protobuf:"varint,2,opt,name=time" json:"time,omitempty"`
+	Time int64 `protobuf:"varint,2,opt,name=time,proto3" json:"time"`
 	// 快照备注
-	Comment string `protobuf:"bytes,3,opt,name=comment" json:"comment,omitempty"`
+	Comment              string   `protobuf:"bytes,3,opt,name=comment,proto3" json:"comment"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPTradingAccountSnapshot) Reset()                    { *m = CTPTradingAccountSnapshot{} }
-func (m *CTPTradingAccountSnapshot) String() string            { return proto.CompactTextString(m) }
-func (*CTPTradingAccountSnapshot) ProtoMessage()               {}
-func (*CTPTradingAccountSnapshot) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{23} }
+func (m *CTPTradingAccountSnapshot) Reset()         { *m = CTPTradingAccountSnapshot{} }
+func (m *CTPTradingAccountSnapshot) String() string { return proto.CompactTextString(m) }
+func (*CTPTradingAccountSnapshot) ProtoMessage()    {}
+func (*CTPTradingAccountSnapshot) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{23}
+}
+
+func (m *CTPTradingAccountSnapshot) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPTradingAccountSnapshot.Unmarshal(m, b)
+}
+func (m *CTPTradingAccountSnapshot) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPTradingAccountSnapshot.Marshal(b, m, deterministic)
+}
+func (m *CTPTradingAccountSnapshot) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPTradingAccountSnapshot.Merge(m, src)
+}
+func (m *CTPTradingAccountSnapshot) XXX_Size() int {
+	return xxx_messageInfo_CTPTradingAccountSnapshot.Size(m)
+}
+func (m *CTPTradingAccountSnapshot) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPTradingAccountSnapshot.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPTradingAccountSnapshot proto.InternalMessageInfo
 
 func (m *CTPTradingAccountSnapshot) GetAccount() *CTPTradingAccount {
 	if m != nil {
@@ -2712,16 +3296,39 @@ func (m *CTPTradingAccountSnapshot) GetComment() string {
 
 // CTP常规性返回
 type CTPRspInfo struct {
-	ErrorId   int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg  []byte `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`
-	RequestId int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast    bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             []byte   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPRspInfo) Reset()                    { *m = CTPRspInfo{} }
-func (m *CTPRspInfo) String() string            { return proto.CompactTextString(m) }
-func (*CTPRspInfo) ProtoMessage()               {}
-func (*CTPRspInfo) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{24} }
+func (m *CTPRspInfo) Reset()         { *m = CTPRspInfo{} }
+func (m *CTPRspInfo) String() string { return proto.CompactTextString(m) }
+func (*CTPRspInfo) ProtoMessage()    {}
+func (*CTPRspInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{24}
+}
+
+func (m *CTPRspInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPRspInfo.Unmarshal(m, b)
+}
+func (m *CTPRspInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPRspInfo.Marshal(b, m, deterministic)
+}
+func (m *CTPRspInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPRspInfo.Merge(m, src)
+}
+func (m *CTPRspInfo) XXX_Size() int {
+	return xxx_messageInfo_CTPRspInfo.Size(m)
+}
+func (m *CTPRspInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPRspInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPRspInfo proto.InternalMessageInfo
 
 func (m *CTPRspInfo) GetErrorId() int32 {
 	if m != nil {
@@ -2753,17 +3360,40 @@ func (m *CTPRspInfo) GetIsLast() bool {
 
 // 请求查询注册账户
 type CtpReqQryAccountRegister struct {
-	BrokerId     string `protobuf:"bytes,1,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	AccountId    string `protobuf:"bytes,2,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
-	BankId       string `protobuf:"bytes,3,opt,name=bank_id,json=bankId" json:"bank_id,omitempty"`
-	BankBranchId string `protobuf:"bytes,4,opt,name=bank_branch_id,json=bankBranchId" json:"bank_branch_id,omitempty"`
-	CurrencyId   string `protobuf:"bytes,5,opt,name=currency_id,json=currencyId" json:"currency_id,omitempty"`
+	BrokerId             string   `protobuf:"bytes,1,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	AccountId            string   `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	BankId               string   `protobuf:"bytes,3,opt,name=bank_id,json=bankId,proto3" json:"bankId"`
+	BankBranchId         string   `protobuf:"bytes,4,opt,name=bank_branch_id,json=bankBranchId,proto3" json:"bankBranchId"`
+	CurrencyId           string   `protobuf:"bytes,5,opt,name=currency_id,json=currencyId,proto3" json:"currencyId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqQryAccountRegister) Reset()                    { *m = CtpReqQryAccountRegister{} }
-func (m *CtpReqQryAccountRegister) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqQryAccountRegister) ProtoMessage()               {}
-func (*CtpReqQryAccountRegister) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{25} }
+func (m *CtpReqQryAccountRegister) Reset()         { *m = CtpReqQryAccountRegister{} }
+func (m *CtpReqQryAccountRegister) String() string { return proto.CompactTextString(m) }
+func (*CtpReqQryAccountRegister) ProtoMessage()    {}
+func (*CtpReqQryAccountRegister) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{25}
+}
+
+func (m *CtpReqQryAccountRegister) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqQryAccountRegister.Unmarshal(m, b)
+}
+func (m *CtpReqQryAccountRegister) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqQryAccountRegister.Marshal(b, m, deterministic)
+}
+func (m *CtpReqQryAccountRegister) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqQryAccountRegister.Merge(m, src)
+}
+func (m *CtpReqQryAccountRegister) XXX_Size() int {
+	return xxx_messageInfo_CtpReqQryAccountRegister.Size(m)
+}
+func (m *CtpReqQryAccountRegister) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqQryAccountRegister.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqQryAccountRegister proto.InternalMessageInfo
 
 func (m *CtpReqQryAccountRegister) GetBrokerId() string {
 	if m != nil {
@@ -2802,34 +3432,57 @@ func (m *CtpReqQryAccountRegister) GetCurrencyId() string {
 
 // 查询注册账户响应
 type CtpRspQryAccountRegister struct {
-	ErrorId          int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg         string `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId        int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast           bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	TradingDay       string `protobuf:"bytes,5,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
-	BankId           string `protobuf:"bytes,6,opt,name=bank_id,json=bankId" json:"bank_id,omitempty"`
-	BankBranchId     string `protobuf:"bytes,7,opt,name=bank_branch_id,json=bankBranchId" json:"bank_branch_id,omitempty"`
-	BankAccount      string `protobuf:"bytes,8,opt,name=bank_account,json=bankAccount" json:"bank_account,omitempty"`
-	BrokerId         string `protobuf:"bytes,9,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	BrokerBranchId   string `protobuf:"bytes,10,opt,name=broker_branch_id,json=brokerBranchId" json:"broker_branch_id,omitempty"`
-	AccountId        string `protobuf:"bytes,11,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
-	IdCardType       int32  `protobuf:"varint,12,opt,name=id_card_type,json=idCardType" json:"id_card_type,omitempty"`
-	IdentifiedCardNo string `protobuf:"bytes,13,opt,name=identified_card_no,json=identifiedCardNo" json:"identified_card_no,omitempty"`
-	CustomerName     string `protobuf:"bytes,14,opt,name=customer_name,json=customerName" json:"customer_name,omitempty"`
-	CurrencyId       string `protobuf:"bytes,15,opt,name=currency_id,json=currencyId" json:"currency_id,omitempty"`
-	OpenOrDestory    int32  `protobuf:"varint,16,opt,name=open_or_destory,json=openOrDestory" json:"open_or_destory,omitempty"`
-	RegDate          string `protobuf:"bytes,17,opt,name=reg_date,json=regDate" json:"reg_date,omitempty"`
-	OutDate          string `protobuf:"bytes,18,opt,name=out_date,json=outDate" json:"out_date,omitempty"`
-	Tid              int32  `protobuf:"varint,19,opt,name=tid" json:"tid,omitempty"`
-	CustType         int32  `protobuf:"varint,20,opt,name=cust_type,json=custType" json:"cust_type,omitempty"`
-	BankAccType      int32  `protobuf:"varint,21,opt,name=bank_acc_type,json=bankAccType" json:"bank_acc_type,omitempty"`
-	LongCustomerName string `protobuf:"bytes,22,opt,name=long_customer_name,json=longCustomerName" json:"long_customer_name,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	TradingDay           string   `protobuf:"bytes,5,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
+	BankId               string   `protobuf:"bytes,6,opt,name=bank_id,json=bankId,proto3" json:"bankId"`
+	BankBranchId         string   `protobuf:"bytes,7,opt,name=bank_branch_id,json=bankBranchId,proto3" json:"bankBranchId"`
+	BankAccount          string   `protobuf:"bytes,8,opt,name=bank_account,json=bankAccount,proto3" json:"bankAccount"`
+	BrokerId             string   `protobuf:"bytes,9,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	BrokerBranchId       string   `protobuf:"bytes,10,opt,name=broker_branch_id,json=brokerBranchId,proto3" json:"brokerBranchId"`
+	AccountId            string   `protobuf:"bytes,11,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	IdCardType           int32    `protobuf:"varint,12,opt,name=id_card_type,json=idCardType,proto3" json:"idCardType"`
+	IdentifiedCardNo     string   `protobuf:"bytes,13,opt,name=identified_card_no,json=identifiedCardNo,proto3" json:"identifiedCardNo"`
+	CustomerName         string   `protobuf:"bytes,14,opt,name=customer_name,json=customerName,proto3" json:"customerName"`
+	CurrencyId           string   `protobuf:"bytes,15,opt,name=currency_id,json=currencyId,proto3" json:"currencyId"`
+	OpenOrDestory        int32    `protobuf:"varint,16,opt,name=open_or_destory,json=openOrDestory,proto3" json:"openOrDestory"`
+	RegDate              string   `protobuf:"bytes,17,opt,name=reg_date,json=regDate,proto3" json:"regDate"`
+	OutDate              string   `protobuf:"bytes,18,opt,name=out_date,json=outDate,proto3" json:"outDate"`
+	Tid                  int32    `protobuf:"varint,19,opt,name=tid,proto3" json:"tid"`
+	CustType             int32    `protobuf:"varint,20,opt,name=cust_type,json=custType,proto3" json:"custType"`
+	BankAccType          int32    `protobuf:"varint,21,opt,name=bank_acc_type,json=bankAccType,proto3" json:"bankAccType"`
+	LongCustomerName     string   `protobuf:"bytes,22,opt,name=long_customer_name,json=longCustomerName,proto3" json:"longCustomerName"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpRspQryAccountRegister) Reset()                    { *m = CtpRspQryAccountRegister{} }
-func (m *CtpRspQryAccountRegister) String() string            { return proto.CompactTextString(m) }
-func (*CtpRspQryAccountRegister) ProtoMessage()               {}
-func (*CtpRspQryAccountRegister) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{26} }
+func (m *CtpRspQryAccountRegister) Reset()         { *m = CtpRspQryAccountRegister{} }
+func (m *CtpRspQryAccountRegister) String() string { return proto.CompactTextString(m) }
+func (*CtpRspQryAccountRegister) ProtoMessage()    {}
+func (*CtpRspQryAccountRegister) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{26}
+}
+
+func (m *CtpRspQryAccountRegister) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpRspQryAccountRegister.Unmarshal(m, b)
+}
+func (m *CtpRspQryAccountRegister) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpRspQryAccountRegister.Marshal(b, m, deterministic)
+}
+func (m *CtpRspQryAccountRegister) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpRspQryAccountRegister.Merge(m, src)
+}
+func (m *CtpRspQryAccountRegister) XXX_Size() int {
+	return xxx_messageInfo_CtpRspQryAccountRegister.Size(m)
+}
+func (m *CtpRspQryAccountRegister) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpRspQryAccountRegister.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpRspQryAccountRegister proto.InternalMessageInfo
 
 func (m *CtpRspQryAccountRegister) GetErrorId() int32 {
 	if m != nil {
@@ -2987,14 +3640,37 @@ func (m *CtpRspQryAccountRegister) GetLongCustomerName() string {
 
 // 认证
 type CtpReqAuthencate struct {
-	AuthCode string `protobuf:"bytes,1,opt,name=auth_code,json=authCode" json:"auth_code,omitempty"`
-	Product  string `protobuf:"bytes,2,opt,name=product" json:"product,omitempty"`
+	AuthCode             string   `protobuf:"bytes,1,opt,name=auth_code,json=authCode,proto3" json:"authCode"`
+	Product              string   `protobuf:"bytes,2,opt,name=product,proto3" json:"product"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqAuthencate) Reset()                    { *m = CtpReqAuthencate{} }
-func (m *CtpReqAuthencate) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqAuthencate) ProtoMessage()               {}
-func (*CtpReqAuthencate) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{27} }
+func (m *CtpReqAuthencate) Reset()         { *m = CtpReqAuthencate{} }
+func (m *CtpReqAuthencate) String() string { return proto.CompactTextString(m) }
+func (*CtpReqAuthencate) ProtoMessage()    {}
+func (*CtpReqAuthencate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{27}
+}
+
+func (m *CtpReqAuthencate) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqAuthencate.Unmarshal(m, b)
+}
+func (m *CtpReqAuthencate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqAuthencate.Marshal(b, m, deterministic)
+}
+func (m *CtpReqAuthencate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqAuthencate.Merge(m, src)
+}
+func (m *CtpReqAuthencate) XXX_Size() int {
+	return xxx_messageInfo_CtpReqAuthencate.Size(m)
+}
+func (m *CtpReqAuthencate) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqAuthencate.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqAuthencate proto.InternalMessageInfo
 
 func (m *CtpReqAuthencate) GetAuthCode() string {
 	if m != nil {
@@ -3012,19 +3688,42 @@ func (m *CtpReqAuthencate) GetProduct() string {
 
 // 认证结果
 type CtpRspAuthencate struct {
-	ErrorId         int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg        string `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId       int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast          bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	BrokerId        string `protobuf:"bytes,5,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	UserId          string `protobuf:"bytes,6,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-	UserProductInfo string `protobuf:"bytes,7,opt,name=user_product_info,json=userProductInfo" json:"user_product_info,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	BrokerId             string   `protobuf:"bytes,5,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	UserId               string   `protobuf:"bytes,6,opt,name=user_id,json=userId,proto3" json:"userId"`
+	UserProductInfo      string   `protobuf:"bytes,7,opt,name=user_product_info,json=userProductInfo,proto3" json:"userProductInfo"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpRspAuthencate) Reset()                    { *m = CtpRspAuthencate{} }
-func (m *CtpRspAuthencate) String() string            { return proto.CompactTextString(m) }
-func (*CtpRspAuthencate) ProtoMessage()               {}
-func (*CtpRspAuthencate) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{28} }
+func (m *CtpRspAuthencate) Reset()         { *m = CtpRspAuthencate{} }
+func (m *CtpRspAuthencate) String() string { return proto.CompactTextString(m) }
+func (*CtpRspAuthencate) ProtoMessage()    {}
+func (*CtpRspAuthencate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{28}
+}
+
+func (m *CtpRspAuthencate) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpRspAuthencate.Unmarshal(m, b)
+}
+func (m *CtpRspAuthencate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpRspAuthencate.Marshal(b, m, deterministic)
+}
+func (m *CtpRspAuthencate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpRspAuthencate.Merge(m, src)
+}
+func (m *CtpRspAuthencate) XXX_Size() int {
+	return xxx_messageInfo_CtpRspAuthencate.Size(m)
+}
+func (m *CtpRspAuthencate) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpRspAuthencate.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpRspAuthencate proto.InternalMessageInfo
 
 func (m *CtpRspAuthencate) GetErrorId() int32 {
 	if m != nil {
@@ -3077,15 +3776,38 @@ func (m *CtpRspAuthencate) GetUserProductInfo() string {
 
 // 登陆
 type CtpReqUserLogin struct {
-	BrokerId string `protobuf:"bytes,1,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	Account  string `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
-	Password string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
+	BrokerId             string   `protobuf:"bytes,1,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	Account              string   `protobuf:"bytes,2,opt,name=account,proto3" json:"account"`
+	Password             string   `protobuf:"bytes,3,opt,name=password,proto3" json:"password"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqUserLogin) Reset()                    { *m = CtpReqUserLogin{} }
-func (m *CtpReqUserLogin) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqUserLogin) ProtoMessage()               {}
-func (*CtpReqUserLogin) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{29} }
+func (m *CtpReqUserLogin) Reset()         { *m = CtpReqUserLogin{} }
+func (m *CtpReqUserLogin) String() string { return proto.CompactTextString(m) }
+func (*CtpReqUserLogin) ProtoMessage()    {}
+func (*CtpReqUserLogin) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{29}
+}
+
+func (m *CtpReqUserLogin) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqUserLogin.Unmarshal(m, b)
+}
+func (m *CtpReqUserLogin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqUserLogin.Marshal(b, m, deterministic)
+}
+func (m *CtpReqUserLogin) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqUserLogin.Merge(m, src)
+}
+func (m *CtpReqUserLogin) XXX_Size() int {
+	return xxx_messageInfo_CtpReqUserLogin.Size(m)
+}
+func (m *CtpReqUserLogin) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqUserLogin.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqUserLogin proto.InternalMessageInfo
 
 func (m *CtpReqUserLogin) GetBrokerId() string {
 	if m != nil {
@@ -3110,29 +3832,52 @@ func (m *CtpReqUserLogin) GetPassword() string {
 
 // 登陆返回
 type CtpRspUserLogin struct {
-	ErrorId     int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg    string `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId   int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast      bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	TradingDay  string `protobuf:"bytes,5,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
-	LoginTime   string `protobuf:"bytes,6,opt,name=login_time,json=loginTime" json:"login_time,omitempty"`
-	BrokerId    string `protobuf:"bytes,7,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	UserId      string `protobuf:"bytes,8,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-	SystemName  string `protobuf:"bytes,9,opt,name=system_name,json=systemName" json:"system_name,omitempty"`
-	FrontId     int32  `protobuf:"varint,10,opt,name=front_id,json=frontId" json:"front_id,omitempty"`
-	SessionId   int32  `protobuf:"varint,11,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
-	MaxOrderRef string `protobuf:"bytes,12,opt,name=max_order_ref,json=maxOrderRef" json:"max_order_ref,omitempty"`
-	ShfeTime    string `protobuf:"bytes,13,opt,name=shfe_time,json=shfeTime" json:"shfe_time,omitempty"`
-	DceTime     string `protobuf:"bytes,14,opt,name=dce_time,json=dceTime" json:"dce_time,omitempty"`
-	CzceTime    string `protobuf:"bytes,15,opt,name=czce_time,json=czceTime" json:"czce_time,omitempty"`
-	CffexTime   string `protobuf:"bytes,16,opt,name=cffex_time,json=cffexTime" json:"cffex_time,omitempty"`
-	IneTime     string `protobuf:"bytes,17,opt,name=ine_time,json=ineTime" json:"ine_time,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	TradingDay           string   `protobuf:"bytes,5,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
+	LoginTime            string   `protobuf:"bytes,6,opt,name=login_time,json=loginTime,proto3" json:"loginTime"`
+	BrokerId             string   `protobuf:"bytes,7,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	UserId               string   `protobuf:"bytes,8,opt,name=user_id,json=userId,proto3" json:"userId"`
+	SystemName           string   `protobuf:"bytes,9,opt,name=system_name,json=systemName,proto3" json:"systemName"`
+	FrontId              int32    `protobuf:"varint,10,opt,name=front_id,json=frontId,proto3" json:"frontId"`
+	SessionId            int32    `protobuf:"varint,11,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
+	MaxOrderRef          string   `protobuf:"bytes,12,opt,name=max_order_ref,json=maxOrderRef,proto3" json:"maxOrderRef"`
+	ShfeTime             string   `protobuf:"bytes,13,opt,name=shfe_time,json=shfeTime,proto3" json:"shfeTime"`
+	DceTime              string   `protobuf:"bytes,14,opt,name=dce_time,json=dceTime,proto3" json:"dceTime"`
+	CzceTime             string   `protobuf:"bytes,15,opt,name=czce_time,json=czceTime,proto3" json:"czceTime"`
+	CffexTime            string   `protobuf:"bytes,16,opt,name=cffex_time,json=cffexTime,proto3" json:"cffexTime"`
+	IneTime              string   `protobuf:"bytes,17,opt,name=ine_time,json=ineTime,proto3" json:"ineTime"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpRspUserLogin) Reset()                    { *m = CtpRspUserLogin{} }
-func (m *CtpRspUserLogin) String() string            { return proto.CompactTextString(m) }
-func (*CtpRspUserLogin) ProtoMessage()               {}
-func (*CtpRspUserLogin) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{30} }
+func (m *CtpRspUserLogin) Reset()         { *m = CtpRspUserLogin{} }
+func (m *CtpRspUserLogin) String() string { return proto.CompactTextString(m) }
+func (*CtpRspUserLogin) ProtoMessage()    {}
+func (*CtpRspUserLogin) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{30}
+}
+
+func (m *CtpRspUserLogin) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpRspUserLogin.Unmarshal(m, b)
+}
+func (m *CtpRspUserLogin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpRspUserLogin.Marshal(b, m, deterministic)
+}
+func (m *CtpRspUserLogin) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpRspUserLogin.Merge(m, src)
+}
+func (m *CtpRspUserLogin) XXX_Size() int {
+	return xxx_messageInfo_CtpRspUserLogin.Size(m)
+}
+func (m *CtpRspUserLogin) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpRspUserLogin.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpRspUserLogin proto.InternalMessageInfo
 
 func (m *CtpRspUserLogin) GetErrorId() int32 {
 	if m != nil {
@@ -3255,15 +4000,38 @@ func (m *CtpRspUserLogin) GetIneTime() string {
 
 // 连接
 type CtpReqConnect struct {
-	Address   string `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
-	Account   string `protobuf:"bytes,2,opt,name=account" json:"account,omitempty"`
-	Directory string `protobuf:"bytes,3,opt,name=directory" json:"directory,omitempty"`
+	Address              string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address"`
+	Account              string   `protobuf:"bytes,2,opt,name=account,proto3" json:"account"`
+	Directory            string   `protobuf:"bytes,3,opt,name=directory,proto3" json:"directory"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqConnect) Reset()                    { *m = CtpReqConnect{} }
-func (m *CtpReqConnect) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqConnect) ProtoMessage()               {}
-func (*CtpReqConnect) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{31} }
+func (m *CtpReqConnect) Reset()         { *m = CtpReqConnect{} }
+func (m *CtpReqConnect) String() string { return proto.CompactTextString(m) }
+func (*CtpReqConnect) ProtoMessage()    {}
+func (*CtpReqConnect) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{31}
+}
+
+func (m *CtpReqConnect) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqConnect.Unmarshal(m, b)
+}
+func (m *CtpReqConnect) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqConnect.Marshal(b, m, deterministic)
+}
+func (m *CtpReqConnect) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqConnect.Merge(m, src)
+}
+func (m *CtpReqConnect) XXX_Size() int {
+	return xxx_messageInfo_CtpReqConnect.Size(m)
+}
+func (m *CtpReqConnect) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqConnect.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqConnect proto.InternalMessageInfo
 
 func (m *CtpReqConnect) GetAddress() string {
 	if m != nil {
@@ -3288,32 +4056,101 @@ func (m *CtpReqConnect) GetDirectory() string {
 
 // 前置连接
 type CtpOnFrontConnected struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpOnFrontConnected) Reset()                    { *m = CtpOnFrontConnected{} }
-func (m *CtpOnFrontConnected) String() string            { return proto.CompactTextString(m) }
-func (*CtpOnFrontConnected) ProtoMessage()               {}
-func (*CtpOnFrontConnected) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{32} }
+func (m *CtpOnFrontConnected) Reset()         { *m = CtpOnFrontConnected{} }
+func (m *CtpOnFrontConnected) String() string { return proto.CompactTextString(m) }
+func (*CtpOnFrontConnected) ProtoMessage()    {}
+func (*CtpOnFrontConnected) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{32}
+}
+
+func (m *CtpOnFrontConnected) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpOnFrontConnected.Unmarshal(m, b)
+}
+func (m *CtpOnFrontConnected) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpOnFrontConnected.Marshal(b, m, deterministic)
+}
+func (m *CtpOnFrontConnected) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpOnFrontConnected.Merge(m, src)
+}
+func (m *CtpOnFrontConnected) XXX_Size() int {
+	return xxx_messageInfo_CtpOnFrontConnected.Size(m)
+}
+func (m *CtpOnFrontConnected) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpOnFrontConnected.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpOnFrontConnected proto.InternalMessageInfo
 
 // 前置断开
 type CtpOnFrontDisconnected struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpOnFrontDisconnected) Reset()                    { *m = CtpOnFrontDisconnected{} }
-func (m *CtpOnFrontDisconnected) String() string            { return proto.CompactTextString(m) }
-func (*CtpOnFrontDisconnected) ProtoMessage()               {}
-func (*CtpOnFrontDisconnected) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{33} }
+func (m *CtpOnFrontDisconnected) Reset()         { *m = CtpOnFrontDisconnected{} }
+func (m *CtpOnFrontDisconnected) String() string { return proto.CompactTextString(m) }
+func (*CtpOnFrontDisconnected) ProtoMessage()    {}
+func (*CtpOnFrontDisconnected) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{33}
+}
+
+func (m *CtpOnFrontDisconnected) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpOnFrontDisconnected.Unmarshal(m, b)
+}
+func (m *CtpOnFrontDisconnected) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpOnFrontDisconnected.Marshal(b, m, deterministic)
+}
+func (m *CtpOnFrontDisconnected) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpOnFrontDisconnected.Merge(m, src)
+}
+func (m *CtpOnFrontDisconnected) XXX_Size() int {
+	return xxx_messageInfo_CtpOnFrontDisconnected.Size(m)
+}
+func (m *CtpOnFrontDisconnected) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpOnFrontDisconnected.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpOnFrontDisconnected proto.InternalMessageInfo
 
 // 确认结算
 type CtpReqSettlementInfoConfirm struct {
-	BrokerId   string `protobuf:"bytes,1,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	InvestorId string `protobuf:"bytes,2,opt,name=investor_id,json=investorId" json:"investor_id,omitempty"`
+	BrokerId             string   `protobuf:"bytes,1,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	InvestorId           string   `protobuf:"bytes,2,opt,name=investor_id,json=investorId,proto3" json:"investorId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqSettlementInfoConfirm) Reset()                    { *m = CtpReqSettlementInfoConfirm{} }
-func (m *CtpReqSettlementInfoConfirm) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqSettlementInfoConfirm) ProtoMessage()               {}
-func (*CtpReqSettlementInfoConfirm) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{34} }
+func (m *CtpReqSettlementInfoConfirm) Reset()         { *m = CtpReqSettlementInfoConfirm{} }
+func (m *CtpReqSettlementInfoConfirm) String() string { return proto.CompactTextString(m) }
+func (*CtpReqSettlementInfoConfirm) ProtoMessage()    {}
+func (*CtpReqSettlementInfoConfirm) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{34}
+}
+
+func (m *CtpReqSettlementInfoConfirm) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqSettlementInfoConfirm.Unmarshal(m, b)
+}
+func (m *CtpReqSettlementInfoConfirm) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqSettlementInfoConfirm.Marshal(b, m, deterministic)
+}
+func (m *CtpReqSettlementInfoConfirm) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqSettlementInfoConfirm.Merge(m, src)
+}
+func (m *CtpReqSettlementInfoConfirm) XXX_Size() int {
+	return xxx_messageInfo_CtpReqSettlementInfoConfirm.Size(m)
+}
+func (m *CtpReqSettlementInfoConfirm) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqSettlementInfoConfirm.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqSettlementInfoConfirm proto.InternalMessageInfo
 
 func (m *CtpReqSettlementInfoConfirm) GetBrokerId() string {
 	if m != nil {
@@ -3331,23 +4168,46 @@ func (m *CtpReqSettlementInfoConfirm) GetInvestorId() string {
 
 // 确认结算返回
 type CtpOnRspSettlementInfoConfirm struct {
-	ErrorId      int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg     string `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId    int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast       bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	BrokerId     string `protobuf:"bytes,5,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	InvestorId   string `protobuf:"bytes,6,opt,name=investor_id,json=investorId" json:"investor_id,omitempty"`
-	ConfirmDate  string `protobuf:"bytes,7,opt,name=confirm_date,json=confirmDate" json:"confirm_date,omitempty"`
-	ConfirmTime  string `protobuf:"bytes,8,opt,name=confirm_time,json=confirmTime" json:"confirm_time,omitempty"`
-	SettlementId int32  `protobuf:"varint,9,opt,name=settlement_id,json=settlementId" json:"settlement_id,omitempty"`
-	AccountId    string `protobuf:"bytes,10,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
-	CurrencyId   string `protobuf:"bytes,11,opt,name=currency_id,json=currencyId" json:"currency_id,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	BrokerId             string   `protobuf:"bytes,5,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	InvestorId           string   `protobuf:"bytes,6,opt,name=investor_id,json=investorId,proto3" json:"investorId"`
+	ConfirmDate          string   `protobuf:"bytes,7,opt,name=confirm_date,json=confirmDate,proto3" json:"confirmDate"`
+	ConfirmTime          string   `protobuf:"bytes,8,opt,name=confirm_time,json=confirmTime,proto3" json:"confirmTime"`
+	SettlementId         int32    `protobuf:"varint,9,opt,name=settlement_id,json=settlementId,proto3" json:"settlementId"`
+	AccountId            string   `protobuf:"bytes,10,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	CurrencyId           string   `protobuf:"bytes,11,opt,name=currency_id,json=currencyId,proto3" json:"currencyId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpOnRspSettlementInfoConfirm) Reset()                    { *m = CtpOnRspSettlementInfoConfirm{} }
-func (m *CtpOnRspSettlementInfoConfirm) String() string            { return proto.CompactTextString(m) }
-func (*CtpOnRspSettlementInfoConfirm) ProtoMessage()               {}
-func (*CtpOnRspSettlementInfoConfirm) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{35} }
+func (m *CtpOnRspSettlementInfoConfirm) Reset()         { *m = CtpOnRspSettlementInfoConfirm{} }
+func (m *CtpOnRspSettlementInfoConfirm) String() string { return proto.CompactTextString(m) }
+func (*CtpOnRspSettlementInfoConfirm) ProtoMessage()    {}
+func (*CtpOnRspSettlementInfoConfirm) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{35}
+}
+
+func (m *CtpOnRspSettlementInfoConfirm) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpOnRspSettlementInfoConfirm.Unmarshal(m, b)
+}
+func (m *CtpOnRspSettlementInfoConfirm) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpOnRspSettlementInfoConfirm.Marshal(b, m, deterministic)
+}
+func (m *CtpOnRspSettlementInfoConfirm) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpOnRspSettlementInfoConfirm.Merge(m, src)
+}
+func (m *CtpOnRspSettlementInfoConfirm) XXX_Size() int {
+	return xxx_messageInfo_CtpOnRspSettlementInfoConfirm.Size(m)
+}
+func (m *CtpOnRspSettlementInfoConfirm) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpOnRspSettlementInfoConfirm.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpOnRspSettlementInfoConfirm proto.InternalMessageInfo
 
 func (m *CtpOnRspSettlementInfoConfirm) GetErrorId() int32 {
 	if m != nil {
@@ -3428,36 +4288,82 @@ func (m *CtpOnRspSettlementInfoConfirm) GetCurrencyId() string {
 
 // 查询投资者
 type CtpReqQryInvestor struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqQryInvestor) Reset()                    { *m = CtpReqQryInvestor{} }
-func (m *CtpReqQryInvestor) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqQryInvestor) ProtoMessage()               {}
-func (*CtpReqQryInvestor) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{36} }
+func (m *CtpReqQryInvestor) Reset()         { *m = CtpReqQryInvestor{} }
+func (m *CtpReqQryInvestor) String() string { return proto.CompactTextString(m) }
+func (*CtpReqQryInvestor) ProtoMessage()    {}
+func (*CtpReqQryInvestor) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{36}
+}
+
+func (m *CtpReqQryInvestor) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqQryInvestor.Unmarshal(m, b)
+}
+func (m *CtpReqQryInvestor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqQryInvestor.Marshal(b, m, deterministic)
+}
+func (m *CtpReqQryInvestor) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqQryInvestor.Merge(m, src)
+}
+func (m *CtpReqQryInvestor) XXX_Size() int {
+	return xxx_messageInfo_CtpReqQryInvestor.Size(m)
+}
+func (m *CtpReqQryInvestor) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqQryInvestor.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqQryInvestor proto.InternalMessageInfo
 
 // 返回查询投资者
 type CtpRspQryInvestor struct {
-	ErrorId            int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg           string `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId          int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast             bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	InvestorId         string `protobuf:"bytes,5,opt,name=investor_id,json=investorId" json:"investor_id,omitempty"`
-	BrokerId           string `protobuf:"bytes,6,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	InvestorGroupId    string `protobuf:"bytes,7,opt,name=investor_group_id,json=investorGroupId" json:"investor_group_id,omitempty"`
-	InvestorName       string `protobuf:"bytes,8,opt,name=investor_name,json=investorName" json:"investor_name,omitempty"`
-	IdentifiedCardType int32  `protobuf:"varint,9,opt,name=identified_card_type,json=identifiedCardType" json:"identified_card_type,omitempty"`
-	IdentifiedCardNo   string `protobuf:"bytes,10,opt,name=identified_card_no,json=identifiedCardNo" json:"identified_card_no,omitempty"`
-	IsActive           bool   `protobuf:"varint,11,opt,name=is_active,json=isActive" json:"is_active,omitempty"`
-	Telphone           string `protobuf:"bytes,12,opt,name=telphone" json:"telphone,omitempty"`
-	Address            string `protobuf:"bytes,13,opt,name=address" json:"address,omitempty"`
-	OpenDate           string `protobuf:"bytes,14,opt,name=open_date,json=openDate" json:"open_date,omitempty"`
-	Mobile             string `protobuf:"bytes,15,opt,name=mobile" json:"mobile,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	InvestorId           string   `protobuf:"bytes,5,opt,name=investor_id,json=investorId,proto3" json:"investorId"`
+	BrokerId             string   `protobuf:"bytes,6,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	InvestorGroupId      string   `protobuf:"bytes,7,opt,name=investor_group_id,json=investorGroupId,proto3" json:"investorGroupId"`
+	InvestorName         string   `protobuf:"bytes,8,opt,name=investor_name,json=investorName,proto3" json:"investorName"`
+	IdentifiedCardType   int32    `protobuf:"varint,9,opt,name=identified_card_type,json=identifiedCardType,proto3" json:"identifiedCardType"`
+	IdentifiedCardNo     string   `protobuf:"bytes,10,opt,name=identified_card_no,json=identifiedCardNo,proto3" json:"identifiedCardNo"`
+	IsActive             bool     `protobuf:"varint,11,opt,name=is_active,json=isActive,proto3" json:"isActive"`
+	Telphone             string   `protobuf:"bytes,12,opt,name=telphone,proto3" json:"telphone"`
+	Address              string   `protobuf:"bytes,13,opt,name=address,proto3" json:"address"`
+	OpenDate             string   `protobuf:"bytes,14,opt,name=open_date,json=openDate,proto3" json:"openDate"`
+	Mobile               string   `protobuf:"bytes,15,opt,name=mobile,proto3" json:"mobile"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpRspQryInvestor) Reset()                    { *m = CtpRspQryInvestor{} }
-func (m *CtpRspQryInvestor) String() string            { return proto.CompactTextString(m) }
-func (*CtpRspQryInvestor) ProtoMessage()               {}
-func (*CtpRspQryInvestor) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{37} }
+func (m *CtpRspQryInvestor) Reset()         { *m = CtpRspQryInvestor{} }
+func (m *CtpRspQryInvestor) String() string { return proto.CompactTextString(m) }
+func (*CtpRspQryInvestor) ProtoMessage()    {}
+func (*CtpRspQryInvestor) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{37}
+}
+
+func (m *CtpRspQryInvestor) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpRspQryInvestor.Unmarshal(m, b)
+}
+func (m *CtpRspQryInvestor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpRspQryInvestor.Marshal(b, m, deterministic)
+}
+func (m *CtpRspQryInvestor) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpRspQryInvestor.Merge(m, src)
+}
+func (m *CtpRspQryInvestor) XXX_Size() int {
+	return xxx_messageInfo_CtpRspQryInvestor.Size(m)
+}
+func (m *CtpRspQryInvestor) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpRspQryInvestor.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpRspQryInvestor proto.InternalMessageInfo
 
 func (m *CtpRspQryInvestor) GetErrorId() int32 {
 	if m != nil {
@@ -3566,14 +4472,37 @@ func (m *CtpRspQryInvestor) GetMobile() string {
 
 // 查询银行
 type CtpReqQryTransferBank struct {
-	BrokerId   string `protobuf:"bytes,1,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	InvestorId string `protobuf:"bytes,2,opt,name=investor_id,json=investorId" json:"investor_id,omitempty"`
+	BrokerId             string   `protobuf:"bytes,1,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	InvestorId           string   `protobuf:"bytes,2,opt,name=investor_id,json=investorId,proto3" json:"investorId"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqQryTransferBank) Reset()                    { *m = CtpReqQryTransferBank{} }
-func (m *CtpReqQryTransferBank) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqQryTransferBank) ProtoMessage()               {}
-func (*CtpReqQryTransferBank) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{38} }
+func (m *CtpReqQryTransferBank) Reset()         { *m = CtpReqQryTransferBank{} }
+func (m *CtpReqQryTransferBank) String() string { return proto.CompactTextString(m) }
+func (*CtpReqQryTransferBank) ProtoMessage()    {}
+func (*CtpReqQryTransferBank) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{38}
+}
+
+func (m *CtpReqQryTransferBank) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqQryTransferBank.Unmarshal(m, b)
+}
+func (m *CtpReqQryTransferBank) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqQryTransferBank.Marshal(b, m, deterministic)
+}
+func (m *CtpReqQryTransferBank) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqQryTransferBank.Merge(m, src)
+}
+func (m *CtpReqQryTransferBank) XXX_Size() int {
+	return xxx_messageInfo_CtpReqQryTransferBank.Size(m)
+}
+func (m *CtpReqQryTransferBank) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqQryTransferBank.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqQryTransferBank proto.InternalMessageInfo
 
 func (m *CtpReqQryTransferBank) GetBrokerId() string {
 	if m != nil {
@@ -3591,20 +4520,43 @@ func (m *CtpReqQryTransferBank) GetInvestorId() string {
 
 // 返回查询银行
 type CtpRspQryTransferBank struct {
-	ErrorId      int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg     string `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId    int32  `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast       bool   `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	BrokerId     string `protobuf:"bytes,5,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	BankId       string `protobuf:"bytes,6,opt,name=bank_id,json=bankId" json:"bank_id,omitempty"`
-	BankBranchId string `protobuf:"bytes,7,opt,name=bank_branch_id,json=bankBranchId" json:"bank_branch_id,omitempty"`
-	BankName     string `protobuf:"bytes,8,opt,name=bank_name,json=bankName" json:"bank_name,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32    `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool     `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	BrokerId             string   `protobuf:"bytes,5,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	BankId               string   `protobuf:"bytes,6,opt,name=bank_id,json=bankId,proto3" json:"bankId"`
+	BankBranchId         string   `protobuf:"bytes,7,opt,name=bank_branch_id,json=bankBranchId,proto3" json:"bankBranchId"`
+	BankName             string   `protobuf:"bytes,8,opt,name=bank_name,json=bankName,proto3" json:"bankName"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpRspQryTransferBank) Reset()                    { *m = CtpRspQryTransferBank{} }
-func (m *CtpRspQryTransferBank) String() string            { return proto.CompactTextString(m) }
-func (*CtpRspQryTransferBank) ProtoMessage()               {}
-func (*CtpRspQryTransferBank) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{39} }
+func (m *CtpRspQryTransferBank) Reset()         { *m = CtpRspQryTransferBank{} }
+func (m *CtpRspQryTransferBank) String() string { return proto.CompactTextString(m) }
+func (*CtpRspQryTransferBank) ProtoMessage()    {}
+func (*CtpRspQryTransferBank) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{39}
+}
+
+func (m *CtpRspQryTransferBank) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpRspQryTransferBank.Unmarshal(m, b)
+}
+func (m *CtpRspQryTransferBank) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpRspQryTransferBank.Marshal(b, m, deterministic)
+}
+func (m *CtpRspQryTransferBank) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpRspQryTransferBank.Merge(m, src)
+}
+func (m *CtpRspQryTransferBank) XXX_Size() int {
+	return xxx_messageInfo_CtpRspQryTransferBank.Size(m)
+}
+func (m *CtpRspQryTransferBank) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpRspQryTransferBank.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpRspQryTransferBank proto.InternalMessageInfo
 
 func (m *CtpRspQryTransferBank) GetErrorId() int32 {
 	if m != nil {
@@ -3664,54 +4616,77 @@ func (m *CtpRspQryTransferBank) GetBankName() string {
 
 // 银行转期货
 type CtpReqTransfer struct {
-	TradeCode         string  `protobuf:"bytes,1,opt,name=trade_code,json=tradeCode" json:"trade_code,omitempty"`
-	BankId            string  `protobuf:"bytes,2,opt,name=bank_id,json=bankId" json:"bank_id,omitempty"`
-	BankBranchId      string  `protobuf:"bytes,3,opt,name=bank_branch_id,json=bankBranchId" json:"bank_branch_id,omitempty"`
-	BrokerId          string  `protobuf:"bytes,4,opt,name=broker_id,json=brokerId" json:"broker_id,omitempty"`
-	BrokerBranchId    string  `protobuf:"bytes,5,opt,name=broker_branch_id,json=brokerBranchId" json:"broker_branch_id,omitempty"`
-	TradeDate         string  `protobuf:"bytes,6,opt,name=trade_date,json=tradeDate" json:"trade_date,omitempty"`
-	TradeTime         string  `protobuf:"bytes,7,opt,name=trade_time,json=tradeTime" json:"trade_time,omitempty"`
-	BankSerial        string  `protobuf:"bytes,8,opt,name=bank_serial,json=bankSerial" json:"bank_serial,omitempty"`
-	TradingDay        string  `protobuf:"bytes,9,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
-	PlateSerieal      int32   `protobuf:"varint,10,opt,name=plate_serieal,json=plateSerieal" json:"plate_serieal,omitempty"`
-	LastFragment      string  `protobuf:"bytes,11,opt,name=last_fragment,json=lastFragment" json:"last_fragment,omitempty"`
-	SessionId         int32   `protobuf:"varint,12,opt,name=session_id,json=sessionId" json:"session_id,omitempty"`
-	CustomerName      string  `protobuf:"bytes,13,opt,name=customer_name,json=customerName" json:"customer_name,omitempty"`
-	IdCardType        int32   `protobuf:"varint,14,opt,name=id_card_type,json=idCardType" json:"id_card_type,omitempty"`
-	IdentifiedCardNo  string  `protobuf:"bytes,15,opt,name=identified_card_no,json=identifiedCardNo" json:"identified_card_no,omitempty"`
-	CustType          string  `protobuf:"bytes,16,opt,name=cust_type,json=custType" json:"cust_type,omitempty"`
-	BankAccount       string  `protobuf:"bytes,17,opt,name=bank_account,json=bankAccount" json:"bank_account,omitempty"`
-	BankPassword      string  `protobuf:"bytes,18,opt,name=bank_password,json=bankPassword" json:"bank_password,omitempty"`
-	AccountId         string  `protobuf:"bytes,19,opt,name=account_id,json=accountId" json:"account_id,omitempty"`
-	Password          string  `protobuf:"bytes,20,opt,name=password" json:"password,omitempty"`
-	InstallId         int32   `protobuf:"varint,21,opt,name=install_id,json=installId" json:"install_id,omitempty"`
-	FutureSerial      int32   `protobuf:"varint,22,opt,name=future_serial,json=futureSerial" json:"future_serial,omitempty"`
-	UserId            string  `protobuf:"bytes,23,opt,name=user_id,json=userId" json:"user_id,omitempty"`
-	VerifyCertNoFlag  string  `protobuf:"bytes,24,opt,name=verify_cert_no_flag,json=verifyCertNoFlag" json:"verify_cert_no_flag,omitempty"`
-	CurrencyId        string  `protobuf:"bytes,25,opt,name=currency_id,json=currencyId" json:"currency_id,omitempty"`
-	TradeAmount       float64 `protobuf:"fixed64,26,opt,name=trade_amount,json=tradeAmount" json:"trade_amount,omitempty"`
-	FutureFetchAmount float64 `protobuf:"fixed64,27,opt,name=future_fetch_amount,json=futureFetchAmount" json:"future_fetch_amount,omitempty"`
-	FeePayFlag        int32   `protobuf:"varint,28,opt,name=fee_pay_flag,json=feePayFlag" json:"fee_pay_flag,omitempty"`
-	CustFee           float64 `protobuf:"fixed64,29,opt,name=cust_fee,json=custFee" json:"cust_fee,omitempty"`
-	BrokerFee         float64 `protobuf:"fixed64,30,opt,name=broker_fee,json=brokerFee" json:"broker_fee,omitempty"`
-	Message           string  `protobuf:"bytes,31,opt,name=message" json:"message,omitempty"`
-	Digest            string  `protobuf:"bytes,32,opt,name=digest" json:"digest,omitempty"`
-	BankAccType       int32   `protobuf:"varint,33,opt,name=bank_acc_type,json=bankAccType" json:"bank_acc_type,omitempty"`
-	DeviceId          string  `protobuf:"bytes,34,opt,name=device_id,json=deviceId" json:"device_id,omitempty"`
-	BankSecuAcc       string  `protobuf:"bytes,35,opt,name=bank_secu_acc,json=bankSecuAcc" json:"bank_secu_acc,omitempty"`
-	BankPwdFlag       string  `protobuf:"bytes,36,opt,name=bank_pwd_flag,json=bankPwdFlag" json:"bank_pwd_flag,omitempty"`
-	SecuPwdFlag       string  `protobuf:"bytes,37,opt,name=secu_pwd_flag,json=secuPwdFlag" json:"secu_pwd_flag,omitempty"`
-	OperNo            string  `protobuf:"bytes,38,opt,name=oper_no,json=operNo" json:"oper_no,omitempty"`
-	RequestId         int32   `protobuf:"varint,39,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	Tid               int32   `protobuf:"varint,40,opt,name=tid" json:"tid,omitempty"`
-	TransferStatus    string  `protobuf:"bytes,41,opt,name=transfer_status,json=transferStatus" json:"transfer_status,omitempty"`
-	LongCustomerName  string  `protobuf:"bytes,42,opt,name=long_customer_name,json=longCustomerName" json:"long_customer_name,omitempty"`
+	TradeCode            string   `protobuf:"bytes,1,opt,name=trade_code,json=tradeCode,proto3" json:"tradeCode"`
+	BankId               string   `protobuf:"bytes,2,opt,name=bank_id,json=bankId,proto3" json:"bankId"`
+	BankBranchId         string   `protobuf:"bytes,3,opt,name=bank_branch_id,json=bankBranchId,proto3" json:"bankBranchId"`
+	BrokerId             string   `protobuf:"bytes,4,opt,name=broker_id,json=brokerId,proto3" json:"brokerId"`
+	BrokerBranchId       string   `protobuf:"bytes,5,opt,name=broker_branch_id,json=brokerBranchId,proto3" json:"brokerBranchId"`
+	TradeDate            string   `protobuf:"bytes,6,opt,name=trade_date,json=tradeDate,proto3" json:"tradeDate"`
+	TradeTime            string   `protobuf:"bytes,7,opt,name=trade_time,json=tradeTime,proto3" json:"tradeTime"`
+	BankSerial           string   `protobuf:"bytes,8,opt,name=bank_serial,json=bankSerial,proto3" json:"bankSerial"`
+	TradingDay           string   `protobuf:"bytes,9,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
+	PlateSerieal         int32    `protobuf:"varint,10,opt,name=plate_serieal,json=plateSerieal,proto3" json:"plateSerieal"`
+	LastFragment         string   `protobuf:"bytes,11,opt,name=last_fragment,json=lastFragment,proto3" json:"lastFragment"`
+	SessionId            int32    `protobuf:"varint,12,opt,name=session_id,json=sessionId,proto3" json:"sessionId"`
+	CustomerName         string   `protobuf:"bytes,13,opt,name=customer_name,json=customerName,proto3" json:"customerName"`
+	IdCardType           int32    `protobuf:"varint,14,opt,name=id_card_type,json=idCardType,proto3" json:"idCardType"`
+	IdentifiedCardNo     string   `protobuf:"bytes,15,opt,name=identified_card_no,json=identifiedCardNo,proto3" json:"identifiedCardNo"`
+	CustType             string   `protobuf:"bytes,16,opt,name=cust_type,json=custType,proto3" json:"custType"`
+	BankAccount          string   `protobuf:"bytes,17,opt,name=bank_account,json=bankAccount,proto3" json:"bankAccount"`
+	BankPassword         string   `protobuf:"bytes,18,opt,name=bank_password,json=bankPassword,proto3" json:"bankPassword"`
+	AccountId            string   `protobuf:"bytes,19,opt,name=account_id,json=accountId,proto3" json:"accountId"`
+	Password             string   `protobuf:"bytes,20,opt,name=password,proto3" json:"password"`
+	InstallId            int32    `protobuf:"varint,21,opt,name=install_id,json=installId,proto3" json:"installId"`
+	FutureSerial         int32    `protobuf:"varint,22,opt,name=future_serial,json=futureSerial,proto3" json:"futureSerial"`
+	UserId               string   `protobuf:"bytes,23,opt,name=user_id,json=userId,proto3" json:"userId"`
+	VerifyCertNoFlag     string   `protobuf:"bytes,24,opt,name=verify_cert_no_flag,json=verifyCertNoFlag,proto3" json:"verifyCertNoFlag"`
+	CurrencyId           string   `protobuf:"bytes,25,opt,name=currency_id,json=currencyId,proto3" json:"currencyId"`
+	TradeAmount          float64  `protobuf:"fixed64,26,opt,name=trade_amount,json=tradeAmount,proto3" json:"tradeAmount"`
+	FutureFetchAmount    float64  `protobuf:"fixed64,27,opt,name=future_fetch_amount,json=futureFetchAmount,proto3" json:"futureFetchAmount"`
+	FeePayFlag           int32    `protobuf:"varint,28,opt,name=fee_pay_flag,json=feePayFlag,proto3" json:"feePayFlag"`
+	CustFee              float64  `protobuf:"fixed64,29,opt,name=cust_fee,json=custFee,proto3" json:"custFee"`
+	BrokerFee            float64  `protobuf:"fixed64,30,opt,name=broker_fee,json=brokerFee,proto3" json:"brokerFee"`
+	Message              string   `protobuf:"bytes,31,opt,name=message,proto3" json:"message"`
+	Digest               string   `protobuf:"bytes,32,opt,name=digest,proto3" json:"digest"`
+	BankAccType          int32    `protobuf:"varint,33,opt,name=bank_acc_type,json=bankAccType,proto3" json:"bankAccType"`
+	DeviceId             string   `protobuf:"bytes,34,opt,name=device_id,json=deviceId,proto3" json:"deviceId"`
+	BankSecuAcc          string   `protobuf:"bytes,35,opt,name=bank_secu_acc,json=bankSecuAcc,proto3" json:"bankSecuAcc"`
+	BankPwdFlag          string   `protobuf:"bytes,36,opt,name=bank_pwd_flag,json=bankPwdFlag,proto3" json:"bankPwdFlag"`
+	SecuPwdFlag          string   `protobuf:"bytes,37,opt,name=secu_pwd_flag,json=secuPwdFlag,proto3" json:"secuPwdFlag"`
+	OperNo               string   `protobuf:"bytes,38,opt,name=oper_no,json=operNo,proto3" json:"operNo"`
+	RequestId            int32    `protobuf:"varint,39,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	Tid                  int32    `protobuf:"varint,40,opt,name=tid,proto3" json:"tid"`
+	TransferStatus       string   `protobuf:"bytes,41,opt,name=transfer_status,json=transferStatus,proto3" json:"transferStatus"`
+	LongCustomerName     string   `protobuf:"bytes,42,opt,name=long_customer_name,json=longCustomerName,proto3" json:"longCustomerName"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CtpReqTransfer) Reset()                    { *m = CtpReqTransfer{} }
-func (m *CtpReqTransfer) String() string            { return proto.CompactTextString(m) }
-func (*CtpReqTransfer) ProtoMessage()               {}
-func (*CtpReqTransfer) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{40} }
+func (m *CtpReqTransfer) Reset()         { *m = CtpReqTransfer{} }
+func (m *CtpReqTransfer) String() string { return proto.CompactTextString(m) }
+func (*CtpReqTransfer) ProtoMessage()    {}
+func (*CtpReqTransfer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{40}
+}
+
+func (m *CtpReqTransfer) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpReqTransfer.Unmarshal(m, b)
+}
+func (m *CtpReqTransfer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpReqTransfer.Marshal(b, m, deterministic)
+}
+func (m *CtpReqTransfer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpReqTransfer.Merge(m, src)
+}
+func (m *CtpReqTransfer) XXX_Size() int {
+	return xxx_messageInfo_CtpReqTransfer.Size(m)
+}
+func (m *CtpReqTransfer) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpReqTransfer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpReqTransfer proto.InternalMessageInfo
 
 func (m *CtpReqTransfer) GetTradeCode() string {
 	if m != nil {
@@ -4009,17 +4984,40 @@ func (m *CtpReqTransfer) GetLongCustomerName() string {
 
 // 返回银行转期货
 type CtpRspTransfer struct {
-	ErrorId   int32           `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg  string          `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg" json:"error_msg,omitempty"`
-	RequestId int32           `protobuf:"varint,3,opt,name=request_id,json=requestId" json:"request_id,omitempty"`
-	IsLast    bool            `protobuf:"varint,4,opt,name=is_last,json=isLast" json:"is_last,omitempty"`
-	Req       *CtpReqTransfer `protobuf:"bytes,5,opt,name=req" json:"req,omitempty"`
+	ErrorId              int32           `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             string          `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	RequestId            int32           `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"requestId"`
+	IsLast               bool            `protobuf:"varint,4,opt,name=is_last,json=isLast,proto3" json:"isLast"`
+	Req                  *CtpReqTransfer `protobuf:"bytes,5,opt,name=req,proto3" json:"req"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *CtpRspTransfer) Reset()                    { *m = CtpRspTransfer{} }
-func (m *CtpRspTransfer) String() string            { return proto.CompactTextString(m) }
-func (*CtpRspTransfer) ProtoMessage()               {}
-func (*CtpRspTransfer) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{41} }
+func (m *CtpRspTransfer) Reset()         { *m = CtpRspTransfer{} }
+func (m *CtpRspTransfer) String() string { return proto.CompactTextString(m) }
+func (*CtpRspTransfer) ProtoMessage()    {}
+func (*CtpRspTransfer) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{41}
+}
+
+func (m *CtpRspTransfer) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CtpRspTransfer.Unmarshal(m, b)
+}
+func (m *CtpRspTransfer) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CtpRspTransfer.Marshal(b, m, deterministic)
+}
+func (m *CtpRspTransfer) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CtpRspTransfer.Merge(m, src)
+}
+func (m *CtpRspTransfer) XXX_Size() int {
+	return xxx_messageInfo_CtpRspTransfer.Size(m)
+}
+func (m *CtpRspTransfer) XXX_DiscardUnknown() {
+	xxx_messageInfo_CtpRspTransfer.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CtpRspTransfer proto.InternalMessageInfo
 
 func (m *CtpRspTransfer) GetErrorId() int32 {
 	if m != nil {
@@ -4057,13 +5055,36 @@ func (m *CtpRspTransfer) GetReq() *CtpReqTransfer {
 }
 
 type CTPReqSubscribeMarketData struct {
-	List []string `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []string `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPReqSubscribeMarketData) Reset()                    { *m = CTPReqSubscribeMarketData{} }
-func (m *CTPReqSubscribeMarketData) String() string            { return proto.CompactTextString(m) }
-func (*CTPReqSubscribeMarketData) ProtoMessage()               {}
-func (*CTPReqSubscribeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{42} }
+func (m *CTPReqSubscribeMarketData) Reset()         { *m = CTPReqSubscribeMarketData{} }
+func (m *CTPReqSubscribeMarketData) String() string { return proto.CompactTextString(m) }
+func (*CTPReqSubscribeMarketData) ProtoMessage()    {}
+func (*CTPReqSubscribeMarketData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{42}
+}
+
+func (m *CTPReqSubscribeMarketData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPReqSubscribeMarketData.Unmarshal(m, b)
+}
+func (m *CTPReqSubscribeMarketData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPReqSubscribeMarketData.Marshal(b, m, deterministic)
+}
+func (m *CTPReqSubscribeMarketData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPReqSubscribeMarketData.Merge(m, src)
+}
+func (m *CTPReqSubscribeMarketData) XXX_Size() int {
+	return xxx_messageInfo_CTPReqSubscribeMarketData.Size(m)
+}
+func (m *CTPReqSubscribeMarketData) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPReqSubscribeMarketData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPReqSubscribeMarketData proto.InternalMessageInfo
 
 func (m *CTPReqSubscribeMarketData) GetList() []string {
 	if m != nil {
@@ -4073,21 +5094,67 @@ func (m *CTPReqSubscribeMarketData) GetList() []string {
 }
 
 type CTPRspSusbcribeMarketData struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPRspSusbcribeMarketData) Reset()                    { *m = CTPRspSusbcribeMarketData{} }
-func (m *CTPRspSusbcribeMarketData) String() string            { return proto.CompactTextString(m) }
-func (*CTPRspSusbcribeMarketData) ProtoMessage()               {}
-func (*CTPRspSusbcribeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{43} }
+func (m *CTPRspSusbcribeMarketData) Reset()         { *m = CTPRspSusbcribeMarketData{} }
+func (m *CTPRspSusbcribeMarketData) String() string { return proto.CompactTextString(m) }
+func (*CTPRspSusbcribeMarketData) ProtoMessage()    {}
+func (*CTPRspSusbcribeMarketData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{43}
+}
+
+func (m *CTPRspSusbcribeMarketData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPRspSusbcribeMarketData.Unmarshal(m, b)
+}
+func (m *CTPRspSusbcribeMarketData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPRspSusbcribeMarketData.Marshal(b, m, deterministic)
+}
+func (m *CTPRspSusbcribeMarketData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPRspSusbcribeMarketData.Merge(m, src)
+}
+func (m *CTPRspSusbcribeMarketData) XXX_Size() int {
+	return xxx_messageInfo_CTPRspSusbcribeMarketData.Size(m)
+}
+func (m *CTPRspSusbcribeMarketData) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPRspSusbcribeMarketData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPRspSusbcribeMarketData proto.InternalMessageInfo
 
 type CTPReqUnSusbibeMarketData struct {
-	List []string `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []string `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPReqUnSusbibeMarketData) Reset()                    { *m = CTPReqUnSusbibeMarketData{} }
-func (m *CTPReqUnSusbibeMarketData) String() string            { return proto.CompactTextString(m) }
-func (*CTPReqUnSusbibeMarketData) ProtoMessage()               {}
-func (*CTPReqUnSusbibeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{44} }
+func (m *CTPReqUnSusbibeMarketData) Reset()         { *m = CTPReqUnSusbibeMarketData{} }
+func (m *CTPReqUnSusbibeMarketData) String() string { return proto.CompactTextString(m) }
+func (*CTPReqUnSusbibeMarketData) ProtoMessage()    {}
+func (*CTPReqUnSusbibeMarketData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{44}
+}
+
+func (m *CTPReqUnSusbibeMarketData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPReqUnSusbibeMarketData.Unmarshal(m, b)
+}
+func (m *CTPReqUnSusbibeMarketData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPReqUnSusbibeMarketData.Marshal(b, m, deterministic)
+}
+func (m *CTPReqUnSusbibeMarketData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPReqUnSusbibeMarketData.Merge(m, src)
+}
+func (m *CTPReqUnSusbibeMarketData) XXX_Size() int {
+	return xxx_messageInfo_CTPReqUnSusbibeMarketData.Size(m)
+}
+func (m *CTPReqUnSusbibeMarketData) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPReqUnSusbibeMarketData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPReqUnSusbibeMarketData proto.InternalMessageInfo
 
 func (m *CTPReqUnSusbibeMarketData) GetList() []string {
 	if m != nil {
@@ -4097,24 +5164,70 @@ func (m *CTPReqUnSusbibeMarketData) GetList() []string {
 }
 
 type CTPRspUnSusbibeMarketData struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPRspUnSusbibeMarketData) Reset()                    { *m = CTPRspUnSusbibeMarketData{} }
-func (m *CTPRspUnSusbibeMarketData) String() string            { return proto.CompactTextString(m) }
-func (*CTPRspUnSusbibeMarketData) ProtoMessage()               {}
-func (*CTPRspUnSusbibeMarketData) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{45} }
+func (m *CTPRspUnSusbibeMarketData) Reset()         { *m = CTPRspUnSusbibeMarketData{} }
+func (m *CTPRspUnSusbibeMarketData) String() string { return proto.CompactTextString(m) }
+func (*CTPRspUnSusbibeMarketData) ProtoMessage()    {}
+func (*CTPRspUnSusbibeMarketData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{45}
+}
+
+func (m *CTPRspUnSusbibeMarketData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPRspUnSusbibeMarketData.Unmarshal(m, b)
+}
+func (m *CTPRspUnSusbibeMarketData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPRspUnSusbibeMarketData.Marshal(b, m, deterministic)
+}
+func (m *CTPRspUnSusbibeMarketData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPRspUnSusbibeMarketData.Merge(m, src)
+}
+func (m *CTPRspUnSusbibeMarketData) XXX_Size() int {
+	return xxx_messageInfo_CTPRspUnSusbibeMarketData.Size(m)
+}
+func (m *CTPRspUnSusbibeMarketData) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPRspUnSusbibeMarketData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPRspUnSusbibeMarketData proto.InternalMessageInfo
 
 // 发单错误返回
 type CTPOnRspOrderInsert struct {
-	ErrorId  int32  `protobuf:"varint,1,opt,name=error_id,json=errorId" json:"error_id,omitempty"`
-	ErrorMsg []byte `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`
-	OrderRef string `protobuf:"bytes,3,opt,name=order_ref,json=orderRef" json:"order_ref,omitempty"`
+	ErrorId              int32    `protobuf:"varint,1,opt,name=error_id,json=errorId,proto3" json:"errorId"`
+	ErrorMsg             []byte   `protobuf:"bytes,2,opt,name=error_msg,json=errorMsg,proto3" json:"errorMsg"`
+	OrderRef             string   `protobuf:"bytes,3,opt,name=order_ref,json=orderRef,proto3" json:"orderRef"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPOnRspOrderInsert) Reset()                    { *m = CTPOnRspOrderInsert{} }
-func (m *CTPOnRspOrderInsert) String() string            { return proto.CompactTextString(m) }
-func (*CTPOnRspOrderInsert) ProtoMessage()               {}
-func (*CTPOnRspOrderInsert) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{46} }
+func (m *CTPOnRspOrderInsert) Reset()         { *m = CTPOnRspOrderInsert{} }
+func (m *CTPOnRspOrderInsert) String() string { return proto.CompactTextString(m) }
+func (*CTPOnRspOrderInsert) ProtoMessage()    {}
+func (*CTPOnRspOrderInsert) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{46}
+}
+
+func (m *CTPOnRspOrderInsert) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOnRspOrderInsert.Unmarshal(m, b)
+}
+func (m *CTPOnRspOrderInsert) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOnRspOrderInsert.Marshal(b, m, deterministic)
+}
+func (m *CTPOnRspOrderInsert) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOnRspOrderInsert.Merge(m, src)
+}
+func (m *CTPOnRspOrderInsert) XXX_Size() int {
+	return xxx_messageInfo_CTPOnRspOrderInsert.Size(m)
+}
+func (m *CTPOnRspOrderInsert) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOnRspOrderInsert.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOnRspOrderInsert proto.InternalMessageInfo
 
 func (m *CTPOnRspOrderInsert) GetErrorId() int32 {
 	if m != nil {
@@ -4139,74 +5252,97 @@ func (m *CTPOnRspOrderInsert) GetOrderRef() string {
 
 // 合约信息
 type CTPInstrumentField struct {
-	// /合约代码
-	InstrumentId string `protobuf:"bytes,1,opt,name=instrument_id,json=instrumentId" json:"instrument_id,omitempty"`
-	// /交易所代码
-	ExchangeId string `protobuf:"bytes,2,opt,name=exchange_id,json=exchangeId" json:"exchange_id,omitempty"`
-	// /合约名称
-	InstrumentName []byte `protobuf:"bytes,3,opt,name=instrument_name,json=instrumentName,proto3" json:"instrument_name,omitempty"`
-	// /合约在交易所的代码
-	ExchangeInstId string `protobuf:"bytes,4,opt,name=exchange_inst_id,json=exchangeInstId" json:"exchange_inst_id,omitempty"`
-	// /产品代码
-	ProductId string `protobuf:"bytes,5,opt,name=product_id,json=productId" json:"product_id,omitempty"`
-	// /产品类型
-	ProductClass int32 `protobuf:"varint,6,opt,name=product_class,json=productClass" json:"product_class,omitempty"`
-	// /交割年份
-	DeliveryYear int32 `protobuf:"varint,7,opt,name=delivery_year,json=deliveryYear" json:"delivery_year,omitempty"`
-	// /交割月
-	DeliveryMonth int32 `protobuf:"varint,8,opt,name=delivery_month,json=deliveryMonth" json:"delivery_month,omitempty"`
-	// /市价单最大下单量
-	MaxMarketOrderVolume int32 `protobuf:"varint,9,opt,name=max_market_order_volume,json=maxMarketOrderVolume" json:"max_market_order_volume,omitempty"`
-	// /市价单最小下单量
-	MinMarketOrderVolume int32 `protobuf:"varint,10,opt,name=min_market_order_volume,json=minMarketOrderVolume" json:"min_market_order_volume,omitempty"`
-	// /限价单最大下单量
-	MaxLimitOrderVolume int32 `protobuf:"varint,11,opt,name=max_limit_order_volume,json=maxLimitOrderVolume" json:"max_limit_order_volume,omitempty"`
-	// /限价单最小下单量
-	MinLimitOrderVolume int32 `protobuf:"varint,12,opt,name=min_limit_order_volume,json=minLimitOrderVolume" json:"min_limit_order_volume,omitempty"`
-	// /合约数量乘数
-	VolumeMultiple int32 `protobuf:"varint,13,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
-	// /最小变动价位
-	PriceTick float64 `protobuf:"fixed64,14,opt,name=price_tick,json=priceTick" json:"price_tick,omitempty"`
-	// /创建日
-	CreateDate string `protobuf:"bytes,15,opt,name=create_date,json=createDate" json:"create_date,omitempty"`
-	// /上市日
-	OpenDate string `protobuf:"bytes,16,opt,name=open_date,json=openDate" json:"open_date,omitempty"`
-	// /到期日
-	ExpireDate string `protobuf:"bytes,17,opt,name=expire_date,json=expireDate" json:"expire_date,omitempty"`
-	// /开始交割日
-	StartDelivDate string `protobuf:"bytes,18,opt,name=start_deliv_date,json=startDelivDate" json:"start_deliv_date,omitempty"`
-	// /结束交割日
-	EndDelivDate string `protobuf:"bytes,19,opt,name=end_deliv_date,json=endDelivDate" json:"end_deliv_date,omitempty"`
-	// /合约生命周期状态
-	InstLifePhase int32 `protobuf:"varint,20,opt,name=inst_life_phase,json=instLifePhase" json:"inst_life_phase,omitempty"`
-	// /当前是否交易
-	IsTrading bool `protobuf:"varint,30,opt,name=is_trading,json=isTrading" json:"is_trading,omitempty"`
-	// /持仓类型
-	PositionType int32 `protobuf:"varint,31,opt,name=position_type,json=positionType" json:"position_type,omitempty"`
-	// /持仓日期类型
-	PositionDateType int32 `protobuf:"varint,32,opt,name=position_date_type,json=positionDateType" json:"position_date_type,omitempty"`
-	// /多头保证金率
-	LongMarginRatio float64 `protobuf:"fixed64,33,opt,name=long_margin_ratio,json=longMarginRatio" json:"long_margin_ratio,omitempty"`
-	// /空头保证金率
-	ShortMarginRatio float64 `protobuf:"fixed64,34,opt,name=short_margin_ratio,json=shortMarginRatio" json:"short_margin_ratio,omitempty"`
-	// /是否使用大额单边保证金算法
-	MaxMarginSideAlgorithm bool `protobuf:"varint,35,opt,name=max_margin_side_algorithm,json=maxMarginSideAlgorithm" json:"max_margin_side_algorithm,omitempty"`
-	// /基础商品代码
-	UnderlyingInstId string `protobuf:"bytes,36,opt,name=underlying_inst_id,json=underlyingInstId" json:"underlying_inst_id,omitempty"`
-	// /执行价
-	StrikePrice float64 `protobuf:"fixed64,37,opt,name=strike_price,json=strikePrice" json:"strike_price,omitempty"`
-	// /期权类型
-	OptionsType int32 `protobuf:"varint,38,opt,name=options_type,json=optionsType" json:"options_type,omitempty"`
-	// /合约基础商品乘数
-	UnderlyingMultiple int32 `protobuf:"varint,39,opt,name=underlying_multiple,json=underlyingMultiple" json:"underlying_multiple,omitempty"`
-	// /组合类型
-	CombinationType int32 `protobuf:"varint,40,opt,name=combination_type,json=combinationType" json:"combination_type,omitempty"`
+	///合约代码
+	InstrumentId string `protobuf:"bytes,1,opt,name=instrument_id,json=instrumentId,proto3" json:"instrumentId"`
+	///交易所代码
+	ExchangeId string `protobuf:"bytes,2,opt,name=exchange_id,json=exchangeId,proto3" json:"exchangeId"`
+	///合约名称
+	InstrumentName []byte `protobuf:"bytes,3,opt,name=instrument_name,json=instrumentName,proto3" json:"instrumentName"`
+	///合约在交易所的代码
+	ExchangeInstId string `protobuf:"bytes,4,opt,name=exchange_inst_id,json=exchangeInstId,proto3" json:"exchangeInstId"`
+	///产品代码
+	ProductId string `protobuf:"bytes,5,opt,name=product_id,json=productId,proto3" json:"productId"`
+	///产品类型
+	ProductClass int32 `protobuf:"varint,6,opt,name=product_class,json=productClass,proto3" json:"productClass"`
+	///交割年份
+	DeliveryYear int32 `protobuf:"varint,7,opt,name=delivery_year,json=deliveryYear,proto3" json:"deliveryYear"`
+	///交割月
+	DeliveryMonth int32 `protobuf:"varint,8,opt,name=delivery_month,json=deliveryMonth,proto3" json:"deliveryMonth"`
+	///市价单最大下单量
+	MaxMarketOrderVolume int32 `protobuf:"varint,9,opt,name=max_market_order_volume,json=maxMarketOrderVolume,proto3" json:"maxMarketOrderVolume"`
+	///市价单最小下单量
+	MinMarketOrderVolume int32 `protobuf:"varint,10,opt,name=min_market_order_volume,json=minMarketOrderVolume,proto3" json:"minMarketOrderVolume"`
+	///限价单最大下单量
+	MaxLimitOrderVolume int32 `protobuf:"varint,11,opt,name=max_limit_order_volume,json=maxLimitOrderVolume,proto3" json:"maxLimitOrderVolume"`
+	///限价单最小下单量
+	MinLimitOrderVolume int32 `protobuf:"varint,12,opt,name=min_limit_order_volume,json=minLimitOrderVolume,proto3" json:"minLimitOrderVolume"`
+	///合约数量乘数
+	VolumeMultiple int32 `protobuf:"varint,13,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
+	///最小变动价位
+	PriceTick float64 `protobuf:"fixed64,14,opt,name=price_tick,json=priceTick,proto3" json:"priceTick"`
+	///创建日
+	CreateDate string `protobuf:"bytes,15,opt,name=create_date,json=createDate,proto3" json:"createDate"`
+	///上市日
+	OpenDate string `protobuf:"bytes,16,opt,name=open_date,json=openDate,proto3" json:"openDate"`
+	///到期日
+	ExpireDate string `protobuf:"bytes,17,opt,name=expire_date,json=expireDate,proto3" json:"expireDate"`
+	///开始交割日
+	StartDelivDate string `protobuf:"bytes,18,opt,name=start_deliv_date,json=startDelivDate,proto3" json:"startDelivDate"`
+	///结束交割日
+	EndDelivDate string `protobuf:"bytes,19,opt,name=end_deliv_date,json=endDelivDate,proto3" json:"endDelivDate"`
+	///合约生命周期状态
+	InstLifePhase int32 `protobuf:"varint,20,opt,name=inst_life_phase,json=instLifePhase,proto3" json:"instLifePhase"`
+	///当前是否交易
+	IsTrading bool `protobuf:"varint,30,opt,name=is_trading,json=isTrading,proto3" json:"isTrading"`
+	///持仓类型
+	PositionType int32 `protobuf:"varint,31,opt,name=position_type,json=positionType,proto3" json:"positionType"`
+	///持仓日期类型
+	PositionDateType int32 `protobuf:"varint,32,opt,name=position_date_type,json=positionDateType,proto3" json:"positionDateType"`
+	///多头保证金率
+	LongMarginRatio float64 `protobuf:"fixed64,33,opt,name=long_margin_ratio,json=longMarginRatio,proto3" json:"longMarginRatio"`
+	///空头保证金率
+	ShortMarginRatio float64 `protobuf:"fixed64,34,opt,name=short_margin_ratio,json=shortMarginRatio,proto3" json:"shortMarginRatio"`
+	///是否使用大额单边保证金算法
+	MaxMarginSideAlgorithm bool `protobuf:"varint,35,opt,name=max_margin_side_algorithm,json=maxMarginSideAlgorithm,proto3" json:"maxMarginSideAlgorithm"`
+	///基础商品代码
+	UnderlyingInstId string `protobuf:"bytes,36,opt,name=underlying_inst_id,json=underlyingInstId,proto3" json:"underlyingInstId"`
+	///执行价
+	StrikePrice float64 `protobuf:"fixed64,37,opt,name=strike_price,json=strikePrice,proto3" json:"strikePrice"`
+	///期权类型
+	OptionsType int32 `protobuf:"varint,38,opt,name=options_type,json=optionsType,proto3" json:"optionsType"`
+	///合约基础商品乘数
+	UnderlyingMultiple int32 `protobuf:"varint,39,opt,name=underlying_multiple,json=underlyingMultiple,proto3" json:"underlyingMultiple"`
+	///组合类型
+	CombinationType      int32    `protobuf:"varint,40,opt,name=combination_type,json=combinationType,proto3" json:"combinationType"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CTPInstrumentField) Reset()                    { *m = CTPInstrumentField{} }
-func (m *CTPInstrumentField) String() string            { return proto.CompactTextString(m) }
-func (*CTPInstrumentField) ProtoMessage()               {}
-func (*CTPInstrumentField) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{47} }
+func (m *CTPInstrumentField) Reset()         { *m = CTPInstrumentField{} }
+func (m *CTPInstrumentField) String() string { return proto.CompactTextString(m) }
+func (*CTPInstrumentField) ProtoMessage()    {}
+func (*CTPInstrumentField) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{47}
+}
+
+func (m *CTPInstrumentField) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPInstrumentField.Unmarshal(m, b)
+}
+func (m *CTPInstrumentField) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPInstrumentField.Marshal(b, m, deterministic)
+}
+func (m *CTPInstrumentField) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPInstrumentField.Merge(m, src)
+}
+func (m *CTPInstrumentField) XXX_Size() int {
+	return xxx_messageInfo_CTPInstrumentField.Size(m)
+}
+func (m *CTPInstrumentField) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPInstrumentField.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPInstrumentField proto.InternalMessageInfo
 
 func (m *CTPInstrumentField) GetInstrumentId() string {
 	if m != nil {
@@ -4426,14 +5562,37 @@ func (m *CTPInstrumentField) GetCombinationType() int32 {
 }
 
 type CTPOnRspQryInstrument struct {
-	Inst     *CTPInstrumentField `protobuf:"bytes,1,opt,name=inst" json:"inst,omitempty"`
-	Response *CTPRspInfo         `protobuf:"bytes,2,opt,name=response" json:"response,omitempty"`
+	Inst                 *CTPInstrumentField `protobuf:"bytes,1,opt,name=inst,proto3" json:"inst"`
+	Response             *CTPRspInfo         `protobuf:"bytes,2,opt,name=response,proto3" json:"response"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
 }
 
-func (m *CTPOnRspQryInstrument) Reset()                    { *m = CTPOnRspQryInstrument{} }
-func (m *CTPOnRspQryInstrument) String() string            { return proto.CompactTextString(m) }
-func (*CTPOnRspQryInstrument) ProtoMessage()               {}
-func (*CTPOnRspQryInstrument) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{48} }
+func (m *CTPOnRspQryInstrument) Reset()         { *m = CTPOnRspQryInstrument{} }
+func (m *CTPOnRspQryInstrument) String() string { return proto.CompactTextString(m) }
+func (*CTPOnRspQryInstrument) ProtoMessage()    {}
+func (*CTPOnRspQryInstrument) Descriptor() ([]byte, []int) {
+	return fileDescriptor_90978c7c94813702, []int{48}
+}
+
+func (m *CTPOnRspQryInstrument) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CTPOnRspQryInstrument.Unmarshal(m, b)
+}
+func (m *CTPOnRspQryInstrument) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CTPOnRspQryInstrument.Marshal(b, m, deterministic)
+}
+func (m *CTPOnRspQryInstrument) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CTPOnRspQryInstrument.Merge(m, src)
+}
+func (m *CTPOnRspQryInstrument) XXX_Size() int {
+	return xxx_messageInfo_CTPOnRspQryInstrument.Size(m)
+}
+func (m *CTPOnRspQryInstrument) XXX_DiscardUnknown() {
+	xxx_messageInfo_CTPOnRspQryInstrument.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CTPOnRspQryInstrument proto.InternalMessageInfo
 
 func (m *CTPOnRspQryInstrument) GetInst() *CTPInstrumentField {
 	if m != nil {
@@ -4450,6 +5609,12 @@ func (m *CTPOnRspQryInstrument) GetResponse() *CTPRspInfo {
 }
 
 func init() {
+	proto.RegisterEnum("pb.CTPDirection", CTPDirection_name, CTPDirection_value)
+	proto.RegisterEnum("pb.CTPOrderStatus", CTPOrderStatus_name, CTPOrderStatus_value)
+	proto.RegisterEnum("pb.CTPPriceType", CTPPriceType_name, CTPPriceType_value)
+	proto.RegisterEnum("pb.CTPOffsetFlag", CTPOffsetFlag_name, CTPOffsetFlag_value)
+	proto.RegisterEnum("pb.CTPHedgeType", CTPHedgeType_name, CTPHedgeType_value)
+	proto.RegisterEnum("pb.CTPTradeType", CTPTradeType_name, CTPTradeType_value)
 	proto.RegisterType((*CTPOrderID)(nil), "pb.CTPOrderID")
 	proto.RegisterType((*CTPOrderField)(nil), "pb.CTPOrderField")
 	proto.RegisterType((*CTPOrderList)(nil), "pb.CTPOrderList")
@@ -4499,17 +5664,11 @@ func init() {
 	proto.RegisterType((*CTPOnRspOrderInsert)(nil), "pb.CTPOnRspOrderInsert")
 	proto.RegisterType((*CTPInstrumentField)(nil), "pb.CTPInstrumentField")
 	proto.RegisterType((*CTPOnRspQryInstrument)(nil), "pb.CTPOnRspQryInstrument")
-	proto.RegisterEnum("pb.CTPDirection", CTPDirection_name, CTPDirection_value)
-	proto.RegisterEnum("pb.CTPOrderStatus", CTPOrderStatus_name, CTPOrderStatus_value)
-	proto.RegisterEnum("pb.CTPPriceType", CTPPriceType_name, CTPPriceType_value)
-	proto.RegisterEnum("pb.CTPOffsetFlag", CTPOffsetFlag_name, CTPOffsetFlag_value)
-	proto.RegisterEnum("pb.CTPHedgeType", CTPHedgeType_name, CTPHedgeType_value)
-	proto.RegisterEnum("pb.CTPTradeType", CTPTradeType_name, CTPTradeType_value)
 }
 
-func init() { proto.RegisterFile("ctp.proto", fileDescriptor3) }
+func init() { proto.RegisterFile("ctp.proto", fileDescriptor_90978c7c94813702) }
 
-var fileDescriptor3 = []byte{
+var fileDescriptor_90978c7c94813702 = []byte{
 	// 6147 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x7c, 0xcd, 0x73, 0x23, 0x47,
 	0x72, 0xaf, 0x00, 0x90, 0x04, 0x90, 0xf8, 0x64, 0x93, 0x1c, 0x82, 0x1a, 0x51, 0x43, 0x62, 0x66,

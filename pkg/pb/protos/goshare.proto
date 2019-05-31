@@ -4,64 +4,29 @@ package pb;
 
 import "common.proto";
 import "market_data.proto";
-import "google/api/annotations.proto";
 import "strategy.proto";
 
 // GoShare goshare
 service GoShare {
   // GetLastTick 获取最新行情
-  rpc LastTick(Symbol) returns (MarketDataSnapshot) {
-    option (google.api.http) = {
-      post : "/api/v1/lastTick"
-      body : "*"
-      additional_bindings {get : "/api/v1/lastTick/{exchange}/{code}"}
-    };
-  };
+  rpc LastTick(Symbol) returns (MarketDataSnapshot) {};
   // SSEStockOptionList 上证所期权列表
   rpc SSEStockOptionList(ReqSSEStockOptionList)
-      returns (RspSSEStockOptionList) {
-    option (google.api.http) = {
-      post : "/api/v1/sseStockOptionList"
-      body : "*"
-      additional_bindings {get : "/api/v1/sseStockOptionList"}
-    };
-  };
+      returns (RspSSEStockOptionList) {};
   // SubscribeMarketData 订阅行情
   rpc SubscribeMarketData(ReqSubscribeMarketData)
-      returns (stream pb.MarketDataSnapshot) {
-    option (google.api.http) = {
-      get : "/api/v1/subscribeMarketData"
-    };
-  };
+      returns (stream pb.MarketDataSnapshot) {};
   // PushTick 推送tick更新
-  rpc PushTick(MarketDataSnapshot) returns (EmptyResponse) {
-    option (google.api.http) = {
-      post : "/api/v1/pushTick"
-      body : "*"
-      additional_bindings {get : "/api/v1/pushTick"}
-    };
-  };
+  rpc PushTick(MarketDataSnapshot) returns (EmptyResponse) {};
   // 策略列表
-  rpc GetStrategyList(EmptyRequest) returns (StrategyList) {
-    option (google.api.http).get = "/api/v1/strategies";
-  };
+  rpc GetStrategyList(EmptyRequest) returns (StrategyList) {};
   // 查询策略
-  rpc GetStrategy(ReqGetStrategy) returns (Strategy) {
-    option (google.api.http).get = "/api/v1/strategy/{id}";
-  };
+  rpc GetStrategy(ReqGetStrategy) returns (Strategy) {};
   // 创建策略
-  rpc CreateStrategy(Strategy) returns (EmptyResponse) {
-    option (google.api.http) = {
-      post : '/api/v1/strategy'
-      body : "*"
-    };
-  };
+  rpc CreateStrategy(Strategy) returns (EmptyResponse) {};
   // 删除策略
-  rpc DeleteStrategy(ReqDeleteStrategy) returns (EmptyResponse) {
-    option (google.api.http).delete = "/api/v1/strategy/{id}";
-  };
+  rpc DeleteStrategy(ReqDeleteStrategy) returns (EmptyResponse) {};
 }
 
 message ReqSSEStockOptionList {}
 message RspSSEStockOptionList { repeated SSEStockOption list = 1; }
-

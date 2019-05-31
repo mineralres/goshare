@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[22],{SOpN:function(n,e,a){"use strict";a.r(e);var t=a("q1tI"),o=a.n(t),r=a("ZhVM"),c=a.n(r);e["default"]=function(){return o.a.createElement("div",{className:c.a.normal},o.a.createElement("h1",null,"\u4ea4\u6613\u8d26\u6237\u5217\u8868"))}},ZhVM:function(n,e,a){n.exports={normal:"normal___3eB63"}}}]);

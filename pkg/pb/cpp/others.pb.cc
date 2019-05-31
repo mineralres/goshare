@@ -8,87 +8,80 @@
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-
-extern PROTOBUF_INTERNAL_EXPORT_common_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Symbol_common_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_others_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_NetInAmountDetail_others_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_others_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_RealtimeMoneyTrendItem_others_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_others_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_NetInAmountDetail_others_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_others_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_RealtimeMoneyTrendItem_others_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_common_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Symbol_common_2eproto;
 namespace pb {
 class NetInAmountDetailDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<NetInAmountDetail> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<NetInAmountDetail> _instance;
 } _NetInAmountDetail_default_instance_;
 class RealtimeMoneyTrendItemDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<RealtimeMoneyTrendItem> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<RealtimeMoneyTrendItem> _instance;
 } _RealtimeMoneyTrendItem_default_instance_;
 class RealtimeMoneyTrendItemListDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<RealtimeMoneyTrendItemList> _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<RealtimeMoneyTrendItemList> _instance;
 } _RealtimeMoneyTrendItemList_default_instance_;
 }  // namespace pb
-static void InitDefaultsNetInAmountDetail_others_2eproto() {
+static void InitDefaultsscc_info_NetInAmountDetail_others_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::pb::_NetInAmountDetail_default_instance_;
     new (ptr) ::pb::NetInAmountDetail();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::pb::NetInAmountDetail::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_NetInAmountDetail_others_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsNetInAmountDetail_others_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_NetInAmountDetail_others_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsscc_info_NetInAmountDetail_others_2eproto}, {}};
 
-static void InitDefaultsRealtimeMoneyTrendItem_others_2eproto() {
+static void InitDefaultsscc_info_RealtimeMoneyTrendItem_others_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::pb::_RealtimeMoneyTrendItem_default_instance_;
     new (ptr) ::pb::RealtimeMoneyTrendItem();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::pb::RealtimeMoneyTrendItem::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<2> scc_info_RealtimeMoneyTrendItem_others_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsRealtimeMoneyTrendItem_others_2eproto}, {
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_RealtimeMoneyTrendItem_others_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsscc_info_RealtimeMoneyTrendItem_others_2eproto}, {
       &scc_info_Symbol_common_2eproto.base,
       &scc_info_NetInAmountDetail_others_2eproto.base,}};
 
-static void InitDefaultsRealtimeMoneyTrendItemList_others_2eproto() {
+static void InitDefaultsscc_info_RealtimeMoneyTrendItemList_others_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::pb::_RealtimeMoneyTrendItemList_default_instance_;
     new (ptr) ::pb::RealtimeMoneyTrendItemList();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::pb::RealtimeMoneyTrendItemList::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_RealtimeMoneyTrendItemList_others_2eproto =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsRealtimeMoneyTrendItemList_others_2eproto}, {
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_RealtimeMoneyTrendItemList_others_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsscc_info_RealtimeMoneyTrendItemList_others_2eproto}, {
       &scc_info_RealtimeMoneyTrendItem_others_2eproto.base,}};
 
-void InitDefaults_others_2eproto() {
-  ::google::protobuf::internal::InitSCC(&scc_info_NetInAmountDetail_others_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_RealtimeMoneyTrendItem_others_2eproto.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_RealtimeMoneyTrendItemList_others_2eproto.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_others_2eproto[3];
+static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_others_2eproto = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_others_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata_others_2eproto[3];
-constexpr ::google::protobuf::EnumDescriptor const** file_level_enum_descriptors_others_2eproto = nullptr;
-constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_others_2eproto = nullptr;
-
-const ::google::protobuf::uint32 TableStruct_others_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_others_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::pb::NetInAmountDetail, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -118,22 +111,16 @@ const ::google::protobuf::uint32 TableStruct_others_2eproto::offsets[] PROTOBUF_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::pb::RealtimeMoneyTrendItemList, list_),
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::pb::NetInAmountDetail)},
   { 7, -1, sizeof(::pb::RealtimeMoneyTrendItem)},
   { 22, -1, sizeof(::pb::RealtimeMoneyTrendItemList)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_NetInAmountDetail_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_RealtimeMoneyTrendItem_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::pb::_RealtimeMoneyTrendItemList_default_instance_),
-};
-
-::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_others_2eproto = {
-  {}, AddDescriptors_others_2eproto, "others.proto", schemas,
-  file_default_instances, TableStruct_others_2eproto::offsets,
-  file_level_metadata_others_2eproto, 3, file_level_enum_descriptors_others_2eproto, file_level_service_descriptors_others_2eproto,
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::pb::_NetInAmountDetail_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::pb::_RealtimeMoneyTrendItem_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::pb::_RealtimeMoneyTrendItemList_default_instance_),
 };
 
 const char descriptor_table_protodef_others_2eproto[] =
@@ -152,22 +139,25 @@ const char descriptor_table_protodef_others_2eproto[] =
   "\004list\030\001 \003(\0132\032.pb.RealtimeMoneyTrendItemb"
   "\006proto3"
   ;
-::google::protobuf::internal::DescriptorTable descriptor_table_others_2eproto = {
-  false, InitDefaults_others_2eproto, 
-  descriptor_table_protodef_others_2eproto,
-  "others.proto", &assign_descriptors_table_others_2eproto, 527,
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_others_2eproto_deps[1] = {
+  &::descriptor_table_common_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_others_2eproto_sccs[3] = {
+  &scc_info_NetInAmountDetail_others_2eproto.base,
+  &scc_info_RealtimeMoneyTrendItem_others_2eproto.base,
+  &scc_info_RealtimeMoneyTrendItemList_others_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_others_2eproto_once;
+static bool descriptor_table_others_2eproto_initialized = false;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_others_2eproto = {
+  &descriptor_table_others_2eproto_initialized, descriptor_table_protodef_others_2eproto, "others.proto", 527,
+  &descriptor_table_others_2eproto_once, descriptor_table_others_2eproto_sccs, descriptor_table_others_2eproto_deps, 3, 1,
+  schemas, file_default_instances, TableStruct_others_2eproto::offsets,
+  file_level_metadata_others_2eproto, 3, file_level_enum_descriptors_others_2eproto, file_level_service_descriptors_others_2eproto,
 };
 
-void AddDescriptors_others_2eproto() {
-  static constexpr ::google::protobuf::internal::InitFunc deps[1] =
-  {
-    ::AddDescriptors_common_2eproto,
-  };
- ::google::protobuf::internal::AddDescriptors(&descriptor_table_others_2eproto, deps, 1);
-}
-
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_others_2eproto = []() { AddDescriptors_others_2eproto(); return true; }();
+static bool dynamic_init_dummy_others_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_others_2eproto), true);
 namespace pb {
 
 // ===================================================================
@@ -184,12 +174,12 @@ const int NetInAmountDetail::kPercentageFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 NetInAmountDetail::NetInAmountDetail()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:pb.NetInAmountDetail)
 }
 NetInAmountDetail::NetInAmountDetail(const NetInAmountDetail& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&amount_, &from.amount_,
@@ -216,14 +206,14 @@ void NetInAmountDetail::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const NetInAmountDetail& NetInAmountDetail::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_NetInAmountDetail_others_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_NetInAmountDetail_others_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void NetInAmountDetail::Clear() {
 // @@protoc_insertion_point(message_clear_start:pb.NetInAmountDetail)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -234,65 +224,63 @@ void NetInAmountDetail::Clear() {
 }
 
 #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* NetInAmountDetail::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<NetInAmountDetail*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* NetInAmountDetail::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // double amount = 1;
-      case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 9) goto handle_unusual;
-        msg->set_amount(::google::protobuf::io::UnalignedLoad<double>(ptr));
-        ptr += sizeof(double);
-        break;
-      }
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 9)) {
+          amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
       // double percentage = 2;
-      case 2: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 17) goto handle_unusual;
-        msg->set_percentage(::google::protobuf::io::UnalignedLoad<double>(ptr));
-        ptr += sizeof(double);
-        break;
-      }
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
+          percentage_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
+success:
   return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 #else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 bool NetInAmountDetail::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
   // @@protoc_insertion_point(parse_start:pb.NetInAmountDetail)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+    switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // double amount = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (9 & 0xFF)) {
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (9 & 0xFF)) {
 
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+          DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
+                   double, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &amount_)));
         } else {
           goto handle_unusual;
@@ -302,10 +290,10 @@ bool NetInAmountDetail::MergePartialFromCodedStream(
 
       // double percentage = 2;
       case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (17 & 0xFF)) {
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (17 & 0xFF)) {
 
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+          DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
+                   double, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &percentage_)));
         } else {
           goto handle_unusual;
@@ -318,7 +306,7 @@ bool NetInAmountDetail::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
+        DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
               input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
@@ -335,46 +323,46 @@ failure:
 #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 
 void NetInAmountDetail::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:pb.NetInAmountDetail)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // double amount = 1;
-  if (this->amount() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->amount(), output);
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDouble(1, this->amount(), output);
   }
 
   // double percentage = 2;
-  if (this->percentage() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->percentage(), output);
+  if (!(this->percentage() <= 0 && this->percentage() >= 0)) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDouble(2, this->percentage(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:pb.NetInAmountDetail)
 }
 
-::google::protobuf::uint8* NetInAmountDetail::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* NetInAmountDetail::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:pb.NetInAmountDetail)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // double amount = 1;
-  if (this->amount() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->amount(), target);
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(1, this->amount(), target);
   }
 
   // double percentage = 2;
-  if (this->percentage() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->percentage(), target);
+  if (!(this->percentage() <= 0 && this->percentage() >= 0)) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->percentage(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:pb.NetInAmountDetail)
@@ -387,37 +375,37 @@ size_t NetInAmountDetail::ByteSizeLong() const {
 
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // double amount = 1;
-  if (this->amount() != 0) {
+  if (!(this->amount() <= 0 && this->amount() >= 0)) {
     total_size += 1 + 8;
   }
 
   // double percentage = 2;
-  if (this->percentage() != 0) {
+  if (!(this->percentage() <= 0 && this->percentage() >= 0)) {
     total_size += 1 + 8;
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void NetInAmountDetail::MergeFrom(const ::google::protobuf::Message& from) {
+void NetInAmountDetail::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:pb.NetInAmountDetail)
   GOOGLE_DCHECK_NE(&from, this);
   const NetInAmountDetail* source =
-      ::google::protobuf::DynamicCastToGenerated<NetInAmountDetail>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<NetInAmountDetail>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.NetInAmountDetail)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.NetInAmountDetail)
     MergeFrom(*source);
@@ -428,18 +416,18 @@ void NetInAmountDetail::MergeFrom(const NetInAmountDetail& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:pb.NetInAmountDetail)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.amount() != 0) {
+  if (!(from.amount() <= 0 && from.amount() >= 0)) {
     set_amount(from.amount());
   }
-  if (from.percentage() != 0) {
+  if (!(from.percentage() <= 0 && from.percentage() >= 0)) {
     set_percentage(from.percentage());
   }
 }
 
-void NetInAmountDetail::CopyFrom(const ::google::protobuf::Message& from) {
+void NetInAmountDetail::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:pb.NetInAmountDetail)
   if (&from == this) return;
   Clear();
@@ -468,9 +456,8 @@ void NetInAmountDetail::InternalSwap(NetInAmountDetail* other) {
   swap(percentage_, other->percentage_);
 }
 
-::google::protobuf::Metadata NetInAmountDetail::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_others_2eproto);
-  return ::file_level_metadata_others_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata NetInAmountDetail::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -544,17 +531,17 @@ const int RealtimeMoneyTrendItem::kSmallOrderFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RealtimeMoneyTrendItem::RealtimeMoneyTrendItem()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:pb.RealtimeMoneyTrendItem)
 }
 RealtimeMoneyTrendItem::RealtimeMoneyTrendItem(const RealtimeMoneyTrendItem& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (from.name().size() > 0) {
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+    name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
   if (from.has_symbol()) {
     symbol_ = new ::pb::Symbol(*from.symbol_);
@@ -593,9 +580,8 @@ RealtimeMoneyTrendItem::RealtimeMoneyTrendItem(const RealtimeMoneyTrendItem& fro
 }
 
 void RealtimeMoneyTrendItem::SharedCtor() {
-  ::google::protobuf::internal::InitSCC(
-      &scc_info_RealtimeMoneyTrendItem_others_2eproto.base);
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_RealtimeMoneyTrendItem_others_2eproto.base);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&symbol_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&time_) -
       reinterpret_cast<char*>(&symbol_)) + sizeof(time_));
@@ -607,7 +593,7 @@ RealtimeMoneyTrendItem::~RealtimeMoneyTrendItem() {
 }
 
 void RealtimeMoneyTrendItem::SharedDtor() {
-  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (this != internal_default_instance()) delete symbol_;
   if (this != internal_default_instance()) delete super_super_big_order_;
   if (this != internal_default_instance()) delete super_big_order_;
@@ -620,18 +606,18 @@ void RealtimeMoneyTrendItem::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const RealtimeMoneyTrendItem& RealtimeMoneyTrendItem::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_RealtimeMoneyTrendItem_others_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_RealtimeMoneyTrendItem_others_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void RealtimeMoneyTrendItem::Clear() {
 // @@protoc_insertion_point(message_clear_start:pb.RealtimeMoneyTrendItem)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == nullptr && symbol_ != nullptr) {
     delete symbol_;
   }
@@ -663,171 +649,117 @@ void RealtimeMoneyTrendItem::Clear() {
 }
 
 #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* RealtimeMoneyTrendItem::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<RealtimeMoneyTrendItem*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* RealtimeMoneyTrendItem::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // .pb.Symbol symbol = 1;
-      case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 10) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        parser_till_end = ::pb::Symbol::_InternalParse;
-        object = msg->mutable_symbol();
-        if (size > end - ptr) goto len_delim_till_end;
-        ptr += size;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-            {parser_till_end, object}, ptr - size, ptr));
-        break;
-      }
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ctx->ParseMessage(mutable_symbol(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // string name = 2;
-      case 2: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 18) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        ctx->extra_parse_data().SetFieldName("pb.RealtimeMoneyTrendItem.name");
-        object = msg->mutable_name();
-        if (size > end - ptr + ::google::protobuf::internal::ParseContext::kSlopBytes) {
-          parser_till_end = ::google::protobuf::internal::GreedyStringParserUTF8;
-          goto string_till_end;
-        }
-        GOOGLE_PROTOBUF_PARSER_ASSERT(::google::protobuf::internal::StringCheckUTF8(ptr, size, ctx));
-        ::google::protobuf::internal::InlineGreedyStringParser(object, ptr, size, ctx);
-        ptr += size;
-        break;
-      }
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParserUTF8(mutable_name(), ptr, ctx, "pb.RealtimeMoneyTrendItem.name");
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // double price = 3;
-      case 3: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 25) goto handle_unusual;
-        msg->set_price(::google::protobuf::io::UnalignedLoad<double>(ptr));
-        ptr += sizeof(double);
-        break;
-      }
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 25)) {
+          price_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
       // double updown_percentage = 4;
-      case 4: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 33) goto handle_unusual;
-        msg->set_updown_percentage(::google::protobuf::io::UnalignedLoad<double>(ptr));
-        ptr += sizeof(double);
-        break;
-      }
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 33)) {
+          updown_percentage_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
       // int64 time = 6;
-      case 6: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 48) goto handle_unusual;
-        msg->set_time(::google::protobuf::internal::ReadVarint(&ptr));
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        break;
-      }
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .pb.NetInAmountDetail super_super_big_order = 7;
-      case 7: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 58) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        parser_till_end = ::pb::NetInAmountDetail::_InternalParse;
-        object = msg->mutable_super_super_big_order();
-        if (size > end - ptr) goto len_delim_till_end;
-        ptr += size;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-            {parser_till_end, object}, ptr - size, ptr));
-        break;
-      }
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
+          ptr = ctx->ParseMessage(mutable_super_super_big_order(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .pb.NetInAmountDetail super_big_order = 8;
-      case 8: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 66) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        parser_till_end = ::pb::NetInAmountDetail::_InternalParse;
-        object = msg->mutable_super_big_order();
-        if (size > end - ptr) goto len_delim_till_end;
-        ptr += size;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-            {parser_till_end, object}, ptr - size, ptr));
-        break;
-      }
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 66)) {
+          ptr = ctx->ParseMessage(mutable_super_big_order(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .pb.NetInAmountDetail big_order = 9;
-      case 9: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 74) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        parser_till_end = ::pb::NetInAmountDetail::_InternalParse;
-        object = msg->mutable_big_order();
-        if (size > end - ptr) goto len_delim_till_end;
-        ptr += size;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-            {parser_till_end, object}, ptr - size, ptr));
-        break;
-      }
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
+          ptr = ctx->ParseMessage(mutable_big_order(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .pb.NetInAmountDetail middle_order = 10;
-      case 10: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 82) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        parser_till_end = ::pb::NetInAmountDetail::_InternalParse;
-        object = msg->mutable_middle_order();
-        if (size > end - ptr) goto len_delim_till_end;
-        ptr += size;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-            {parser_till_end, object}, ptr - size, ptr));
-        break;
-      }
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
+          ptr = ctx->ParseMessage(mutable_middle_order(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // .pb.NetInAmountDetail small_order = 11;
-      case 11: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 90) goto handle_unusual;
-        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-        parser_till_end = ::pb::NetInAmountDetail::_InternalParse;
-        object = msg->mutable_small_order();
-        if (size > end - ptr) goto len_delim_till_end;
-        ptr += size;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-            {parser_till_end, object}, ptr - size, ptr));
-        break;
-      }
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 90)) {
+          ptr = ctx->ParseMessage(mutable_small_order(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
+success:
   return ptr;
-string_till_end:
-  static_cast<::std::string*>(object)->clear();
-  static_cast<::std::string*>(object)->reserve(size);
-  goto len_delim_till_end;
-len_delim_till_end:
-  return ctx->StoreAndTailCall(ptr, end, {_InternalParse, msg},
-                               {parser_till_end, object}, size);
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 #else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
   // @@protoc_insertion_point(parse_start:pb.RealtimeMoneyTrendItem)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+    switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // .pb.Symbol symbol = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (10 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (10 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                input, mutable_symbol()));
         } else {
           goto handle_unusual;
@@ -837,12 +769,12 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // string name = 2;
       case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (18 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (18 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
             this->name().data(), static_cast<int>(this->name().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
+            ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE,
             "pb.RealtimeMoneyTrendItem.name"));
         } else {
           goto handle_unusual;
@@ -852,10 +784,10 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // double price = 3;
       case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (25 & 0xFF)) {
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (25 & 0xFF)) {
 
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+          DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
+                   double, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &price_)));
         } else {
           goto handle_unusual;
@@ -865,10 +797,10 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // double updown_percentage = 4;
       case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (33 & 0xFF)) {
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (33 & 0xFF)) {
 
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+          DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
+                   double, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_DOUBLE>(
                  input, &updown_percentage_)));
         } else {
           goto handle_unusual;
@@ -878,10 +810,10 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // int64 time = 6;
       case 6: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (48 & 0xFF)) {
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (48 & 0xFF)) {
 
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+          DO_((::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadPrimitive<
+                   ::PROTOBUF_NAMESPACE_ID::int64, ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_INT64>(
                  input, &time_)));
         } else {
           goto handle_unusual;
@@ -891,8 +823,8 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // .pb.NetInAmountDetail super_super_big_order = 7;
       case 7: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (58 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (58 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                input, mutable_super_super_big_order()));
         } else {
           goto handle_unusual;
@@ -902,8 +834,8 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // .pb.NetInAmountDetail super_big_order = 8;
       case 8: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (66 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (66 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                input, mutable_super_big_order()));
         } else {
           goto handle_unusual;
@@ -913,8 +845,8 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // .pb.NetInAmountDetail big_order = 9;
       case 9: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (74 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (74 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                input, mutable_big_order()));
         } else {
           goto handle_unusual;
@@ -924,8 +856,8 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // .pb.NetInAmountDetail middle_order = 10;
       case 10: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (82 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (82 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                input, mutable_middle_order()));
         } else {
           goto handle_unusual;
@@ -935,8 +867,8 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
 
       // .pb.NetInAmountDetail small_order = 11;
       case 11: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (90 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (90 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                input, mutable_small_order()));
         } else {
           goto handle_unusual;
@@ -949,7 +881,7 @@ bool RealtimeMoneyTrendItem::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
+        DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
               input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
@@ -966,155 +898,155 @@ failure:
 #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 
 void RealtimeMoneyTrendItem::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:pb.RealtimeMoneyTrendItem)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .pb.Symbol symbol = 1;
   if (this->has_symbol()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, HasBitSetters::symbol(this), output);
   }
 
   // string name = 2;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->name().data(), static_cast<int>(this->name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "pb.RealtimeMoneyTrendItem.name");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->name(), output);
   }
 
   // double price = 3;
-  if (this->price() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(3, this->price(), output);
+  if (!(this->price() <= 0 && this->price() >= 0)) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDouble(3, this->price(), output);
   }
 
   // double updown_percentage = 4;
-  if (this->updown_percentage() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteDouble(4, this->updown_percentage(), output);
+  if (!(this->updown_percentage() <= 0 && this->updown_percentage() >= 0)) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDouble(4, this->updown_percentage(), output);
   }
 
   // int64 time = 6;
   if (this->time() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(6, this->time(), output);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64(6, this->time(), output);
   }
 
   // .pb.NetInAmountDetail super_super_big_order = 7;
   if (this->has_super_super_big_order()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       7, HasBitSetters::super_super_big_order(this), output);
   }
 
   // .pb.NetInAmountDetail super_big_order = 8;
   if (this->has_super_big_order()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       8, HasBitSetters::super_big_order(this), output);
   }
 
   // .pb.NetInAmountDetail big_order = 9;
   if (this->has_big_order()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       9, HasBitSetters::big_order(this), output);
   }
 
   // .pb.NetInAmountDetail middle_order = 10;
   if (this->has_middle_order()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       10, HasBitSetters::middle_order(this), output);
   }
 
   // .pb.NetInAmountDetail small_order = 11;
   if (this->has_small_order()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       11, HasBitSetters::small_order(this), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:pb.RealtimeMoneyTrendItem)
 }
 
-::google::protobuf::uint8* RealtimeMoneyTrendItem::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* RealtimeMoneyTrendItem::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:pb.RealtimeMoneyTrendItem)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .pb.Symbol symbol = 1;
   if (this->has_symbol()) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         1, HasBitSetters::symbol(this), target);
   }
 
   // string name = 2;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->name().data(), static_cast<int>(this->name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "pb.RealtimeMoneyTrendItem.name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteStringToArray(
         2, this->name(), target);
   }
 
   // double price = 3;
-  if (this->price() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(3, this->price(), target);
+  if (!(this->price() <= 0 && this->price() >= 0)) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(3, this->price(), target);
   }
 
   // double updown_percentage = 4;
-  if (this->updown_percentage() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(4, this->updown_percentage(), target);
+  if (!(this->updown_percentage() <= 0 && this->updown_percentage() >= 0)) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(4, this->updown_percentage(), target);
   }
 
   // int64 time = 6;
   if (this->time() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(6, this->time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(6, this->time(), target);
   }
 
   // .pb.NetInAmountDetail super_super_big_order = 7;
   if (this->has_super_super_big_order()) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         7, HasBitSetters::super_super_big_order(this), target);
   }
 
   // .pb.NetInAmountDetail super_big_order = 8;
   if (this->has_super_big_order()) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         8, HasBitSetters::super_big_order(this), target);
   }
 
   // .pb.NetInAmountDetail big_order = 9;
   if (this->has_big_order()) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         9, HasBitSetters::big_order(this), target);
   }
 
   // .pb.NetInAmountDetail middle_order = 10;
   if (this->has_middle_order()) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         10, HasBitSetters::middle_order(this), target);
   }
 
   // .pb.NetInAmountDetail small_order = 11;
   if (this->has_small_order()) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         11, HasBitSetters::small_order(this), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:pb.RealtimeMoneyTrendItem)
@@ -1127,93 +1059,93 @@ size_t RealtimeMoneyTrendItem::ByteSizeLong() const {
 
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   // string name = 2;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->name());
   }
 
   // .pb.Symbol symbol = 1;
   if (this->has_symbol()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *symbol_);
   }
 
   // .pb.NetInAmountDetail super_super_big_order = 7;
   if (this->has_super_super_big_order()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *super_super_big_order_);
   }
 
   // .pb.NetInAmountDetail super_big_order = 8;
   if (this->has_super_big_order()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *super_big_order_);
   }
 
   // .pb.NetInAmountDetail big_order = 9;
   if (this->has_big_order()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *big_order_);
   }
 
   // .pb.NetInAmountDetail middle_order = 10;
   if (this->has_middle_order()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *middle_order_);
   }
 
   // .pb.NetInAmountDetail small_order = 11;
   if (this->has_small_order()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *small_order_);
   }
 
   // double price = 3;
-  if (this->price() != 0) {
+  if (!(this->price() <= 0 && this->price() >= 0)) {
     total_size += 1 + 8;
   }
 
   // double updown_percentage = 4;
-  if (this->updown_percentage() != 0) {
+  if (!(this->updown_percentage() <= 0 && this->updown_percentage() >= 0)) {
     total_size += 1 + 8;
   }
 
   // int64 time = 6;
   if (this->time() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
         this->time());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void RealtimeMoneyTrendItem::MergeFrom(const ::google::protobuf::Message& from) {
+void RealtimeMoneyTrendItem::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:pb.RealtimeMoneyTrendItem)
   GOOGLE_DCHECK_NE(&from, this);
   const RealtimeMoneyTrendItem* source =
-      ::google::protobuf::DynamicCastToGenerated<RealtimeMoneyTrendItem>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<RealtimeMoneyTrendItem>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.RealtimeMoneyTrendItem)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.RealtimeMoneyTrendItem)
     MergeFrom(*source);
@@ -1224,12 +1156,12 @@ void RealtimeMoneyTrendItem::MergeFrom(const RealtimeMoneyTrendItem& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:pb.RealtimeMoneyTrendItem)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.name().size() > 0) {
 
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+    name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
   if (from.has_symbol()) {
     mutable_symbol()->::pb::Symbol::MergeFrom(from.symbol());
@@ -1249,10 +1181,10 @@ void RealtimeMoneyTrendItem::MergeFrom(const RealtimeMoneyTrendItem& from) {
   if (from.has_small_order()) {
     mutable_small_order()->::pb::NetInAmountDetail::MergeFrom(from.small_order());
   }
-  if (from.price() != 0) {
+  if (!(from.price() <= 0 && from.price() >= 0)) {
     set_price(from.price());
   }
-  if (from.updown_percentage() != 0) {
+  if (!(from.updown_percentage() <= 0 && from.updown_percentage() >= 0)) {
     set_updown_percentage(from.updown_percentage());
   }
   if (from.time() != 0) {
@@ -1260,7 +1192,7 @@ void RealtimeMoneyTrendItem::MergeFrom(const RealtimeMoneyTrendItem& from) {
   }
 }
 
-void RealtimeMoneyTrendItem::CopyFrom(const ::google::protobuf::Message& from) {
+void RealtimeMoneyTrendItem::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:pb.RealtimeMoneyTrendItem)
   if (&from == this) return;
   Clear();
@@ -1285,7 +1217,7 @@ void RealtimeMoneyTrendItem::Swap(RealtimeMoneyTrendItem* other) {
 void RealtimeMoneyTrendItem::InternalSwap(RealtimeMoneyTrendItem* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  name_.Swap(&other->name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(symbol_, other->symbol_);
   swap(super_super_big_order_, other->super_super_big_order_);
@@ -1298,9 +1230,8 @@ void RealtimeMoneyTrendItem::InternalSwap(RealtimeMoneyTrendItem* other) {
   swap(time_, other->time_);
 }
 
-::google::protobuf::Metadata RealtimeMoneyTrendItem::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_others_2eproto);
-  return ::file_level_metadata_others_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata RealtimeMoneyTrendItem::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
@@ -1317,12 +1248,12 @@ const int RealtimeMoneyTrendItemList::kListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RealtimeMoneyTrendItemList::RealtimeMoneyTrendItemList()
-  : ::google::protobuf::Message(), _internal_metadata_(nullptr) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
   // @@protoc_insertion_point(constructor:pb.RealtimeMoneyTrendItemList)
 }
 RealtimeMoneyTrendItemList::RealtimeMoneyTrendItemList(const RealtimeMoneyTrendItemList& from)
-  : ::google::protobuf::Message(),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
       list_(from.list_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
@@ -1330,8 +1261,7 @@ RealtimeMoneyTrendItemList::RealtimeMoneyTrendItemList(const RealtimeMoneyTrendI
 }
 
 void RealtimeMoneyTrendItemList::SharedCtor() {
-  ::google::protobuf::internal::InitSCC(
-      &scc_info_RealtimeMoneyTrendItemList_others_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_RealtimeMoneyTrendItemList_others_2eproto.base);
 }
 
 RealtimeMoneyTrendItemList::~RealtimeMoneyTrendItemList() {
@@ -1346,14 +1276,14 @@ void RealtimeMoneyTrendItemList::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 const RealtimeMoneyTrendItemList& RealtimeMoneyTrendItemList::default_instance() {
-  ::google::protobuf::internal::InitSCC(&::scc_info_RealtimeMoneyTrendItemList_others_2eproto.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_RealtimeMoneyTrendItemList_others_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void RealtimeMoneyTrendItemList::Clear() {
 // @@protoc_insertion_point(message_clear_start:pb.RealtimeMoneyTrendItemList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1362,68 +1292,59 @@ void RealtimeMoneyTrendItemList::Clear() {
 }
 
 #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
-const char* RealtimeMoneyTrendItemList::_InternalParse(const char* begin, const char* end, void* object,
-                  ::google::protobuf::internal::ParseContext* ctx) {
-  auto msg = static_cast<RealtimeMoneyTrendItemList*>(object);
-  ::google::protobuf::int32 size; (void)size;
-  int depth; (void)depth;
-  ::google::protobuf::uint32 tag;
-  ::google::protobuf::internal::ParseFunc parser_till_end; (void)parser_till_end;
-  auto ptr = begin;
-  while (ptr < end) {
-    ptr = ::google::protobuf::io::Parse32(ptr, &tag);
-    GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+const char* RealtimeMoneyTrendItemList::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
     switch (tag >> 3) {
       // repeated .pb.RealtimeMoneyTrendItem list = 1;
-      case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 10) goto handle_unusual;
-        do {
-          ptr = ::google::protobuf::io::ReadSize(ptr, &size);
-          GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
-          parser_till_end = ::pb::RealtimeMoneyTrendItem::_InternalParse;
-          object = msg->add_list();
-          if (size > end - ptr) goto len_delim_till_end;
-          ptr += size;
-          GOOGLE_PROTOBUF_PARSER_ASSERT(ctx->ParseExactRange(
-              {parser_till_end, object}, ptr - size, ptr));
-          if (ptr >= end) break;
-        } while ((::google::protobuf::io::UnalignedLoad<::google::protobuf::uint64>(ptr) & 255) == 10 && (ptr += 1));
-        break;
-      }
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(add_list(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<::PROTOBUF_NAMESPACE_ID::uint8>(ptr) == 10);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
-          ctx->EndGroup(tag);
-          return ptr;
+          ctx->SetLastTag(tag);
+          goto success;
         }
-        auto res = UnknownFieldParse(tag, {_InternalParse, msg},
-          ptr, end, msg->_internal_metadata_.mutable_unknown_fields(), ctx);
-        ptr = res.first;
-        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr != nullptr);
-        if (res.second) return ptr;
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
     }  // switch
   }  // while
+success:
   return ptr;
-len_delim_till_end:
-  return ctx->StoreAndTailCall(ptr, end, {_InternalParse, msg},
-                               {parser_till_end, object}, size);
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 #else  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 bool RealtimeMoneyTrendItemList::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
+  ::PROTOBUF_NAMESPACE_ID::uint32 tag;
   // @@protoc_insertion_point(parse_start:pb.RealtimeMoneyTrendItemList)
   for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::PROTOBUF_NAMESPACE_ID::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+    switch (::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .pb.RealtimeMoneyTrendItem list = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (10 & 0xFF)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+        if (static_cast< ::PROTOBUF_NAMESPACE_ID::uint8>(tag) == (10 & 0xFF)) {
+          DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::ReadMessage(
                 input, add_list()));
         } else {
           goto handle_unusual;
@@ -1436,7 +1357,7 @@ bool RealtimeMoneyTrendItemList::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
+        DO_(::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SkipField(
               input, tag, _internal_metadata_.mutable_unknown_fields()));
         break;
       }
@@ -1453,43 +1374,43 @@ failure:
 #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
 
 void RealtimeMoneyTrendItemList::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
+    ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:pb.RealtimeMoneyTrendItemList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // repeated .pb.RealtimeMoneyTrendItem list = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->list_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteMessageMaybeToArray(
       1,
       this->list(static_cast<int>(i)),
       output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
   }
   // @@protoc_insertion_point(serialize_end:pb.RealtimeMoneyTrendItemList)
 }
 
-::google::protobuf::uint8* RealtimeMoneyTrendItemList::InternalSerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::PROTOBUF_NAMESPACE_ID::uint8* RealtimeMoneyTrendItemList::InternalSerializeWithCachedSizesToArray(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:pb.RealtimeMoneyTrendItemList)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // repeated .pb.RealtimeMoneyTrendItem list = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->list_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessageToArray(
         1, this->list(static_cast<int>(i)), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
   }
   // @@protoc_insertion_point(serialize_to_array_end:pb.RealtimeMoneyTrendItemList)
@@ -1502,10 +1423,10 @@ size_t RealtimeMoneyTrendItemList::ByteSizeLong() const {
 
   if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1515,25 +1436,25 @@ size_t RealtimeMoneyTrendItemList::ByteSizeLong() const {
     total_size += 1UL * count;
     for (unsigned int i = 0; i < count; i++) {
       total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           this->list(static_cast<int>(i)));
     }
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void RealtimeMoneyTrendItemList::MergeFrom(const ::google::protobuf::Message& from) {
+void RealtimeMoneyTrendItemList::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:pb.RealtimeMoneyTrendItemList)
   GOOGLE_DCHECK_NE(&from, this);
   const RealtimeMoneyTrendItemList* source =
-      ::google::protobuf::DynamicCastToGenerated<RealtimeMoneyTrendItemList>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<RealtimeMoneyTrendItemList>(
           &from);
   if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.RealtimeMoneyTrendItemList)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.RealtimeMoneyTrendItemList)
     MergeFrom(*source);
@@ -1544,13 +1465,13 @@ void RealtimeMoneyTrendItemList::MergeFrom(const RealtimeMoneyTrendItemList& fro
 // @@protoc_insertion_point(class_specific_merge_from_start:pb.RealtimeMoneyTrendItemList)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   list_.MergeFrom(from.list_);
 }
 
-void RealtimeMoneyTrendItemList::CopyFrom(const ::google::protobuf::Message& from) {
+void RealtimeMoneyTrendItemList::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:pb.RealtimeMoneyTrendItemList)
   if (&from == this) return;
   Clear();
@@ -1578,16 +1499,14 @@ void RealtimeMoneyTrendItemList::InternalSwap(RealtimeMoneyTrendItemList* other)
   CastToBase(&list_)->InternalSwap(CastToBase(&other->list_));
 }
 
-::google::protobuf::Metadata RealtimeMoneyTrendItemList::GetMetadata() const {
-  ::google::protobuf::internal::AssignDescriptors(&::assign_descriptors_table_others_2eproto);
-  return ::file_level_metadata_others_2eproto[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata RealtimeMoneyTrendItemList::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace pb
-namespace google {
-namespace protobuf {
+PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::pb::NetInAmountDetail* Arena::CreateMaybeMessage< ::pb::NetInAmountDetail >(Arena* arena) {
   return Arena::CreateInternal< ::pb::NetInAmountDetail >(arena);
 }
@@ -1597,8 +1516,7 @@ template<> PROTOBUF_NOINLINE ::pb::RealtimeMoneyTrendItem* Arena::CreateMaybeMes
 template<> PROTOBUF_NOINLINE ::pb::RealtimeMoneyTrendItemList* Arena::CreateMaybeMessage< ::pb::RealtimeMoneyTrendItemList >(Arena* arena) {
   return Arena::CreateInternal< ::pb::RealtimeMoneyTrendItemList >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 #include <google/protobuf/port_undef.inc>

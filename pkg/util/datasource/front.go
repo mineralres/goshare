@@ -1,14 +1,19 @@
 package datasource
 
 import (
-	"fmt"
+	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
+	"sync/atomic"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	proto "github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
+	"github.com/mineralres/goshare/pkg/api"
 	"github.com/mineralres/goshare/pkg/pb"
+	"github.com/mineralres/goshare/pkg/util"
 )
 
 var (
@@ -25,6 +30,7 @@ var (
 type Front struct {
 	cache   *XCache
 	options Options
+	wsIndex int64
 }
 
 // Options 选项
@@ -41,61 +47,42 @@ func MakeFront(op *Options) *Front {
 	return ret
 }
 
-// Run run
-func (f *Front) Run() {
-	r := gin.New()
-	g := r.Group("/api/v1")
-	g.POST("/setTradingInstrument", f.setTradingInstrument)
-	g.POST("/getTradingInstrument", f.getTradingInstrument)
-	g.GET("/ws/stream", f.handleStream)
-
-	r.Run(fmt.Sprintf(":%d", f.options.Port))
-}
-
-type response struct {
-	Success bool   `json:"success"`
-	Code    int    `json:"code"`
-	Msg     string `json:"msg"`
-}
-
 func (f *Front) checkToken(c *gin.Context) bool {
 	token := c.GetHeader("token")
 	if token == f.options.Token {
 		return true
 	}
 	log.Printf("check token failed %s, should be %s", token, f.options.Token)
+	type response struct {
+		Success bool   `json:"success"`
+		Code    int    `json:"code"`
+		Msg     string `json:"msg"`
+	}
 	c.JSON(200, &response{Success: false, Code: -1, Msg: "invalide token"})
 	return false
 }
 
-func (f *Front) setTradingInstrument(c *gin.Context) {
-	if !f.checkToken(c) {
-		return
-	}
+func (f *Front) setTradingInstrument(r *http.Request) (interface{}, error) {
 	var req pb.ReqSetTradingInstrument
-	err := c.BindJSON(&req)
-	if err != nil {
-		log.Println("setTradingInstrument", err)
-		return
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		return nil, err
 	}
 	log.Printf("setTradingInstrument [%d] 个 ", len(req.List))
 	f.cache.setTradingInstrument(&req)
+	return nil, nil
 }
 
-func (f *Front) getTradingInstrument(c *gin.Context) {
+func (f *Front) getTradingInstrument(r *http.Request) (interface{}, error) {
 	var req pb.ReqGetTradingInstrument
-	err := c.BindJSON(&req)
-	if err != nil {
-		return
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		return nil, err
 	}
 	f.cache.getTradingInstrument(&req)
+	return nil, nil
 }
 
-func (f *Front) handleStream(c *gin.Context) {
-	if !f.checkToken(c) {
-		return
-	}
-	conn, err := wsupgrader.Upgrade(c.Writer, c.Request, nil)
+func (f *Front) handleStream(w http.ResponseWriter, r *http.Request) {
+	conn, err := wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("Failed to set websocket upgrade:", err)
 		return
@@ -103,10 +90,34 @@ func (f *Front) handleStream(c *gin.Context) {
 	defer conn.Close()
 	chOut := make(chan *pb.Message, 100)
 	chSub := make(chan *pb.MarketDataSnapshot, 9999)
+	index := atomic.AddInt64(&f.wsIndex, 1)
+	ticker := time.NewTicker(time.Second * 10)
+	var nUpload int64
 	go func() {
+		fsend := func(t pb.MessageType, d proto.Message) error {
+			var msg pb.Message
+			msg.Type = t
+			if d != nil {
+				out, err := proto.Marshal(d)
+				if err != nil {
+					return err
+				}
+				msg.Data = out
+			}
+			out, err := proto.Marshal(&msg)
+			if err != nil {
+				return err
+			}
+			return conn.WriteMessage(websocket.BinaryMessage, out)
+		}
 		// 写函数
 		for {
 			select {
+			case <-ticker.C:
+				err := fsend(pb.MessageType_HEATBEAT, nil)
+				if err != nil {
+					return
+				}
 			case msg := <-chOut:
 				d, err := proto.Marshal(msg)
 				if err != nil {
@@ -131,6 +142,7 @@ func (f *Front) handleStream(c *gin.Context) {
 	// 先接收订阅
 	for {
 		// 读取
+		conn.SetReadDeadline(time.Now().Add(15 * time.Second))
 		t, p, err := conn.ReadMessage()
 		if err != nil {
 			return
@@ -150,7 +162,11 @@ func (f *Front) handleStream(c *gin.Context) {
 				log.Println("req", err)
 				continue
 			}
+			nUpload++
 			f.cache.Update(&tick)
+			if nUpload % 100 == 0 {
+				log.Printf("front[%d] received msg[%v] len[%d]", index, msg.Type, len(msg.Data))
+			}
 		case pb.MessageType_REQ_UNSUBSCRIBE_MARKET_DATA:
 			var req pb.ReqUnSubscribe
 			if err = proto.Unmarshal(msg.Data, &req); err != nil {
@@ -160,7 +176,7 @@ func (f *Front) handleStream(c *gin.Context) {
 			f.cache.unsubscribe(&req, chSub)
 		case pb.MessageType_REQ_SUBSCRIBE_MARKET_DATA:
 			// 订阅行情
-			log.Printf("front received msg[%v] len[%d]", msg.Type, len(msg.Data))
+			log.Printf("front[%d] received msg[%v] len[%d]", index, msg.Type, len(msg.Data))
 			var req pb.ReqSubscribe
 			if err = proto.Unmarshal(msg.Data, &req); err != nil {
 				log.Println("req", req, err)
@@ -170,10 +186,52 @@ func (f *Front) handleStream(c *gin.Context) {
 			defer f.cache.unsubscribe(&pb.ReqUnSubscribe{List: req.List}, chSub)
 		case pb.MessageType_HEATBEAT:
 			// 心跳
-			log.Printf("front received msg[%v]", msg.Type)
-			chOut <- msg
+			log.Printf("front[%d] received msg[%v]", index, msg.Type)
 		default:
-			log.Printf("front received msg[%v]", msg.Type)
+			log.Printf("front[%d] received msg[%v]", index, msg.Type)
 		}
 	}
+}
+
+func bindJSON(r *http.Request, obj interface{}) error {
+	return json.NewDecoder(r.Body).Decode(obj)
+}
+
+func (f *Front) instrumentList(r *http.Request) (interface{}, error) {
+	var req pb.ReqGetTradingInstrumentList
+	var err error
+	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
+		return nil, err
+	}
+	return f.cache.ds.TradingInstrumentList(&api.Context{}, &req)
+}
+
+func (f *Front) lastTick(r *http.Request) (interface{}, error) {
+	var req pb.Symbol
+	var err error
+	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
+		return nil, err
+	}
+	return f.cache.getTick(&req)
+}
+
+// Run run
+func (f *Front) Run() {
+	log.Printf("Datasource running on :%d", f.options.Port)
+	util.RunTinyGateway("", f.options.Port, func(path string, w http.ResponseWriter, r *http.Request) (interface{}, error) {
+		switch path {
+		case "/api/v1/lastTick":
+			return f.lastTick(r)
+		case "/api/v1/setTradingInstrument":
+			return f.setTradingInstrument(r)
+		case "/api/v1/getTradingInstrument":
+			return f.getTradingInstrument(r)
+		case "/api/v1/instrumentList":
+			return f.instrumentList(r)
+		case "/api/v1/ws/stream":
+			f.handleStream(w, r)
+			return nil, errors.New("abort")
+		}
+		return nil, nil
+	})
 }

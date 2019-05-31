@@ -8,31 +8,21 @@
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-
 namespace pb {
 }  // namespace pb
-void InitDefaults_binding_2eproto() {
-}
-
-constexpr ::google::protobuf::Metadata* file_level_metadata_binding_2eproto = nullptr;
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors_binding_2eproto[1];
-constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_binding_2eproto = nullptr;
-const ::google::protobuf::uint32 TableStruct_binding_2eproto::offsets[1] = {};
-static constexpr ::google::protobuf::internal::MigrationSchema* schemas = nullptr;
-static constexpr ::google::protobuf::Message* const* file_default_instances = nullptr;
-
-::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_binding_2eproto = {
-  {}, AddDescriptors_binding_2eproto, "binding.proto", schemas,
-  file_default_instances, TableStruct_binding_2eproto::offsets,
-  file_level_metadata_binding_2eproto, 0, file_level_enum_descriptors_binding_2eproto, file_level_service_descriptors_binding_2eproto,
-};
+static constexpr ::PROTOBUF_NAMESPACE_ID::Metadata* file_level_metadata_binding_2eproto = nullptr;
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_binding_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_binding_2eproto = nullptr;
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_binding_2eproto::offsets[1] = {};
+static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_binding_2eproto[] =
   "\n\rbinding.proto\022\002pb*\264\007\n\022BindingMessageTy"
@@ -61,24 +51,24 @@ const char descriptor_table_protodef_binding_2eproto[] =
   "EQ_QRY_INSTRUMENT\020\037\022\035\n\031CTP_ON_RSP_QRY_IN"
   "STRUMENT\020 b\006proto3"
   ;
-::google::protobuf::internal::DescriptorTable descriptor_table_binding_2eproto = {
-  false, InitDefaults_binding_2eproto, 
-  descriptor_table_protodef_binding_2eproto,
-  "binding.proto", &assign_descriptors_table_binding_2eproto, 978,
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_binding_2eproto_deps[1] = {
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_binding_2eproto_sccs[1] = {
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_binding_2eproto_once;
+static bool descriptor_table_binding_2eproto_initialized = false;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_binding_2eproto = {
+  &descriptor_table_binding_2eproto_initialized, descriptor_table_protodef_binding_2eproto, "binding.proto", 978,
+  &descriptor_table_binding_2eproto_once, descriptor_table_binding_2eproto_sccs, descriptor_table_binding_2eproto_deps, 0, 0,
+  schemas, file_default_instances, TableStruct_binding_2eproto::offsets,
+  file_level_metadata_binding_2eproto, 0, file_level_enum_descriptors_binding_2eproto, file_level_service_descriptors_binding_2eproto,
 };
 
-void AddDescriptors_binding_2eproto() {
-  static constexpr ::google::protobuf::internal::InitFunc deps[1] =
-  {
-  };
- ::google::protobuf::internal::AddDescriptors(&descriptor_table_binding_2eproto, deps, 0);
-}
-
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_binding_2eproto = []() { AddDescriptors_binding_2eproto(); return true; }();
+static bool dynamic_init_dummy_binding_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_binding_2eproto), true);
 namespace pb {
-const ::google::protobuf::EnumDescriptor* BindingMessageType_descriptor() {
-  ::google::protobuf::internal::AssignDescriptors(&assign_descriptors_table_binding_2eproto);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BindingMessageType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_binding_2eproto);
   return file_level_enum_descriptors_binding_2eproto[0];
 }
 bool BindingMessageType_IsValid(int value) {
@@ -125,10 +115,8 @@ bool BindingMessageType_IsValid(int value) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace pb
-namespace google {
-namespace protobuf {
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_OPEN
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 #include <google/protobuf/port_undef.inc>

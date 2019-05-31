@@ -46,7 +46,9 @@ func PostSome(url string, token string, req, res interface{}) error {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	err = json.Unmarshal(body, &res)
+	var r result
+	r.Data = res
+	err = json.Unmarshal(body, &r)
 	if err != nil {
 		// log.Println(err, string(body))
 		return err

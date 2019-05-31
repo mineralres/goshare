@@ -3,13 +3,14 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-
 import (
-	context "golang.org/x/net/context"
+	context "context"
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	math "math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -17,14 +18,43 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 type ReqGetTradingInstrumentList struct {
-	Exchange ExchangeType `protobuf:"varint,1,opt,name=exchange,enum=pb.ExchangeType" json:"exchange,omitempty"`
+	Exchange             ExchangeType `protobuf:"varint,1,opt,name=exchange,proto3,enum=pb.ExchangeType" json:"exchange"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ReqGetTradingInstrumentList) Reset()                    { *m = ReqGetTradingInstrumentList{} }
-func (m *ReqGetTradingInstrumentList) String() string            { return proto.CompactTextString(m) }
-func (*ReqGetTradingInstrumentList) ProtoMessage()               {}
-func (*ReqGetTradingInstrumentList) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
+func (m *ReqGetTradingInstrumentList) Reset()         { *m = ReqGetTradingInstrumentList{} }
+func (m *ReqGetTradingInstrumentList) String() string { return proto.CompactTextString(m) }
+func (*ReqGetTradingInstrumentList) ProtoMessage()    {}
+func (*ReqGetTradingInstrumentList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{0}
+}
+
+func (m *ReqGetTradingInstrumentList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqGetTradingInstrumentList.Unmarshal(m, b)
+}
+func (m *ReqGetTradingInstrumentList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqGetTradingInstrumentList.Marshal(b, m, deterministic)
+}
+func (m *ReqGetTradingInstrumentList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetTradingInstrumentList.Merge(m, src)
+}
+func (m *ReqGetTradingInstrumentList) XXX_Size() int {
+	return xxx_messageInfo_ReqGetTradingInstrumentList.Size(m)
+}
+func (m *ReqGetTradingInstrumentList) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetTradingInstrumentList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetTradingInstrumentList proto.InternalMessageInfo
 
 func (m *ReqGetTradingInstrumentList) GetExchange() ExchangeType {
 	if m != nil {
@@ -34,21 +64,75 @@ func (m *ReqGetTradingInstrumentList) GetExchange() ExchangeType {
 }
 
 type RspGetTradingInstrumentList struct {
+	List                 []*TradingInstrument `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
-func (m *RspGetTradingInstrumentList) Reset()                    { *m = RspGetTradingInstrumentList{} }
-func (m *RspGetTradingInstrumentList) String() string            { return proto.CompactTextString(m) }
-func (*RspGetTradingInstrumentList) ProtoMessage()               {}
-func (*RspGetTradingInstrumentList) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{1} }
+func (m *RspGetTradingInstrumentList) Reset()         { *m = RspGetTradingInstrumentList{} }
+func (m *RspGetTradingInstrumentList) String() string { return proto.CompactTextString(m) }
+func (*RspGetTradingInstrumentList) ProtoMessage()    {}
+func (*RspGetTradingInstrumentList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{1}
+}
+
+func (m *RspGetTradingInstrumentList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspGetTradingInstrumentList.Unmarshal(m, b)
+}
+func (m *RspGetTradingInstrumentList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspGetTradingInstrumentList.Marshal(b, m, deterministic)
+}
+func (m *RspGetTradingInstrumentList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspGetTradingInstrumentList.Merge(m, src)
+}
+func (m *RspGetTradingInstrumentList) XXX_Size() int {
+	return xxx_messageInfo_RspGetTradingInstrumentList.Size(m)
+}
+func (m *RspGetTradingInstrumentList) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspGetTradingInstrumentList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspGetTradingInstrumentList proto.InternalMessageInfo
+
+func (m *RspGetTradingInstrumentList) GetList() []*TradingInstrument {
+	if m != nil {
+		return m.List
+	}
+	return nil
+}
 
 type ReqGetTradingInstrument struct {
-	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol               *Symbol  `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ReqGetTradingInstrument) Reset()                    { *m = ReqGetTradingInstrument{} }
-func (m *ReqGetTradingInstrument) String() string            { return proto.CompactTextString(m) }
-func (*ReqGetTradingInstrument) ProtoMessage()               {}
-func (*ReqGetTradingInstrument) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{2} }
+func (m *ReqGetTradingInstrument) Reset()         { *m = ReqGetTradingInstrument{} }
+func (m *ReqGetTradingInstrument) String() string { return proto.CompactTextString(m) }
+func (*ReqGetTradingInstrument) ProtoMessage()    {}
+func (*ReqGetTradingInstrument) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{2}
+}
+
+func (m *ReqGetTradingInstrument) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqGetTradingInstrument.Unmarshal(m, b)
+}
+func (m *ReqGetTradingInstrument) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqGetTradingInstrument.Marshal(b, m, deterministic)
+}
+func (m *ReqGetTradingInstrument) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetTradingInstrument.Merge(m, src)
+}
+func (m *ReqGetTradingInstrument) XXX_Size() int {
+	return xxx_messageInfo_ReqGetTradingInstrument.Size(m)
+}
+func (m *ReqGetTradingInstrument) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetTradingInstrument.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetTradingInstrument proto.InternalMessageInfo
 
 func (m *ReqGetTradingInstrument) GetSymbol() *Symbol {
 	if m != nil {
@@ -58,21 +142,67 @@ func (m *ReqGetTradingInstrument) GetSymbol() *Symbol {
 }
 
 type RspGetTradingInstrument struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspGetTradingInstrument) Reset()                    { *m = RspGetTradingInstrument{} }
-func (m *RspGetTradingInstrument) String() string            { return proto.CompactTextString(m) }
-func (*RspGetTradingInstrument) ProtoMessage()               {}
-func (*RspGetTradingInstrument) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{3} }
+func (m *RspGetTradingInstrument) Reset()         { *m = RspGetTradingInstrument{} }
+func (m *RspGetTradingInstrument) String() string { return proto.CompactTextString(m) }
+func (*RspGetTradingInstrument) ProtoMessage()    {}
+func (*RspGetTradingInstrument) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{3}
+}
+
+func (m *RspGetTradingInstrument) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspGetTradingInstrument.Unmarshal(m, b)
+}
+func (m *RspGetTradingInstrument) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspGetTradingInstrument.Marshal(b, m, deterministic)
+}
+func (m *RspGetTradingInstrument) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspGetTradingInstrument.Merge(m, src)
+}
+func (m *RspGetTradingInstrument) XXX_Size() int {
+	return xxx_messageInfo_RspGetTradingInstrument.Size(m)
+}
+func (m *RspGetTradingInstrument) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspGetTradingInstrument.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspGetTradingInstrument proto.InternalMessageInfo
 
 type ReqSetTradingInstrument struct {
-	List []*TradingInstrument `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*TradingInstrument `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
-func (m *ReqSetTradingInstrument) Reset()                    { *m = ReqSetTradingInstrument{} }
-func (m *ReqSetTradingInstrument) String() string            { return proto.CompactTextString(m) }
-func (*ReqSetTradingInstrument) ProtoMessage()               {}
-func (*ReqSetTradingInstrument) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{4} }
+func (m *ReqSetTradingInstrument) Reset()         { *m = ReqSetTradingInstrument{} }
+func (m *ReqSetTradingInstrument) String() string { return proto.CompactTextString(m) }
+func (*ReqSetTradingInstrument) ProtoMessage()    {}
+func (*ReqSetTradingInstrument) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{4}
+}
+
+func (m *ReqSetTradingInstrument) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqSetTradingInstrument.Unmarshal(m, b)
+}
+func (m *ReqSetTradingInstrument) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqSetTradingInstrument.Marshal(b, m, deterministic)
+}
+func (m *ReqSetTradingInstrument) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqSetTradingInstrument.Merge(m, src)
+}
+func (m *ReqSetTradingInstrument) XXX_Size() int {
+	return xxx_messageInfo_ReqSetTradingInstrument.Size(m)
+}
+func (m *ReqSetTradingInstrument) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqSetTradingInstrument.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqSetTradingInstrument proto.InternalMessageInfo
 
 func (m *ReqSetTradingInstrument) GetList() []*TradingInstrument {
 	if m != nil {
@@ -82,22 +212,68 @@ func (m *ReqSetTradingInstrument) GetList() []*TradingInstrument {
 }
 
 type RspSetTradingInstrument struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspSetTradingInstrument) Reset()                    { *m = RspSetTradingInstrument{} }
-func (m *RspSetTradingInstrument) String() string            { return proto.CompactTextString(m) }
-func (*RspSetTradingInstrument) ProtoMessage()               {}
-func (*RspSetTradingInstrument) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{5} }
+func (m *RspSetTradingInstrument) Reset()         { *m = RspSetTradingInstrument{} }
+func (m *RspSetTradingInstrument) String() string { return proto.CompactTextString(m) }
+func (*RspSetTradingInstrument) ProtoMessage()    {}
+func (*RspSetTradingInstrument) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{5}
+}
+
+func (m *RspSetTradingInstrument) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspSetTradingInstrument.Unmarshal(m, b)
+}
+func (m *RspSetTradingInstrument) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspSetTradingInstrument.Marshal(b, m, deterministic)
+}
+func (m *RspSetTradingInstrument) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspSetTradingInstrument.Merge(m, src)
+}
+func (m *RspSetTradingInstrument) XXX_Size() int {
+	return xxx_messageInfo_RspSetTradingInstrument.Size(m)
+}
+func (m *RspSetTradingInstrument) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspSetTradingInstrument.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspSetTradingInstrument proto.InternalMessageInfo
 
 type ReqSubscribe struct {
-	List       []*Symbol `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
-	BinaryData bool      `protobuf:"varint,2,opt,name=binary_data,json=binaryData" json:"binary_data,omitempty"`
+	List                 []*Symbol `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	BinaryData           bool      `protobuf:"varint,2,opt,name=binary_data,json=binaryData,proto3" json:"binaryData"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *ReqSubscribe) Reset()                    { *m = ReqSubscribe{} }
-func (m *ReqSubscribe) String() string            { return proto.CompactTextString(m) }
-func (*ReqSubscribe) ProtoMessage()               {}
-func (*ReqSubscribe) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{6} }
+func (m *ReqSubscribe) Reset()         { *m = ReqSubscribe{} }
+func (m *ReqSubscribe) String() string { return proto.CompactTextString(m) }
+func (*ReqSubscribe) ProtoMessage()    {}
+func (*ReqSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{6}
+}
+
+func (m *ReqSubscribe) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqSubscribe.Unmarshal(m, b)
+}
+func (m *ReqSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqSubscribe.Marshal(b, m, deterministic)
+}
+func (m *ReqSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqSubscribe.Merge(m, src)
+}
+func (m *ReqSubscribe) XXX_Size() int {
+	return xxx_messageInfo_ReqSubscribe.Size(m)
+}
+func (m *ReqSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqSubscribe proto.InternalMessageInfo
 
 func (m *ReqSubscribe) GetList() []*Symbol {
 	if m != nil {
@@ -114,21 +290,67 @@ func (m *ReqSubscribe) GetBinaryData() bool {
 }
 
 type RspSubscribe struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspSubscribe) Reset()                    { *m = RspSubscribe{} }
-func (m *RspSubscribe) String() string            { return proto.CompactTextString(m) }
-func (*RspSubscribe) ProtoMessage()               {}
-func (*RspSubscribe) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{7} }
+func (m *RspSubscribe) Reset()         { *m = RspSubscribe{} }
+func (m *RspSubscribe) String() string { return proto.CompactTextString(m) }
+func (*RspSubscribe) ProtoMessage()    {}
+func (*RspSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{7}
+}
+
+func (m *RspSubscribe) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspSubscribe.Unmarshal(m, b)
+}
+func (m *RspSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspSubscribe.Marshal(b, m, deterministic)
+}
+func (m *RspSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspSubscribe.Merge(m, src)
+}
+func (m *RspSubscribe) XXX_Size() int {
+	return xxx_messageInfo_RspSubscribe.Size(m)
+}
+func (m *RspSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspSubscribe proto.InternalMessageInfo
 
 type ReqUnSubscribe struct {
-	List []*Symbol `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*Symbol `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
+	XXX_unrecognized     []byte    `json:"-"`
+	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *ReqUnSubscribe) Reset()                    { *m = ReqUnSubscribe{} }
-func (m *ReqUnSubscribe) String() string            { return proto.CompactTextString(m) }
-func (*ReqUnSubscribe) ProtoMessage()               {}
-func (*ReqUnSubscribe) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{8} }
+func (m *ReqUnSubscribe) Reset()         { *m = ReqUnSubscribe{} }
+func (m *ReqUnSubscribe) String() string { return proto.CompactTextString(m) }
+func (*ReqUnSubscribe) ProtoMessage()    {}
+func (*ReqUnSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{8}
+}
+
+func (m *ReqUnSubscribe) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqUnSubscribe.Unmarshal(m, b)
+}
+func (m *ReqUnSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqUnSubscribe.Marshal(b, m, deterministic)
+}
+func (m *ReqUnSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqUnSubscribe.Merge(m, src)
+}
+func (m *ReqUnSubscribe) XXX_Size() int {
+	return xxx_messageInfo_ReqUnSubscribe.Size(m)
+}
+func (m *ReqUnSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqUnSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqUnSubscribe proto.InternalMessageInfo
 
 func (m *ReqUnSubscribe) GetList() []*Symbol {
 	if m != nil {
@@ -138,21 +360,67 @@ func (m *ReqUnSubscribe) GetList() []*Symbol {
 }
 
 type RspUnSubscribe struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspUnSubscribe) Reset()                    { *m = RspUnSubscribe{} }
-func (m *RspUnSubscribe) String() string            { return proto.CompactTextString(m) }
-func (*RspUnSubscribe) ProtoMessage()               {}
-func (*RspUnSubscribe) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{9} }
+func (m *RspUnSubscribe) Reset()         { *m = RspUnSubscribe{} }
+func (m *RspUnSubscribe) String() string { return proto.CompactTextString(m) }
+func (*RspUnSubscribe) ProtoMessage()    {}
+func (*RspUnSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{9}
+}
+
+func (m *RspUnSubscribe) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspUnSubscribe.Unmarshal(m, b)
+}
+func (m *RspUnSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspUnSubscribe.Marshal(b, m, deterministic)
+}
+func (m *RspUnSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspUnSubscribe.Merge(m, src)
+}
+func (m *RspUnSubscribe) XXX_Size() int {
+	return xxx_messageInfo_RspUnSubscribe.Size(m)
+}
+func (m *RspUnSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspUnSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspUnSubscribe proto.InternalMessageInfo
 
 type ReqSaveKline struct {
-	Series *KlineSeries `protobuf:"bytes,1,opt,name=series" json:"series,omitempty"`
+	Series               *KlineSeries `protobuf:"bytes,1,opt,name=series,proto3" json:"series"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ReqSaveKline) Reset()                    { *m = ReqSaveKline{} }
-func (m *ReqSaveKline) String() string            { return proto.CompactTextString(m) }
-func (*ReqSaveKline) ProtoMessage()               {}
-func (*ReqSaveKline) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{10} }
+func (m *ReqSaveKline) Reset()         { *m = ReqSaveKline{} }
+func (m *ReqSaveKline) String() string { return proto.CompactTextString(m) }
+func (*ReqSaveKline) ProtoMessage()    {}
+func (*ReqSaveKline) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{10}
+}
+
+func (m *ReqSaveKline) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqSaveKline.Unmarshal(m, b)
+}
+func (m *ReqSaveKline) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqSaveKline.Marshal(b, m, deterministic)
+}
+func (m *ReqSaveKline) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqSaveKline.Merge(m, src)
+}
+func (m *ReqSaveKline) XXX_Size() int {
+	return xxx_messageInfo_ReqSaveKline.Size(m)
+}
+func (m *ReqSaveKline) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqSaveKline.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqSaveKline proto.InternalMessageInfo
 
 func (m *ReqSaveKline) GetSeries() *KlineSeries {
 	if m != nil {
@@ -162,22 +430,68 @@ func (m *ReqSaveKline) GetSeries() *KlineSeries {
 }
 
 type RspSaveKline struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspSaveKline) Reset()                    { *m = RspSaveKline{} }
-func (m *RspSaveKline) String() string            { return proto.CompactTextString(m) }
-func (*RspSaveKline) ProtoMessage()               {}
-func (*RspSaveKline) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{11} }
+func (m *RspSaveKline) Reset()         { *m = RspSaveKline{} }
+func (m *RspSaveKline) String() string { return proto.CompactTextString(m) }
+func (*RspSaveKline) ProtoMessage()    {}
+func (*RspSaveKline) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{11}
+}
+
+func (m *RspSaveKline) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspSaveKline.Unmarshal(m, b)
+}
+func (m *RspSaveKline) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspSaveKline.Marshal(b, m, deterministic)
+}
+func (m *RspSaveKline) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspSaveKline.Merge(m, src)
+}
+func (m *RspSaveKline) XXX_Size() int {
+	return xxx_messageInfo_RspSaveKline.Size(m)
+}
+func (m *RspSaveKline) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspSaveKline.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspSaveKline proto.InternalMessageInfo
 
 type ReqCombineSubscribe struct {
-	Symbol     *Symbol      `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
-	PeriodList []PeriodType `protobuf:"varint,2,rep,packed,name=period_list,json=periodList,enum=pb.PeriodType" json:"period_list,omitempty"`
+	Symbol               *Symbol      `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	PeriodList           []PeriodType `protobuf:"varint,2,rep,packed,name=period_list,json=periodList,proto3,enum=pb.PeriodType" json:"periodList"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
 }
 
-func (m *ReqCombineSubscribe) Reset()                    { *m = ReqCombineSubscribe{} }
-func (m *ReqCombineSubscribe) String() string            { return proto.CompactTextString(m) }
-func (*ReqCombineSubscribe) ProtoMessage()               {}
-func (*ReqCombineSubscribe) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{12} }
+func (m *ReqCombineSubscribe) Reset()         { *m = ReqCombineSubscribe{} }
+func (m *ReqCombineSubscribe) String() string { return proto.CompactTextString(m) }
+func (*ReqCombineSubscribe) ProtoMessage()    {}
+func (*ReqCombineSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{12}
+}
+
+func (m *ReqCombineSubscribe) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqCombineSubscribe.Unmarshal(m, b)
+}
+func (m *ReqCombineSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqCombineSubscribe.Marshal(b, m, deterministic)
+}
+func (m *ReqCombineSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqCombineSubscribe.Merge(m, src)
+}
+func (m *ReqCombineSubscribe) XXX_Size() int {
+	return xxx_messageInfo_ReqCombineSubscribe.Size(m)
+}
+func (m *ReqCombineSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqCombineSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqCombineSubscribe proto.InternalMessageInfo
 
 func (m *ReqCombineSubscribe) GetSymbol() *Symbol {
 	if m != nil {
@@ -195,19 +509,42 @@ func (m *ReqCombineSubscribe) GetPeriodList() []PeriodType {
 
 type RspCombineSubscribe struct {
 	// 合约
-	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
+	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
 	// 历史
-	History []*KlineSeries `protobuf:"bytes,2,rep,name=history" json:"history,omitempty"`
+	History []*KlineSeries `protobuf:"bytes,2,rep,name=history,proto3" json:"history"`
 	// 最新行情
-	Tick *MarketDataSnapshot `protobuf:"bytes,3,opt,name=tick" json:"tick,omitempty"`
+	Tick *MarketDataSnapshot `protobuf:"bytes,3,opt,name=tick,proto3" json:"tick"`
 	// 最新K线,按请求时的周期顺序依次返回
-	Klines []*Kline `protobuf:"bytes,4,rep,name=klines" json:"klines,omitempty"`
+	Klines               []*Kline `protobuf:"bytes,4,rep,name=klines,proto3" json:"klines"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RspCombineSubscribe) Reset()                    { *m = RspCombineSubscribe{} }
-func (m *RspCombineSubscribe) String() string            { return proto.CompactTextString(m) }
-func (*RspCombineSubscribe) ProtoMessage()               {}
-func (*RspCombineSubscribe) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{13} }
+func (m *RspCombineSubscribe) Reset()         { *m = RspCombineSubscribe{} }
+func (m *RspCombineSubscribe) String() string { return proto.CompactTextString(m) }
+func (*RspCombineSubscribe) ProtoMessage()    {}
+func (*RspCombineSubscribe) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{13}
+}
+
+func (m *RspCombineSubscribe) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspCombineSubscribe.Unmarshal(m, b)
+}
+func (m *RspCombineSubscribe) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspCombineSubscribe.Marshal(b, m, deterministic)
+}
+func (m *RspCombineSubscribe) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspCombineSubscribe.Merge(m, src)
+}
+func (m *RspCombineSubscribe) XXX_Size() int {
+	return xxx_messageInfo_RspCombineSubscribe.Size(m)
+}
+func (m *RspCombineSubscribe) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspCombineSubscribe.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspCombineSubscribe proto.InternalMessageInfo
 
 func (m *RspCombineSubscribe) GetSymbol() *Symbol {
 	if m != nil {
@@ -238,16 +575,39 @@ func (m *RspCombineSubscribe) GetKlines() []*Kline {
 }
 
 type SymbolCacheSummary struct {
-	Symbol          *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
-	KlineLen        int32   `protobuf:"varint,2,opt,name=kline_len,json=klineLen" json:"kline_len,omitempty"`
-	TickLen         int32   `protobuf:"varint,3,opt,name=tick_len,json=tickLen" json:"tick_len,omitempty"`
-	SubscriberCount int32   `protobuf:"varint,4,opt,name=subscriber_count,json=subscriberCount" json:"subscriber_count,omitempty"`
+	Symbol               *Symbol  `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	KlineLen             int32    `protobuf:"varint,2,opt,name=kline_len,json=klineLen,proto3" json:"klineLen"`
+	TickLen              int32    `protobuf:"varint,3,opt,name=tick_len,json=tickLen,proto3" json:"tickLen"`
+	SubscriberCount      int32    `protobuf:"varint,4,opt,name=subscriber_count,json=subscriberCount,proto3" json:"subscriberCount"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SymbolCacheSummary) Reset()                    { *m = SymbolCacheSummary{} }
-func (m *SymbolCacheSummary) String() string            { return proto.CompactTextString(m) }
-func (*SymbolCacheSummary) ProtoMessage()               {}
-func (*SymbolCacheSummary) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{14} }
+func (m *SymbolCacheSummary) Reset()         { *m = SymbolCacheSummary{} }
+func (m *SymbolCacheSummary) String() string { return proto.CompactTextString(m) }
+func (*SymbolCacheSummary) ProtoMessage()    {}
+func (*SymbolCacheSummary) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{14}
+}
+
+func (m *SymbolCacheSummary) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SymbolCacheSummary.Unmarshal(m, b)
+}
+func (m *SymbolCacheSummary) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SymbolCacheSummary.Marshal(b, m, deterministic)
+}
+func (m *SymbolCacheSummary) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SymbolCacheSummary.Merge(m, src)
+}
+func (m *SymbolCacheSummary) XXX_Size() int {
+	return xxx_messageInfo_SymbolCacheSummary.Size(m)
+}
+func (m *SymbolCacheSummary) XXX_DiscardUnknown() {
+	xxx_messageInfo_SymbolCacheSummary.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SymbolCacheSummary proto.InternalMessageInfo
 
 func (m *SymbolCacheSummary) GetSymbol() *Symbol {
 	if m != nil {
@@ -278,17 +638,40 @@ func (m *SymbolCacheSummary) GetSubscriberCount() int32 {
 }
 
 type CacheSummary struct {
-	KsMapSize            int32                 `protobuf:"varint,1,opt,name=ks_map_size,json=ksMapSize" json:"ks_map_size,omitempty"`
-	TotalKlineLen        int32                 `protobuf:"varint,2,opt,name=total_kline_len,json=totalKlineLen" json:"total_kline_len,omitempty"`
-	TotalTickLen         int32                 `protobuf:"varint,3,opt,name=total_tick_len,json=totalTickLen" json:"total_tick_len,omitempty"`
-	TotalSubscriberCount int32                 `protobuf:"varint,4,opt,name=total_subscriber_count,json=totalSubscriberCount" json:"total_subscriber_count,omitempty"`
-	SymbolList           []*SymbolCacheSummary `protobuf:"bytes,5,rep,name=symbol_list,json=symbolList" json:"symbol_list,omitempty"`
+	KsMapSize            int32                 `protobuf:"varint,1,opt,name=ks_map_size,json=ksMapSize,proto3" json:"ksMapSize"`
+	TotalKlineLen        int32                 `protobuf:"varint,2,opt,name=total_kline_len,json=totalKlineLen,proto3" json:"totalKlineLen"`
+	TotalTickLen         int32                 `protobuf:"varint,3,opt,name=total_tick_len,json=totalTickLen,proto3" json:"totalTickLen"`
+	TotalSubscriberCount int32                 `protobuf:"varint,4,opt,name=total_subscriber_count,json=totalSubscriberCount,proto3" json:"totalSubscriberCount"`
+	SymbolList           []*SymbolCacheSummary `protobuf:"bytes,5,rep,name=symbol_list,json=symbolList,proto3" json:"symbolList"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
 }
 
-func (m *CacheSummary) Reset()                    { *m = CacheSummary{} }
-func (m *CacheSummary) String() string            { return proto.CompactTextString(m) }
-func (*CacheSummary) ProtoMessage()               {}
-func (*CacheSummary) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{15} }
+func (m *CacheSummary) Reset()         { *m = CacheSummary{} }
+func (m *CacheSummary) String() string { return proto.CompactTextString(m) }
+func (*CacheSummary) ProtoMessage()    {}
+func (*CacheSummary) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{15}
+}
+
+func (m *CacheSummary) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CacheSummary.Unmarshal(m, b)
+}
+func (m *CacheSummary) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CacheSummary.Marshal(b, m, deterministic)
+}
+func (m *CacheSummary) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CacheSummary.Merge(m, src)
+}
+func (m *CacheSummary) XXX_Size() int {
+	return xxx_messageInfo_CacheSummary.Size(m)
+}
+func (m *CacheSummary) XXX_DiscardUnknown() {
+	xxx_messageInfo_CacheSummary.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CacheSummary proto.InternalMessageInfo
 
 func (m *CacheSummary) GetKsMapSize() int32 {
 	if m != nil {
@@ -326,25 +709,339 @@ func (m *CacheSummary) GetSymbolList() []*SymbolCacheSummary {
 }
 
 type ReqGetDCenterInfo struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ReqGetDCenterInfo) Reset()                    { *m = ReqGetDCenterInfo{} }
-func (m *ReqGetDCenterInfo) String() string            { return proto.CompactTextString(m) }
-func (*ReqGetDCenterInfo) ProtoMessage()               {}
-func (*ReqGetDCenterInfo) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{16} }
+func (m *ReqGetDCenterInfo) Reset()         { *m = ReqGetDCenterInfo{} }
+func (m *ReqGetDCenterInfo) String() string { return proto.CompactTextString(m) }
+func (*ReqGetDCenterInfo) ProtoMessage()    {}
+func (*ReqGetDCenterInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{16}
+}
+
+func (m *ReqGetDCenterInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqGetDCenterInfo.Unmarshal(m, b)
+}
+func (m *ReqGetDCenterInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqGetDCenterInfo.Marshal(b, m, deterministic)
+}
+func (m *ReqGetDCenterInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetDCenterInfo.Merge(m, src)
+}
+func (m *ReqGetDCenterInfo) XXX_Size() int {
+	return xxx_messageInfo_ReqGetDCenterInfo.Size(m)
+}
+func (m *ReqGetDCenterInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetDCenterInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetDCenterInfo proto.InternalMessageInfo
 
 type RspGetDCenterInfo struct {
-	CacheSummary *CacheSummary `protobuf:"bytes,1,opt,name=cache_summary,json=cacheSummary" json:"cache_summary,omitempty"`
+	CacheSummary         *CacheSummary `protobuf:"bytes,1,opt,name=cache_summary,json=cacheSummary,proto3" json:"cacheSummary"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *RspGetDCenterInfo) Reset()                    { *m = RspGetDCenterInfo{} }
-func (m *RspGetDCenterInfo) String() string            { return proto.CompactTextString(m) }
-func (*RspGetDCenterInfo) ProtoMessage()               {}
-func (*RspGetDCenterInfo) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{17} }
+func (m *RspGetDCenterInfo) Reset()         { *m = RspGetDCenterInfo{} }
+func (m *RspGetDCenterInfo) String() string { return proto.CompactTextString(m) }
+func (*RspGetDCenterInfo) ProtoMessage()    {}
+func (*RspGetDCenterInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{17}
+}
+
+func (m *RspGetDCenterInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspGetDCenterInfo.Unmarshal(m, b)
+}
+func (m *RspGetDCenterInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspGetDCenterInfo.Marshal(b, m, deterministic)
+}
+func (m *RspGetDCenterInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspGetDCenterInfo.Merge(m, src)
+}
+func (m *RspGetDCenterInfo) XXX_Size() int {
+	return xxx_messageInfo_RspGetDCenterInfo.Size(m)
+}
+func (m *RspGetDCenterInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspGetDCenterInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspGetDCenterInfo proto.InternalMessageInfo
 
 func (m *RspGetDCenterInfo) GetCacheSummary() *CacheSummary {
 	if m != nil {
 		return m.CacheSummary
+	}
+	return nil
+}
+
+type ReqGetTickSeries struct {
+	Symbol               *Symbol  `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	Start                int32    `protobuf:"varint,2,opt,name=start,proto3" json:"start"`
+	End                  int32    `protobuf:"varint,3,opt,name=end,proto3" json:"end"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ReqGetTickSeries) Reset()         { *m = ReqGetTickSeries{} }
+func (m *ReqGetTickSeries) String() string { return proto.CompactTextString(m) }
+func (*ReqGetTickSeries) ProtoMessage()    {}
+func (*ReqGetTickSeries) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{18}
+}
+
+func (m *ReqGetTickSeries) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqGetTickSeries.Unmarshal(m, b)
+}
+func (m *ReqGetTickSeries) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqGetTickSeries.Marshal(b, m, deterministic)
+}
+func (m *ReqGetTickSeries) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetTickSeries.Merge(m, src)
+}
+func (m *ReqGetTickSeries) XXX_Size() int {
+	return xxx_messageInfo_ReqGetTickSeries.Size(m)
+}
+func (m *ReqGetTickSeries) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetTickSeries.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetTickSeries proto.InternalMessageInfo
+
+func (m *ReqGetTickSeries) GetSymbol() *Symbol {
+	if m != nil {
+		return m.Symbol
+	}
+	return nil
+}
+
+func (m *ReqGetTickSeries) GetStart() int32 {
+	if m != nil {
+		return m.Start
+	}
+	return 0
+}
+
+func (m *ReqGetTickSeries) GetEnd() int32 {
+	if m != nil {
+		return m.End
+	}
+	return 0
+}
+
+type RspGetTickSeries struct {
+	Symbol               *Symbol               `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	Start                int32                 `protobuf:"varint,2,opt,name=start,proto3" json:"start"`
+	End                  int32                 `protobuf:"varint,3,opt,name=end,proto3" json:"end"`
+	List                 []*MarketDataSnapshot `protobuf:"bytes,4,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
+	XXX_unrecognized     []byte                `json:"-"`
+	XXX_sizecache        int32                 `json:"-"`
+}
+
+func (m *RspGetTickSeries) Reset()         { *m = RspGetTickSeries{} }
+func (m *RspGetTickSeries) String() string { return proto.CompactTextString(m) }
+func (*RspGetTickSeries) ProtoMessage()    {}
+func (*RspGetTickSeries) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{19}
+}
+
+func (m *RspGetTickSeries) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspGetTickSeries.Unmarshal(m, b)
+}
+func (m *RspGetTickSeries) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspGetTickSeries.Marshal(b, m, deterministic)
+}
+func (m *RspGetTickSeries) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspGetTickSeries.Merge(m, src)
+}
+func (m *RspGetTickSeries) XXX_Size() int {
+	return xxx_messageInfo_RspGetTickSeries.Size(m)
+}
+func (m *RspGetTickSeries) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspGetTickSeries.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspGetTickSeries proto.InternalMessageInfo
+
+func (m *RspGetTickSeries) GetSymbol() *Symbol {
+	if m != nil {
+		return m.Symbol
+	}
+	return nil
+}
+
+func (m *RspGetTickSeries) GetStart() int32 {
+	if m != nil {
+		return m.Start
+	}
+	return 0
+}
+
+func (m *RspGetTickSeries) GetEnd() int32 {
+	if m != nil {
+		return m.End
+	}
+	return 0
+}
+
+func (m *RspGetTickSeries) GetList() []*MarketDataSnapshot {
+	if m != nil {
+		return m.List
+	}
+	return nil
+}
+
+type ReqGetKlineSeries struct {
+	Symbol               *Symbol    `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	Period               PeriodType `protobuf:"varint,2,opt,name=period,proto3,enum=pb.PeriodType" json:"period"`
+	Start                int64      `protobuf:"varint,3,opt,name=start,proto3" json:"start"`
+	End                  int64      `protobuf:"varint,4,opt,name=end,proto3" json:"end"`
+	LenLimit             int64      `protobuf:"varint,5,opt,name=lenLimit,proto3" json:"lenLimit"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *ReqGetKlineSeries) Reset()         { *m = ReqGetKlineSeries{} }
+func (m *ReqGetKlineSeries) String() string { return proto.CompactTextString(m) }
+func (*ReqGetKlineSeries) ProtoMessage()    {}
+func (*ReqGetKlineSeries) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{20}
+}
+
+func (m *ReqGetKlineSeries) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqGetKlineSeries.Unmarshal(m, b)
+}
+func (m *ReqGetKlineSeries) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqGetKlineSeries.Marshal(b, m, deterministic)
+}
+func (m *ReqGetKlineSeries) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqGetKlineSeries.Merge(m, src)
+}
+func (m *ReqGetKlineSeries) XXX_Size() int {
+	return xxx_messageInfo_ReqGetKlineSeries.Size(m)
+}
+func (m *ReqGetKlineSeries) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqGetKlineSeries.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqGetKlineSeries proto.InternalMessageInfo
+
+func (m *ReqGetKlineSeries) GetSymbol() *Symbol {
+	if m != nil {
+		return m.Symbol
+	}
+	return nil
+}
+
+func (m *ReqGetKlineSeries) GetPeriod() PeriodType {
+	if m != nil {
+		return m.Period
+	}
+	return PeriodType_TICK
+}
+
+func (m *ReqGetKlineSeries) GetStart() int64 {
+	if m != nil {
+		return m.Start
+	}
+	return 0
+}
+
+func (m *ReqGetKlineSeries) GetEnd() int64 {
+	if m != nil {
+		return m.End
+	}
+	return 0
+}
+
+func (m *ReqGetKlineSeries) GetLenLimit() int64 {
+	if m != nil {
+		return m.LenLimit
+	}
+	return 0
+}
+
+type RspGetKlineSeries struct {
+	Symbol               *Symbol    `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
+	Period               PeriodType `protobuf:"varint,2,opt,name=period,proto3,enum=pb.PeriodType" json:"period"`
+	Start                int64      `protobuf:"varint,3,opt,name=start,proto3" json:"start"`
+	End                  int64      `protobuf:"varint,4,opt,name=end,proto3" json:"end"`
+	LenLimit             int64      `protobuf:"varint,5,opt,name=lenLimit,proto3" json:"lenLimit"`
+	List                 []*Kline   `protobuf:"bytes,6,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
+}
+
+func (m *RspGetKlineSeries) Reset()         { *m = RspGetKlineSeries{} }
+func (m *RspGetKlineSeries) String() string { return proto.CompactTextString(m) }
+func (*RspGetKlineSeries) ProtoMessage()    {}
+func (*RspGetKlineSeries) Descriptor() ([]byte, []int) {
+	return fileDescriptor_59932a16652677e5, []int{21}
+}
+
+func (m *RspGetKlineSeries) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RspGetKlineSeries.Unmarshal(m, b)
+}
+func (m *RspGetKlineSeries) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RspGetKlineSeries.Marshal(b, m, deterministic)
+}
+func (m *RspGetKlineSeries) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RspGetKlineSeries.Merge(m, src)
+}
+func (m *RspGetKlineSeries) XXX_Size() int {
+	return xxx_messageInfo_RspGetKlineSeries.Size(m)
+}
+func (m *RspGetKlineSeries) XXX_DiscardUnknown() {
+	xxx_messageInfo_RspGetKlineSeries.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RspGetKlineSeries proto.InternalMessageInfo
+
+func (m *RspGetKlineSeries) GetSymbol() *Symbol {
+	if m != nil {
+		return m.Symbol
+	}
+	return nil
+}
+
+func (m *RspGetKlineSeries) GetPeriod() PeriodType {
+	if m != nil {
+		return m.Period
+	}
+	return PeriodType_TICK
+}
+
+func (m *RspGetKlineSeries) GetStart() int64 {
+	if m != nil {
+		return m.Start
+	}
+	return 0
+}
+
+func (m *RspGetKlineSeries) GetEnd() int64 {
+	if m != nil {
+		return m.End
+	}
+	return 0
+}
+
+func (m *RspGetKlineSeries) GetLenLimit() int64 {
+	if m != nil {
+		return m.LenLimit
+	}
+	return 0
+}
+
+func (m *RspGetKlineSeries) GetList() []*Kline {
+	if m != nil {
+		return m.List
 	}
 	return nil
 }
@@ -368,6 +1065,69 @@ func init() {
 	proto.RegisterType((*CacheSummary)(nil), "pb.CacheSummary")
 	proto.RegisterType((*ReqGetDCenterInfo)(nil), "pb.ReqGetDCenterInfo")
 	proto.RegisterType((*RspGetDCenterInfo)(nil), "pb.RspGetDCenterInfo")
+	proto.RegisterType((*ReqGetTickSeries)(nil), "pb.ReqGetTickSeries")
+	proto.RegisterType((*RspGetTickSeries)(nil), "pb.RspGetTickSeries")
+	proto.RegisterType((*ReqGetKlineSeries)(nil), "pb.ReqGetKlineSeries")
+	proto.RegisterType((*RspGetKlineSeries)(nil), "pb.RspGetKlineSeries")
+}
+
+func init() { proto.RegisterFile("dcenter.proto", fileDescriptor_59932a16652677e5) }
+
+var fileDescriptor_59932a16652677e5 = []byte{
+	// 845 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x56, 0xdb, 0x6e, 0x23, 0x45,
+	0x10, 0xd5, 0xc4, 0x8e, 0xe3, 0x94, 0x9d, 0x89, 0xd3, 0xb9, 0x79, 0xc7, 0x62, 0x13, 0x5a, 0x68,
+	0x49, 0x10, 0x0a, 0x91, 0x01, 0xe5, 0x09, 0x5e, 0x12, 0x2e, 0x4b, 0xb2, 0x62, 0xd5, 0x0e, 0x6f,
+	0x88, 0x51, 0xcf, 0xb8, 0xd9, 0x0c, 0xf6, 0xf4, 0x4c, 0xa6, 0x3b, 0x08, 0xef, 0x27, 0xf0, 0x0b,
+	0x3c, 0xf2, 0x09, 0xfc, 0x01, 0xbf, 0xc3, 0x1f, 0xf0, 0x84, 0xba, 0xba, 0x27, 0xbe, 0xaf, 0x0c,
+	0x12, 0xd2, 0xbe, 0xb9, 0x4f, 0x9d, 0x3e, 0x75, 0x5c, 0x55, 0x5d, 0x36, 0x6c, 0xf5, 0x63, 0x21,
+	0xb5, 0x28, 0xce, 0xf2, 0x22, 0xd3, 0x19, 0x59, 0xcb, 0xa3, 0xa0, 0x19, 0x67, 0x69, 0x9a, 0x49,
+	0x8b, 0x04, 0x3b, 0x29, 0x2f, 0x06, 0x42, 0x87, 0x7d, 0xae, 0xb9, 0x85, 0xe8, 0x35, 0x74, 0x98,
+	0xb8, 0xff, 0x4a, 0xe8, 0xdb, 0x82, 0xf7, 0x13, 0xf9, 0xea, 0xb9, 0x54, 0xba, 0x78, 0x48, 0x85,
+	0xd4, 0x37, 0x89, 0xd2, 0xe4, 0x43, 0xa8, 0x8b, 0x5f, 0xe2, 0x3b, 0x2e, 0x5f, 0x89, 0xb6, 0x77,
+	0xec, 0x9d, 0xf8, 0xdd, 0xd6, 0x59, 0x1e, 0x9d, 0x7d, 0xe1, 0xb0, 0xdb, 0x51, 0x2e, 0xd8, 0x23,
+	0x83, 0x7e, 0x0d, 0x1d, 0xa6, 0xf2, 0xa5, 0x62, 0xa7, 0x50, 0x1d, 0x26, 0x4a, 0xb7, 0xbd, 0xe3,
+	0xca, 0x49, 0xa3, 0xbb, 0x6f, 0x84, 0xe6, 0x88, 0x0c, 0x29, 0xf4, 0x33, 0x38, 0x5c, 0x62, 0x8b,
+	0x50, 0xa8, 0xa9, 0x51, 0x1a, 0x65, 0x43, 0x34, 0xd4, 0xe8, 0x82, 0xd1, 0xe9, 0x21, 0xc2, 0x5c,
+	0x84, 0x3e, 0x81, 0xc3, 0x25, 0x46, 0xe8, 0x15, 0x2a, 0xf7, 0x16, 0x29, 0xff, 0x0b, 0x7f, 0x36,
+	0xc1, 0x22, 0x15, 0xfa, 0x2d, 0x34, 0x4d, 0x82, 0x87, 0x48, 0xc5, 0x45, 0x12, 0x09, 0xf2, 0x74,
+	0x4a, 0x75, 0xd2, 0x2d, 0xe2, 0xe4, 0x08, 0x1a, 0x51, 0x22, 0x79, 0x31, 0xc2, 0xb6, 0xb4, 0xd7,
+	0x8e, 0xbd, 0x93, 0x3a, 0x03, 0x0b, 0x5d, 0x71, 0xcd, 0xa9, 0x0f, 0x4d, 0x93, 0xab, 0x14, 0xa4,
+	0xe7, 0xe0, 0x33, 0x71, 0xff, 0x9d, 0x5c, 0x39, 0x05, 0x6d, 0x81, 0xcf, 0x54, 0x3e, 0x71, 0x83,
+	0x5e, 0x58, 0x93, 0xfc, 0x67, 0x71, 0x3d, 0x4c, 0xa4, 0x20, 0xef, 0x43, 0x4d, 0x89, 0x22, 0x11,
+	0xca, 0x15, 0x75, 0xdb, 0x68, 0x60, 0xa8, 0x87, 0x30, 0x73, 0xe1, 0xd2, 0x4c, 0x79, 0x91, 0xfe,
+	0x04, 0xbb, 0x4c, 0xdc, 0x5f, 0x66, 0x69, 0x64, 0xb8, 0x8f, 0x8e, 0x56, 0x68, 0x12, 0xf9, 0x08,
+	0x1a, 0xb9, 0x28, 0x92, 0xac, 0x1f, 0xa2, 0xf9, 0xb5, 0xe3, 0xca, 0x89, 0xdf, 0xf5, 0x0d, 0xf1,
+	0x25, 0xc2, 0x38, 0x5c, 0x60, 0x29, 0x66, 0x7e, 0xe8, 0x1f, 0x1e, 0xec, 0x32, 0x95, 0xff, 0xa7,
+	0x64, 0xa7, 0xb0, 0x71, 0x97, 0x28, 0x9d, 0x15, 0x23, 0x4c, 0xb4, 0xe0, 0x1b, 0x96, 0x71, 0xf2,
+	0x01, 0x54, 0x75, 0x12, 0x0f, 0xda, 0x15, 0x14, 0x3b, 0x30, 0xbc, 0x17, 0xf8, 0x6e, 0x4c, 0x37,
+	0x7a, 0x92, 0xe7, 0xea, 0x2e, 0xd3, 0x0c, 0x39, 0xe4, 0x5d, 0xa8, 0x0d, 0x8c, 0x86, 0x6a, 0x57,
+	0x51, 0x75, 0xf3, 0x51, 0x95, 0xb9, 0x00, 0xfd, 0xcd, 0x03, 0x62, 0xcd, 0x5c, 0xf2, 0xf8, 0x4e,
+	0xf4, 0x1e, 0xd2, 0x94, 0x17, 0xa3, 0x95, 0x4c, 0x77, 0x60, 0x13, 0x45, 0xc2, 0xa1, 0x90, 0x38,
+	0x18, 0xeb, 0xac, 0x8e, 0xc0, 0x8d, 0x90, 0xe4, 0x09, 0xd4, 0x8d, 0x05, 0x8c, 0x55, 0x30, 0xb6,
+	0x61, 0xce, 0x26, 0x74, 0x0a, 0x2d, 0x55, 0x56, 0xa7, 0x08, 0xe3, 0xec, 0x41, 0xea, 0x76, 0x15,
+	0x29, 0xdb, 0x63, 0xfc, 0xd2, 0xc0, 0xf4, 0x2f, 0x0f, 0x9a, 0x53, 0xbe, 0x9e, 0x42, 0x63, 0xa0,
+	0xc2, 0x94, 0xe7, 0xa1, 0x4a, 0x5e, 0xdb, 0x47, 0xbf, 0xce, 0x36, 0x07, 0xea, 0x05, 0xcf, 0x7b,
+	0xc9, 0x6b, 0x41, 0x9e, 0xc1, 0xb6, 0xce, 0x34, 0x1f, 0x86, 0xb3, 0xce, 0xb6, 0x10, 0xbe, 0x2e,
+	0xed, 0xbd, 0x07, 0xbe, 0xe5, 0xcd, 0x98, 0x6c, 0x22, 0x7a, 0xeb, 0x9c, 0x7e, 0x02, 0x07, 0x96,
+	0xb5, 0xc4, 0xef, 0x1e, 0x46, 0x7b, 0xd3, 0xa6, 0xc9, 0x05, 0x34, 0x6c, 0x85, 0xec, 0xe4, 0xac,
+	0x63, 0xe9, 0x0f, 0xc6, 0x05, 0x9c, 0xfc, 0x42, 0x0c, 0x2c, 0x15, 0x27, 0x68, 0x17, 0x76, 0xec,
+	0x5a, 0xb9, 0xba, 0xc4, 0x4d, 0xf9, 0x5c, 0xfe, 0x98, 0xd1, 0x6f, 0x60, 0xc7, 0x2e, 0x8b, 0x09,
+	0x90, 0x7c, 0x0a, 0x5b, 0xb1, 0x51, 0x09, 0x95, 0x95, 0x71, 0x5d, 0xc2, 0xed, 0x37, 0x25, 0xdf,
+	0x8c, 0x27, 0x4e, 0xf4, 0x07, 0x68, 0xb9, 0xbd, 0x95, 0xc4, 0x03, 0x3b, 0x58, 0x2b, 0x75, 0x7a,
+	0x0f, 0xd6, 0x95, 0xe6, 0x85, 0x76, 0xb5, 0xb4, 0x07, 0xd2, 0x82, 0x8a, 0x90, 0x7d, 0x57, 0x38,
+	0xf3, 0x91, 0xfe, 0xea, 0x41, 0xcb, 0x6d, 0xb6, 0xff, 0x25, 0x81, 0x19, 0x7e, 0xac, 0x69, 0x75,
+	0x5c, 0xd3, 0x45, 0xc3, 0x8f, 0x6b, 0xe5, 0x77, 0xaf, 0x2c, 0xe7, 0xc4, 0x3b, 0x5a, 0xc9, 0xcd,
+	0x33, 0xa8, 0xd9, 0x77, 0x8d, 0x76, 0xe6, 0x5f, 0xbd, 0x8b, 0x8e, 0x5d, 0x1b, 0x87, 0x95, 0x19,
+	0xd7, 0x55, 0xc4, 0xd0, 0x75, 0x00, 0xf5, 0xa1, 0x90, 0x37, 0x49, 0x9a, 0x98, 0x69, 0x30, 0xf0,
+	0xe3, 0x99, 0xfe, 0xe9, 0x95, 0xfd, 0x7d, 0x8b, 0x5d, 0x92, 0x77, 0x5c, 0xdd, 0x6b, 0xb3, 0x6b,
+	0x04, 0xe1, 0xee, 0xdf, 0x6b, 0xb0, 0xe1, 0xc6, 0x93, 0x5c, 0xc0, 0xe6, 0x78, 0xf7, 0xe1, 0x40,
+	0x4e, 0xfe, 0xde, 0x04, 0x4b, 0x7a, 0x76, 0xee, 0x91, 0x2f, 0xa1, 0x35, 0xb7, 0x3b, 0x0f, 0xdd,
+	0xfd, 0xd9, 0x40, 0x60, 0x03, 0xf3, 0xdb, 0xf6, 0xdc, 0x23, 0x9f, 0x83, 0x3f, 0xf3, 0x5a, 0xf6,
+	0x9d, 0xca, 0x34, 0x1c, 0xec, 0x3b, 0x8d, 0x19, 0xf6, 0x4b, 0xd8, 0x5b, 0xf8, 0xcb, 0xde, 0x19,
+	0xab, 0xcc, 0x05, 0x83, 0xce, 0x58, 0x6b, 0xfe, 0xe6, 0xf7, 0xd0, 0x5e, 0xfa, 0xaf, 0xe3, 0xe8,
+	0x0d, 0xaa, 0x86, 0x10, 0x1c, 0xbd, 0x41, 0xd9, 0x10, 0xa2, 0x1a, 0xfe, 0x55, 0xfa, 0xf8, 0x9f,
+	0x00, 0x00, 0x00, 0xff, 0xff, 0xf3, 0x41, 0x28, 0x58, 0x60, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -378,8 +1138,9 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// Client API for DCenter service
-
+// DCenterClient is the client API for DCenter service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type DCenterClient interface {
 	// 保存K线数据
 	// rpc SaveKline(ReqSaveKline) returns (RspSaveKline);
@@ -409,7 +1170,7 @@ func NewDCenterClient(cc *grpc.ClientConn) DCenterClient {
 }
 
 func (c *dCenterClient) Subscribe(ctx context.Context, in *ReqSubscribe, opts ...grpc.CallOption) (DCenter_SubscribeClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_DCenter_serviceDesc.Streams[0], c.cc, "/pb.DCenter/Subscribe", opts...)
+	stream, err := c.cc.NewStream(ctx, &_DCenter_serviceDesc.Streams[0], "/pb.DCenter/Subscribe", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -441,7 +1202,7 @@ func (x *dCenterSubscribeClient) Recv() (*MarketDataSnapshot, error) {
 }
 
 func (c *dCenterClient) CombineSubscribe(ctx context.Context, in *ReqCombineSubscribe, opts ...grpc.CallOption) (DCenter_CombineSubscribeClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_DCenter_serviceDesc.Streams[1], c.cc, "/pb.DCenter/CombineSubscribe", opts...)
+	stream, err := c.cc.NewStream(ctx, &_DCenter_serviceDesc.Streams[1], "/pb.DCenter/CombineSubscribe", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -474,7 +1235,7 @@ func (x *dCenterCombineSubscribeClient) Recv() (*RspCombineSubscribe, error) {
 
 func (c *dCenterClient) GetDCenterInfo(ctx context.Context, in *ReqGetDCenterInfo, opts ...grpc.CallOption) (*RspGetDCenterInfo, error) {
 	out := new(RspGetDCenterInfo)
-	err := grpc.Invoke(ctx, "/pb.DCenter/GetDCenterInfo", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/pb.DCenter/GetDCenterInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -483,7 +1244,7 @@ func (c *dCenterClient) GetDCenterInfo(ctx context.Context, in *ReqGetDCenterInf
 
 func (c *dCenterClient) GetTradingInstrument(ctx context.Context, in *ReqGetTradingInstrument, opts ...grpc.CallOption) (*RspGetTradingInstrument, error) {
 	out := new(RspGetTradingInstrument)
-	err := grpc.Invoke(ctx, "/pb.DCenter/GetTradingInstrument", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/pb.DCenter/GetTradingInstrument", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -492,15 +1253,14 @@ func (c *dCenterClient) GetTradingInstrument(ctx context.Context, in *ReqGetTrad
 
 func (c *dCenterClient) GetTradingInstrumentList(ctx context.Context, in *ReqGetTradingInstrumentList, opts ...grpc.CallOption) (*RspGetTradingInstrumentList, error) {
 	out := new(RspGetTradingInstrumentList)
-	err := grpc.Invoke(ctx, "/pb.DCenter/GetTradingInstrumentList", in, out, c.cc, opts...)
+	err := c.cc.Invoke(ctx, "/pb.DCenter/GetTradingInstrumentList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// Server API for DCenter service
-
+// DCenterServer is the server API for DCenter service.
 type DCenterServer interface {
 	// 保存K线数据
 	// rpc SaveKline(ReqSaveKline) returns (RspSaveKline);
@@ -519,6 +1279,26 @@ type DCenterServer interface {
 	GetTradingInstrument(context.Context, *ReqGetTradingInstrument) (*RspGetTradingInstrument, error)
 	// 全部合约
 	GetTradingInstrumentList(context.Context, *ReqGetTradingInstrumentList) (*RspGetTradingInstrumentList, error)
+}
+
+// UnimplementedDCenterServer can be embedded to have forward compatible implementations.
+type UnimplementedDCenterServer struct {
+}
+
+func (*UnimplementedDCenterServer) Subscribe(req *ReqSubscribe, srv DCenter_SubscribeServer) error {
+	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+func (*UnimplementedDCenterServer) CombineSubscribe(req *ReqCombineSubscribe, srv DCenter_CombineSubscribeServer) error {
+	return status.Errorf(codes.Unimplemented, "method CombineSubscribe not implemented")
+}
+func (*UnimplementedDCenterServer) GetDCenterInfo(ctx context.Context, req *ReqGetDCenterInfo) (*RspGetDCenterInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDCenterInfo not implemented")
+}
+func (*UnimplementedDCenterServer) GetTradingInstrument(ctx context.Context, req *ReqGetTradingInstrument) (*RspGetTradingInstrument, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTradingInstrument not implemented")
+}
+func (*UnimplementedDCenterServer) GetTradingInstrumentList(ctx context.Context, req *ReqGetTradingInstrumentList) (*RspGetTradingInstrumentList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTradingInstrumentList not implemented")
 }
 
 func RegisterDCenterServer(s *grpc.Server, srv DCenterServer) {
@@ -651,55 +1431,4 @@ var _DCenter_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Metadata: "dcenter.proto",
-}
-
-func init() { proto.RegisterFile("dcenter.proto", fileDescriptor4) }
-
-var fileDescriptor4 = []byte{
-	// 719 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x95, 0xdd, 0x4e, 0xdb, 0x48,
-	0x14, 0xc7, 0xe5, 0x24, 0x84, 0xe4, 0x24, 0x98, 0x30, 0x7c, 0x85, 0x44, 0x0b, 0xd9, 0xd1, 0x6a,
-	0x37, 0xac, 0x56, 0x2c, 0xca, 0xee, 0x8a, 0xab, 0xed, 0x4d, 0x68, 0x2b, 0x0a, 0xa8, 0x68, 0x42,
-	0xef, 0x2a, 0x59, 0x63, 0x67, 0x4a, 0xdc, 0xc4, 0x1f, 0x78, 0x26, 0x55, 0xc3, 0xab, 0xf4, 0x31,
-	0xfa, 0x58, 0x7d, 0x83, 0x5e, 0x55, 0x73, 0xc6, 0x21, 0xdf, 0x08, 0xf5, 0xd2, 0xff, 0xf3, 0x9f,
-	0xdf, 0xf9, 0x7b, 0x7c, 0x66, 0x0c, 0x1b, 0x5d, 0x4f, 0x84, 0x4a, 0x24, 0x27, 0x71, 0x12, 0xa9,
-	0x88, 0x64, 0x62, 0xb7, 0x56, 0xf6, 0xa2, 0x20, 0x88, 0x42, 0xa3, 0xd4, 0xb6, 0x02, 0x9e, 0xf4,
-	0x85, 0x72, 0xba, 0x5c, 0x71, 0x23, 0xd1, 0x4b, 0xa8, 0x33, 0x71, 0xff, 0x5a, 0xa8, 0xdb, 0x84,
-	0x77, 0xfd, 0xf0, 0xee, 0x22, 0x94, 0x2a, 0x19, 0x06, 0x22, 0x54, 0x57, 0xbe, 0x54, 0xe4, 0x2f,
-	0x28, 0x88, 0xcf, 0x5e, 0x8f, 0x87, 0x77, 0xa2, 0x6a, 0x35, 0xac, 0xa6, 0xdd, 0xaa, 0x9c, 0xc4,
-	0xee, 0xc9, 0xcb, 0x54, 0xbb, 0x1d, 0xc5, 0x82, 0x3d, 0x3a, 0xe8, 0x2f, 0x50, 0x67, 0x32, 0x5e,
-	0x05, 0xa3, 0xff, 0xc3, 0xfe, 0x8a, 0x5e, 0x84, 0x42, 0x5e, 0x8e, 0x02, 0x37, 0x1a, 0x60, 0x97,
-	0x52, 0x0b, 0x74, 0x97, 0x0e, 0x2a, 0x2c, 0xad, 0xd0, 0x03, 0xd8, 0x5f, 0x41, 0xa7, 0xe7, 0x48,
-	0xee, 0x2c, 0x23, 0x1f, 0x43, 0x6e, 0xe0, 0x4b, 0x55, 0xb5, 0x1a, 0xd9, 0x66, 0xa9, 0xb5, 0xab,
-	0xb9, 0x0b, 0x26, 0x86, 0x96, 0xb4, 0xc1, 0x32, 0x0a, 0x7d, 0x0b, 0x65, 0xdd, 0x60, 0xe8, 0x4a,
-	0x2f, 0xf1, 0x5d, 0x41, 0x0e, 0x67, 0xa8, 0xd3, 0x69, 0x51, 0x27, 0x47, 0x50, 0x72, 0xfd, 0x90,
-	0x27, 0x23, 0xdc, 0xeb, 0x6a, 0xa6, 0x61, 0x35, 0x0b, 0x0c, 0x8c, 0x74, 0xce, 0x15, 0xa7, 0x36,
-	0x94, 0x75, 0xaf, 0x31, 0x90, 0x9e, 0x82, 0xcd, 0xc4, 0xfd, 0xbb, 0xf0, 0xd9, 0x2d, 0x68, 0x05,
-	0x6c, 0x26, 0xe3, 0xa9, 0x15, 0xf4, 0xcc, 0x84, 0xe4, 0x9f, 0xc4, 0xe5, 0xc0, 0x0f, 0x05, 0xf9,
-	0x03, 0xf2, 0x52, 0x24, 0xbe, 0x90, 0xe9, 0xa6, 0x6e, 0x6a, 0x06, 0x96, 0x3a, 0x28, 0xb3, 0xb4,
-	0x3c, 0x0e, 0x33, 0x5e, 0x48, 0x3f, 0xc2, 0x36, 0x13, 0xf7, 0xed, 0x28, 0x70, 0xb5, 0xf7, 0x31,
-	0xd1, 0x33, 0x3e, 0x12, 0xf9, 0x1b, 0x4a, 0xb1, 0x48, 0xfc, 0xa8, 0xeb, 0x60, 0xf8, 0x4c, 0x23,
-	0xdb, 0xb4, 0x5b, 0xb6, 0x36, 0xde, 0xa0, 0x8c, 0x13, 0x03, 0xc6, 0x82, 0x43, 0xf1, 0xd5, 0x82,
-	0x6d, 0x26, 0xe3, 0x9f, 0x6a, 0x76, 0x0c, 0xeb, 0x3d, 0x5f, 0xaa, 0x28, 0x19, 0x61, 0xa3, 0x25,
-	0x6f, 0x38, 0xae, 0x93, 0x3f, 0x21, 0xa7, 0x7c, 0xaf, 0x5f, 0xcd, 0x22, 0x6c, 0x4f, 0xfb, 0xae,
-	0xf1, 0x30, 0xe8, 0xaf, 0xd1, 0x09, 0x79, 0x2c, 0x7b, 0x91, 0x62, 0xe8, 0x21, 0xbf, 0x42, 0xbe,
-	0xaf, 0x19, 0xb2, 0x9a, 0x43, 0x6a, 0xf1, 0x91, 0xca, 0xd2, 0x02, 0xfd, 0x62, 0x01, 0x31, 0x61,
-	0xda, 0xdc, 0xeb, 0x89, 0xce, 0x30, 0x08, 0x78, 0x32, 0x7a, 0x56, 0xe8, 0x3a, 0x14, 0x11, 0xe2,
-	0x0c, 0x44, 0x88, 0x83, 0xb1, 0xc6, 0x0a, 0x28, 0x5c, 0x89, 0x90, 0x1c, 0x40, 0x41, 0x47, 0xc0,
-	0x5a, 0x16, 0x6b, 0xeb, 0xfa, 0x59, 0x97, 0x8e, 0xa1, 0x22, 0xc7, 0xbb, 0x93, 0x38, 0x5e, 0x34,
-	0x0c, 0x55, 0x35, 0x87, 0x96, 0xcd, 0x89, 0xde, 0xd6, 0x32, 0xfd, 0x66, 0x41, 0x79, 0x26, 0xd7,
-	0x21, 0x94, 0xfa, 0xd2, 0x09, 0x78, 0xec, 0x48, 0xff, 0xc1, 0x9c, 0xe4, 0x35, 0x56, 0xec, 0xcb,
-	0x6b, 0x1e, 0x77, 0xfc, 0x07, 0x41, 0x7e, 0x87, 0x4d, 0x15, 0x29, 0x3e, 0x70, 0xe6, 0x93, 0x6d,
-	0xa0, 0x7c, 0x39, 0x8e, 0xf7, 0x1b, 0xd8, 0xc6, 0x37, 0x17, 0xb2, 0x8c, 0xea, 0x6d, 0x9a, 0xf4,
-	0x5f, 0xd8, 0x33, 0xae, 0x15, 0x79, 0x77, 0xb0, 0xda, 0x99, 0x0d, 0x4d, 0xce, 0xa0, 0x64, 0x76,
-	0xc8, 0x4c, 0xce, 0x1a, 0x6e, 0xfd, 0xde, 0x64, 0x03, 0xa7, 0x5f, 0x88, 0x81, 0xb1, 0xe2, 0x04,
-	0x6d, 0xc3, 0x96, 0xb9, 0x56, 0xce, 0xdb, 0x78, 0xfd, 0x5d, 0x84, 0x1f, 0x22, 0xfa, 0x06, 0xb6,
-	0xcc, 0x65, 0x31, 0x25, 0x92, 0xff, 0x60, 0xc3, 0xd3, 0x14, 0x47, 0x1a, 0x4c, 0xfa, 0x95, 0xf0,
-	0x4a, 0x9b, 0xc1, 0x97, 0xbd, 0xa9, 0xa7, 0xd6, 0xf7, 0x0c, 0xac, 0xa7, 0x18, 0x72, 0x06, 0xc5,
-	0xc9, 0x8c, 0xe2, 0xc2, 0xe9, 0x7b, 0xa1, 0xb6, 0x62, 0xb0, 0x4e, 0x2d, 0xf2, 0x0a, 0x2a, 0x0b,
-	0x33, 0xbe, 0x9f, 0xae, 0x9f, 0x2f, 0xd4, 0x4c, 0x61, 0xf1, 0x54, 0x9c, 0x5a, 0xe4, 0x05, 0xd8,
-	0x73, 0x6f, 0xb5, 0x9b, 0x52, 0x66, 0xe5, 0xda, 0x6e, 0xca, 0x98, 0x73, 0xdf, 0xc0, 0xce, 0xd2,
-	0x1b, 0xb8, 0x3e, 0xa1, 0x2c, 0x14, 0x6b, 0xf5, 0x09, 0x6b, 0x71, 0xe5, 0x7b, 0xa8, 0xae, 0xfc,
-	0x7f, 0x1c, 0x3d, 0x41, 0xd5, 0x86, 0xda, 0xd1, 0x13, 0x64, 0x6d, 0x70, 0xf3, 0xf8, 0x9f, 0xfa,
-	0xe7, 0x47, 0x00, 0x00, 0x00, 0xff, 0xff, 0xac, 0xe7, 0x37, 0xcb, 0xdd, 0x06, 0x00, 0x00,
 }

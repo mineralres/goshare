@@ -3,67 +3,98 @@
 
 package pb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
 // 持仓统计
 type PositionSummation struct {
 	// 方向
-	Direction int32 `protobuf:"varint,1,opt,name=direction" json:"direction,omitempty"`
+	Direction int32 `protobuf:"varint,1,opt,name=direction,proto3" json:"direction"`
 	// 类型
-	Type int32 `protobuf:"varint,2,opt,name=type" json:"type,omitempty"`
+	Type int32 `protobuf:"varint,2,opt,name=type,proto3" json:"type"`
 	// 路由分组
-	RouteAccount string `protobuf:"bytes,3,opt,name=route_account,json=routeAccount" json:"route_account,omitempty"`
+	RouteAccount string `protobuf:"bytes,3,opt,name=route_account,json=routeAccount,proto3" json:"routeAccount"`
 	// 持仓
-	Position int32 `protobuf:"varint,4,opt,name=position" json:"position,omitempty"`
+	Position int32 `protobuf:"varint,4,opt,name=position,proto3" json:"position"`
 	// 金额
-	Amount float64 `protobuf:"fixed64,5,opt,name=amount" json:"amount,omitempty"`
+	Amount float64 `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount"`
 	// 成本
-	Cost float64 `protobuf:"fixed64,6,opt,name=cost" json:"cost,omitempty"`
+	Cost float64 `protobuf:"fixed64,6,opt,name=cost,proto3" json:"cost"`
 	// 冻结
-	Frozen int32 `protobuf:"varint,7,opt,name=frozen" json:"frozen,omitempty"`
+	Frozen int32 `protobuf:"varint,7,opt,name=frozen,proto3" json:"frozen"`
 	// 可用
-	Available int32 `protobuf:"varint,8,opt,name=available" json:"available,omitempty"`
+	Available int32 `protobuf:"varint,8,opt,name=available,proto3" json:"available"`
 	// 盈亏
-	PositionProfit float64 `protobuf:"fixed64,9,opt,name=position_profit,json=positionProfit" json:"position_profit,omitempty"`
+	PositionProfit float64 `protobuf:"fixed64,9,opt,name=position_profit,json=positionProfit,proto3" json:"positionProfit"`
 	// 平盈
-	ClosedProfit float64 `protobuf:"fixed64,10,opt,name=closed_profit,json=closedProfit" json:"closed_profit,omitempty"`
+	ClosedProfit float64 `protobuf:"fixed64,10,opt,name=closed_profit,json=closedProfit,proto3" json:"closedProfit"`
 	// 保证金
-	Margin float64 `protobuf:"fixed64,11,opt,name=margin" json:"margin,omitempty"`
+	Margin float64 `protobuf:"fixed64,11,opt,name=margin,proto3" json:"margin"`
 	// 冻结保证金
-	FrozenMargin float64 `protobuf:"fixed64,12,opt,name=frozen_margin,json=frozenMargin" json:"frozen_margin,omitempty"`
+	FrozenMargin float64 `protobuf:"fixed64,12,opt,name=frozen_margin,json=frozenMargin,proto3" json:"frozenMargin"`
 	// 手续费
-	Commission float64 `protobuf:"fixed64,13,opt,name=commission" json:"commission,omitempty"`
+	Commission float64 `protobuf:"fixed64,13,opt,name=commission,proto3" json:"commission"`
 	// 冻结手续费
-	FrozenCommission float64 `protobuf:"fixed64,14,opt,name=frozen_commission,json=frozenCommission" json:"frozen_commission,omitempty"`
+	FrozenCommission float64 `protobuf:"fixed64,14,opt,name=frozen_commission,json=frozenCommission,proto3" json:"frozenCommission"`
 	// 利息
-	Interest float64 `protobuf:"fixed64,15,opt,name=interest" json:"interest,omitempty"`
+	Interest float64 `protobuf:"fixed64,15,opt,name=interest,proto3" json:"interest"`
 	// 冻结利息
-	FrozenInterest float64 `protobuf:"fixed64,16,opt,name=frozen_interest,json=frozenInterest" json:"frozen_interest,omitempty"`
+	FrozenInterest float64 `protobuf:"fixed64,16,opt,name=frozen_interest,json=frozenInterest,proto3" json:"frozenInterest"`
 	// 盯市盈亏
-	MtmProfit float64 `protobuf:"fixed64,17,opt,name=mtm_profit,json=mtmProfit" json:"mtm_profit,omitempty"`
+	MtmProfit float64 `protobuf:"fixed64,17,opt,name=mtm_profit,json=mtmProfit,proto3" json:"mtmProfit"`
 	// 进入清算的平仓盈亏
-	ClearedClosedProfit float64 `protobuf:"fixed64,18,opt,name=cleared_closed_profit,json=clearedClosedProfit" json:"cleared_closed_profit,omitempty"`
+	ClearedClosedProfit float64 `protobuf:"fixed64,18,opt,name=cleared_closed_profit,json=clearedClosedProfit,proto3" json:"clearedClosedProfit"`
 	// 印花税
-	StampTax float64 `protobuf:"fixed64,19,opt,name=stamp_tax,json=stampTax" json:"stamp_tax,omitempty"`
+	StampTax float64 `protobuf:"fixed64,19,opt,name=stamp_tax,json=stampTax,proto3" json:"stampTax"`
 	// 过户费
-	TransferFee float64 `protobuf:"fixed64,20,opt,name=transfer_fee,json=transferFee" json:"transfer_fee,omitempty"`
+	TransferFee float64 `protobuf:"fixed64,20,opt,name=transfer_fee,json=transferFee,proto3" json:"transferFee"`
 	// 部门
-	Branch string `protobuf:"bytes,21,opt,name=branch" json:"branch,omitempty"`
+	Branch string `protobuf:"bytes,21,opt,name=branch,proto3" json:"branch"`
 	// 部门名称
-	BranchName string `protobuf:"bytes,22,opt,name=branch_name,json=branchName" json:"branch_name,omitempty"`
+	BranchName           string   `protobuf:"bytes,22,opt,name=branch_name,json=branchName,proto3" json:"branchName"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *PositionSummation) Reset()                    { *m = PositionSummation{} }
-func (m *PositionSummation) String() string            { return proto.CompactTextString(m) }
-func (*PositionSummation) ProtoMessage()               {}
-func (*PositionSummation) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{0} }
+func (m *PositionSummation) Reset()         { *m = PositionSummation{} }
+func (m *PositionSummation) String() string { return proto.CompactTextString(m) }
+func (*PositionSummation) ProtoMessage()    {}
+func (*PositionSummation) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56e266f1a28a7893, []int{0}
+}
+
+func (m *PositionSummation) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PositionSummation.Unmarshal(m, b)
+}
+func (m *PositionSummation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PositionSummation.Marshal(b, m, deterministic)
+}
+func (m *PositionSummation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PositionSummation.Merge(m, src)
+}
+func (m *PositionSummation) XXX_Size() int {
+	return xxx_messageInfo_PositionSummation.Size(m)
+}
+func (m *PositionSummation) XXX_DiscardUnknown() {
+	xxx_messageInfo_PositionSummation.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PositionSummation proto.InternalMessageInfo
 
 func (m *PositionSummation) GetDirection() int32 {
 	if m != nil {
@@ -221,58 +252,81 @@ func (m *PositionSummation) GetBranchName() string {
 
 // 持仓
 type Position struct {
-	// / 合约编号
-	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol" json:"symbol,omitempty"`
+	/// 合约编号
+	Symbol *Symbol `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol"`
 	// 统计
-	Summation *PositionSummation `protobuf:"bytes,2,opt,name=summation" json:"summation,omitempty"`
+	Summation *PositionSummation `protobuf:"bytes,2,opt,name=summation,proto3" json:"summation"`
 	// 今仓
-	TodaySummation *PositionSummation `protobuf:"bytes,3,opt,name=today_summation,json=todaySummation" json:"today_summation,omitempty"`
+	TodaySummation *PositionSummation `protobuf:"bytes,3,opt,name=today_summation,json=todaySummation,proto3" json:"todaySummation"`
 	// 今仓
-	YesterdaySummation *PositionSummation `protobuf:"bytes,4,opt,name=yesterday_summation,json=yesterdaySummation" json:"yesterday_summation,omitempty"`
+	YesterdaySummation *PositionSummation `protobuf:"bytes,4,opt,name=yesterday_summation,json=yesterdaySummation,proto3" json:"yesterdaySummation"`
 	// 昨结算
-	PreSettlementPrice float64 `protobuf:"fixed64,5,opt,name=pre_settlement_price,json=preSettlementPrice" json:"pre_settlement_price,omitempty"`
+	PreSettlementPrice float64 `protobuf:"fixed64,5,opt,name=pre_settlement_price,json=preSettlementPrice,proto3" json:"preSettlementPrice"`
 	// 今结算
-	SettlementPrice float64 `protobuf:"fixed64,6,opt,name=settlement_price,json=settlementPrice" json:"settlement_price,omitempty"`
+	SettlementPrice float64 `protobuf:"fixed64,6,opt,name=settlement_price,json=settlementPrice,proto3" json:"settlementPrice"`
 	// 最新价
-	LastPrice float64 `protobuf:"fixed64,7,opt,name=last_price,json=lastPrice" json:"last_price,omitempty"`
+	LastPrice float64 `protobuf:"fixed64,7,opt,name=last_price,json=lastPrice,proto3" json:"lastPrice"`
 	// 交易日
-	TradingDay int32 `protobuf:"varint,8,opt,name=trading_day,json=tradingDay" json:"trading_day,omitempty"`
+	TradingDay int32 `protobuf:"varint,8,opt,name=trading_day,json=tradingDay,proto3" json:"tradingDay"`
 	// 交易品种类型
-	ProductType int32 `protobuf:"varint,9,opt,name=product_type,json=productType" json:"product_type,omitempty"`
+	ProductType int32 `protobuf:"varint,9,opt,name=product_type,json=productType,proto3" json:"productType"`
 	// 结算组
-	SettlementGroup int32 `protobuf:"varint,10,opt,name=settlement_group,json=settlementGroup" json:"settlement_group,omitempty"`
+	SettlementGroup int32 `protobuf:"varint,10,opt,name=settlement_group,json=settlementGroup,proto3" json:"settlementGroup"`
 	// 合约乘数
-	VolumeMultiple int32 `protobuf:"varint,11,opt,name=volume_multiple,json=volumeMultiple" json:"volume_multiple,omitempty"`
+	VolumeMultiple int32 `protobuf:"varint,11,opt,name=volume_multiple,json=volumeMultiple,proto3" json:"volumeMultiple"`
 	// 产品
-	ProductId *ProductID `protobuf:"bytes,12,opt,name=product_id,json=productId" json:"product_id,omitempty"`
+	ProductId *ProductID `protobuf:"bytes,12,opt,name=product_id,json=productId,proto3" json:"productId"`
 	// 最小变动价位
-	PriceTick float64 `protobuf:"fixed64,13,opt,name=price_tick,json=priceTick" json:"price_tick,omitempty"`
+	PriceTick float64 `protobuf:"fixed64,13,opt,name=price_tick,json=priceTick,proto3" json:"priceTick"`
 	// 名称
-	SymbolName string `protobuf:"bytes,14,opt,name=symbol_name,json=symbolName" json:"symbol_name,omitempty"`
+	SymbolName string `protobuf:"bytes,14,opt,name=symbol_name,json=symbolName,proto3" json:"symbolName"`
 	// 账号
-	Account string `protobuf:"bytes,15,opt,name=account" json:"account,omitempty"`
+	Account string `protobuf:"bytes,15,opt,name=account,proto3" json:"account"`
 	// 账号名
-	AccountName string `protobuf:"bytes,16,opt,name=account_name,json=accountName" json:"account_name,omitempty"`
+	AccountName string `protobuf:"bytes,16,opt,name=account_name,json=accountName,proto3" json:"accountName"`
 	// 公司
-	Company int64 `protobuf:"varint,17,opt,name=company" json:"company,omitempty"`
+	Company int64 `protobuf:"varint,17,opt,name=company,proto3" json:"company"`
 	// 代理
-	Branch string `protobuf:"bytes,18,opt,name=branch" json:"branch,omitempty"`
+	Branch string `protobuf:"bytes,18,opt,name=branch,proto3" json:"branch"`
 	// 到期日
-	ExpireDate int32 `protobuf:"varint,19,opt,name=expire_date,json=expireDate" json:"expire_date,omitempty"`
+	ExpireDate int32 `protobuf:"varint,19,opt,name=expire_date,json=expireDate,proto3" json:"expireDate"`
 	// 部门名称
-	BranchName string `protobuf:"bytes,20,opt,name=branch_name,json=branchName" json:"branch_name,omitempty"`
+	BranchName string `protobuf:"bytes,20,opt,name=branch_name,json=branchName,proto3" json:"branchName"`
 	// 是否允许平今
-	IsCloseTodayAllowed bool `protobuf:"varint,21,opt,name=is_close_today_allowed,json=isCloseTodayAllowed" json:"is_close_today_allowed,omitempty"`
+	IsCloseTodayAllowed bool `protobuf:"varint,21,opt,name=is_close_today_allowed,json=isCloseTodayAllowed,proto3" json:"isCloseTodayAllowed"`
 	// 用户
-	User string `protobuf:"bytes,22,opt,name=user" json:"user,omitempty"`
+	User string `protobuf:"bytes,22,opt,name=user,proto3" json:"user"`
 	// 用户名
-	UserName string `protobuf:"bytes,23,opt,name=user_name,json=userName" json:"user_name,omitempty"`
+	UserName             string   `protobuf:"bytes,23,opt,name=user_name,json=userName,proto3" json:"userName"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Position) Reset()                    { *m = Position{} }
-func (m *Position) String() string            { return proto.CompactTextString(m) }
-func (*Position) ProtoMessage()               {}
-func (*Position) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{1} }
+func (m *Position) Reset()         { *m = Position{} }
+func (m *Position) String() string { return proto.CompactTextString(m) }
+func (*Position) ProtoMessage()    {}
+func (*Position) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56e266f1a28a7893, []int{1}
+}
+
+func (m *Position) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Position.Unmarshal(m, b)
+}
+func (m *Position) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Position.Marshal(b, m, deterministic)
+}
+func (m *Position) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Position.Merge(m, src)
+}
+func (m *Position) XXX_Size() int {
+	return xxx_messageInfo_Position.Size(m)
+}
+func (m *Position) XXX_DiscardUnknown() {
+	xxx_messageInfo_Position.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Position proto.InternalMessageInfo
 
 func (m *Position) GetSymbol() *Symbol {
 	if m != nil {
@@ -436,13 +490,36 @@ func (m *Position) GetUserName() string {
 }
 
 type PositionList struct {
-	List []*Position `protobuf:"bytes,1,rep,name=list" json:"list,omitempty"`
+	List                 []*Position `protobuf:"bytes,1,rep,name=list,proto3" json:"list"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *PositionList) Reset()                    { *m = PositionList{} }
-func (m *PositionList) String() string            { return proto.CompactTextString(m) }
-func (*PositionList) ProtoMessage()               {}
-func (*PositionList) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{2} }
+func (m *PositionList) Reset()         { *m = PositionList{} }
+func (m *PositionList) String() string { return proto.CompactTextString(m) }
+func (*PositionList) ProtoMessage()    {}
+func (*PositionList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56e266f1a28a7893, []int{2}
+}
+
+func (m *PositionList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PositionList.Unmarshal(m, b)
+}
+func (m *PositionList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PositionList.Marshal(b, m, deterministic)
+}
+func (m *PositionList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PositionList.Merge(m, src)
+}
+func (m *PositionList) XXX_Size() int {
+	return xxx_messageInfo_PositionList.Size(m)
+}
+func (m *PositionList) XXX_DiscardUnknown() {
+	xxx_messageInfo_PositionList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PositionList proto.InternalMessageInfo
 
 func (m *PositionList) GetList() []*Position {
 	if m != nil {
@@ -453,20 +530,43 @@ func (m *PositionList) GetList() []*Position {
 
 // 强平
 type ReqForceClosePosition struct {
-	User       string         `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
-	Symbol     *Symbol        `protobuf:"bytes,2,opt,name=symbol" json:"symbol,omitempty"`
-	Direction  OrderDirection `protobuf:"varint,3,opt,name=direction,enum=pb.OrderDirection" json:"direction,omitempty"`
-	Price      float64        `protobuf:"fixed64,4,opt,name=price" json:"price,omitempty"`
-	Volume     int32          `protobuf:"varint,5,opt,name=volume" json:"volume,omitempty"`
-	Account    string         `protobuf:"bytes,6,opt,name=account" json:"account,omitempty"`
-	Repurchase bool           `protobuf:"varint,7,opt,name=repurchase" json:"repurchase,omitempty"`
-	Comment    string         `protobuf:"bytes,8,opt,name=comment" json:"comment,omitempty"`
+	User                 string         `protobuf:"bytes,1,opt,name=user,proto3" json:"user"`
+	Symbol               *Symbol        `protobuf:"bytes,2,opt,name=symbol,proto3" json:"symbol"`
+	Direction            OrderDirection `protobuf:"varint,3,opt,name=direction,proto3,enum=pb.OrderDirection" json:"direction"`
+	Price                float64        `protobuf:"fixed64,4,opt,name=price,proto3" json:"price"`
+	Volume               int32          `protobuf:"varint,5,opt,name=volume,proto3" json:"volume"`
+	Account              string         `protobuf:"bytes,6,opt,name=account,proto3" json:"account"`
+	Repurchase           bool           `protobuf:"varint,7,opt,name=repurchase,proto3" json:"repurchase"`
+	Comment              string         `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
 }
 
-func (m *ReqForceClosePosition) Reset()                    { *m = ReqForceClosePosition{} }
-func (m *ReqForceClosePosition) String() string            { return proto.CompactTextString(m) }
-func (*ReqForceClosePosition) ProtoMessage()               {}
-func (*ReqForceClosePosition) Descriptor() ([]byte, []int) { return fileDescriptor10, []int{3} }
+func (m *ReqForceClosePosition) Reset()         { *m = ReqForceClosePosition{} }
+func (m *ReqForceClosePosition) String() string { return proto.CompactTextString(m) }
+func (*ReqForceClosePosition) ProtoMessage()    {}
+func (*ReqForceClosePosition) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56e266f1a28a7893, []int{3}
+}
+
+func (m *ReqForceClosePosition) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ReqForceClosePosition.Unmarshal(m, b)
+}
+func (m *ReqForceClosePosition) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ReqForceClosePosition.Marshal(b, m, deterministic)
+}
+func (m *ReqForceClosePosition) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ReqForceClosePosition.Merge(m, src)
+}
+func (m *ReqForceClosePosition) XXX_Size() int {
+	return xxx_messageInfo_ReqForceClosePosition.Size(m)
+}
+func (m *ReqForceClosePosition) XXX_DiscardUnknown() {
+	xxx_messageInfo_ReqForceClosePosition.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ReqForceClosePosition proto.InternalMessageInfo
 
 func (m *ReqForceClosePosition) GetUser() string {
 	if m != nil {
@@ -531,9 +631,9 @@ func init() {
 	proto.RegisterType((*ReqForceClosePosition)(nil), "pb.ReqForceClosePosition")
 }
 
-func init() { proto.RegisterFile("position.proto", fileDescriptor10) }
+func init() { proto.RegisterFile("position.proto", fileDescriptor_56e266f1a28a7893) }
 
-var fileDescriptor10 = []byte{
+var fileDescriptor_56e266f1a28a7893 = []byte{
 	// 901 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x55, 0xdf, 0x4f, 0x23, 0x37,
 	0x10, 0x56, 0x20, 0x09, 0xd9, 0xd9, 0x90, 0x80, 0xf9, 0xd1, 0x15, 0xed, 0xdd, 0xa5, 0xf4, 0xa1,

@@ -29,7 +29,7 @@ service DCenter {
 }
 
 message ReqGetTradingInstrumentList { ExchangeType exchange = 1; }
-message RspGetTradingInstrumentList {}
+message RspGetTradingInstrumentList { repeated TradingInstrument list = 1; }
 message ReqGetTradingInstrument { Symbol symbol = 1; }
 message RspGetTradingInstrument {}
 message ReqSetTradingInstrument { repeated TradingInstrument list = 1; }
@@ -77,3 +77,33 @@ message CacheSummary {
 }
 message ReqGetDCenterInfo {}
 message RspGetDCenterInfo { CacheSummary cache_summary = 1; }
+
+message ReqGetTickSeries {
+  Symbol symbol = 1;
+  int32 start = 2;
+  int32 end = 3;
+}
+
+message RspGetTickSeries {
+  Symbol symbol = 1;
+  int32 start = 2;
+  int32 end = 3;
+  repeated MarketDataSnapshot list = 4;
+}
+
+message ReqGetKlineSeries {
+  Symbol symbol = 1;
+  PeriodType period = 2;
+  int64 start = 3;
+  int64 end = 4;
+  int64 lenLimit = 5;
+}
+
+message RspGetKlineSeries {
+  Symbol symbol = 1;
+  PeriodType period = 2;
+  int64 start = 3;
+  int64 end = 4;
+  int64 lenLimit = 5;
+  repeated Kline list = 6;
+}

@@ -2,13 +2,14 @@ package datasource
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"sort"
 	"sync"
 	"time"
 
+	"github.com/mineralres/goshare/pkg/api"
 	"github.com/mineralres/goshare/pkg/pb"
-	"github.com/mineralres/goshare/pkg/service/dcenter"
 )
 
 // Backend 数据存储引擎
@@ -23,12 +24,16 @@ type Backend interface {
 	SetTick(*pb.MarketDataSnapshot) error
 }
 
+func makeKey(s *pb.Symbol) string {
+	return fmt.Sprintf("%d-%s", s.Exchange, s.Code)
+}
+
 // XCache 内存中K线
 type XCache struct {
-	ds        dcenter.DataSource        // 数据源
-	backend   Backend                   // 存储
-	sdMap     map[pb.Symbol]*symbolData // sdmap
-	sdMapLock sync.RWMutex              // 锁
+	ds        api.DataSource       // 数据源
+	backend   Backend              // 存储
+	sdMap     map[string]*symbolData // sdmap
+	sdMapLock sync.RWMutex         // 锁
 }
 
 // 最新一根K线，用于保存到leveldb
@@ -104,6 +109,7 @@ func initSymbolData(s pb.Symbol, cache *XCache) *symbolData {
 		}
 		ks.PeriodInSeconds = periodInSeconds(ks.Period)
 		if ks.PeriodInSeconds == 0 {
+			log.Println("ks.PeriodInSeconds", ks.PeriodInSeconds, ks.Period, pb.PeriodType(i))
 			panic("ks.PeriodInSeconds == 0")
 		}
 		sd.KlineList = append(sd.KlineList, *ks)
@@ -115,9 +121,9 @@ func initSymbolData(s pb.Symbol, cache *XCache) *symbolData {
 	return sd
 }
 
-func makeXCache(ds dcenter.DataSource, backend Backend) *XCache {
+func makeXCache(ds api.DataSource, backend Backend) *XCache {
 	var c XCache
-	c.sdMap = make(map[pb.Symbol]*symbolData)
+	c.sdMap = make(map[string]*symbolData)
 	c.ds = ds
 	c.backend = backend
 	// 每分钟保存
@@ -241,11 +247,11 @@ func (sd *symbolData) getLastKline(period pb.PeriodType) pb.Kline {
 
 func (cache *XCache) getSymbolData(s *pb.Symbol) *symbolData {
 	cache.sdMapLock.Lock()
-	v, ok := cache.sdMap[*s]
+	v, ok := cache.sdMap[makeKey(s)]
 	if !ok {
 		v = initSymbolData(*s, cache)
 		if v != nil {
-			cache.sdMap[*s] = v
+			cache.sdMap[makeKey(s)] = v
 		}
 	}
 	cache.sdMapLock.Unlock()
@@ -282,7 +288,7 @@ func (cache *XCache) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, err
 	// log.Println("getKlineSeries", symbol, period, startTime, endTime, lenLimit)
 	cache.sdMapLock.Lock()
 	defer cache.sdMapLock.Unlock()
-	v, ok := cache.sdMap[*symbol]
+	v, ok := cache.sdMap[makeKey(symbol)]
 	if ok {
 		return v.getLastTick(), nil
 	}
@@ -297,7 +303,7 @@ func (cache *XCache) GetLastKline(symbol *pb.Symbol, period pb.PeriodType) *pb.K
 	// log.Println("getKlineSeries", symbol, period, startTime, endTime, lenLimit)
 	cache.sdMapLock.Lock()
 	defer cache.sdMapLock.Unlock()
-	v, ok := cache.sdMap[*symbol]
+	v, ok := cache.sdMap[makeKey(symbol)]
 	var sd *symbolData
 	if !ok {
 		return nil
@@ -397,19 +403,26 @@ func validKline(k *pb.Kline) bool {
 }
 
 func (cache *XCache) getLastTickSerires(s *pb.Symbol) (*pb.TickSeries, error) {
-	ctx := &dcenter.DataSourceContext{}
-	ts, err := cache.ds.GetLastTickSerires(ctx, s)
+	ctx := &api.Context{}
+	req := &pb.ReqGetTickSeries{Symbol: s}
+	ts, err := cache.ds.GetTickSerires(ctx, req)
 	if err == nil {
-		return ts, err
+		ret := &pb.TickSeries{List: ts.List}
+		return ret, err
 	}
 	return nil, errors.New("empty")
 }
 
 func (cache *XCache) rGetKlineSeries(s *pb.Symbol, period pb.PeriodType, startTime, endTime, lenLimit int64) (*pb.KlineSeries, error) {
-	ctx := &dcenter.DataSourceContext{}
-	ts, err := cache.ds.RGetKlineSeries(ctx, s, period, startTime, endTime, lenLimit)
+	ctx := &api.Context{}
+	req := &pb.ReqGetKlineSeries{Symbol: s, Period: period, Start: startTime, End: endTime, LenLimit: lenLimit}
+	var resp pb.KlineSeries
+	ts, err := cache.ds.RGetKlineSeries(ctx, req)
 	if err == nil {
-		return ts, err
+		resp.Symbol = s
+		resp.Period = period
+		resp.List = ts.List
+		return &resp, err
 	}
 	return nil, errors.New("empty")
 }
@@ -419,9 +432,10 @@ func (cache *XCache) summary() *pb.CacheSummary {
 	cache.sdMapLock.Lock()
 	defer cache.sdMapLock.Unlock()
 	ret.KsMapSize = int32(len(cache.sdMap))
-	for k, v := range cache.sdMap {
+	for _, v := range cache.sdMap {
 		sum := &pb.SymbolCacheSummary{}
-		sum.Symbol = &pb.Symbol{Exchange: k.Exchange, Code: k.Code}
+		sum.Symbol = new(pb.Symbol)
+		*sum.Symbol = v.Symbol
 		sum.TickLen = int32(len(v.dayTS.List))
 		ret.TotalTickLen += sum.TickLen
 		for j := range v.KlineList {
@@ -487,7 +501,7 @@ func (cache *XCache) setTradingInstrument(req *pb.ReqSetTradingInstrument) {
 }
 
 func (cache *XCache) getTradingInstrument(req *pb.ReqGetTradingInstrument) (*pb.TradingInstrument, error) {
-	ctx := &dcenter.DataSourceContext{}
+	ctx := &api.Context{}
 	ti, err := cache.ds.GetTradingInstrument(ctx, req.Symbol)
 	if err == nil {
 		return ti, err
@@ -496,8 +510,8 @@ func (cache *XCache) getTradingInstrument(req *pb.ReqGetTradingInstrument) (*pb.
 }
 
 func (cache *XCache) getTick(s *pb.Symbol) (*pb.MarketDataSnapshot, error) {
-	ctx := &dcenter.DataSourceContext{}
-	ti, err := cache.ds.GetTick(ctx, s)
+	ctx := &api.Context{}
+	ti, err := cache.ds.GetLastTick(ctx, s)
 	if err == nil {
 		return ti, err
 	}
@@ -505,7 +519,7 @@ func (cache *XCache) getTick(s *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 }
 
 func (cache *XCache) tradingInstrumentList(req *pb.ReqGetTradingInstrumentList) []*pb.TradingInstrument {
-	ctx := &dcenter.DataSourceContext{}
+	ctx := &api.Context{}
 	l, err := cache.ds.TradingInstrumentList(ctx, req)
 	if err == nil {
 		return l
