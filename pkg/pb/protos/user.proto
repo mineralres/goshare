@@ -53,7 +53,7 @@ message UserRole {
 }
 
 // 用户会话
-message UserSession {
+message Session {
   string id = 1;
   string token = 2;
   UserType type = 3;

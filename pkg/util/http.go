@@ -13,10 +13,10 @@ import (
 // PostSome post请求
 func PostSome(url string, token string, req, res interface{}) error {
 	client := &http.Client{
-		Timeout: time.Second * 3,
+		Timeout: time.Second * 10,
 		Transport: &http.Transport{
 			Dial: func(netw, addr string) (net.Conn, error) {
-				deadline := time.Now().Add(3 * time.Second)
+				deadline := time.Now().Add(10 * time.Second)
 				c, err := net.DialTimeout(netw, addr, time.Second*3)
 				if err != nil {
 					return nil, err

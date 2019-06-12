@@ -97,6 +97,11 @@ func stack(skip int) []byte {
 	return buf.Bytes()
 }
 
+// PrintStack 输出stack
+func PrintStack(skip int) {
+	log.Println(string(stack(skip)))
+}
+
 // containsDotFile reports whether name contains a path element starting with a period.
 // The name is assumed to be a delimited by forward slashes, as guaranteed
 // by the http.FileSystem interface.
