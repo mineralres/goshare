@@ -6,7 +6,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
+	"crypto/md5"
+	"encoding/hex"
 	"github.com/mineralres/goshare/pkg/pb"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
@@ -105,4 +106,12 @@ func ParseFloat(src string) float64 {
 		return 0
 	}
 	return f
+}
+
+// GetMD5 转md5
+func GetMD5(str string) string {
+	h := md5.New()
+	h.Write([]byte(str)) // 需要加密的字符串为 123456
+	cipherStr := h.Sum(nil)
+	return hex.EncodeToString(cipherStr)
 }
