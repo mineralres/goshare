@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )

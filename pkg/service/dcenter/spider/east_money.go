@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/mineralres/goshare/pkg/util"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 // GetRealtimeMoneyTrendList 取实时资金流向. size 需要取的条数

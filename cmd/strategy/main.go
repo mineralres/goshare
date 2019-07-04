@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/micro/go-micro/client"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 // 在独立进程中运行策略

@@ -1,0 +1,229 @@
+syntax = "proto3";
+package pb;
+
+// import "common.proto";
+
+// 接口类型
+enum RouteType {
+  // CTP 期货
+  RT_CTP_FUTURE = 0;
+  // CTP 股票
+  RT_CTP_STOCK = 1;
+  // IB
+  RT_INTERACTIVE_BROKER = 2;
+  // LTS
+  RT_LTS = 3;
+  // CATS
+  RT_CATS = 4;
+  // CTP 个股期权
+  RT_CTP_STOCK_OPTION = 5;
+  // 金仕达个股
+  RT_KSOP = 7;
+}
+
+// TradingRoute 交易通道
+message TradingRoute {
+  int64 id = 1;
+  string name = 2;
+  string comment = 3;
+  string broker_id = 4;
+  RouteType route_type = 5;
+  repeated string trading_front_list = 6;
+  repeated string market_data_front_list = 7;
+  string user_product_info = 8;
+  string auth_code = 9;
+  string user = 10;
+}
+
+message TradingRouteList { repeated TradingRoute list = 1; }
+
+// TradingAccount 交易账号
+message TradingAccount {
+  // id
+  string id = 1;
+  // 名称
+  string name = 2;
+  // 备注
+  string comment = 3;
+  // 通道
+  TradingRoute trading_route = 4;
+  // 账号
+  string account = 5;
+  // 密码
+  string password = 6;
+  // 密码2
+  string password2 = 7;
+  // 密码3
+  string password3 = 8;
+  // 防止自成交
+  bool prevent_self_matching = 9;
+  // 期权限仓数量
+  int32 stock_option_position_limit = 10;
+  // 撤单次数限制
+  int32 cancel_limit = 11;
+  // 用户
+  string user = 12;
+}
+
+message TradingAccountList { repeated TradingAccount list = 1; }
+
+
+// TradingAccountSummary 资金信息
+message TradingAccountSummary {
+  // 账号
+  string account = 1;
+  // 结算组（可能单个结算组给个摘要)
+  string user = 2;
+  // 币种
+  string currency = 3;
+  /// 余额
+  double balance = 4;
+  /// 手续费
+  double commission = 5;
+  /// 占用保证金
+  double cur_margin = 6;
+  /// 持仓市值
+  double net_position_amount = 7;
+  /// 上次余额
+  double pre_balance = 8;
+  /// 利息收入
+  double interest_in = 9;
+  /// 存款
+  double deposit = 10;
+  /// 取款
+  double withdraw = 11;
+  /// 冻结保证金
+  double frozen_margin = 12;
+  /// 冻结手续费
+  double frozen_commission = 13;
+  /// 可用资金
+  double available = 14;
+  /// 平仓盈亏
+  double close_profit = 15;
+  /// 持仓盈亏
+  double position_profit = 16;
+  // 上次质押金额
+  double pre_mortgate = 17;
+  // 上次信用额度
+  double pre_credit = 18;
+  // 利息基数
+  double interest_base = 19;
+  // 可取资金
+  double withdraw_available = 20;
+  // 基本准备金
+  double reserve = 21;
+  // 交易日
+  int32 trading_day = 22;
+  // 信用额度
+  double credit = 23;
+  // 质押金额
+  double mortgate = 24;
+  // 交易所保证金
+  double exchange_margin = 25;
+  // 交割保证金
+  double delivery_margin = 26;
+  // 交易所交割保证金
+  double exchange_delivery_margin = 27;
+  // 保底期货结算准备金
+  double reserve_balance = 28;
+  // 交割手续费
+  double delivery_commission = 29;
+  // 冻结过户费
+  double frozen_transfer_fee = 30;
+  // 冻结的印花税
+  double frozen_stamp_tax = 31;
+  // 过户费
+  double transfer_fee = 32;
+  // 印花税
+  double stamp_tax = 33;
+  /// 盯市盈亏
+  double mtm_profit = 34;
+  /// 盯市权益
+  double mtm_balance = 35;
+  ///证券总价值
+  double stock_value = 36;
+  ///国债回购占用资金
+  double bond_repurchase_amount = 37;
+  ///国债逆回购占用资金
+  double reverse_repurchase_amount = 38;
+  ///融资买入金额
+  double margin_trade_amount = 39;
+  ///融券卖出金额
+  double short_sell_amount = 40;
+  ///融资持仓盈亏
+  double margin_trade_profit = 41;
+  ///融券持仓盈亏
+  double pre_prefered_balance = 42;
+  // 冻结平仓所需要费用
+  double frozen_close_commission = 43;
+  // 劣后
+  double common_balance = 44;
+  // 优先资金
+  double prefered_balance = 45;
+  // 兑换基础货币汇率
+  double base_exchange_rate = 46;
+  // 报警
+  double warning_level = 47;
+  // 强平
+  double force_close_level = 48;
+  // 进入清算的平仓盈亏
+  double cleared_closed_profit = 49;
+  // 名称
+  string account_name = 50;
+  // 利息
+  double interest = 51;
+  // 冻结利息
+  double frozen_interest = 52;
+  // 风控方案
+  int64 options_id = 53;
+  // 方案名称
+  string options_name = 54;
+  // 是否激活
+  bool activated = 55;
+  // 隔夜费
+  double overnight_fee = 56;
+  // 运营手续费
+  double commission_l0 = 57;
+  // 多头持仓市值
+  double long_position_market_value = 58;
+  // 空头持仓市值
+  double short_position_market_value = 59;
+  // 优先入金
+  double prefered_deposit = 60;
+  // 劣后入金
+  double common_deposit = 61;
+  // 优先出金
+  double prefered_withdraw = 62;
+  // 劣后出金
+  double common_withdraw = 63;
+  // 部门
+  string branch = 64;
+  // 部门名称
+  string branch_name = 65;
+}
+
+message RspTradingAccountLogin {
+  int32 error_id = 1;
+  bytes error_msg = 2;
+  int32 request_id = 3;
+  bool is_last = 4;
+  int32 trading_day = 5;
+  string login_time = 6;
+  string broker_id = 7;
+  string user_id = 8;
+  string system_name = 9;
+  int32 front_id = 10;
+  int32 session_id = 11;
+  string max_order_ref = 12;
+  string SHFE_time = 13;
+  string DCE_time = 14;
+  string CZCE_time = 15;
+  string FFEX_time = 16;
+  string INE_time = 17;
+}
+
+message RspOrderInsert {
+  int32 error_id = 1;
+  bytes error_msg = 2;
+  string order_ref = 3;
+}

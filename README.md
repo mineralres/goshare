@@ -52,7 +52,7 @@ server需要监听一些端口提供http服务，如果有360等防护软件提�
 # 策略平台
 
 # 交易通道集成
- * [CTP接口](https://github.com/mineralres/ctp-binding)
+ * [CTP网关](https://github.com/mineralres/ctp-binding)
  * LTS
 
 # 交流

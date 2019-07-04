@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 // GoshareAPI 平台核心

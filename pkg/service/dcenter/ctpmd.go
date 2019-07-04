@@ -1,6 +1,6 @@
 package dcenter
 
-import "github.com/mineralres/goshare/pkg/pb"
+import pb "github.com/mineralres/goshare/pkg/pb/goshare"
 
 // CTPRealtime 用于从CTP订阅实时行情
 type CTPRealtime struct {

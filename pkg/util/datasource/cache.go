@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/mineralres/goshare/pkg/api"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 // Backend 数据存储引擎

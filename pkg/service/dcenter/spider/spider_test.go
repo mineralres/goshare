@@ -8,7 +8,7 @@ import (
 	//"net/http"
 	//"io/ioutil"
 	//"strings"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 func init() {

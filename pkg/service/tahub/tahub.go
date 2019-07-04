@@ -1,6 +1,6 @@
 package tahub
 
-import "github.com/mineralres/goshare/pkg/pb"
+import pb "github.com/mineralres/goshare/pkg/pb/goshare"
 
 // 交易通道
 

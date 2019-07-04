@@ -8,7 +8,7 @@ import (
 	"time"
 	"crypto/md5"
 	"encoding/hex"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"

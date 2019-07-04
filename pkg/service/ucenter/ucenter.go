@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"log"
 
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 // DBEngine 数据库插件

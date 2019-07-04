@@ -6,7 +6,7 @@ import (
 	"log"
 	"math"
 
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 // GetVolume 转码

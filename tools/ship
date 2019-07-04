@@ -1,4 +1,10 @@
-./protoc -I=../pkg/pb/protos --go_out=../pkg/pb ../pkg/pb/protos/*.proto
-./protoc -I=../pkg/pb/protos --go_out=plugins=grpc:../pkg/pb ../pkg/pb/protos/*.proto
-#./protoc -I=../pkg/pb/protos --grpc-gateway_out=logtostderr=true:../pkg/pb ../pkg/pb/protos/*.proto
-#./protoc -I=../pkg/pb/protos --micro_out=../pkg/pb ../pkg/pb/protos/goshare.proto ../pkg/pb/protos/ucenter.proto ../pkg/pb/protos/dcenter.proto
+rm ../pkg/pb/goshare/*.go
+./protoc -I=../protos/goshare --go_out=../pkg/pb/goshare ../protos/goshare/*.proto
+./protoc -I=../protos/goshare --go_out=plugins=grpc:../pkg/pb/goshare ../protos/goshare/*.proto
+
+rm ../pkg/pb/ctp/*.go
+./protoc -I=../protos/ctp --go_out=../pkg/pb/ctp ../protos/ctp/*.proto
+
+rm ../cpp/ctp/*.h
+rm ../cpp/ctp/*.cc
+./protoc -I=../protos/ctp --cpp_out=../cpp/ctp ../protos/ctp/*.proto

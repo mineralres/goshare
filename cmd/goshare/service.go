@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/mineralres/goshare/pkg/service"
 	"github.com/mineralres/goshare/pkg/service/dcenter"
 	"github.com/mineralres/goshare/pkg/service/ucenter"

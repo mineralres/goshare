@@ -1,6 +1,6 @@
 {
-    "scheme": "http",
-    "host": "localhost:14999",
+    "scheme": "https",
+    "host": "goshare.cyconst.com",
     "brokerID": "9999",
     "account": "059926",
     "password": "198612",

@@ -1,0 +1,58 @@
+syntax = "proto3";
+package pb;
+
+import "common.proto";
+import "user.proto";
+// import "branch.proto";
+// import "google/api/annotations.proto";
+
+// UCenter 用户管理接口
+service UCenter {
+  // UserLogin 登陆
+  rpc UserLogin(ReqUserLogin) returns (RspUserLogin);
+  // UserLogout 登出
+  rpc UserLogout(EmptyRequest) returns (EmptyResponse);
+  // 创建用户
+  rpc CreateUser(ReqCreateUser) returns (CommonResponse);
+  // 删除用户
+  rpc DeleteUser(ReqDeleteUser) returns (CommonResponse);
+  // 创建部门
+  rpc CreateBranch(ReqCreateBranch) returns (CommonResponse);
+  // 删除部门
+  rpc DeleteBranch(ReqDeleteBranch) returns (CommonResponse);
+  // 检查权限
+  rpc CheckAPIPermission(ReqCheckAPIPermission) returns (RspCheckAPIPermission);
+  // 检查资源权限
+  rpc CheckResourcePermission(ReqCheckResourcePermission)
+      returns (RspCheckResourcePermission);
+}
+
+message ReqCreateBranch {}
+
+message ReqDeleteBranch {}
+
+message ReqCreateUser {}
+
+message ReqDeleteUser {}
+
+message ReqCheckAPIPermission {
+  UserType type = 1;
+  string api = 2;
+}
+message RspCheckAPIPermission { bool passed = 1; }
+
+message ReqCheckResourcePermission {
+  UserType type = 1;
+  int64 resource = 2;
+}
+message RspCheckResourcePermission { bool passed = 1; }
+
+message ReqUserLogin {
+  string user = 1;
+  string password = 2;
+  string type = 3;
+}
+message RspUserLogin {
+  string message = 1;
+  bool success = 2;
+}

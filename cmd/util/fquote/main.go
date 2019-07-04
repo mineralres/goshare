@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/proto"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/mineralres/goshare/pkg/service/tahub/ctp"
 	"github.com/mineralres/goshare/pkg/util"
 	"github.com/mineralres/goshare/pkg/util/datasource"
@@ -149,14 +149,11 @@ var (
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	s := pb.Symbol{Exchange: pb.ExchangeType_CFFEX, Code: "IF1906"}
-	log.Println("s", s.String())
 	var c config
 	err := loadConfig("config.json", &c)
 	if err != nil {
 		panic(err)
 	}
-	log.Println("config", c)
 
 	r := &pb.TradingRoute{BrokerId: c.BrokerID, MarketDataFrontList: c.MarketDataFrontList, TradingFrontList: c.TradeFrontList}
 
@@ -165,13 +162,11 @@ func main() {
 	h.api = ctp.MakeTrader(r, &h)
 	h.api.Init()
 
-	timeout := flag.Int("timeout", 0, "exit when timeout")
+	start := flag.String("start", "", "exit when timeout")
+	end := flag.String("end", "", "exit when timeout")
 	flag.Parse()
-	if *timeout <= 0 {
-		*timeout = 99999999
-	}
 
-	timer := time.NewTimer(time.Second * time.Duration(*timeout))
+	ticker := time.NewTicker(time.Second)
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
 	for {
@@ -179,9 +174,19 @@ func main() {
 		case sig := <-ch:
 			log.Println("exit on signal ", sig)
 			return
-		case <-timer.C:
-			log.Printf("exit on timeout[%d]", *timeout)
-			return
+		case <-ticker.C:
+			if len(*start) > 0 && len(*end) > 0 {
+				now := time.Now().Format("15:04:05")
+				// log.Println("now", now, *start, *end)
+				if *start <= *end && now >= *start && now <= *end {
+					// 白盘
+				} else if *start > *end && !(now >= *end && now <= *start) {
+					// 夜盘
+				} else {
+					log.Printf("exit on now[%s] start[%s] end[%s]", now, *start, *end)
+					return
+				}
+			}
 		}
 	}
 

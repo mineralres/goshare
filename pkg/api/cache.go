@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/syndtr/goleveldb/leveldb"
 )
 

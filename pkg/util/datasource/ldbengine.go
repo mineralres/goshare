@@ -9,7 +9,7 @@ import (
 	proto "github.com/golang/protobuf/proto"
 
 	"github.com/mineralres/goshare/pkg/api"
-	"github.com/mineralres/goshare/pkg/pb"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/util"
 )
