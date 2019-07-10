@@ -1,4 +1,4 @@
-package api
+package gateway
 
 import (
 	"errors"
@@ -10,6 +10,8 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
 	"github.com/mineralres/goshare/pkg/util"
+	// pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	"github.com/mineralres/goshare/pkg/api"
 )
 
 func pbJSON(c *gin.Context, o proto.Message) error {
@@ -36,14 +38,13 @@ var (
 
 // Gateway Gateway
 type Gateway struct {
-	cache   *Cache
+	dsList       []api.DataSource          // 常规数据
 	wsIndex int64
 }
 
 // NewGateway NewGateway
-func NewGateway(cache *Cache) *Gateway {
+func NewGateway() *Gateway {
 	ret := new(Gateway)
-	ret.cache = cache
 	return ret
 }
 

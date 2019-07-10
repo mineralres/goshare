@@ -11,6 +11,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/mineralres/goshare/pkg/gateway"
 	"github.com/mineralres/goshare/pkg/api"
 	"github.com/mineralres/goshare/pkg/util/datasource"
 )
@@ -51,7 +52,7 @@ func main() {
 		dsList = append(dsList, gsclient)
 		var realtimeList []api.RealtimeDataSource
 		realtimeList = append(realtimeList, gsclient)
-		gw := api.NewGateway(api.NewCache(dsList, realtimeList, nil, nil, nil))
+		gw := gateway.NewGateway()
 		gw.Run("./ui-release", 9090)
 	}()
 	ch := make(chan os.Signal, 1)

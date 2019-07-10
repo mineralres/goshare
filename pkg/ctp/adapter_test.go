@@ -1,12 +1,12 @@
-package ctphub
+package ctp
 
 import (
 	"errors"
 	"log"
 	"testing"
 
-	"github.com/mineralres/goshare/pkg/pb/ctp"
 	proto "github.com/golang/protobuf/proto"
+	"github.com/mineralres/goshare/pkg/pb/ctp"
 	"github.com/mineralres/goshare/pkg/util"
 )
 
@@ -48,15 +48,15 @@ func parse2(pkt *packet, p1 proto.Message, p2 proto.Message) error {
 }
 
 func Test_i(t *testing.T) {
-	const password = ""
-	const userid = ""
+	const password = "dyc123"
+	const userid = "146257"
 	const brokerid = "9999"
-	const appid = ""
-	const authcode = ""
+	const appid = "8510788746"
+	const authcode = "0000000000000000"
 	sig := make(chan interface{})
 	var requestID int32
 	var adapter *Adapter
-	adapter = NewAdapter("localhost:6080", func(pkt *packet) {
+	adapter = NewAdapter("47.100.1.102:8205", func(pkt *packet) {
 		switch ctp.CtpMessageType(pkt.MsgType) {
 		case ctp.CtpMessageType_TD_OnFrontConnected:
 			var req ctp.CThostFtdcReqAuthenticateField
@@ -98,15 +98,13 @@ func Test_i(t *testing.T) {
 			log.Println(ctp.CtpMessageType(pkt.MsgType), len(pkt.BodyList))
 		}
 	})
-	{
-		// trade
-		var req ctp.CThostFtdcReqRegisterFrontField
-		req.Front = "tcp://180.168.146.187:10001"
-		requestID++
-		adapter.Send(int32(ctp.CtpMessageType_TD_RegisterFront), makeData(&req), requestID)
-		requestID++
-		adapter.Send(int32(ctp.CtpMessageType_TD_Init), nil, requestID)
-	}
+	// trade
+	var req ctp.CThostFtdcReqRegisterFrontField
+	req.Front = "tcp://180.168.146.187:10001"
+	requestID++
+	adapter.Send(int32(ctp.CtpMessageType_TD_RegisterFront), makeData(&req), requestID)
+	requestID++
+	adapter.Send(int32(ctp.CtpMessageType_TD_Init), nil, requestID)
 	<-sig
 }
 
@@ -114,7 +112,7 @@ func Test_md(t *testing.T) {
 	sig := make(chan interface{})
 	var requestID int32
 	var adapter *Adapter
-	adapter = NewAdapter("localhost:6090", func(pkt *packet) {
+	adapter = NewAdapter("47.100.1.102:8213", func(pkt *packet) {
 		switch ctp.CtpMessageType(pkt.MsgType) {
 		case ctp.CtpMessageType_MD_OnRspSubMarketData:
 		case ctp.CtpMessageType_MD_OnRtnDepthMarketData:

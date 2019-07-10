@@ -10,3 +10,4 @@ cmd/util/fquote/*.con
 cmd/goshare/db
 cmd/util/datasource/db*
 *.rar
+doc/design.md

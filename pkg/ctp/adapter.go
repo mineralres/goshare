@@ -1,4 +1,4 @@
-package ctphub
+package ctp
 
 import (
 	"bufio"

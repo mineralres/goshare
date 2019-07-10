@@ -1,15 +1,17 @@
-package api
+package gateway
 
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"sync/atomic"
+	"time"
+	"strconv"
 
 	"github.com/gorilla/websocket"
 	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	"github.com/mineralres/goshare/pkg/api"
 	// "google.golang.org/grpc"
 )
 
@@ -84,8 +86,6 @@ func (g *Gateway) handleStream(w http.ResponseWriter, r *http.Request) {
 				log.Println("req", req, err)
 				continue
 			}
-			g.cache.subscribe(&req, chSub)
-			defer g.cache.unsubscribe(&pb.ReqUnSubscribe{List: req.List}, chSub)
 		case pb.MessageType_HEATBEAT:
 			// 心跳
 			log.Printf("front[%d] received msg[%v]", index, msg.Type)
@@ -106,9 +106,9 @@ func (g *Gateway) instrumentList(r *http.Request) (interface{}, error) {
 	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
 		return nil, err
 	}
-	var ctx Context
-	for i := range g.cache.dsList {
-		if resp, err := g.cache.dsList[i].TradingInstrumentList(&ctx, &req); err == nil {
+	var ctx api.Context
+	for i := range g.dsList {
+		if resp, err := g.dsList[i].TradingInstrumentList(&ctx, &req); err == nil {
 			return resp, err
 		}
 	}
@@ -116,25 +116,63 @@ func (g *Gateway) instrumentList(r *http.Request) (interface{}, error) {
 }
 
 func (g *Gateway) mainContract(r *http.Request) (interface{}, error) {
-	day := getDay()
-	key := []byte(fmt.Sprintf("-main-contract-%d", day))
-	var l []*pb.TradingInstrument
-	d, err := g.cache.backend.Get(key)
+	// day := getDay()
+	// key := []byte(fmt.Sprintf("-main-contract-%d", day))
+	// var l []*pb.TradingInstrument
+	// d, err := g.backend.Get(key)
+	// if err != nil {
+	// 	l, _ = g.getMainContract()
+	// 	out, _ := json.Marshal(&l)
+	// 	g.backend.Set(key, out)
+	// } else {
+	// 	json.Unmarshal(d, &l)
+	// }
+	// var ctx api.Context
+	// var ret []*pb.MarketDataSnapshot
+	// for _, ti := range l {
+	// 	for _, ds := range g.dsList {
+	// 		if md, err := ds.GetLastTick(&ctx, ti.Symbol); err == nil && md != nil && md.Symbol != nil {
+	// 			ret = append(ret, md)
+	// 		}
+	// 	}
+	// }
+	// return ret, nil
+	return nil,nil
+}
+
+func (g *Gateway) getMainContract() ([]*pb.TradingInstrument, error) {
+	// var ctx api.Context
+	// var resp []*pb.TradingInstrument
+	// var err error
+	// for _, ds := range c.dsList {
+	// 	if resp, err = ds.TradingInstrumentList(&ctx, &pb.ReqGetTradingInstrumentList{}); err == nil {
+	// 		break
+	// 	}
+	// }
+	// m := make(map[string]*pb.TradingInstrument)
+	// for _, ti := range resp {
+	// 	v, ok := m[ti.ProductInfo.ProductId.Code]
+	// 	if ok {
+	// 		if ti.InstrumentInfo.PrePosition >= v.InstrumentInfo.PrePosition {
+	// 			m[ti.ProductInfo.ProductId.Code] = ti
+	// 		}
+	// 	} else {
+	// 		m[ti.ProductInfo.ProductId.Code] = ti
+	// 	}
+	// }
+	// var ret []*pb.TradingInstrument
+	// for _, ti := range m {
+	// 	ret = append(ret, ti)
+	// }
+	// return ret, nil
+	return nil,nil
+}
+
+func getDay() int32 {
+	str := time.Now().Format("20060102")
+	i, err := strconv.Atoi(str)
 	if err != nil {
-		l, _ = g.cache.getMainContract()
-		out, _ := json.Marshal(&l)
-		g.cache.backend.Set(key, out)
-	} else {
-		json.Unmarshal(d, &l)
+		return 0
 	}
-	var ctx Context
-	var ret []*pb.MarketDataSnapshot
-	for _, ti := range l {
-		for _, ds := range g.cache.dsList {
-			if md, err := ds.GetLastTick(&ctx, ti.Symbol); err == nil && md != nil && md.Symbol != nil {
-				ret = append(ret, md)
-			}
-		}
-	}
-	return ret, nil
+	return int32(i)
 }

@@ -1,6 +1,6 @@
 ## 文档
 
-<a href="https://goshare.cyconst.com" target="_blank">说明文档</a>
+<a href="https://goshare.cyconst.com/doc" target="_blank">说明文档</a>
 
 goshare是一个开源的golang量化数据工具集合。(注意:项目当前处于快速迭代阶段，不考虑向前兼容)
 
