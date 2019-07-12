@@ -1,7 +1,9 @@
 package ctp
 
 import (
+	"encoding/json"
 	"errors"
+	"io/ioutil"
 	"log"
 	"testing"
 
@@ -47,12 +49,36 @@ func parse2(pkt *packet, p1 proto.Message, p2 proto.Message) error {
 	return nil
 }
 
+type config struct {
+	Account  string `json:"account"`
+	Password string `json:"password"`
+	BrokerID string `json:"brokerId"`
+	AppID    string `json:"appId"`
+	AuthCode string `json:"authCode"`
+	Front    string `json:"front"`
+}
+
+func loadConfig(f string, out interface{}) error {
+	data, err := ioutil.ReadFile(f)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	return json.Unmarshal(data, &out)
+}
+
 func Test_i(t *testing.T) {
-	const password = "dyc123"
-	const userid = "146257"
-	const brokerid = "9999"
-	const appid = "8510788746"
-	const authcode = "0000000000000000"
+	var c config
+	err := loadConfig("config.json", &c)
+	if err != nil {
+		panic("需要自己在config.json里配置账号密码，前置地址等")
+	}
+	log.Println("c", c)
+	password := c.Password
+	userid := c.Account
+	brokerid := c.BrokerID
+	appid := c.AppID
+	authcode := c.AuthCode
 	sig := make(chan interface{})
 	var requestID int32
 	var adapter *Adapter
@@ -82,8 +108,9 @@ func Test_i(t *testing.T) {
 			var rsp ctp.CThostFtdcRspUserLoginField
 			var rspInfo ctp.CThostFtdcRspInfoField
 			if err := parse2(pkt, &rsp, &rspInfo); err == nil {
-				log.Println(rsp, rspInfo, util.StringFromGBK2(rspInfo.ErrorMsg))
+				log.Println(rsp, util.StringFromGBK2(rspInfo.ErrorMsg))
 			}
+			sig <- true
 		case ctp.CtpMessageType_TD_OnRtnOrder:
 			var rtn ctp.CThostFtdcOrderField
 			if err := parse1(pkt, &rtn); err == nil {
@@ -94,13 +121,18 @@ func Test_i(t *testing.T) {
 			if err := parse1(pkt, &rtn); err == nil {
 				log.Println(rtn)
 			}
+		case ctp.CtpMessageType_TD_OnRtnInstrumentStatus:
+			var rtn ctp.CThostFtdcInstrumentStatusField
+			if err := parse1(pkt, &rtn); err == nil {
+				// log.Println(rtn)
+			}
 		default:
 			log.Println(ctp.CtpMessageType(pkt.MsgType), len(pkt.BodyList))
 		}
 	})
 	// trade
 	var req ctp.CThostFtdcReqRegisterFrontField
-	req.Front = "tcp://180.168.146.187:10001"
+	req.Front = c.Front
 	requestID++
 	adapter.Send(int32(ctp.CtpMessageType_TD_RegisterFront), makeData(&req), requestID)
 	requestID++

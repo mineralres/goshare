@@ -1,6 +1,7 @@
 ## 文档
 
-<a href="https://goshare.cyconst.com/doc" target="_blank">说明文档</a>
+* <a href="https://goshare.cyconst.com/doc" target="_blank">说明文档</a>
+* <a href="https://goshare.cyconst.com/preview" target="_blank">演示</a> 
 
 goshare是一个开源的golang量化数据工具集合。(注意:项目当前处于快速迭代阶段，不考虑向前兼容)
 
@@ -22,7 +23,7 @@ goshare是一个开源的golang量化数据工具集合。(注意:项目当前�
 * 方便使用的UI, [goshare-ui](https://github.com/mineralres/goshare-ui)
 
 
-## 运行
+## 使用
 
 ```shell
 go get -u github.com/mineralres/goshare
@@ -32,28 +33,11 @@ go build -mod vendor
 ```
 server需要监听一些端口提供http服务，如果有360等防护软件提示，请允许，否则浏览器无法访问
 
-# UI
-- UI项目库 [goshare-ui](https://github.com/mineralres/goshare-ui)
-- 演示地址 [https://admin.cyconst.com](https://admin.cyconst.com) 
-
-# 数据库
-* 新浪财经
-  * 股票最新报价
-  * 期货最新报价
-  * 50ETF期权最新报价
-* 腾讯财经
-* 上证所官网
-  * 上证A股列表
-  * 上证ETF期权列表
-  * 分红送股信息
-* 东方财富
-  * 资金流向信息
-
 # 策略平台
 
-# 交易通道集成
+# 关联项目
  * [CTP网关](https://github.com/mineralres/ctp-binding)
- * LTS
+ * [UI](https://github.com/mineralres/goshare-ui)
 
 # 交流
 
