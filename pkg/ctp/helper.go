@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/mineralres/goshare/pkg/util"
 	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	"github.com/mineralres/goshare/pkg/util"
 )
 
 func parseAPIError(r1, r2 uintptr) error {
