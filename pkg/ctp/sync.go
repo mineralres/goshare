@@ -15,10 +15,10 @@ type SyncAdapter struct {
 }
 
 // NewSyncAdapter create new sync adapter
-func NewSyncAdapter(host string, fronts []string) (*SyncAdapter, error) {
+func NewSyncAdapter(host string, timeout time.Duration, fronts []string) (*SyncAdapter, error) {
 	var err error
 	ret := &SyncAdapter{}
-	ret.adapter, err = NewAdapter(host, func(pkt *Packet) {
+	ret.adapter, err = NewAdapter(host, timeout, func(pkt *Packet) {
 		if pkt.MsgType == int32(ctp.CtpMessageType_HEARTBEAT) {
 			return
 		}
@@ -34,7 +34,7 @@ func NewSyncAdapter(host string, fronts []string) (*SyncAdapter, error) {
 	ret.adapter.Post(int32(ctp.CtpMessageType_TD_Init), &req, 0)
 	for {
 		select {
-		case <-time.After(30 * time.Second):
+		case <-time.After(timeout):
 			return ret, errors.New("timeout")
 		case pkt := <-ret.chIn:
 			if pkt.MsgType == int32(ctp.CtpMessageType_TD_OnFrontConnected) {
@@ -46,12 +46,12 @@ func NewSyncAdapter(host string, fronts []string) (*SyncAdapter, error) {
 }
 
 // Send send msg
-func (sa *SyncAdapter) Send(msgType int32, req proto.Message, requestID int32, timeout int) ([]*Packet, error) {
+func (sa *SyncAdapter) Send(msgType int32, req proto.Message, requestID int32, timeout time.Duration) ([]*Packet, error) {
 	sa.adapter.Post(msgType, req, requestID)
 	var ret []*Packet
 	for {
 		select {
-		case <-time.After(time.Second * time.Duration(timeout)):
+		case <-time.After(timeout):
 			return ret, errors.New("timeout")
 		case pkt := <-sa.chIn:
 			if pkt.RequestID == requestID && pkt.IsLast > 0 {

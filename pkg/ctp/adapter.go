@@ -122,10 +122,10 @@ type Adapter struct {
 }
 
 // NewAdapter create new adapter
-func NewAdapter(host string, h func(*Packet)) (*Adapter, error) {
+func NewAdapter(host string, timeout time.Duration, h func(*Packet)) (*Adapter, error) {
 	ret := &Adapter{}
 	ret.chOut = make(chan *Packet, 100)
-	conn, err := net.Dial("tcp", host)
+	conn, err := net.DialTimeout("tcp", host, timeout)
 	if err != nil {
 		return nil, err
 	}

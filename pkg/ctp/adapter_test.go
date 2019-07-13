@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"testing"
+	"time"
 
 	"github.com/mineralres/goshare/pkg/pb/ctp"
 	"github.com/mineralres/goshare/pkg/util"
@@ -32,6 +33,10 @@ func loadConfig(f string, out interface{}) error {
 	return json.Unmarshal(data, &out)
 }
 
+var (
+	timeout = time.Second * 10
+)
+
 func Test_sync(t *testing.T) {
 	var c config
 	err := loadConfig("config.json", &c)
@@ -40,19 +45,19 @@ func Test_sync(t *testing.T) {
 	}
 	log.Println("c", c)
 	var requestID int32
-	adapter, err := NewSyncAdapter("localhost:6090", c.Fronts)
+	adapter, err := NewSyncAdapter("localhost:6090", timeout, c.Fronts)
 	if err != nil {
 		panic(err)
 	}
 	{
-		// 认证和登陆
+		// 认证
 		var req ctp.CThostFtdcReqAuthenticateField
 		req.BrokerID = c.BrokerID
 		req.AppID = c.AppID
 		req.AuthCode = c.AuthCode
 		req.UserID = c.Account
 		requestID++
-		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqAuthenticate), &req, requestID, 10)
+		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqAuthenticate), &req, requestID, timeout)
 		if err != nil {
 			panic(err)
 		}
@@ -76,7 +81,7 @@ func Test_sync(t *testing.T) {
 		req.UserID = c.Account
 		req.Password = c.Password
 		requestID++
-		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqUserLogin), &req, requestID, 10)
+		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqUserLogin), &req, requestID, timeout)
 		if err != nil || len(ret) == 0 {
 			panic(err)
 		}
@@ -92,7 +97,7 @@ func Test_sync(t *testing.T) {
 		req.BrokerID = c.BrokerID
 		req.InvestorID = c.Account
 		requestID++
-		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqQryTradingAccount), &req, requestID, 10)
+		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqQryTradingAccount), &req, requestID, timeout)
 		if err != nil || len(ret) == 0 {
 			panic(err)
 		}
@@ -123,7 +128,7 @@ func Test_async(t *testing.T) {
 	sig := make(chan interface{})
 	var requestID int32
 	var adapter *Adapter
-	adapter, err = NewAdapter("localhost:6090", func(pkt *Packet) {
+	adapter, err = NewAdapter("localhost:6090", timeout, func(pkt *Packet) {
 		switch ctp.CtpMessageType(pkt.MsgType) {
 		case ctp.CtpMessageType_TD_OnFrontConnected:
 			var req ctp.CThostFtdcReqAuthenticateField
@@ -187,7 +192,7 @@ func Test_md(t *testing.T) {
 	var requestID int32
 	var adapter *Adapter
 	var err error
-	adapter, err = NewAdapter("47.100.1.102:8213", func(pkt *Packet) {
+	adapter, err = NewAdapter("47.100.1.102:8213", timeout, func(pkt *Packet) {
 		switch ctp.CtpMessageType(pkt.MsgType) {
 		case ctp.CtpMessageType_MD_OnRspSubMarketData:
 		case ctp.CtpMessageType_MD_OnRtnDepthMarketData:
