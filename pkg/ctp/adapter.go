@@ -117,7 +117,8 @@ func (pkt *Packet) readFrom(reader *bufio.Reader) error {
 
 // Adapter ctp socket adapter
 type Adapter struct {
-	chOut chan *Packet
+	chOut  chan *Packet
+	closed bool
 }
 
 // NewAdapter create new adapter
@@ -131,6 +132,7 @@ func NewAdapter(host string, h func(*Packet)) (*Adapter, error) {
 	reader := bufio.NewReader(conn)
 	// read messages
 	go func() {
+		defer func() { ret.closed = true }()
 		for {
 			conn.SetReadDeadline(time.Now().Add(time.Second * 60))
 			pkt := new(Packet)
@@ -145,6 +147,7 @@ func NewAdapter(host string, h func(*Packet)) (*Adapter, error) {
 	}()
 	// write函数
 	go func() {
+		defer func() { ret.closed = true }()
 		for {
 			select {
 			// heartbeat
