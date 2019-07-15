@@ -45,7 +45,7 @@ func Test_sync(t *testing.T) {
 	}
 	log.Println("c", c)
 	var requestID int32
-	adapter, err := NewSyncAdapter("localhost:6090", timeout, c.Fronts)
+	adapter, err := NewSyncAdapter("47.100.1.102:8205", timeout, c.Fronts)
 	if err != nil {
 		panic(err)
 	}
@@ -128,7 +128,7 @@ func Test_async(t *testing.T) {
 	sig := make(chan interface{})
 	var requestID int32
 	var adapter *Adapter
-	adapter, err = NewAdapter("localhost:6090", timeout, func(pkt *Packet) {
+	adapter, err = NewAdapter("47.100.1.102:8205", timeout, func(pkt *Packet) {
 		switch ctp.CtpMessageType(pkt.MsgType) {
 		case ctp.CtpMessageType_TD_OnFrontConnected:
 			var req ctp.CThostFtdcReqAuthenticateField

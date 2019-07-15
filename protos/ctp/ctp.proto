@@ -5107,8 +5107,9 @@ enum CtpMessageType {
   MD_UnSubscribeForQuoteRsp = 242;
   MD_ReqUserLogin = 243;
   MD_ReqUserLogout = 244;
+  HEARTBEAT = 10000;
 }
-message CThostFtdcReqRegisterFrontField { string Front = 1; }
+message CThostFtdcReqRegisterFrontField { repeated string Fronts = 1; }
 message CThostFtdcReqSubscribeMarketData { repeated string Instruments = 1; }
 message CThostFtdcReqUnSubscribeMarketData { repeated string Instruments = 1; }
 message CThostFtdcReqSubscribeForQuoteRsp { repeated string Instruments = 1; }

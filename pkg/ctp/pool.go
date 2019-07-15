@@ -23,6 +23,7 @@ func NewSyncPool(options *SyncPoolOptions) *SyncPool {
 		panic("NewSyncAdapter should not be nil")
 	}
 	ret := &SyncPool{options: options}
+	ret.aMap = make(map[string]*SyncAdapter)
 	return ret
 }
 

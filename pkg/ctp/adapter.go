@@ -127,7 +127,7 @@ func NewAdapter(host string, timeout time.Duration, h func(*Packet)) (*Adapter, 
 	ret.chOut = make(chan *Packet, 100)
 	conn, err := net.DialTimeout("tcp", host, timeout)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("GatewayError")
 	}
 	reader := bufio.NewReader(conn)
 	// read messages
@@ -160,6 +160,10 @@ func NewAdapter(host string, timeout time.Duration, h func(*Packet)) (*Adapter, 
 					return
 				}
 			case p := <-ret.chOut:
+				if p.MsgType == -1 {
+					conn.Close()
+					return
+				}
 				conn.SetWriteDeadline(time.Now().Add(time.Second * 5))
 				err := p.writeTo(conn)
 				if err != nil {
@@ -180,4 +184,9 @@ func (adapter *Adapter) Post(msgType int32, req proto.Message, requestID int32) 
 		pkt.BodyList = append(pkt.BodyList, d)
 	}
 	adapter.chOut <- pkt
+}
+
+// Close close the connection
+func (adapter *Adapter) Close() {
+	adapter.Post(-1, nil, 0)
 }

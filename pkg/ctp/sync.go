@@ -35,7 +35,8 @@ func NewSyncAdapter(host string, timeout time.Duration, fronts []string) (*SyncA
 	for {
 		select {
 		case <-time.After(timeout):
-			return ret, errors.New("timeout")
+			ret.adapter.Close()
+			return ret, errors.New("CtpTimeout")
 		case pkt := <-ret.chIn:
 			if pkt.MsgType == int32(ctp.CtpMessageType_TD_OnFrontConnected) {
 				return ret, nil
