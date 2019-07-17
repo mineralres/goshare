@@ -107,6 +107,22 @@ func Test_sync(t *testing.T) {
 			log.Println(rsp, util.StringFromGBK2(rspInfo.ErrorMsg))
 		}
 	}
+	// 查询合约
+	{
+		var req ctp.CThostFtdcQryInstrumentField
+		requestID++
+		ret, err := adapter.Send(int32(ctp.CtpMessageType_TD_ReqQryInstrument), &req, requestID, timeout)
+		if err != nil || len(ret) == 0 {
+			panic(err)
+		}
+		var rsp ctp.CThostFtdcInstrumentField
+		var rspInfo ctp.CThostFtdcRspInfoField
+		for i := range ret {
+			if err := ret[i].Get2(&rsp, &rspInfo); err == nil {
+				log.Println(rsp.InstrumentID, util.StringFromGBK2(rsp.InstrumentName), ret[i].IsLast)
+			}
+		}
+	}
 
 	sig := make(chan bool)
 	<-sig

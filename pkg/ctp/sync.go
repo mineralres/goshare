@@ -55,8 +55,8 @@ func (sa *SyncAdapter) Send(msgType int32, req proto.Message, requestID int32, t
 		case <-time.After(timeout):
 			return ret, errors.New("timeout")
 		case pkt := <-sa.chIn:
+			ret = append(ret, pkt)
 			if pkt.RequestID == requestID && pkt.IsLast > 0 {
-				ret = append(ret, pkt)
 				return ret, nil
 			}
 		}

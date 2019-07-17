@@ -1,6 +1,7 @@
 package ctp
 
 import (
+	"errors"
 	"fmt"
 	"sync"
 )
@@ -40,6 +41,9 @@ func (p *SyncPool) GetAdapter(brokerID, account string) (*SyncAdapter, error) {
 	a, err = p.options.NewSyncAdapter(brokerID, account)
 	if err != nil {
 		return nil, err
+	}
+	if a == nil {
+		return nil, errors.New("Create sync adapter failed")
 	}
 	p.aMap[key] = a
 	return a, nil
