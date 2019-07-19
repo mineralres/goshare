@@ -26,12 +26,12 @@ func (s *Spider) GetLastTickSerires(*api.Context, *pb.Symbol) (*pb.TickSeries, e
 }
 
 // GetTradingInstrument 读取合约信息
-func (s *Spider) GetTradingInstrument(*api.Context, *pb.Symbol) (*pb.TradingInstrument, error) {
+func (s *Spider) GetTradingInstrument(*api.Context, *pb.Symbol) (*pb.Instrument, error) {
 	return nil, nil
 }
 
 // TradingInstrumentList 全部合约信息
-func (s *Spider) TradingInstrumentList(*api.Context, *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error) {
+func (s *Spider) TradingInstrumentList(*api.Context, *pb.ReqGetTradingInstrumentList) ([]*pb.Instrument, error) {
 	return nil, nil
 }
 

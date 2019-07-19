@@ -1,81 +1,47 @@
 syntax = "proto3";
-package pb;
+package goshare;
 
-import "common.proto";
+import "goshare/common.proto";
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
 
 message OrderBook {
-  /// 卖价
-  double ask = 1;
-  /// 卖量
-  int32 ask_volume = 2;
-  /// 买价
-  double bid = 3;
-  /// 买量
-  int32 bid_volume = 4;
+  double ask        = 1; /// 卖价
+  int32  ask_volume = 2; /// 卖量
+  double bid        = 3; /// 买价
+  int32  bid_volume = 4; /// 买量
 }
 
 // 深度行情
 message MarketDataSnapshot {
-  // 合约
-  Symbol symbol = 1;
-  // 时间time_t
-  int64 time = 2;
-  // 毫秒
-  int32 milliseconds = 3;
-  // 开盘
-  double open = 4;
-  // 最高
-  double high = 5;
-  // 最低
-  double low = 6;
-  // 收盘
-  double close = 7;
-  // 成交量
-  int32 volume = 8;
-  // 成交金额
-  double amount = 9;
-  // 持仓
-  int32 position = 10;
-  // 最新价格
-  double price = 11;
-  // 昨收
-  double pre_close = 12;
-  // 昨结
-  double pre_settlement_price = 13;
-  // 昨持仓
-  int32 pre_position = 14;
-  // 结算价
-  double settlement_price = 15;
-  // 涨停
-  double upper_limit_price = 16;
-  // 跌停
-  double lower_limit_price = 17;
-  // 昨虚实
-  double pre_delta = 18;
-  // 今虚实
-  double delta = 19;
-  // 均价
-  double average_price = 20;
-  // 交易日
-  int32 trading_day = 21;
-  // 盘口
-  repeated OrderBook order_book_list = 22;
-  // 合约名称
-  string name = 23;
-  // 执行价
-  double exercise_price = 24;
-  // 成交增量
-  int32 volume_delta = 25;
-  // 字符串时间
-  string time2 = 26;
-  // 交易所字符串
-  string exchange = 27;
-  // action day
-  int32 action_day = 28;
-  // volume multiple
-  int32 volume_multiple = 29;
-  // price tick
-  double price_tick = 30;
+  string   exchange         = 1;  // 交易所
+  string   symbol           = 2;  // 合约
+  int64    time             = 3;  // 时间time_t
+  int32    milliseconds     = 4;  // 毫秒
+  double   open             = 5;  // 开盘
+  double   high             = 6;  // 最高
+  double   low              = 7;  // 最低
+  double   close            = 8;  // 收盘
+  int32    volume           = 9;  // 成交量
+  double   amount           = 10; // 成交金额
+  int32    position         = 11; // 持仓
+  double   price            = 12; // 最新价格
+  double   pre_close        = 13; // 昨收
+  double   pre_settlement   = 14; // 昨结
+  int32    pre_position     = 15; // 昨持仓
+  double   settlement_price = 16; // 结算价
+  double   upper_limit      = 17; // 涨停
+  double   lower_limit      = 18; // 跌停
+  double   pre_delta        = 19; // 昨虚实
+  double   delta            = 20; // 今虚实
+  double   average_price    = 21; // 均价
+  int32    trading_day      = 22; // 交易日
+  string   name             = 23; // 合约名称
+  double   exercise_price   = 24; // 执行价
+  int32    volume_delta     = 25; // 成交增量
+  int32    action_day       = 27; // action day
+  int32    multiple         = 28; // multiple
+  double   price_tick       = 39; // price tick
+  repeated OrderBook depths = 30; // 深度
 }
 
 // MdsList 行情列表
@@ -83,74 +49,63 @@ message MdsList { repeated MarketDataSnapshot list = 1; }
 
 //期权T型
 message OptionTMarket {
-  // call报价
-  MarketDataSnapshot callTk = 1;
-  // put报价
-  MarketDataSnapshot putTk = 2;
+  MarketDataSnapshot callTk = 1; // call报价
+  MarketDataSnapshot putTk  = 2; // put报价
 }
 
 // 简易期权T型报价
 message SimpleTickForTQuote {
-  Symbol symbol = 1;
-  double price = 2;
-  double up_down_ratio = 3;
-  double pre_settlement_price = 4;
-  string name = 5;
+  string exchange             = 1;
+  string symbol               = 2;
+  double price                = 3;
+  double up_down_ratio        = 4;
+  double pre_settlement_price = 5;
+  string name                 = 6;
 }
 
 // T型报价的一行
 message OptionTQuoteItem {
-  double exercise_price = 1;
-  SimpleTickForTQuote call = 2;
-  SimpleTickForTQuote put = 3;
-  string exercise_price_flag = 4;
+  double              exercise_price      = 1;
+  SimpleTickForTQuote call                = 2;
+  SimpleTickForTQuote put                 = 3;
+  string              exercise_price_flag = 4;
 }
 
 // OptionTQuoteItemList 列表
 message OptionTQuoteItemList {
-  int32 exchange = 1;
-  string strike_symbol = 2;
-  string month = 3;
+  int32    exchange              = 1;
+  string   strike_symbol         = 2;
+  string   month                 = 3;
   repeated OptionTQuoteItem list = 4;
 }
 
 // K线
 message Kline {
-  // 时间
-  int64 time = 1;
-  // 开盘
-  double open = 2;
-  // 最高
-  double high = 3;
-  // 最低
-  double low = 4;
-  // 收盘
-  double close = 5;
-  // 成交量
-  int32 volume = 6;
-  // 成交额
-  double amount = 7;
-  // 持仓量
-  int32 position = 8;
-  // 交易日
-  int32 trading_day = 9;
+  int64  time        = 1; // 时间
+  double open        = 2; // 开盘
+  double high        = 3; // 最高
+  double low         = 4; // 最低
+  double close       = 5; // 收盘
+  int32  volume      = 6; // 成交量
+  double amount      = 7; // 成交额
+  int32  position    = 8; // 持仓量
+  int32  trading_day = 9; // 交易日
 }
 
 // KlineSeries K线序列
 message KlineSeries {
-  Symbol symbol = 1;
-  PeriodType period = 2;
-  int32 period_in_seconds = 3;
-  repeated Kline list = 4;
+  string     exchange          = 1;
+  string     symbol            = 2;
+  PeriodType period            = 3;
+  int32      period_in_seconds = 4;
+  repeated Kline list          = 5;
 }
 
 // 订阅行情
 message ReqSubscribeMarketData {
-  // 合约代码
-  Symbol symbol = 1;
-  // 订阅的K线周期
-  repeated PeriodType periodList = 2;
-  // 订阅指标
+  string   exchange              = 1;
+  string   symbol                = 2;
+  repeated PeriodType periodList = 3;
 }
 
 // 返回订阅行情
@@ -158,28 +113,27 @@ message RspSubscribeMarketData {}
 
 // 推送订阅行情更新事件
 message RtnMarketDataUpdate {
-  // 最新盘口
-  MarketDataSnapshot tick = 1;
-  // 最新一根K线
-  repeated Kline kline_list = 2;
+  MarketDataSnapshot tick   = 1; // 最新盘口
+  repeated Kline kline_list = 2; // 最新一根K线
 }
 
 // tick序列
 message TickSeries {
-  Symbol symbol = 1;
-  int32 trading_day = 2;
-  repeated MarketDataSnapshot list = 3;
+  string   exchange                = 1;
+  string   symbol                  = 2;
+  int32    trading_day             = 3;
+  repeated MarketDataSnapshot list = 4;
 }
 
-
 message SimpleTick {
-  int64 time = 1;
-  double price = 2;
-  int32 volume = 3;
+  int64  time   = 1;
+  double price  = 2;
+  int32  volume = 3;
 }
 
 message SimpleTickSeries {
-  Symbol symbol = 1;
-  int32 trading_day = 2;
-  repeated SimpleTick list = 3;
+  string   exchange        = 1;
+  string   symbol          = 2;
+  int32    trading_day     = 3;
+  repeated SimpleTick list = 4;
 }

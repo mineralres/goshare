@@ -1,0 +1,23 @@
+syntax = "proto3";
+package goshare.hub;
+
+option go_package = "github.com/mineralres/goshare/pkg/pb/hub";
+
+// 发往上游
+message ReqInsertOrder {
+  string ta_id      = 1;
+  string bu_id      = 2;
+  string exchange   = 3;
+  string symbol     = 4;
+  int32  front_id   = 5;
+  int32  session_id = 6;
+  string order_ref  = 7;
+  string product    = 8;
+  int32  direction  = 9;
+  int32  offset     = 10;
+  double price      = 11;
+  int32  volume     = 12;
+  int32  price_type = 13;
+}
+
+message ReqCancelOrder {}

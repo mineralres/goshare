@@ -1,0 +1,50 @@
+syntax = "proto3";
+package goshare;
+
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
+
+// 成交类型
+enum TradeType {
+  // 普通成交
+  TT_NORMAL = 0;
+  // 期权执行
+  TT_OPTIONS_EXECUTION = 1;
+  // OTC成交
+  TT_OTC = 2;
+  // 期转现衍生成交
+  TT_EFP_DERIVED = 3;
+  // 组合衍生成交
+  TT_COMBINATION_DERIVED = 4;
+  // 交割平仓
+  TT_DELIVERY_CLOSE = 5;
+  // 结算衍生
+  TT_SETTLEMENT_DERIVED = 6;
+  // 分红股票
+  TT_PLACEMENT_DERIVED = 7;
+  // 回购
+  TT_REPURCHASE = 8;
+}
+
+// 成交
+message Trade {
+  string exchange           = 1;
+  string symbol             = 2;
+  string product            = 3;
+  int32  direction          = 5;
+  int32  offset             = 6;
+  double price              = 7;
+  int32  volume             = 8;
+  string user_id            = 9;
+  string ta_id              = 10;
+  string bu_id              = 11;
+  string trade_id           = 12;
+  int64  traded_time        = 13;
+  int32  traded_trading_day = 14;
+  string order_ref          = 15;
+  int32  session_id         = 16;
+  string user_name          = 17;
+  string branch             = 18;
+  string branch_name        = 19;
+  int32  trade_type         = 20;
+  string exchange_order_id  = 21;
+}

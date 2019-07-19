@@ -5,13 +5,13 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"strconv"
 	"sync/atomic"
 	"time"
-	"strconv"
 
 	"github.com/gorilla/websocket"
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/mineralres/goshare/pkg/api"
+	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	// "google.golang.org/grpc"
 )
 
@@ -137,10 +137,10 @@ func (g *Gateway) mainContract(r *http.Request) (interface{}, error) {
 	// 	}
 	// }
 	// return ret, nil
-	return nil,nil
+	return nil, nil
 }
 
-func (g *Gateway) getMainContract() ([]*pb.TradingInstrument, error) {
+func (g *Gateway) getMainContract() ([]*pb.Instrument, error) {
 	// var ctx api.Context
 	// var resp []*pb.TradingInstrument
 	// var err error
@@ -165,7 +165,7 @@ func (g *Gateway) getMainContract() ([]*pb.TradingInstrument, error) {
 	// 	ret = append(ret, ti)
 	// }
 	// return ret, nil
-	return nil,nil
+	return nil, nil
 }
 
 func getDay() int32 {

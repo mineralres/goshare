@@ -14,11 +14,11 @@ import (
 )
 
 // BatchGetSSEStockOptionTick 取所有行情
-func (s *Spider) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+func (s *Spider) BatchGetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	all := "http://hq.sinajs.cn/list="
 	for i := range symbols {
-		all = all + "CON_OP_" + symbols[i].Code + ","
+		all = all + "CON_OP_" + symbols[i] + ","
 	}
 	resp, err := http.Get(all)
 	if err != nil {
@@ -34,8 +34,8 @@ func (s *Spider) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDat
 		ret := pb.MarketDataSnapshot{}
 		if err == nil && len(tickArr) >= 42 {
 			pos := strings.Index(tickArr[0], "1000")
-			symbol := &pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: tickArr[0][pos : pos+8]}
-			ret.Symbol = symbol
+			ret.Exchange = "SSE"
+			ret.Symbol = tickArr[0][pos : pos+8]
 			ret.Price = util.ParseFloat(tickArr[2])
 			ret.Close = ret.Price
 			ret.Position = int32(util.ParseInt(tickArr[5]))
@@ -44,8 +44,8 @@ func (s *Spider) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDat
 			ret.Low = util.ParseFloat(tickArr[40])
 			ret.Volume = int32(util.ParseInt(tickArr[41]))
 			ret.Amount = float64(util.ParseInt(tickArr[42]))
-			ret.UpperLimitPrice = util.ParseFloat(tickArr[10])
-			ret.LowerLimitPrice = util.ParseFloat(tickArr[11])
+			ret.UpperLimit = util.ParseFloat(tickArr[10])
+			ret.LowerLimit = util.ParseFloat(tickArr[11])
 			ret.ExercisePrice = util.ParseFloat(tickArr[7])
 			ret.PreClose = util.ParseFloat(tickArr[8])
 
@@ -74,7 +74,7 @@ func (s *Spider) BatchGetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDat
 			ob1.AskVolume = int32(util.ParseInt(tickArr[21]))
 			ob1.Bid = util.ParseFloat(tickArr[22])
 			ob1.BidVolume = int32(util.ParseInt(tickArr[23]))
-			ret.OrderBookList = []*pb.OrderBook{&ob1, &ob2, &ob3, &ob4, &ob5}
+			ret.Depths = []*pb.OrderBook{&ob1, &ob2, &ob3, &ob4, &ob5}
 			ret.Name = tickArr[37]
 
 			ret.Time = util.ParseBeijingTime("2006-01-02 15:04:05", tickArr[32])
@@ -168,8 +168,8 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		var ss string
 		tickSym2 := strings.Split(strings.Split(tickArr[0], "=")[0], "_")
 		ss = tickSym2[4]
-		symbol := &pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: ss}
-		ret.Symbol = symbol
+		ret.Exchange = "SSE"
+		ret.Symbol = ss
 		ret.Price = util.ParseFloat(tickArr[2])
 		ret.Close = ret.Price
 		ret.ExercisePrice = util.ParseFloat(tickArr[7])
@@ -179,8 +179,8 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ret.Low = util.ParseFloat(tickArr[40])
 		ret.Volume = int32(util.ParseInt(tickArr[41]))
 		ret.Amount = (util.ParseFloat(tickArr[42]))
-		ret.UpperLimitPrice = util.ParseFloat(tickArr[10])
-		ret.LowerLimitPrice = util.ParseFloat(tickArr[11])
+		ret.UpperLimit = util.ParseFloat(tickArr[10])
+		ret.LowerLimit = util.ParseFloat(tickArr[11])
 		var ob5 pb.OrderBook
 		ob5.Ask = util.ParseFloat(tickArr[12])
 		ob5.AskVolume = int32(util.ParseInt(tickArr[13]))
@@ -206,7 +206,7 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 		ob1.AskVolume = int32(util.ParseInt(tickArr[21]))
 		ob1.Bid = util.ParseFloat(tickArr[22])
 		ob1.BidVolume = int32(util.ParseInt(tickArr[23]))
-		ret.OrderBookList = []*pb.OrderBook{&ob1, &ob2, &ob3, &ob4, &ob5}
+		ret.Depths = []*pb.OrderBook{&ob1, &ob2, &ob3, &ob4, &ob5}
 		ret.Name = util.StringFromGBK(tickArr[37])
 		// timex, err := time.Parse("2006-01-02 15:04:05", tickArr[32])
 		ret.Time = util.ParseBeijingTime("2006-01-02 15:04:05", tickArr[32])
@@ -280,8 +280,8 @@ func (s *Spider) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnap
 		tickArr := strings.Split(v, ",")
 		ret := pb.MarketDataSnapshot{}
 		if err == nil && len(tickArr) >= 42 {
-			symbol := &pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: tickArr[0][19:27]}
-			ret.Symbol = symbol
+			ret.Exchange = "SSE"
+			ret.Symbol = tickArr[0][19:27]
 			ret.Price = util.ParseFloat(tickArr[2])
 			ret.Close = ret.Price
 			ret.Position = util.ParseInt32(tickArr[5])
@@ -290,8 +290,8 @@ func (s *Spider) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnap
 			ret.Low = util.ParseFloat(tickArr[40])
 			ret.Volume = (util.ParseInt32(tickArr[41]))
 			ret.Amount = float64(util.ParseInt(tickArr[42]))
-			ret.UpperLimitPrice = util.ParseFloat(tickArr[10])
-			ret.LowerLimitPrice = util.ParseFloat(tickArr[11])
+			ret.UpperLimit = util.ParseFloat(tickArr[10])
+			ret.LowerLimit = util.ParseFloat(tickArr[11])
 			var ob5 pb.OrderBook
 			ob5.BidVolume = util.ParseInt32(tickArr[12])
 			ob5.Bid = util.ParseFloat(tickArr[13])
@@ -363,8 +363,11 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 		if err == nil {
 			ret.TradingDay = int32(td)
 		}
-
-		ret.Symbol = symbol
+		ret.Exchange = "SSE"
+		if symbol.Exchange == pb.ExchangeType_SZE {
+			ret.Exchange = "SZE"
+		}
+		ret.Symbol = symbol.Code
 		ret.Price = util.ParseFloat(tickArr[3])
 		ret.Close = ret.Price
 		ret.PreClose = util.ParseFloat(tickArr[4])
@@ -373,8 +376,8 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 		ret.Low = util.ParseFloat(tickArr[34])
 		ret.Volume = (util.ParseInt32(tickArr[6]))
 		ret.Amount = float64(util.ParseInt(tickArr[37]) * 10000)
-		ret.UpperLimitPrice = util.ParseFloat(tickArr[47])
-		ret.LowerLimitPrice = util.ParseFloat(tickArr[48])
+		ret.UpperLimit = util.ParseFloat(tickArr[47])
+		ret.LowerLimit = util.ParseFloat(tickArr[48])
 		var ob5 pb.OrderBook
 		ob5.BidVolume = util.ParseInt32(tickArr[18])
 		ob5.Bid = util.ParseFloat(tickArr[17])
@@ -400,7 +403,7 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 		ob1.Bid = util.ParseFloat(tickArr[9])
 		ob1.AskVolume = util.ParseInt32(tickArr[20])
 		ob1.Ask = util.ParseFloat(tickArr[19])
-		ret.OrderBookList = []*pb.OrderBook{&ob1, &ob2, &ob3, &ob4, &ob5}
+		ret.Depths = []*pb.OrderBook{&ob1, &ob2, &ob3, &ob4, &ob5}
 	}
 	return ret, nil
 }
@@ -415,7 +418,7 @@ func (s *Spider) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, er
 		if err == nil {
 			tickArr := strings.Split(string(body), ",")
 			//sym := strings.Split(string(tickArr[0]), "=")
-			ret.Symbol = symbol
+			ret.Symbol = symbol.Code
 			ret.Price = util.ParseFloat(tickArr[1])
 			ret.Close = ret.Price
 			return ret, nil

@@ -20,13 +20,13 @@ type Context struct {
 // DataSource 数据源
 type DataSource interface {
 	// 读取tick
-	GetLastTick(*Context, *pb.Symbol) (*pb.MarketDataSnapshot, error)
+	GetLastTick(*Context, string, string) (*pb.MarketDataSnapshot, error)
 	// 取最新一天的tick序列
 	GetTickSerires(*Context, *pb.ReqGetTickSeries) (*pb.RspGetTickSeries, error)
 	// 读取合约信息
-	GetTradingInstrument(*Context, *pb.Symbol) (*pb.TradingInstrument, error)
+	GetTradingInstrument(*Context, string, string) (*pb.Instrument, error)
 	// 全部合约信息
-	TradingInstrumentList(*Context, *pb.ReqGetTradingInstrumentList) ([]*pb.TradingInstrument, error)
+	TradingInstrumentList(*Context, *pb.ReqGetTradingInstrumentList) ([]*pb.Instrument, error)
 	// 反向取K线
 	RGetKlineSeries(*Context, *pb.ReqGetKlineSeries) (*pb.RspGetKlineSeries, error)
 	// K线

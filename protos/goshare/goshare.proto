@@ -1,21 +1,20 @@
 
 syntax = "proto3";
-package pb;
+package goshare;
 
-import "common.proto";
-import "market_data.proto";
-import "strategy.proto";
+import "goshare/common.proto";
+import "goshare/market_data.proto";
+import "goshare/strategy.proto";
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
 
 // GoShare goshare
 service GoShare {
-  // GetLastTick 获取最新行情
-  rpc LastTick(Symbol) returns (MarketDataSnapshot) {};
   // SSEStockOptionList 上证所期权列表
   rpc SSEStockOptionList(ReqSSEStockOptionList)
       returns (RspSSEStockOptionList) {};
   // SubscribeMarketData 订阅行情
   rpc SubscribeMarketData(ReqSubscribeMarketData)
-      returns (stream pb.MarketDataSnapshot) {};
+      returns (stream MarketDataSnapshot) {};
   // PushTick 推送tick更新
   rpc PushTick(MarketDataSnapshot) returns (EmptyResponse) {};
   // 策略列表

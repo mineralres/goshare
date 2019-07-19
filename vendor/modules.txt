@@ -1,4 +1,4 @@
-# github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3
+# github.com/gin-contrib/sse v0.1.0
 github.com/gin-contrib/sse
 # github.com/gin-gonic/gin v1.3.0
 github.com/gin-gonic/gin
@@ -8,9 +8,11 @@ github.com/gin-gonic/gin/render
 # github.com/go-log/log v0.1.0
 github.com/go-log/log
 github.com/go-log/log/log
+# github.com/gogo/protobuf v1.2.1
+github.com/gogo/protobuf/proto
 # github.com/golang/protobuf v1.3.1
-github.com/golang/protobuf/jsonpb
 github.com/golang/protobuf/proto
+github.com/golang/protobuf/jsonpb
 github.com/golang/protobuf/ptypes/struct
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
@@ -22,7 +24,7 @@ github.com/golang/snappy
 github.com/google/uuid
 # github.com/gorilla/websocket v1.4.0
 github.com/gorilla/websocket
-# github.com/json-iterator/go v1.1.6
+# github.com/json-iterator/go v1.1.5
 github.com/json-iterator/go
 # github.com/ledongthuc/pdf v0.0.0-20190215042515-a147dfdf8062
 github.com/ledongthuc/pdf
@@ -76,10 +78,10 @@ github.com/syndtr/goleveldb/leveldb/storage
 github.com/syndtr/goleveldb/leveldb/table
 # github.com/ugorji/go/codec v0.0.0-20190320090025-2dc34c0b8780
 github.com/ugorji/go/codec
-# golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c
+# golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4
 golang.org/x/crypto/ed25519
 golang.org/x/crypto/ed25519/internal/edwards25519
-# golang.org/x/net v0.0.0-20190424112056-4829fb13d2c6
+# golang.org/x/net v0.0.0-20190628185345-da137c7871d7
 golang.org/x/net/context
 golang.org/x/net/trace
 golang.org/x/net/internal/timeseries
@@ -93,9 +95,10 @@ golang.org/x/net/idna
 golang.org/x/net/bpf
 golang.org/x/net/internal/iana
 golang.org/x/net/internal/socket
-# golang.org/x/sys v0.0.0-20190329044733-9eb1bfa1ce65
+# golang.org/x/sys v0.0.0-20190712062909-fae7ac547cb7
 golang.org/x/sys/unix
-# golang.org/x/text v0.3.1
+golang.org/x/sys/windows
+# golang.org/x/text v0.3.2
 golang.org/x/text/encoding/simplifiedchinese
 golang.org/x/text/transform
 golang.org/x/text/encoding
@@ -104,7 +107,7 @@ golang.org/x/text/encoding/internal/identifier
 golang.org/x/text/secure/bidirule
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# google.golang.org/genproto v0.0.0-20190418145605-e7d98fc518a7
+# google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.20.1
 google.golang.org/grpc

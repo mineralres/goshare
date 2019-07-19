@@ -11,3 +11,5 @@ cmd/goshare/db
 cmd/util/datasource/db*
 *.rar
 doc/design.md
+doc/_book/design.md
+doc/_book

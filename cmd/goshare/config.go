@@ -4,13 +4,16 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-
-	"github.com/mineralres/goshare/pkg/service/dcenter/tdxclient"
 )
 
+type tdxOptions struct {
+	ServerList       []string `json:"serverList"`
+	ExternServerList []string `json:"externServerList"`
+}
+
 type config struct {
-	Port       int                   `json:"port"`
-	TDXOptions tdxclient.PoolOptions `json:"tdxOptions"`
+	Port       int        `json:"port"`
+	TDXOptions tdxOptions `json:"tdxOptions"`
 	GSURL      struct {
 		Scheme string `json:"scheme"`
 		Host   string `json:"host"`

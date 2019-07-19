@@ -90,7 +90,7 @@ func (front *wsFront) uploadTick(c *gin.Context) {
 			if messageType == websocket.BinaryMessage {
 				var mds pb.MarketDataSnapshot
 				if err := proto.Unmarshal(p, &mds); err == nil {
-					if mds.Symbol.Code == "" {
+					if mds.Symbol == "" {
 						continue
 					}
 					resp, err := client.PushTick(context.Background(), &mds)

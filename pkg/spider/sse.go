@@ -16,7 +16,7 @@ import (
 )
 
 // GetSSEStockList 获取上证股票列表
-func (s *Spider) GetSSEStockList() ([]pb.TradingInstrument, error) {
+func (s *Spider) GetSSEStockList() ([]pb.Instrument, error) {
 	return nil, nil
 }
 
@@ -146,61 +146,56 @@ func (s *Spider) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 }
 
 // GetSSEStockOptionTradingInstrumentList 上证所ETF期权合约列表
-func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrument, error) {
+func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.Instrument, error) {
 	list, err := s.GetSSEStockOptionList()
 	if err != nil {
 		return nil, err
 	}
 	// 期权行情
-	var symbols []pb.Symbol
-	var ret []*pb.TradingInstrument
+	var symbols []string
+	var ret []*pb.Instrument
 	for i := range list {
-		ti := new(pb.TradingInstrument)
-		ti.Symbol = new(pb.Symbol)
-		ti.InstrumentInfo = new(pb.InstrumentInfo)
-		ti.ProductInfo = new(pb.ProductInfo)
+		ti := new(pb.Instrument)
 		op := &list[i]
-		ti.Symbol.Exchange = pb.ExchangeType_SSE
-		ti.Symbol.Code = op.SecurityID
-		symbols = append(symbols, *ti.Symbol)
+		ti.Exchange = "SSE"
+		ti.Symbol = op.SecurityID
+		symbols = append(symbols, ti.Symbol)
 
-		ti.InstrumentInfo.SymbolName = op.ContractSymbol
-		ti.InstrumentInfo.StrikePrice = util.ParseFloat(op.ExercisePrice)
-		ti.InstrumentInfo.UpperLimitPrice = util.ParseFloat(op.DailyPriceUpLimit)
-		ti.InstrumentInfo.LowerLimitPrice = util.ParseFloat(op.DailyPriceDownLimit)
-		ti.InstrumentInfo.PreSettlementPrice = util.ParseFloat(op.SettlPrice)
+		ti.Name = op.ContractSymbol
+		ti.StrikePrice = util.ParseFloat(op.ExercisePrice)
+		ti.UpperLimit = util.ParseFloat(op.DailyPriceUpLimit)
+		ti.LowerLimit = util.ParseFloat(op.DailyPriceDownLimit)
+		ti.PreSettlement = util.ParseFloat(op.SettlPrice)
 
 		ud, _ := strconv.Atoi(time.Now().Format("20060102"))
-		ti.InstrumentInfo.UpdateTradingDay = int32(ud)
-		ti.InstrumentInfo.IsTrading = false
-		ti.InstrumentInfo.MaxMarketOrderVolume = int32(util.ParseInt(op.MktOrdMaxFloor))
-		ti.InstrumentInfo.MaxLimitOrderVolume = int32(util.ParseInt(op.LmtOrdMaxFloor))
-		ti.InstrumentInfo.MinMarketOrderVolume = 1
-		ti.InstrumentInfo.MinLimitOrderVolume = 1
+		ti.TradingDay = int32(ud)
+		ti.IsTrading = false
+		ti.MaxMarketOrderVolume = int32(util.ParseInt(op.MktOrdMaxFloor))
+		ti.MaxLimitOrderVolume = int32(util.ParseInt(op.LmtOrdMaxFloor))
+		ti.MinMarketOrderVolume = 1
+		ti.MinLimitOrderVolume = 1
 
-		ti.InstrumentInfo.ExpireDate = int32(util.ParseInt(op.ExpireDate))
-		ti.InstrumentInfo.StartDeliverDate = int32(util.ParseInt(op.DeliveryDate))
-		ti.InstrumentInfo.EndDeliverDate = ti.InstrumentInfo.StartDeliverDate
-		if ti.InstrumentInfo.ExpireDate >= ti.InstrumentInfo.UpdateTradingDay {
-			ti.InstrumentInfo.IsTrading = true
+		ti.ExpireDate = int32(util.ParseInt(op.ExpireDate))
+		ti.StartDeliverDate = int32(util.ParseInt(op.DeliveryDate))
+		ti.EndDeliverDate = ti.StartDeliverDate
+		if ti.ExpireDate >= ti.TradingDay {
+			ti.IsTrading = true
 		}
 
-		ti.ProductInfo.PriceTick = 0.0001
-		ti.ProductInfo.Type = pb.ProductType_PT_SSE_ETF_OPTION
-		ti.ProductInfo.VolumeMultiple = int32(util.ParseInt(op.ContractUnit))
-		ti.ProductInfo.ProductId = new(pb.ProductID)
-		ti.ProductInfo.ProductId.Exchange = pb.ExchangeType_SSE
-		ti.ProductInfo.ProductId.Code = "SHOP"
-		ti.ProductInfo.DistinguishPositionTime = false
+		ti.PriceTick = 0.0001
+		ti.ProductType = "SSE_ETF_OPTION"
+		ti.Multiple = int32(util.ParseInt(op.ContractUnit))
+		ti.Product = "SHOP"
+		ti.DistinguishPositionTimeType = false
 
 		if op.CallOrPut == "认购" {
-			ti.InstrumentInfo.CallPutType = pb.OptionCallPutType_OCPT_CALL
+			ti.CallOrPut = "call"
 		} else if op.CallOrPut == "认沽" {
-			ti.InstrumentInfo.CallPutType = pb.OptionCallPutType_OCPT_PUT
+			ti.CallOrPut = "put"
 		} else {
 			panic("Invalid call put type")
 		}
-		ti.InstrumentInfo.DeliveryDateType = pb.OptionDeliveryDateType_ODDT_EUR
+		ti.ExerciseDateType = "EUR"
 
 		ret = append(ret, ti)
 	}
@@ -213,10 +208,10 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.TradingInstrume
 		ti := ret[i]
 		for j := range mdsList {
 			m := &mdsList[j]
-			if m.Symbol.Code == ti.Symbol.Code {
-				ti.InstrumentInfo.PrePosition = int32(m.Position)
-				ti.InstrumentInfo.PreClosePrice = m.PreClose
-				ti.InstrumentInfo.PreSettlementPrice = m.PreSettlementPrice
+			if m.Symbol == ti.Symbol && m.Exchange == ti.Exchange {
+				ti.PrePosition = int32(m.Position)
+				ti.PreClose = m.PreClose
+				ti.PreSettlement = m.PreSettlement
 			}
 		}
 	}
@@ -255,8 +250,8 @@ func (s *Spider) GetSSE50ETFOptionTQuote(month string) ([]*pb.OptionTQuoteItem, 
 		name := items[6].(string)
 		preClose := items[7].(float64)
 		var st pb.SimpleTickForTQuote
-		st.Symbol.Exchange = 4
-		st.Symbol.Code = items[1].(string)
+		st.Exchange = "SSE"
+		st.Symbol = items[1].(string)
 		st.Price = items[2].(float64)
 		st.UpDownRatio = items[3].(float64)
 		if preClose > 0 {

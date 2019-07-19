@@ -1,75 +1,6 @@
 syntax = "proto3";
-package pb;
-
-enum ExchangeType {
-  /// 上海期货交易所
-  SHFE = 0;
-  /// 郑州商品交易所
-  CZCE = 1;
-  /// 大连商品期货交易所
-  DCE = 2;
-  /// 中金所
-  CFFEX = 3;
-  /// 上海证券交易所
-  SSE = 4;
-  /// 深圳证券交易所
-  SZE = 5;
-  /// 香港证券交易所
-  HKG = 6;
-  /// 香港期货交易所
-  HKFE = 7;
-  /// 各类指数
-  INDEX = 8;
-  /// 上证期权
-  OPTION_SSE = 9;
-  /// NEW YORK MERCANTILE EXCHANGE
-  NYME = 10;
-  /// CME GLOBEX
-  GLBX = 11;
-  /// cbot
-  CBOT = 12;
-  /// cme
-  CME = 13;
-  /// comex
-  COMEX = 14;
-  /// eurex
-  EUREX = 15;
-  ///
-  IPE = 16;
-  /// liffe
-  LIFFE = 17;
-  /// LME
-  LME = 18;
-  /// SGX
-  SGX = 19;
-  // demo ex
-  DEMO = 20;
-  // INE
-  INE = 21;
-  /// 未知
-  INVALIDEX = 22;
-}
-
-enum ProductType {
-  // 未知
-  PT_UNKOWN = 0;
-  // 期货
-  PT_FUTURE = 1;
-  // 股票
-  PT_STOCK = 2;
-  // 债券
-  PT_BOND = 3;
-  // 组合
-  PT_COMBINATION = 4;
-  // 期权
-  PT_OPTION = 5;
-  // 期货期权
-  PT_FUTURE_OPTION = 6;
-  // 股票期权
-  PT_STOCK_OPTION = 7;
-  // 上证50ETF期权
-  PT_SSE_ETF_OPTION = 8;
-}
+package goshare;
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
 
 enum PeriodType {
   // Tick
@@ -101,7 +32,7 @@ enum PeriodType {
 // OptionCallPutType 期权call or put 类型
 enum OptionCallPutType {
   OCPT_CALL = 0;
-  OCPT_PUT = 1;
+  OCPT_PUT  = 1;
 }
 
 // 行权日类型
@@ -117,176 +48,32 @@ enum CloseCommissionAlgorithim {
   CCA_MULTIPLE_BY_DATE = 2;
 }
 
-// 合约代码
-message Symbol {
-  ExchangeType exchange = 1;
-  string code = 2;
-}
-
-message SymbolList { repeated Symbol list = 1; }
-
-// 品种
-message ProductID {
-  ExchangeType exchange = 1;
-  string code = 2;
-}
-
 // 经纪商通道
 message BrokerRoute {
-  string id = 1;
-  int32 type = 2;
-  string name = 3;
-  repeated string md_front_list = 4;
+  string   id                      = 1;
+  int32    type                    = 2;
+  string   name                    = 3;
+  repeated string md_front_list    = 4;
   repeated string trade_front_list = 5;
 }
 
 message BrokerRouteList { repeated BrokerRoute list = 1; }
 
-// 合约行情信息
-message InstrumentInfo {
-  /// 合约名称.
-  string symbol_name = 1;
-  /// 是否单边大保
-  int32 position_rank = 2;
-  /// 更新时间.
-  int64 update_time = 3;
-  // 交易日
-  int32 update_trading_day = 4;
-  /// 涨停价.
-  double upper_limit_price = 5;
-  /// 跌停价.
-  double lower_limit_price = 6;
-  // 昨收
-  double pre_close_price = 7;
-  // 昨结
-  double pre_settlement_price = 8;
-  // 昨成交
-  int32 pre_volume = 9;
-  // 昨持仓
-  int32 pre_position = 10;
-  // 今天结算价
-  double settlement_price = 11;
-  // 创建日期
-  int32 create_date = 12;
-  // 上市日期
-  int32 open_date = 13;
-  // 到期日期
-  int32 expire_date = 14;
-  // 开始交割日期
-  int32 start_deliver_date = 15;
-  // 结束交割日期
-  int32 end_deliver_date = 16;
-  // 是否T+0
-  int32 is_close_today_allowed = 17;
-  // 市价最大下单量
-  int32 max_market_order_volume = 18;
-  // 市价最小下单量
-  int32 min_market_order_volume = 19;
-  // 限价最大下单量
-  int32 max_limit_order_volume = 20;
-  // 限价最小下单量
-  int32 min_limit_order_volume = 21;
-  // 基础合约
-  Symbol base_symbol = 22;
-  // 行权价
-  double strike_price = 23;
-  ///期权类型
-  OptionCallPutType call_put_type = 24;
-  ///合约基础商品乘数
-  double underlying_multiple = 25;
-  ///组合类型
-  int32 combination_type = 26;
-  ///最小买下单单位
-  int32 min_buy_volume = 27;
-  ///最小卖下单单位
-  int32 min_sell_volume = 28;
-  ///合约标识码
-  Symbol instrument_code = 29;
-  // 是否在交易
-  bool is_trading = 30;
-  // 行权方式类型
-  OptionDeliveryDateType delivery_date_type = 31;
-}
-
-message SimpleTimePeriod {
-  int32 start = 1;
-  int32 end = 2;
-}
-
-message MarketTimeRule {
-  repeated SimpleTimePeriod send_rule = 1;
-  repeated SimpleTimePeriod cancel_rule = 2;
-  repeated SimpleTimePeriod matching_rule = 3;
-}
-
-// 品种信息.
-message ProductInfo {
-  // 品种代码.
-  ProductID product_id = 1;
-  // 子类型
-  ProductID product_group_id = 2;
-  // 类型
-  ProductType type = 3;
-  /// 品种名称
-  string product_name = 4;
-  // 最小变动价位.
-  double price_tick = 5;
-  // 合约乘数
-  int32 volume_multiple = 6;
-  // 昨总成交
-  int32 pre_volume = 7;
-  // 昨持仓
-  int32 pre_position = 8;
-  // 币种
-  int32 currency_type = 9;
-  // 结算组
-  int32 settlement_group = 10;
-  // 时间
-  MarketTimeRule time_rule = 11;
-  // 区分昨仓今仓
-  bool distinguish_position_time = 12;
-}
-
-// 交易合约
-message TradingInstrument {
-  /// 合约编码
-  Symbol symbol = 1;
-  // 合约信息
-  InstrumentInfo instrument_info = 2;
-  // 品种信息
-  ProductInfo product_info = 3;
-}
-
-message TradingInstrumentList { repeated TradingInstrument list = 1; }
-
-message ProductInfoList { repeated ProductInfo list = 1; }
-
-message ReqSetTradingInstrumentList {
-  string op_code = 1;
-  int32 exchange = 2;
-  repeated TradingInstrument list = 3;
-}
-
-message ReqSetProductInfoList {
-  string op_code = 1;
-  int32 exchange = 2;
-  repeated ProductInfo list = 3;
-}
-
 message ReqUpdateTIOpenDate {
-  Symbol symbol = 1;
-  int32 open_date = 2;
+  string exchange  = 1;
+  string symbol    = 2;
+  int32  open_date = 3;
 }
 
 message ReqUpdateTIOpenDateList {
-  int32 exchange = 1;
-  repeated ReqUpdateTIOpenDate list = 2;
-  string op_code = 3;
+  int32    exchange                    = 1;
+  repeated ReqUpdateTIOpenDate list    = 2;
+  string                       op_code = 3;
 }
 
 enum AccountType {
   CN_FUTURE = 0;
-  CN_STOCK = 1;
+  CN_STOCK  = 1;
 }
 
 enum CurrencyType {
@@ -469,45 +256,45 @@ message MTRList { repeated MoneyTransferRecord list = 1; }
 // SSEStockOption 上证交易所ETF期权
 message SSEStockOption {
   // 行权价
-  string exercise_price = 1;
-  string update_version = 2;
-  string option_type = 3;
-  string daily_price_up_limit = 4;
-  string time_save = 5;
-  string DELIST_Flag = 6;
-  string start_date = 7;
-  string expire_date = 8;
-  string contract_unit = 9;
-  string call_or_put = 10;
-  string lmt_ord_max_floor = 11;
-  string delivery_date = 12;
-  string change_flag = 13;
-  string mkt_ord_max_floor = 14;
-  string underlying_type = 15;
+  string exercise_price         = 1;
+  string update_version         = 2;
+  string option_type            = 3;
+  string daily_price_up_limit   = 4;
+  string time_save              = 5;
+  string DELIST_Flag            = 6;
+  string start_date             = 7;
+  string expire_date            = 8;
+  string contract_unit          = 9;
+  string call_or_put            = 10;
+  string lmt_ord_max_floor      = 11;
+  string delivery_date          = 12;
+  string change_flag            = 13;
+  string mkt_ord_max_floor      = 14;
+  string underlying_type        = 15;
   string daily_price_down_limit = 16;
-  string round_lot = 17;
-  string security_closePX = 18;
-  string settl_price = 19;
-  string contract_symbol = 20;
-  string num = 21;
-  string contractID = 22;
-  string margin_ratio_param1 = 23;
-  string margin_ratio_param2 = 24;
-  string lmt_ord_min_floor = 25;
-  string mkt_ord_min_floor = 26;
-  string end_date = 27;
-  string price_limit_type = 28;
-  string exercise_date = 29;
-  string margin_unit = 30;
-  string securityID = 31;
-  string security_name_byID = 32;
-  string contract_flag = 33;
-  string underlying_closePX = 34;
+  string round_lot              = 17;
+  string security_closePX       = 18;
+  string settl_price            = 19;
+  string contract_symbol        = 20;
+  string num                    = 21;
+  string contractID             = 22;
+  string margin_ratio_param1    = 23;
+  string margin_ratio_param2    = 24;
+  string lmt_ord_min_floor      = 25;
+  string mkt_ord_min_floor      = 26;
+  string end_date               = 27;
+  string price_limit_type       = 28;
+  string exercise_date          = 29;
+  string margin_unit            = 30;
+  string securityID             = 31;
+  string security_name_byID     = 32;
+  string contract_flag          = 33;
+  string underlying_closePX     = 34;
 }
 
 // 期权月份
 message OptionMonth {
-  string name = 1;
+  string name  = 1;
   string value = 2;
   string short = 3;
 }
@@ -517,8 +304,8 @@ message OptionMonthList { repeated OptionMonth list = 1; }
 
 // 交易账号类型
 enum TradingAccountType {
-  TAT_NORMAL = 0;
-  TAT_TRAINNING = 1;
+  TAT_NORMAL     = 0;
+  TAT_TRAINNING  = 1;
   TAT_CTP_MIRROR = 2;
 }
 
@@ -527,7 +314,7 @@ message EmptyResponse {}
 
 message CommonRequest {}
 message CommonResponse {
-  bool success = 1;
-  int32 code = 2;
+  bool   success = 1;
+  int32  code    = 2;
   string message = 3;
 }

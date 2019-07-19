@@ -12,8 +12,6 @@ import (
 	"time"
 
 	"github.com/mineralres/goshare/pkg/gateway"
-	"github.com/mineralres/goshare/pkg/api"
-	"github.com/mineralres/goshare/pkg/util/datasource"
 )
 
 func main() {
@@ -43,15 +41,6 @@ func main() {
 	// 开启gin api router
 	go func() {
 		time.Sleep(time.Millisecond * 100)
-		var dsList []api.DataSource
-		options := &datasource.ClientOptions{}
-		options.URL.Scheme = c.GSURL.Scheme
-		options.URL.Host = c.GSURL.Host
-		options.Token = c.GSURL.Token
-		gsclient := datasource.MakeClient(options)
-		dsList = append(dsList, gsclient)
-		var realtimeList []api.RealtimeDataSource
-		realtimeList = append(realtimeList, gsclient)
 		gw := gateway.NewGateway()
 		gw.Run("./ui-release", 9090)
 	}()

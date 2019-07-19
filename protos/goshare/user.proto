@@ -1,5 +1,6 @@
 syntax = "proto3";
-package pb;
+package goshare;
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
 
 // enum 用户类型
 enum UserType {

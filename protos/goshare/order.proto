@@ -1,386 +1,163 @@
 syntax = "proto3";
-package pb;
+package goshare;
 
-import "common.proto";
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
 
-// 报单ID
-message OrderID {
-  int32 front_id = 1;
-  int32 session_id = 2;
-  int32 order_ref = 3;
+// 投机套保标志
+enum HedgeType {
+  // 投机
+  SPECULATION = 0;
+  // 套利
+  ARBITRAGE = 1;
+  // 套保
+  HEDGE = 2;
+  // 投机2(特别标志)
+  SPECULATION2 = 3;
 }
 
 enum OrderStatus {
   // 完全成交
-  OS_DONE = 0;
+  DONE = 0;
   // 部分成交还在队列中
-  OS_PENDING_WITH_PARTIAL_DONE = 1;
+  PENDING_WITH_PARTIAL_DONE = 1;
   // 部分成交且已撤单
-  OS_CANCELED_WITH_PARTIAL_DONE = 2;
+  CANCELED_WITH_PARTIAL_DONE = 2;
   // 队列中
-  OS_PENDING = 3;
+  PENDING = 3;
   // 已经撤单
-  OS_CANCELED = 4;
+  CANCELED = 4;
   // 未知
-  OS_UNKOWN = 5;
+  UNKOWN = 5;
 }
 
 enum OrderPriceType {
   // 限价
-  OPT_LIMIT_PRICE = 0;
+  LIMIT_PRICE = 0;
   // 市价
-  OPT_MARKET_PRICE = 1;
+  MARKET_PRICE = 1;
   // 最优价
-  OPT_BEST_PRICE = 2;
+  BEST_PRICE = 2;
   // 最新价
-  OPT_LAST_PRICE = 3;
+  LAST_PRICE = 3;
 }
 
 enum OffsetFlag {
-  OF_NONE = 0;
   // 开仓
-  OF_OPEN = 1;
+  OPEN = 0;
   // 平仓
-  OF_CLOSE = 2;
+  CLOSE = 1;
   // 强平
-  OF_FORCE_CLOSE = 3;
+  FORCE_CLOSE = 2;
   // 平今
-  OF_CLOSE_TODAY = 4;
+  CLOSE_TODAY = 3;
   // 平昨
-  OF_CLOSE_YESTERDAY = 5;
+  CLOSE_YESTERDAY = 4;
 }
 
 // 报单方向
-enum OrderDirection {
-  OD_LONG = 0;
-  OD_SHORT = 1;
+enum DirectionType {
+  LONG  = 0;
+  SHORT = 1;
 }
 
 // 强平类型
-enum ForceCloseType {
-  // 非强平
-  FCT_NOT = 0;
+enum ForceCloseReason {
   // 资金不足
-  FCT_NOT_ENOUGH_MARGIN = 1;
+  NOT_ENOUGH_MARGIN = 0;
   // 客户超仓
-  FCT_client_over_position_limit = 2;
+  client_over_position_limit = 1;
   // 会员超仓
-  FCT_broker_over_poisition_limit = 3;
+  broker_over_poisition_limit = 2;
   // 违规
-  FCT_violation = 4;
+  violation = 3;
   // 其它
-  FCT_other = 5;
+  other = 4;
   // 自然人临近交割
-  FCT_person_deliver = 6;
+  person_deliver = 5;
 }
 
 // 报单来源
 enum OrderSourceType {
   // 客户
-  OST_CLIENT = 0;
+  CLIENT = 0;
   // 管理员
-  OST_ADMINISTRATOR = 1;
+  ADMINISTRATOR = 1;
   // 风控
-  OST_RISK_SRV = 2;
+  RISK_SRV = 2;
   // 手机端
-  OST_MOBILE = 3;
+  MOBILE = 3;
   // PC端
-  OST_PC = 4;
+  PC = 4;
   // 结算衍生
-  OST_SETTLEMENT_DERIVED = 5;
+  SETTLEMENT_DERIVED = 5;
   // 套利单衍生
-  OST_COMBINATION_DERIVED = 6;
+  COMBINATION_DERIVED = 6;
   // 多路径平仓衍生
-  OST_MULTI_ROUTE_CLOSE_DERIVED = 7;
+  MULTI_ROUTE_CLOSE_DERIVED = 7;
   // 分红送股
-  OST_PLACEMENT_SHARE = 8;
+  PLACEMENT_SHARE = 8;
   // 回购操作
-  OST_REPURCHASE = 9;
+  REPURCHASE = 9;
   // CTP上传
-  OST_CTP_UPLOAD = 10;
-  // 未设定
-  OST_UNKOWN = 11;
+  CTP_UPLOAD = 10;
 }
 
 // 委托
 message Order {
-  // 合约
-  Symbol symbol = 1;
-  // id
-  OrderID id = 2;
-  // 账号
-  string account = 3;
-  // 方向
-  OrderDirection direction = 4;
-  // 状态
-  OrderStatus status = 5;
-  // 价格类型
-  OrderPriceType price_type = 6;
-  // 限价
-  double limit_price = 7;
-  // 数量
-  int32 volume = 8;
-  // 成交数量
-  int32 volume_traded = 9;
-  // 撤单数量
-  int32 volume_canceled = 10;
-  // 冻结手续费
-  double frozen_commission = 11;
-  // 发送时间（成交时间)
-  int64 send_order_time = 12;
-  // 交易日
-  int32 trading_day = 13;
-  // 备注
-  string comment = 14;
-  // 请求编号
-  int32 request_id = 15;
-  // 序号
-  int32 local_order_seq = 16;
-  // 强平类型
-  ForceCloseType force_close_type = 17;
-  // 来源
-  OrderSourceType order_source_type = 18;
-  // 投机套保类型
-  int32 order_hedge_type = 19;
-  // 产品标识
-  string user_product_info = 20;
-  // 币种
-  int32 currency_type = 21;
-  // 父ID
-  OrderID local_order_id = 22;
-  // 交易所ID
-  string exchange_order_id = 23;
-  // 有效期类型
-  int32 time_condition_type = 24;
-  // 是否继续变化,优化手续费计算
-  int32 is_pending = 25;
-  // 下级通道
-  string route_account = 26;
-  // 本地编号类型
-  int32 local_type_id = 27;
-  // 委托收费
-  double commission = 28;
-  // 保证金
-  double margin = 29;
-  // 开平标志
-  OffsetFlag offset_flag = 30;
-  // 错误代码
-  int32 error_code = 31;
-  // 交易品种类型
-  ProductType product_type = 32;
-  // 结算组
-  int32 settlement_group = 33;
-  // token
-  string token = 34;
-  // 成交金额
-  double traded_amount = 35;
-  // 合约乘数
-  int32 volume_multiple = 36;
-  // 产品
-  ProductID product_id = 37;
-  // 最小变动价位
-  double price_tick = 38;
-  // 冻结保证金
-  double frozen_margin = 39;
-  // 合约名称
-  string symbol_name = 40;
-  // 发送原因
-  string reason_comment = 41;
-  // 印花税
-  double stamp_tax = 42;
-  // 过户费
-  double transfer_fee = 43;
-  // 用户名
-  string account_name = 44;
-  // 客户端ip
-  string ip = 45;
-  // 客户端mac
-  string mac = 46;
-  // 部门
-  string branch = 47;
-  // 部门名称
-  string branch_name = 48;
-  // 方案编号
-  int64 route_template_id = 49;
-  // 方案名称
-  string route_template_name = 50;
-  // 账户类型
-  TradingAccountType trading_account_type = 51;
-  // 调试信息
-  string debug = 52;
-  // 用户编号
-  string user = 53;
+  string user_id                = 1;  // 用户
+  string ta_id                  = 2;  // taid
+  string bu_id                  = 3;  // buid
+  string exchange               = 4;  // 交易所
+  string symbol                 = 5;  // 合约
+  string product                = 6;  // 品种
+  string order_ref              = 7;  // ID
+  int32  direction              = 8;  // 方向
+  int32  offset                 = 9;  // 开平
+  double price                  = 10; // 限价
+  int32  volume                 = 11; // 数量
+  int32  volume_traded          = 12; // 成交数量
+  int32  volume_canceled        = 13; // 撤单数量
+  int32  status                 = 14; // 状态
+  int32  price_type             = 15; // 价格类型
+  double frozen_commission      = 16; // 冻结手续费
+  int64  send_order_time        = 17; // 发送时间（成交时间)
+  int32  send_order_trading_day = 18; // 交易日
+  string status_msg             = 19; // 备注
+  int32  force_close_type       = 20; // 强平类型
+  int32  order_source_type      = 21; // 来源
+  int32  hedge_type             = 22; // 投机套保类型
+  string user_product_info      = 23; // 产品标识
+  string exchange_order_id      = 24; // 交易所ID
+  int32  time_condition_type    = 25; // 有效期类型
+  bool   is_pending      = 26; // 是否继续变化,优化手续费计算
+  double commission      = 27; // 委托收费
+  string product_type    = 28; // 交易品种类型
+  double traded_amount   = 29; // 成交金额
+  int32  multiple        = 30; // 合约乘数
+  double price_tick      = 31; // 最小变动价位
+  double last_price      = 32; // 最新价
+  double frozen_margin   = 33; // 冻结合计
+  string symbol_name     = 34; // 合约名称
+  string reason          = 35; // 发送原因
+  double stamp_tax       = 36; // 印花税
+  double transfer_fee    = 37; // 过户费
+  string user_name       = 38; // 用户名
+  string ip              = 39; // 客户端ip
+  string mac             = 40; // 客户端mac
+  string branch          = 41; // 部门
+  string branch_name     = 42; // 部门名称
+  int32  bu_type         = 43; // 单元类型
+  string debug           = 44; // 调试信息
+  int32  session_id      = 45; // sessionid
+  int64  client_tag      = 46; // client tag
+  int32  front_id        = 47; // front id
+  int32  request_id      = 48; // request id
+  int32  local_order_seq = 49; // local order seq
 }
 
 message OrderList { repeated Order list = 1; }
 
 message JointOrder {
-  Order local_order = 1;
+  Order local_order    = 1;
   Order exchange_order = 2;
-}
-
-message OrderLink {
-  Order local = 1;
-  repeated Order upstream = 2;
-}
-
-// 发送撤单请求
-message CancelOrderRequest {
-  // 帐户
-  string account = 1;
-  // 委托编号
-  OrderID order_id = 2;
-  // 合约
-  Symbol symbol = 3;
-  // 请求id
-  int32 request_id = 4;
-  // 发起前置
-  int32 front_id = 5;
-  // 发起session
-  int32 session_id = 6;
-  // 发起终端信息
-  string exchange_order_id = 7;
-  // token
-  string token = 8;
-  // route account id
-  string route_account = 9;
-  // 结算组
-  int32 settlement_group = 10;
-  // 所属
-  int64 company = 11;
-  // 发送时间
-  int64 send_time = 12;
-  // usertype
-  TradingAccountType user_type = 13;
-  // 用户编号
-  string user = 15;
-}
-
-// OnRtnCancelOrder 撤单响应
-message OnRtnCancelOrder {
-  string account = 1;
-  OrderID OrderID = 2;
-  string exchange_order_id = 3;
-  Symbol symbol = 4;
-  int32 request_id = 5;
-  int32 error_type = 6;
-  int32 error = 7;
-  string msg = 8;
-  string route_account = 9;
-  bool upstream_not_found = 10;
-  string user = 70;
-}
-
-// 价格类型
-enum ConditionOrderTriggerPriceType {
-  // 最新价
-  COTPT_LAST_PRICE = 0;
-  // 买一价
-  COTPT_BID_PRICE = 1;
-  // 卖一价
-  COTPT_ASK_PRICE = 2;
-}
-
-// 条件单触发方式
-enum ConditionOrderTriggerType {
-  // 大于等于
-  COTT_GREATER_THAN_OR_EQUAL = 0;
-  // 小于等于
-  COTT_LESS_THAN_OR_EQUAL = 1;
-}
-
-// 发送委托价格类型
-enum SendOrderPriceType {
-  // 对手价
-  SOPT_BID_ASK = 0;
-  // 市价
-  SOPT_MARKET = 1;
-  // 超价
-  SOPT_BID_ASK_MINUS = 2;
-}
-
-// ConditionOrder 条件单
-message ConditionOrder {
-  // 编号
-  int64 id = 1;
-  // 账号
-  string account = 2;
-  // 合约代码
-  Symbol symbol = 3;
-  // 持仓方向
-  OrderDirection position_direction = 4;
-  // 条件单方向
-  OrderDirection direction = 5;
-  // 开平标志
-  OffsetFlag offset_flag = 6;
-  // 合约名称
-  string symbol_name = 7;
-  // 合约乘数
-  int32 volume_multiple = 8;
-  // 品种代码
-  ProductID product_id = 9;
-  // 波动点
-  double price_tick = 10;
-  // 是否触发
-  bool triggered = 11;
-  // 触发时间
-  int64 triggered_time = 12;
-  // 数量
-  double volume = 13;
-  // 委托价格
-  double price = 14;
-  // 触发条件价格.
-  double trigger_condition_price = 15;
-  // 触发价格类型. 最新价， 买一价， 卖一价
-  ConditionOrderTriggerPriceType trigger_price_type = 16;
-  // 触发方式. 大于等于，小于等于
-  ConditionOrderTriggerType trigger_type = 17;
-  // 发单价格方式. 对手，市价
-  SendOrderPriceType send_order_price_type = 18;
-  // 委托结果
-  string send_result = 19;
-  // 创建时间
-  int64 create_time = 20;
-  // 标记
-  string tag = 21;
-  // 截止时间
-  int64 deadline = 22;
-  // sg
-  int32 settlement_group = 23;
-  // stoploss
-  bool stop_loss = 24;
-  // 客户端ip
-  string ip = 25;
-  // 客户端mac
-  string mac = 26;
-  // 用户名
-  string user_name = 27;
-  // 用户编号
-  string user = 70;
-}
-
-// TradeCmdType 指令类型
-enum TradeCmdType {
-  TCT_ORDER = 0;
-  TCT_CANCEL = 1;
-  TCT_QUERY_BALANCE = 2;
-  TCT_QUERY_POSITION_DETAIL = 3;
-}
-
-// TradeCmd 交易指令
-message TradeCmd {
-  TradeCmdType type = 1;
-  bytes data = 2;
-  int64 node_id = 3;
-  int64 request_id = 4;
-}
-
-message DemoOrder {
-  Order order = 1;
-  double upper_limit_price = 2;
-  double lower_limit_price = 3;
-  int32 min_limit_order_volume = 4;
-  int32 min_market_order_volume = 5;
-  MarketTimeRule time_rule = 6;
-  int32 update_trading_day = 7;
 }

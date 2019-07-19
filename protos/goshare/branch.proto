@@ -1,6 +1,7 @@
 
 syntax = "proto3";
-package pb;
+package goshare;
+option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
 
 // 单纯树形结构体
 message BranchTreeNode {
