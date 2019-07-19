@@ -216,9 +216,9 @@ func parseSinaOptionTick(body string) (*pb.MarketDataSnapshot, string, error) {
 }
 
 // getSSEOptionTick 根据合约获取单个期权合约的tick数据
-func getSSEOptionTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func getSSEOptionTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
 	//ret := &pb.MarketDataSnapshot{}
-	resp, err := http.Get("http://hq.sinajs.cn/list=CON_OP_" + symbol.Code)
+	resp, err := http.Get("http://hq.sinajs.cn/list=CON_OP_" + symbol)
 	if err == nil {
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
@@ -262,11 +262,11 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error)
 }
 
 // GetSSEStockOptionTick 取所有行情
-func (s *Spider) GetSSEStockOptionTick(symbols []pb.Symbol) ([]pb.MarketDataSnapshot, error) {
+func (s *Spider) GetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	all := "http://hq.sinajs.cn/list="
 	for _, value := range symbols {
-		all = all + "CON_OP_" + value.Code + ","
+		all = all + "CON_OP_" + value + ","
 	}
 	resp, err := http.Get(all)
 	if err != nil {
@@ -346,13 +346,13 @@ func parseSinaTime(layout, value string) int64 {
 }
 
 // getStockLastTick 取股票最新报价
-func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func getStockLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	exstr := "sh"
-	if symbol.Exchange == pb.ExchangeType_SZE {
+	if ex == "SZE" {
 		exstr = "sz"
 	}
-	tickArr := getRawTickString(exstr, symbol.Code)
+	tickArr := getRawTickString(exstr, symbol)
 	if tickArr == nil || len(tickArr) < 38 {
 		return nil, errors.New("ErrGetStockTick")
 	}
@@ -364,10 +364,10 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 			ret.TradingDay = int32(td)
 		}
 		ret.Exchange = "SSE"
-		if symbol.Exchange == pb.ExchangeType_SZE {
+		if ex == "SZE" {
 			ret.Exchange = "SZE"
 		}
-		ret.Symbol = symbol.Code
+		ret.Symbol = symbol
 		ret.Price = util.ParseFloat(tickArr[3])
 		ret.Close = ret.Price
 		ret.PreClose = util.ParseFloat(tickArr[4])
@@ -409,16 +409,16 @@ func getStockLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
 }
 
 // GetIndexLastTick 指数行情
-func (s *Spider) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
+func (s *Spider) GetIndexLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
-	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol.Code)
+	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol)
 	if err == nil {
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err == nil {
 			tickArr := strings.Split(string(body), ",")
 			//sym := strings.Split(string(tickArr[0]), "=")
-			ret.Symbol = symbol.Code
+			ret.Symbol = symbol
 			ret.Price = util.ParseFloat(tickArr[1])
 			ret.Close = ret.Price
 			return ret, nil
@@ -428,19 +428,19 @@ func (s *Spider) GetIndexLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, er
 }
 
 // GetLastTick 获取最新报价
-func (s *Spider) GetLastTick(symbol *pb.Symbol) (*pb.MarketDataSnapshot, error) {
-	if symbol.Exchange == pb.ExchangeType_SSE || symbol.Exchange == pb.ExchangeType_SZE {
-		if symbol.Exchange == pb.ExchangeType_SSE && strings.Index(symbol.Code, "1000") == 0 {
+func (s *Spider) GetLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
+	if ex == "SSE" || ex == "SZE" {
+		if ex == "SSE" && strings.Index(symbol, "1000") == 0 {
 			// 上证50ETF期权tick
-			return getSSEOptionTick(symbol)
+			return getSSEOptionTick(ex, symbol)
 		}
 		// 股票tick
-		return getStockLastTick(symbol)
+		return getStockLastTick(ex, symbol)
 	}
 
-	if symbol.Exchange == pb.ExchangeType_INDEX {
+	if ex == "INDEX" {
 		// 指数tick
-		return s.GetIndexLastTick(symbol)
+		return s.GetIndexLastTick(ex, symbol)
 	}
 	return nil, errors.New("unsported")
 }

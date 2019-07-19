@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/mineralres/goshare/pkg/util"
 	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	"github.com/mineralres/goshare/pkg/util"
 )
 
 // GetRealtimeMoneyTrendList 取实时资金流向. size 需要取的条数
@@ -41,7 +41,7 @@ func (s *Spider) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoneyTrendItem
 			items := strings.Split(*str, ",")
 			if len(items) > 14 {
 				var item pb.RealtimeMoneyTrendItem
-				item.Symbol.Code = items[1]
+				item.Symbol = items[1]
 				item.Name = items[2]
 				item.Price = util.ParseFloat(items[3])
 				item.UpdownPercentage = util.ParseFloat(items[4]) / 100
@@ -64,10 +64,10 @@ func (s *Spider) GetRealtimeMoneyTrendList(size int) (*pb.RealtimeMoneyTrendItem
 }
 
 // GetCNStockKData 股票K线.
-func (s *Spider) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
+func (s *Spider) GetCNStockKData(ex, symbol string, period pb.PeriodType, startTime, endTime int64, retryCount int) (*pb.KlineSeries, error) {
 	var ret pb.KlineSeries
 	et := 1
-	if symbol.Exchange == pb.ExchangeType_SZE {
+	if ex == "SZE" {
 		et = 2
 	}
 	ktype := "k" // d1
@@ -85,7 +85,7 @@ func (s *Spider) GetCNStockKData(symbol *pb.Symbol, period pb.PeriodType, startT
 
 	authorityType := "fa"
 
-	address := fmt.Sprintf("http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js?rtntype=5&id=%s%d&type=%s&authorityType=%s", symbol.Code, et, ktype, authorityType)
+	address := fmt.Sprintf("http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js?rtntype=5&id=%s%d&type=%s&authorityType=%s", symbol, et, ktype, authorityType)
 	// log.Println(address)
 	resp, err := http.Get(address)
 	if err != nil {

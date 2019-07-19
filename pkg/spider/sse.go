@@ -183,7 +183,7 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.Instrument, err
 		}
 
 		ti.PriceTick = 0.0001
-		ti.ProductType = "SSE_ETF_OPTION"
+		ti.ProductType = int32(pb.ProductType_SSE_ETF_OPTION)
 		ti.Multiple = int32(util.ParseInt(op.ContractUnit))
 		ti.Product = "SHOP"
 		ti.DistinguishPositionTimeType = false

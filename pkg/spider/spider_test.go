@@ -4,11 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"testing"
-
 	//"net/http"
 	//"io/ioutil"
 	//"strings"
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 )
 
 func init() {
@@ -28,23 +26,22 @@ func TestDataSource(t *testing.T) {
 		t.Error("获取上证50ETF期权列表失败")
 	}
 	jsonLog("上证50ETF期权列表[0]", l[0])
-	symbolList := []pb.Symbol{
-		pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "601398"},
-		pb.Symbol{Exchange: pb.ExchangeType_SZE, Code: "000001"},
+	symbolList := []string{
+		"601398",
 	}
 	for i := range symbolList {
 		// 获取最新盘口数据
-		md, err := ds.GetLastTick(&symbolList[i])
+		md, err := ds.GetLastTick("SSE", symbolList[i])
 		if err != nil {
 			t.Error(err)
 		}
-		if len(md.OrderBookList) == 0 {
+		if len(md.Depths) == 0 {
 			t.Error("获取行情盘口深度为空")
 		}
 		if md.Open == 0 {
 			t.Error("md.Open == 0")
 		}
-		log.Printf("[%s] Price:[%.4f]", md.Symbol.Code, md.Price)
+		log.Printf("[%s] Price:[%.4f]", md.Symbol, md.Price)
 	}
 
 }
@@ -62,16 +59,15 @@ func TestIndexTick(t *testing.T) {
 	}
 	var s Spider
 	for key, views := range m_index {
-		symbol := pb.Symbol{Exchange: pb.ExchangeType_INDEX, Code: views}
-		md, err := s.GetLastTick(&symbol)
+		md, err := s.GetLastTick("INDEX", views)
 		if err != nil {
 			t.Error(err)
 		}
 		if (md.Close) <= 0 {
 			t.Error("获取行情为空")
 		}
-		md.Symbol.Code = key
-		log.Printf("Tick[%s],Close[%.2f]", md.Symbol.Code, md.Close)
+		md.Symbol = key
+		log.Printf("Tick[%s],Close[%.2f]", md.Symbol, md.Close)
 	}
 }
 
@@ -84,15 +80,14 @@ func TestOptionSSETick(t *testing.T) {
 	syms := GetSina50EtfSym(sym)
 	for _, value := range syms {
 		//log.Printf("Index: %d  Value: %s\n", index, value)
-		symbol := pb.Symbol{Exchange: pb.ExchangeType_OPTION_SSE, Code: value}
-		md, err := s.GetLastTick(&symbol)
+		md, err := s.GetLastTick("SSE", value)
 		if err != nil {
 			t.Error(err)
 		}
 		if (md.Close) <= 0 {
 			t.Error("获取行情为空")
 		}
-		log.Printf("Tick[%s], Open[%.2f], High[%.2f], Low[%.2f], Close[%.2f]", md.Symbol.Code, md.Open, md.High, md.Low, md.Close)
+		log.Printf("Tick[%s], Open[%.2f], High[%.2f], Low[%.2f], Close[%.2f]", md.Symbol, md.Open, md.High, md.Low, md.Close)
 	}
 }
 
@@ -258,9 +253,9 @@ func TestGetSSEStockOptionList(t *testing.T) {
 		t.Fatalf("上证股票期权列表为空")
 	}
 
-	var symbols []pb.Symbol
+	var symbols []string
 	for i := range ret {
-		symbols = append(symbols, pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: ret[i].SecurityID})
+		symbols = append(symbols, ret[i].SecurityID)
 	}
 	mds, err := s.GetSSEStockOptionTick(symbols)
 	log.Println(mds, err)
