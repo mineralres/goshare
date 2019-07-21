@@ -20,4 +20,13 @@ message ReqInsertOrder {
   int32  price_type = 13;
 }
 
-message ReqCancelOrder {}
+// 撤单
+message ReqCancelOrder {
+  string ta_id      = 1;
+  string bu_id      = 2;
+  string exchange   = 3;
+  string symbol     = 4;
+  int32  front_id   = 5;
+  int32  session_id = 6;
+  string order_ref  = 7;
+}

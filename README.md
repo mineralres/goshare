@@ -22,6 +22,21 @@ goshare是一个开源的golang量化数据工具集合。(注意:项目当前�
 
 * 方便使用的UI, [goshare-ui](https://github.com/mineralres/goshare-ui)
 
+## 目录简介
+
+### pkg
+
+* pkg/api 尝试集成常用统一访问接口
+* pkg/hub 集成交易通道
+* pkg/pb  protobuf生成的文件
+* pkg/spider 抓取一些网站的数据
+* pkg/tdxclient TDX数据接口
+* pkg/util 实用函数
+
+### cmd
+
+* cmd/goshare  goshare演示项目
+* cmd/util/monitor  一个简单的监控股票价格并发送邮件的程序
 
 ## 使用
 

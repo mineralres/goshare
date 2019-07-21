@@ -40,16 +40,17 @@ var (
 )
 
 func Test_hub(t *testing.T) {
-	onOrder := func(do *hubpb.DemoOrder) {
+	opt := &DemoEnvOptions{}
+	opt.OnDemoOrder = func(do *hubpb.DemoOrder) {
 
 	}
-	onTrade := func(trade *gspb.Trade) {
+	opt.OnDemoTrade = func(trade *gspb.Trade) {
 
 	}
-	getUID := func() string {
+	opt.GetUID = func() string {
 		return ""
 	}
-	NewDemoEnv(onOrder, onTrade, getUID)
+	NewDemoEnv(opt)
 }
 
 func Test_sync(t *testing.T) {

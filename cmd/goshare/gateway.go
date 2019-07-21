@@ -1,4 +1,4 @@
-package gateway
+package main
 
 import (
 	"errors"
@@ -10,6 +10,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
 	"github.com/mineralres/goshare/pkg/util"
+
 	// pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/mineralres/goshare/pkg/api"
 )
@@ -38,7 +39,7 @@ var (
 
 // Gateway Gateway
 type Gateway struct {
-	dsList       []api.DataSource          // 常规数据
+	dsList  []api.DataSource // 常规数据
 	wsIndex int64
 }
 

@@ -40,11 +40,12 @@ message Trade {
   string trade_id           = 12;
   int64  traded_time        = 13;
   int32  traded_trading_day = 14;
-  string order_ref          = 15;
+  int32  front_id           = 15;
   int32  session_id         = 16;
-  string user_name          = 17;
-  string branch             = 18;
-  string branch_name        = 19;
-  int32  trade_type         = 20;
-  string exchange_order_id  = 21;
+  string order_ref          = 17;
+  string user_name          = 18;
+  string branch             = 19;
+  string branch_name        = 20;
+  int32  trade_type         = 21;
+  string exchange_order_id  = 22;
 }

@@ -15,47 +15,33 @@ import (
 	hubpb "github.com/mineralres/goshare/pkg/pb/hub"
 )
 
-// Env Env
-type Env struct {
+// DemoEnv DemoEnv
+type DemoEnv struct {
 	demoOrderList     []*hubpb.DemoOrder
 	demoOrderListLock sync.RWMutex
 	chDemoOrder       chan hubpb.DemoOrder
 	chTrade           chan pb.Trade
-	mapSymbol         map[string]*pb.Instrument
-	mapSymbolLock     sync.RWMutex
 	mapTick           map[string]*pb.MarketDataSnapshot
 	muMapTick         sync.RWMutex
 	orderDB           *leveldb.DB
-	getUID            func() string
+	options           *DemoEnvOptions
+}
+
+// DemoEnvOptions oiptions
+type DemoEnvOptions struct {
+	GetUID        func() string
+	OnDemoOrder   func(*hubpb.DemoOrder)
+	OnDemoTrade   func(*pb.Trade)
+	GetInstrument func(string) *pb.Instrument
 }
 
 func isDone(do *hubpb.DemoOrder) bool {
 	return do.VolumeTraded+do.VolumeCanceled == do.Volume
 }
 
-func (e *Env) getInstrument(instrumentID string) *pb.Instrument {
-	e.mapSymbolLock.RLock()
-	v, ok := e.mapSymbol[instrumentID]
-	e.mapSymbolLock.RUnlock()
-	if ok {
-		return v
-	}
-	return nil
-}
-
-// SetInstrument set instrument
-func (e *Env) SetInstrument(arr []*pb.Instrument) {
-	e.mapSymbolLock.Lock()
-	defer e.mapSymbolLock.Unlock()
-	for _, inst := range arr {
-		e.mapSymbol[inst.Symbol] = inst
-	}
-}
-
 // NewDemoEnv create demo env
-func NewDemoEnv(handleOrder func(*hubpb.DemoOrder), handleTrade func(*pb.Trade), getUID func() string) *Env {
-	ret := new(Env)
-	ret.getUID = getUID
+func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
+	ret := &DemoEnv{options: options}
 	ret.chDemoOrder = make(chan hubpb.DemoOrder, 1000)
 	ret.chTrade = make(chan pb.Trade, 1000)
 	var err error
@@ -98,10 +84,10 @@ func NewDemoEnv(handleOrder func(*hubpb.DemoOrder), handleTrade func(*pb.Trade),
 					ret.orderDB.Put([]byte(key), d, nil)
 					log.Println("保存到缓存", do.Symbol)
 				}
-				handleOrder(&do)
+				options.OnDemoOrder(&do)
 			case tr := <-ret.chTrade:
 				log.Println(tr)
-				handleTrade(&tr)
+				options.OnDemoTrade(&tr)
 			}
 		}
 	}()
@@ -119,7 +105,7 @@ func getMarketStatus(rule []*pb.MarketStatus) *pb.MarketStatus {
 }
 
 // InsertDemoOrder 发送模拟
-func (e *Env) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
+func (e *DemoEnv) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 	e.demoOrderListLock.Lock()
 	defer e.demoOrderListLock.Unlock()
 	for _, do := range e.demoOrderList {
@@ -127,7 +113,7 @@ func (e *Env) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 			return errors.New("禁止重复报单")
 		}
 	}
-	inst := e.getInstrument(req.Symbol)
+	inst := e.options.GetInstrument(req.Symbol)
 	if inst == nil {
 		return errors.New("[模拟]没有找到交易合约")
 	}
@@ -168,7 +154,7 @@ func (e *Env) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 	order.PriceType = req.PriceType
 	order.TimeRule = inst.TimeRule
 	order.SendTime = time.Now().Unix()
-	order.DemoOrderId = e.getUID()
+	order.DemoOrderId = e.options.GetUID()
 
 	e.chDemoOrder <- *order
 	e.demoOrderList = append(e.demoOrderList, order)
@@ -180,7 +166,7 @@ func (e *Env) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 	return nil
 }
 
-func (e *Env) getTick(symbol string) *pb.MarketDataSnapshot {
+func (e *DemoEnv) getTick(symbol string) *pb.MarketDataSnapshot {
 	e.muMapTick.RLock()
 	defer e.muMapTick.RUnlock()
 	v, ok := e.mapTick[symbol]
@@ -191,14 +177,14 @@ func (e *Env) getTick(symbol string) *pb.MarketDataSnapshot {
 }
 
 // PushTick 收行情算成交
-func (e *Env) PushTick(rtn *pb.MarketDataSnapshot) {
+func (e *DemoEnv) PushTick(rtn *pb.MarketDataSnapshot) {
 	e.muMapTick.Lock()
 	e.mapTick[rtn.Symbol] = rtn
 	e.muMapTick.Unlock()
 }
 
 // CheckDemoTrade 检查成交
-func (e *Env) CheckDemoTrade(mds *pb.MarketDataSnapshot) {
+func (e *DemoEnv) CheckDemoTrade(mds *pb.MarketDataSnapshot) {
 	if len(mds.Depths) == 0 {
 		log.Println("CheckDemoTrade", mds.Symbol, mds.Price, mds.Depths)
 	}
@@ -211,7 +197,7 @@ func (e *Env) CheckDemoTrade(mds *pb.MarketDataSnapshot) {
 	}
 }
 
-func (e *Env) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoOrder) {
+func (e *DemoEnv) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoOrder) {
 	order := do
 	if order.SendTradingDay != mds.TradingDay {
 		return
@@ -414,8 +400,8 @@ func (e *Env) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoOrder
 						var s1, s2 pb.Symbol
 						if base.ParseCombinationSymbol(&mds.Symbol, &s1, &s2) {
 							var mds1, mds2 *pb.MarketDataSnapshot
-							mds1 = p.tp.GetLastTick(&s1)
-							mds2 = p.tp.GetLastTick(&s2)
+							mds1 = e.te.GetLastTick(&s1)
+							mds2 = e.te.GetLastTick(&s2)
 							if mds1 != nil && mds2 != nil && err == nil {
 								tr1 := tr
 								tr1.Symbol = s1
@@ -429,15 +415,15 @@ func (e *Env) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoOrder
 									tr2.Direction = int32(pb.DirectionType_LONG)
 								}
 								// 涨跌停检查和调整.
-								tr1.TradeId, _ = p.redisClient.GetUniqueString()
-								tr2.TradeId, _ = p.redisClient.GetUniqueString()
-								p.trChan <- tr1
-								p.trChan <- tr2
+								tr1.TradeId, _ = e.redisClient.GetUniqueString()
+								tr2.TradeId, _ = e.redisClient.GetUniqueString()
+								e.trChan <- tr1
+								e.trChan <- tr2
 							}
 						}
 					*/
 				} else {
-					tr.TradeId = e.getUID()
+					tr.TradeId = e.options.GetUID()
 					rtn := tr
 					e.chTrade <- rtn
 					log.Printf("DemoUTC trade index[%d], volume[%d], isCombine[%t], tradedTime[%d], mdsTime[%d] symbol[%s] tradeid[%s]", i, tr.Volume,
@@ -446,4 +432,31 @@ func (e *Env) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoOrder
 			}
 		}
 	}
+}
+
+// CancelDemoOrder cancel demo order
+func (e *DemoEnv) CancelDemoOrder(req *hubpb.ReqCancelOrder) error {
+	e.demoOrderListLock.Lock()
+	defer e.demoOrderListLock.Unlock()
+	for _, do := range e.demoOrderList {
+		order := do
+		if req.FrontId == do.FrontId && req.SessionId == do.SessionId && req.OrderRef == do.OrderRef {
+			if order.Status == int32(pb.OrderStatus_DONE) {
+				return errors.New("已成交不能撤单")
+			} else if order.Status == int32(pb.OrderStatus_CANCELED) {
+				return errors.New("已撤单不能再撤")
+			}
+			ms := getMarketStatus(do.TimeRule)
+			if !ms.Cancel {
+				log.Println("CancelDemoOrder 当前状态不能撤单", do.DemoOrderId)
+				return errors.New("当前状态不能撤单")
+			}
+			order.Status = int32(pb.OrderStatus_CANCELED)
+			order.VolumeCanceled = order.Volume - order.VolumeTraded
+			log.Println("CancelDemoOrder 撤单成功", do.DemoOrderId)
+			e.chDemoOrder <- *do
+			return nil
+		}
+	}
+	return errors.New("notfound")
 }

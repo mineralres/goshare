@@ -10,8 +10,6 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/mineralres/goshare/pkg/gateway"
 )
 
 func main() {
@@ -36,12 +34,10 @@ func main() {
 		}
 	}()
 
-	// 开启服务
-	go runSrv(&c)
 	// 开启gin api router
 	go func() {
 		time.Sleep(time.Millisecond * 100)
-		gw := gateway.NewGateway()
+		gw := NewGateway()
 		gw.Run("./ui-release", 9090)
 	}()
 	ch := make(chan os.Signal, 1)
