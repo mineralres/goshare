@@ -37,7 +37,7 @@ func (pkt *Packet) Get1(p1 proto.Message) error {
 // Get2 get 2 param
 func (pkt *Packet) Get2(p1 proto.Message, p2 proto.Message) error {
 	if len(pkt.BodyList) < 2 {
-		log.Println("len(pkt.BodyList) < 2")
+		log.Println("len(pkt.BodyList) < 2", pkt.MsgType)
 		return errors.New("len(pkt.BodyList) < 2")
 	}
 	if err := proto.Unmarshal(pkt.BodyList[0], p1); err != nil {

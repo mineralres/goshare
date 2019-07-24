@@ -62,7 +62,9 @@ func Test_sync(t *testing.T) {
 	}
 	log.Println("c", c)
 	var requestID int32
-	adapter, err := NewSyncAdapter("47.100.1.102:8205", timeout, c.Fronts)
+	adapter, err := NewSyncAdapter("47.100.1.102:8205", timeout, c.Fronts, func(pkt *Packet) {
+		log.Println(ctp.CtpMessageType(pkt.MsgType))
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -220,49 +222,15 @@ func Test_async(t *testing.T) {
 }
 
 func Test_md(t *testing.T) {
-	return
-	sig := make(chan interface{})
-	var requestID int32
-	var adapter *Adapter
-	var err error
-	adapter, err = NewAdapter("47.100.1.102:8213", timeout, func(pkt *Packet) {
-		switch ctp.CtpMessageType(pkt.MsgType) {
-		case ctp.CtpMessageType_MD_OnRspSubMarketData:
-		case ctp.CtpMessageType_MD_OnRtnDepthMarketData:
-			var rtn ctp.CThostFtdcDepthMarketDataField
-			if err := pkt.Get1(&rtn); err == nil {
-				log.Println(rtn)
-			}
-		case ctp.CtpMessageType_MD_OnFrontConnected:
-			var req ctp.CThostFtdcReqUserLoginField
-			req.UserID = "test"
-			requestID++
-			adapter.Post(int32(ctp.CtpMessageType_MD_ReqUserLogin), &req, requestID)
-		case ctp.CtpMessageType_MD_OnRspUserLogin:
-			var rsp ctp.CThostFtdcRspUserLoginField
-			var rspInfo ctp.CThostFtdcRspInfoField
-			if err := pkt.Get2(&rsp, &rspInfo); err == nil {
-				// log.Println(rspInfo.ErrorID, util.StringFromGBK2(rspInfo.ErrorMsg))
-			}
-			var req ctp.CThostFtdcReqSubscribeMarketData
-			req.Instruments = append(req.Instruments, "ru1909")
-			req.Instruments = append(req.Instruments, "IF1907")
-			req.Instruments = append(req.Instruments, "SR909")
-			requestID++
-			adapter.Post(int32(ctp.CtpMessageType_MD_SubscribeMarketData), &req, requestID)
-		default:
-			log.Println(ctp.CtpMessageType(pkt.MsgType), len(pkt.BodyList))
-		}
+	var fronts []string
+	fronts = append(fronts, "tcp://182.131.17.103:41168")
+	s, err := NewSubscriber("47.100.1.102:8213", "test", "", fronts, time.Second*3, func(rtn *ctp.CThostFtdcDepthMarketDataField) {
+		log.Println(rtn)
 	})
 	if err != nil {
 		panic(err)
 	}
-	// md
-	var req ctp.CThostFtdcReqRegisterFrontField
-	req.Fronts = append(req.Fronts, "tcp://182.131.17.103:41168")
-	requestID++
-	adapter.Post(int32(ctp.CtpMessageType_MD_RegisterFront), &req, requestID)
-	requestID++
-	adapter.Post(int32(ctp.CtpMessageType_MD_Init), nil, requestID)
-	<-sig
+	s.Subscribe("SHFE", "ru1909")
+	s.Subscribe("CFFEX", "IF1908")
+	<-time.After(time.Second * 60)
 }

@@ -96,12 +96,13 @@ func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
 
 func getMarketStatus(rule []*pb.MarketStatus) *pb.MarketStatus {
 	t := time.Now().Unix() % 86400
+	ret := &pb.MarketStatus{}
 	for _, r := range rule {
 		if t >= r.Time {
-			return r
+			ret = r
 		}
 	}
-	return &pb.MarketStatus{}
+	return ret
 }
 
 // InsertDemoOrder 发送模拟
@@ -118,6 +119,7 @@ func (e *DemoEnv) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 		return errors.New("[模拟]没有找到交易合约")
 	}
 	ms := getMarketStatus(inst.TimeRule)
+	log.Println(req.Symbol, ms)
 	if !ms.Send {
 		return errors.New("当前状态禁止报单")
 	}
@@ -155,6 +157,7 @@ func (e *DemoEnv) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 	order.TimeRule = inst.TimeRule
 	order.SendTime = time.Now().Unix()
 	order.DemoOrderId = e.options.GetUID()
+	order.Status = int32(pb.OrderStatus_PENDING)
 
 	e.chDemoOrder <- *order
 	e.demoOrderList = append(e.demoOrderList, order)
@@ -441,12 +444,11 @@ func (e *DemoEnv) CancelDemoOrder(req *hubpb.ReqCancelOrder) error {
 	for _, do := range e.demoOrderList {
 		order := do
 		if req.FrontId == do.FrontId && req.SessionId == do.SessionId && req.OrderRef == do.OrderRef {
-			if order.Status == int32(pb.OrderStatus_DONE) {
-				return errors.New("已成交不能撤单")
-			} else if order.Status == int32(pb.OrderStatus_CANCELED) {
-				return errors.New("已撤单不能再撤")
+			if isDone(do) {
+				return errors.New("当前状态不能撤单")
 			}
 			ms := getMarketStatus(do.TimeRule)
+			log.Println(req.Symbol, ms)
 			if !ms.Cancel {
 				log.Println("CancelDemoOrder 当前状态不能撤单", do.DemoOrderId)
 				return errors.New("当前状态不能撤单")
