@@ -40,6 +40,9 @@ func NewSubscriber(host, account, password string, fronts []string, timeout time
 				adapter, err = createAdapter(host, account, password, fronts, timeout, xontick)
 				if err == nil {
 					subscriber.mu.Lock()
+					if subscriber.adapter != nil {
+						subscriber.adapter.Close()
+					}
 					subscriber.adapter = adapter
 					subscriber.lastTickTime = time.Now().Unix()
 					m2 := subscriber.mapInstrument
@@ -101,7 +104,7 @@ func createAdapter(host, account, password string, fronts []string, timeout time
 func (s *Subscriber) isOK() bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	return !(s.adapter.closed || time.Now().Unix()-s.lastTickTime > 60)
+	return !(s.adapter == nil || s.adapter.closed || time.Now().Unix()-s.lastTickTime > 60)
 }
 
 // Subscribe quote

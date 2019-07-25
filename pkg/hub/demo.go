@@ -42,6 +42,7 @@ func isDone(do *hubpb.DemoOrder) bool {
 // NewDemoEnv create demo env
 func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
 	ret := &DemoEnv{options: options}
+	ret.mapTick = make(map[string]*pb.MarketDataSnapshot)
 	ret.chDemoOrder = make(chan hubpb.DemoOrder, 1000)
 	ret.chTrade = make(chan pb.Trade, 1000)
 	var err error
@@ -66,7 +67,7 @@ func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
 	}
 	iter.Release()
 
-	log.Println("从缓存中读取", len(ret.demoOrderList), err)
+	log.Println("[demo] 从缓存中读取", len(ret.demoOrderList), err)
 
 	go func() {
 		for {
@@ -184,6 +185,7 @@ func (e *DemoEnv) PushTick(rtn *pb.MarketDataSnapshot) {
 	e.muMapTick.Lock()
 	e.mapTick[rtn.Symbol] = rtn
 	e.muMapTick.Unlock()
+	e.CheckDemoTrade(rtn)
 }
 
 // CheckDemoTrade 检查成交
@@ -461,4 +463,15 @@ func (e *DemoEnv) CancelDemoOrder(req *hubpb.ReqCancelOrder) error {
 		}
 	}
 	return errors.New("notfound")
+}
+
+// CurrentDemoOrderList do list
+func (e *DemoEnv) CurrentDemoOrderList() []hubpb.DemoOrder {
+	var ret []hubpb.DemoOrder
+	e.demoOrderListLock.Lock()
+	defer e.demoOrderListLock.Unlock()
+	for _, do := range e.demoOrderList {
+		ret = append(ret, *do)
+	}
+	return ret
 }
