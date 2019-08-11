@@ -8,6 +8,9 @@ rm ../pkg/pb/ctp/*.go
 rm ../pkg/pb/hub/*.go
 ./protoc -I=../protos --go_out=../../../../ ../protos/hub/*.proto
 
+rm ../pkg/pb/spider/*.go
+./protoc -I=../protos --go_out=../../../../ ../protos/spider/*.proto
+
 rm ../cpp/ctp/*.h
 rm ../cpp/ctp/*.cc
 ./protoc -I=../protos/ctp --cpp_out=../cpp/ctp ../protos/ctp/*.proto

@@ -2,10 +2,9 @@ package tdxclient
 
 import (
 	"bytes"
-	"compress/zlib"
 	"encoding/binary"
 	"errors"
-	"io"
+	"fmt"
 	"log"
 	"net"
 	"strings"
@@ -16,124 +15,64 @@ import (
 	"github.com/mineralres/goshare/pkg/util"
 )
 
+var (
+	exGetMarketsCmd            = []byte{0x01, 0x02, 0x48, 0x69, 0x00, 0x01, 0x02, 0x00, 0x02, 0x00, 0xf4, 0x23} // 查询市场列表
+	exGetInstrumentBarCountCmd = []byte{0x01, 0x03, 0x48, 0x66, 0x00, 0x01, 0x02, 0x00, 0x02, 0x00, 0xf0, 0x23} // 查询合约数量
+	exSetupCmd1                = []byte{0x01, 0x01, 0x48, 0x65, 0x00, 0x01, 0x52, 0x00, 0x52, 0x00, 0x54, 0x24, // 初始化连接
+		0x1f, 0x32, 0xc6, 0xe5, 0xd5, 0x3d, 0xfb, 0x41, 0x1f, 0x32, 0xc6, 0xe5, 0xd5, 0x3d, 0xfb, 0x41, 0x1f, 0x32,
+		0xc6, 0xe5, 0xd5, 0x3d, 0xfb, 0x41, 0x1f, 0x32, 0xc6, 0xe5, 0xd5, 0x3d, 0xfb, 0x41, 0x1f, 0x32, 0xc6, 0xe5,
+		0xd5, 0x3d, 0xfb, 0x41, 0x1f, 0x32, 0xc6, 0xe5, 0xd5, 0x3d, 0xfb, 0x41, 0x1f, 0x32, 0xc6, 0xe5, 0xd5, 0x3d,
+		0xfb, 0x41, 0x1f, 0x32, 0xc6, 0xe5, 0xd5, 0x3d, 0xfb, 0x41, 0xcc, 0xe1, 0x6d, 0xff, 0xd5, 0xba, 0x3f, 0xb8,
+		0xcb, 0xc5, 0x7a, 0x05, 0x4f, 0x77, 0x48, 0xea}
+)
+
+type requestType struct {
+	klineType   TdxKlineType
+	requestID   int64
+	handlerFunc interface{}
+}
+
+type tdxResponse struct {
+	h    header
+	body []byte
+}
+
 // SyncExternClient SyncExternClient
 type SyncExternClient struct {
-	sync.RWMutex
-	ready      bool
-	address    string
-	conn       net.Conn
-	marketList []ExtRspQryMarket
+	mu             sync.RWMutex
+	ready          bool
+	host           string
+	conn           net.Conn
+	marketList     []ExtRspQryMarket
+	referenceCount int
 }
 
-func makeSyncExternClient(address string) *SyncExternClient {
-	return &SyncExternClient{address: address}
-}
-
-// connect
-func (c *SyncExternClient) init() {
-	connect := func() {
-		c.Lock()
-		defer c.Unlock()
-		if c.ready {
-			return
-		}
-		c.ready = false
-		conn, err := net.DialTimeout("tcp", c.address, time.Second*3)
-		if err != nil {
-			log.Printf("[%s] 连接失败 [%v]", c.address, err)
-			return
-		}
-		n, err := conn.Write(exSetupCmd1)
-		if err != nil || n != len(exSetupCmd1) {
-			c.ready = false
-			return
-		}
-		c.conn = conn
-		resp, err := c.read()
-		if err != nil {
-			c.ready = false
-		}
-		c.ready = true
-		log.Printf("[%s]连接成功,funcID:[0x%x], %v", c.address, resp.h.F2, err)
-	}
-	connect()
-	l, err := c.GetMarketList()
+// NewSyncExternClient create new sync extern client
+func NewSyncExternClient(host string, timeout time.Duration) (*SyncExternClient, error) {
+	c := &SyncExternClient{host: host}
+	conn, err := net.DialTimeout("tcp", c.host, timeout)
 	if err != nil {
-		c.ready = false
-		log.Println(err)
+		log.Printf("[%s] 连接失败 [%v]", c.host, err)
+		return c, err
 	}
-	c.marketList = l
-}
-
-func (c *SyncExternClient) read() (*tdxResponse, error) {
-	conn := c.conn
-	conn.SetReadDeadline(time.Now().Add(time.Second * 15))
-	var h header
-	headerBuf := make([]byte, 16)
-	readed := 0
-	for {
-		n, err := conn.Read(headerBuf[readed:])
-		if err != nil {
-			c.ready = false
-			log.Println(err)
-			return nil, err
-		}
-		readed += n
-		if readed >= len(headerBuf) {
-			err = unmarshal(headerBuf, &h)
-			if err != nil {
-				log.Println("invalid ex tdx header")
-				c.ready = false
-				return nil, err
-			}
-			break
-		}
+	_, err = conn.Write(exSetupCmd1)
+	if err != nil {
+		return c, err
 	}
-	body := make([]byte, h.ZipSize)
-	readed = 0
-	for {
-		n, err := conn.Read(body[readed:])
-		if err != nil {
-			c.ready = false
-			return nil, err
-		}
-		readed += n
-		if readed >= int(h.ZipSize) {
-			break
-		}
-	}
-	if h.ZipSize != h.UnzipSize {
-		// log.Println("需要解压")
-		r, err := zlib.NewReader(bytes.NewReader(body))
-		if err != nil {
-			log.Println(err, len(body), h, readed)
-			c.ready = false
-			return nil, err
-		}
-		unzipBuf := &bytes.Buffer{}
-		io.Copy(unzipBuf, r)
-		r.Close()
-		if unzipBuf.Len() != int(h.UnzipSize) {
-			log.Printf("unzipBuf.Len(%d) != h.unzipSize(%d)", unzipBuf.Len(), h.UnzipSize)
-			panic("unzipBuf.Len() != h.unzipSize")
-		}
-		body = unzipBuf.Bytes()
-		// log.Printf("解压成功 srclen[%d] destlen[%d]", len(body), unzipBuf.Len())
+	c.conn = conn
+	resp, err := read(conn)
+	if err != nil {
+		return c, err
 	}
 	c.ready = true
-	return &tdxResponse{h: h, body: body}, nil
-}
-
-func (c *SyncExternClient) write(b []byte) (int, error) {
-	n, err := c.conn.Write(b)
+	log.Printf("[%s]连接成功,funcID:[0x%x], %v", c.host, resp.h.F2, err)
+	l, err := c.GetMarketList()
 	if err != nil {
+		return c, err
 		c.ready = false
-		return n, err
 	}
-	if n != len(b) {
-		panic("n != len(b)")
-	}
-	return n, err
+	c.marketList = l
+	return c, nil
 }
 
 // GetInstrumentCount 合约数量
@@ -141,11 +80,11 @@ func (c *SyncExternClient) GetInstrumentCount() (int, error) {
 	if !c.ready {
 		return 0, errors.New("unready")
 	}
-	c.Lock()
-	defer c.Unlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	// 前四个字段等于F2 小端
-	c.write(exGetInstrumentBarCountCmd)
-	resp, err := c.read()
+	c.conn.Write(exGetInstrumentBarCountCmd)
+	resp, err := read(c.conn)
 	if resp.h.F2 != 0x66480301 {
 		return 0, errors.New("resp.h.F2 != 0x66480301")
 	}
@@ -155,7 +94,7 @@ func (c *SyncExternClient) GetInstrumentCount() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	// log.Printf("[%s]查询合约数量[%d]", c.address, rsp.Count)
+	// log.Printf("[%s]查询合约数量[%d]", c.host, rsp.Count)
 	return int(rsp.Count), nil
 }
 
@@ -164,13 +103,13 @@ func (c *SyncExternClient) GetMarketList() ([]ExtRspQryMarket, error) {
 	if !c.ready {
 		return nil, errors.New("unready")
 	}
-	c.Lock()
-	defer c.Unlock()
-	n, err := c.write(exGetMarketsCmd)
-	if err != nil || n != len(exGetMarketsCmd) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	_, err := c.conn.Write(exGetMarketsCmd)
+	if err != nil {
 		return nil, err
 	}
-	resp, err := c.read()
+	resp, err := read(c.conn)
 	if err != nil {
 		return nil, err
 	}
@@ -203,16 +142,18 @@ func (c *SyncExternClient) GetMarketList() ([]ExtRspQryMarket, error) {
 // GetInstrumentInfo 合约信息
 func (c *SyncExternClient) GetInstrumentInfo(start uint32, count uint16) ([]RspGetInstrumentInfo, error) {
 	log.Println("GetInstrumentInfo start", start, count)
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	var req ReqGetInstrumentInfo
 	req.Start = start
 	req.Count = count
 	cmd := []byte{0x01, 0x04, 0x48, 0x67, 0x00, 0x01, 0x08, 0x00, 0x08, 0x00, 0xf5, 0x23}
 	cmd = append(cmd, marshal(req)...)
-	n, err := c.write(cmd)
-	if err != nil || n != len(cmd) {
+	_, err := c.conn.Write(cmd)
+	if err != nil {
 		return nil, err
 	}
-	resp, err := c.read()
+	resp, err := read(c.conn)
 	if err != nil {
 		return nil, err
 	}
@@ -246,11 +187,11 @@ func (c *SyncExternClient) GetLastTick(ex, symbol string) (*pb.MarketDataSnapsho
 
 	cmd := []byte{0x01, 0x01, 0x08, 0x02, 0x02, 0x01, 0x0c, 0x00, 0x0c, 0x00, 0xfa, 0x23}
 	cmd = append(cmd, marshal(req)...)
-	_, err := c.write(cmd)
+	_, err := c.conn.Write(cmd)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.read()
+	resp, err := read(c.conn)
 	if err != nil {
 		return nil, err
 	}
@@ -296,4 +237,189 @@ func (c *SyncExternClient) GetLastTick(ex, symbol string) (*pb.MarketDataSnapsho
 		return &ret, errors.New("InvalidSymbol")
 	}
 	return &ret, nil
+}
+
+// GetInstrumentBars 查询K线
+func (c *SyncExternClient) GetInstrumentBars(req *ReqGetInstrumentBars) ([]*TdxKline, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	var err error
+	var ret []*TdxKline
+	if req.Code == "" {
+		err = errors.New("invvalid code")
+		return ret, err
+	}
+	if req.Category > TdxKlineType_DAILY && req.Category != TdxKlineType_EXHQ_1MIN {
+		err = errors.New("unsported period")
+		log.Println(err)
+		return ret, err
+	}
+	cmd := []byte{0x01, 0x01, 0x08, 0x6a, 0x01, 0x01, 0x16, 0x00, 0x16, 0x00, 0xff, 0x23}
+	cmd = append(cmd, marshal(req)...)
+	c.conn.SetDeadline(time.Now().Add(time.Second * 15))
+	_, err = c.conn.Write(cmd)
+	if err != nil {
+		return ret, err
+	}
+	resp, err := read(c.conn)
+	// 前18个字节没解析
+	body := resp.body[18:]
+	var num uint16
+	reader := bytes.NewReader(body)
+	binary.Read(reader, binary.LittleEndian, &num)
+	pos := 2
+	for i := 0; i < int(num); i++ {
+		y, m, d, h, min := getDateTime(req.Category, body[pos:])
+		var kline TdxKline
+		err := unmarshal(body[pos+4:], &kline)
+		if err != nil {
+			panic(err)
+		}
+		v, err := time.Parse("20060102 15:04", fmt.Sprintf("%04d%02d%02d %02d:%02d", y, m, d, h, min))
+		// log.Println("扩展行情查询K线", y, m, d, h, min, kline, num, i, err, v)
+		if err == nil {
+			kline.Time = v.Unix() - 3600*8
+		}
+		pos += 32
+		ret = append(ret, &kline)
+	}
+	return ret, nil
+}
+
+// GetMinuteTimeData 查询分时数据
+func (c *SyncExternClient) GetMinuteTimeData(market uint8, code string) ([]*RspGetMinuteTimeData, error) {
+	var ret []*RspGetMinuteTimeData
+	req := ReqGetMinuteTimeData{Market: market, Code: code}
+	cmd := []byte{0x01, 0x07, 0x08, 0x00, 0x01, 0x01, 0x0c, 0x00, 0x0c, 0x00, 0x0b, 0x24}
+	cmd = append(cmd, marshal(req)...)
+	_, err := c.conn.Write(cmd)
+	if err != nil {
+		return ret, err
+	}
+	resp, err := read(c.conn)
+	if err != nil {
+		return ret, err
+	}
+	var rsp RspGetMinuteTimeDataHeader
+	err = unmarshal(resp.body, &rsp)
+	if err != nil {
+		log.Println(err)
+		return ret, err
+	}
+	pos := 12
+	for i := 0; i < int(rsp.Count); i++ {
+		var item RspGetMinuteTimeData
+		err = unmarshal(resp.body[pos:], &item)
+		// hour := (item.Time / 60)
+		// minute := (item.Time % 60)
+		// log.Println("分时", hour, minute, item)
+		pos += 18
+		ret = append(ret, &item)
+	}
+	return ret, nil
+}
+
+// GetHistoryMinuteTimeData 查询历史分时
+func (c *SyncExternClient) GetHistoryMinuteTimeData(market uint8, code string, date uint32) ([]*RspGetMinuteTimeData, error) {
+	var ret []*RspGetMinuteTimeData
+	req := ReqGetHistoryMinuteTimeData{Market: market, Code: code, Date: date}
+	cmd := []byte{0x01, 0x01, 0x30, 0x00, 0x01, 0x01, 0x10, 0x00, 0x10, 0x00, 0x0c, 0x24}
+	cmd = append(cmd, marshal(req)...)
+	_, err := c.conn.Write(cmd)
+	if err != nil {
+		return ret, err
+	}
+	resp, err := read(c.conn)
+	if err != nil {
+		return ret, err
+	}
+	var rsp RspGetHistoryMinuteTimeDataHeader
+	err = unmarshal(resp.body, &rsp)
+	if err != nil {
+		log.Println(err)
+		return ret, err
+	}
+	pos := 20
+	for i := 0; i < int(rsp.Count); i++ {
+		var item RspGetMinuteTimeData
+		err = unmarshal(resp.body[pos:], &item)
+		hour := (item.Time / 60)
+		minute := (item.Time % 60)
+		log.Println("分时", hour, minute, item)
+		pos += 18
+	}
+	return ret, nil
+}
+
+// GetTransactionData 查询分笔数据
+func (c *SyncExternClient) GetTransactionData(market uint8, code string, start int32, count uint16) ([]*RspGetTransactionData, error) {
+	var ret []*RspGetTransactionData
+	req := ReqGetTransactionData{Market: market, Code: code, Start: start, Count: count}
+	cmd := []byte{0x01, 0x01, 0x08, 0x00, 0x03, 0x01, 0x12, 0x00, 0x12, 0x00, 0xfc, 0x23}
+	cmd = append(cmd, marshal(req)...)
+	_, err := c.conn.Write(cmd)
+	if err != nil {
+		return ret, err
+	}
+	resp, err := read(c.conn)
+	if err != nil {
+		return ret, err
+	}
+	var rsp RspGetTransactionDataHeader
+	err = unmarshal(resp.body, &rsp)
+	if err != nil {
+		log.Println(err)
+		return ret, err
+	}
+	log.Println("resp: ", resp)
+	pos := 16
+	for i := 0; i < int(rsp.Count); i++ {
+		var item RspGetTransactionData
+		err = unmarshal(resp.body[pos:], &item)
+		hour := (item.Time / 60)
+		minute := (item.Time % 60)
+		second := (item.Direction % 10000)
+		if second > 59 {
+			second = 0
+		}
+		log.Println("分笔成交", hour, minute, second, item, i, rsp.Count)
+		pos += 16
+	}
+	return ret, nil
+}
+
+// GetHistoryTransactionData 查询历史分笔成交
+func (c *SyncExternClient) GetHistoryTransactionData(date uint32, market uint8, code string, start int32, count uint16) ([]*RspGetTransactionData, error) {
+	var ret []*RspGetTransactionData
+	req := ReqGetHistoryTransactionData{Date: date, Market: market, Code: code, Start: start, Count: count}
+	cmd := []byte{0x01, 0x02, 0x30, 0x00, 0x02, 0x01, 0x16, 0x00, 0x16, 0x00, 0x06, 0x24}
+	cmd = append(cmd, marshal(req)...)
+	_, err := c.conn.Write(cmd)
+	if err != nil {
+		return ret, err
+	}
+	resp, err := read(c.conn)
+	if err != nil {
+		return ret, err
+	}
+	var rsp RspGetTransactionDataHeader
+	err = unmarshal(resp.body, &rsp)
+	if err != nil {
+		log.Println(err)
+		return ret, err
+	}
+	pos := 16
+	for i := 0; i < int(rsp.Count); i++ {
+		var item RspGetTransactionData
+		err = unmarshal(resp.body[pos:], &item)
+		hour := (item.Time / 60)
+		minute := (item.Time % 60)
+		second := (item.Direction % 10000)
+		if second > 59 {
+			second = 0
+		}
+		log.Println("历史分笔成交", hour, minute, second, item, i, rsp.Count)
+		pos += 16
+	}
+	return ret, nil
 }

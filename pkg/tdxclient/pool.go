@@ -1,7 +1,9 @@
 package tdxclient
 
 import (
+	"errors"
 	"log"
+	"sort"
 	"sync"
 	"time"
 )
@@ -15,26 +17,26 @@ type PoolOptions struct {
 // Pool Pool
 // 暂时都采用同步连接
 type Pool struct {
-	clients        []*SyncQuoteClient
-	clientsIndex   int
-	clientsLock    sync.RWMutex
-	exclients      []*SyncExternClient
-	exclientsIndex int
-	exclientsLock  sync.RWMutex
-	requestID      int64
+	clients   []*SyncQuoteClient
+	exclients []*SyncExternClient
+	mu        sync.RWMutex
 }
 
 // NewPool NewPool
 func NewPool(op *PoolOptions) *Pool {
 	p := &Pool{}
 	for i := range op.ServerList {
-		cl := makeSyncClient(op.ServerList[i])
-		cl.init()
+		cl, err := NewSyncQuoteClient(op.ServerList[i], time.Second*3)
+		if err != nil {
+			log.Println(err)
+		}
 		p.clients = append(p.clients, cl)
 	}
 	for i := range op.ExternServerList {
-		cl := makeSyncExternClient(op.ExternServerList[i])
-		cl.init()
+		cl, err := NewSyncExternClient(op.ExternServerList[i], time.Second*3)
+		if err != nil {
+			log.Println(err)
+		}
 		p.exclients = append(p.exclients, cl)
 	}
 	go p.checker()
@@ -47,50 +49,57 @@ func (p *Pool) checker() {
 		var clientCount, exClientCount, failedClientCount, failedExClientCount int
 		select {
 		case <-timer.C:
-			p.clientsLock.Lock()
+			p.mu.Lock()
 			clientCount = len(p.clients)
 			for i := range p.clients {
 				if !p.clients[i].ready {
 					failedClientCount++
 				}
 			}
-			p.clientsLock.Unlock()
-			p.exclientsLock.Lock()
 			exClientCount = len(p.exclients)
 			for i := range p.exclients {
+				// 相当于心跳包
 				p.exclients[i].GetInstrumentCount()
 				if !p.exclients[i].ready {
 					failedExClientCount++
 				}
 			}
-			p.exclientsLock.Unlock()
+			p.mu.Unlock()
 		}
 		log.Printf("检查连接结果, 普通连接[%d]个,失败[%d]个, 扩展连接[%d]个, 失败[%d]个", clientCount, failedClientCount, exClientCount, failedExClientCount)
 	}
 }
 
 // GetExternClient get extern client
-func (p *Pool) GetExternClient() *SyncExternClient {
-	p.exclientsLock.RLock()
-	defer p.exclientsLock.RUnlock()
-	if len(p.exclients) == 0 {
-		return nil
+func (p *Pool) GetExternClient() (*SyncExternClient, error) {
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+	l := p.exclients
+	for _, c := range l {
+		if c.ready {
+			c.referenceCount++
+			sort.Slice(l, func(i, j int) bool {
+				return l[i].referenceCount < l[j].referenceCount
+			})
+			return c, nil
+		}
 	}
-	var ret *SyncExternClient
-	j := p.exclientsIndex + 1
-	for {
-		if j == p.exclientsIndex-1 {
-			break
+	return nil, errors.New("no ex client valid")
+}
+
+// GetQuoteClient get quote client
+func (p *Pool) GetQuoteClient() (*SyncQuoteClient, error) {
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+	l := p.clients
+	for _, c := range l {
+		if c.ready {
+			c.referenceCount++
+			sort.Slice(l, func(i, j int) bool {
+				return l[i].referenceCount < l[j].referenceCount
+			})
+			return c, nil
 		}
-		if j > len(p.exclients)-1 {
-			j = 0
-		}
-		ret = p.exclients[j]
-		if ret.ready {
-			break
-		}
-		j++
 	}
-	p.exclientsIndex = j
-	return ret
+	return nil, errors.New("no ex client valid")
 }

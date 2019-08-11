@@ -83,10 +83,14 @@ func createAdapter(host, account, password string, fronts []string, timeout time
 			if err := pkt.Get2(&rsp, &rspInfo); err == nil {
 			}
 			sig <- true
+		case ctp.CtpMessageType_HEARTBEAT:
 		default:
 			log.Println(ctp.CtpMessageType(pkt.MsgType), len(pkt.BodyList))
 		}
 	})
+	if err != nil {
+		return nil, err
+	}
 	var req ctp.CThostFtdcReqRegisterFrontField
 	req.Fronts = fronts
 	adapter.Post(int32(ctp.CtpMessageType_MD_RegisterFront), &req, 1)
@@ -114,6 +118,9 @@ func (s *Subscriber) Subscribe(exchange, symbol string) error {
 	s.mapInstrument[symbol] = exchange
 	var req ctp.CThostFtdcReqSubscribeMarketData
 	req.Instruments = append(req.Instruments, symbol)
+	if s.adapter == nil {
+		return nil
+	}
 	s.adapter.Post(int32(ctp.CtpMessageType_MD_SubscribeMarketData), &req, 2)
 	return nil
 }

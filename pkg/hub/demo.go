@@ -15,12 +15,16 @@ import (
 	hubpb "github.com/mineralres/goshare/pkg/pb/hub"
 )
 
+type msg struct {
+	t int
+	d interface{}
+}
+
 // DemoEnv DemoEnv
 type DemoEnv struct {
 	demoOrderList     []*hubpb.DemoOrder
 	demoOrderListLock sync.RWMutex
-	chDemoOrder       chan hubpb.DemoOrder
-	chTrade           chan pb.Trade
+	chMsg             chan *msg
 	mapTick           map[string]*pb.MarketDataSnapshot
 	muMapTick         sync.RWMutex
 	orderDB           *leveldb.DB
@@ -36,15 +40,14 @@ type DemoEnvOptions struct {
 }
 
 func isDone(do *hubpb.DemoOrder) bool {
-	return do.VolumeTraded+do.VolumeCanceled == do.Volume
+	return do.VolumeTraded+do.VolumeCanceled == do.Volume || do.Status == int32(pb.OrderStatus_DONE)
 }
 
 // NewDemoEnv create demo env
 func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
 	ret := &DemoEnv{options: options}
 	ret.mapTick = make(map[string]*pb.MarketDataSnapshot)
-	ret.chDemoOrder = make(chan hubpb.DemoOrder, 1000)
-	ret.chTrade = make(chan pb.Trade, 1000)
+	ret.chMsg = make(chan *msg, 1000)
 	var err error
 	// 读取全部委托
 	ret.orderDB, err = leveldb.OpenFile("demoorders", nil)
@@ -70,9 +73,10 @@ func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
 	log.Println("[demo] 从缓存中读取", len(ret.demoOrderList), err)
 
 	go func() {
-		for {
-			select {
-			case do := <-ret.chDemoOrder:
+		for m := range ret.chMsg {
+			switch m.t {
+			case 0:
+				do := m.d.(hubpb.DemoOrder)
 				key := fmt.Sprintf("%d-%d-%s", do.FrontId, do.SessionId, do.OrderRef)
 				if isDone(&do) {
 					log.Println("删除缓存", pb.OrderStatus(do.Status))
@@ -83,13 +87,17 @@ func NewDemoEnv(options *DemoEnvOptions) *DemoEnv {
 						panic(err)
 					}
 					ret.orderDB.Put([]byte(key), d, nil)
-					log.Println("保存到缓存", do.Symbol)
+					log.Println("保存到缓存", do.Symbol, pb.OrderStatus(do.Status))
 				}
 				options.OnDemoOrder(&do)
-			case tr := <-ret.chTrade:
+			case 1:
+				tr := m.d.(pb.Trade)
 				log.Println(tr)
 				options.OnDemoTrade(&tr)
 			}
+		}
+		for {
+			select {}
 		}
 	}()
 	return ret
@@ -159,8 +167,10 @@ func (e *DemoEnv) InsertDemoOrder(req *hubpb.ReqInsertOrder) error {
 	order.SendTime = time.Now().Unix()
 	order.DemoOrderId = e.options.GetUID()
 	order.Status = int32(pb.OrderStatus_PENDING)
+	order.MinLimitOrderVolume = inst.MinLimitOrderVolume
+	order.MinMarketOrderVolume = inst.MinMarketOrderVolume
 
-	e.chDemoOrder <- *order
+	e.chMsg <- &msg{d: *order}
 	e.demoOrderList = append(e.demoOrderList, order)
 	log.Println("InsertDemoOrder len ", len(e.demoOrderList))
 	mds := e.getTick(req.Symbol)
@@ -205,6 +215,7 @@ func (e *DemoEnv) CheckDemoTrade(mds *pb.MarketDataSnapshot) {
 func (e *DemoEnv) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoOrder) {
 	order := do
 	if order.SendTradingDay != mds.TradingDay {
+		log.Println("tag1", order.SendTradingDay, mds.TradingDay)
 		return
 	}
 	isCombine := order.ProductType == int32(pb.ProductType_COMBINATION)
@@ -333,7 +344,8 @@ func (e *DemoEnv) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoO
 			tradedAveragePrice = mds.Low
 		}
 		order.Status = int32(pb.OrderStatus_DONE)
-		e.chDemoOrder <- *do
+		order.VolumeTraded = order.Volume
+		e.chMsg <- &msg{d: *do}
 
 		var tr pb.Trade
 		tr.Direction = order.Direction
@@ -342,10 +354,21 @@ func (e *DemoEnv) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoO
 		tr.Symbol = order.Symbol
 		tr.TradedTime = tradedTime
 		tr.TradedTradingDay = mds.TradingDay
+		tr.TaId = order.TaId
+		tr.BuId = order.BuId
+		tr.Exchange = order.Exchange
+		tr.FrontId = order.FrontId
+		tr.SessionId = order.SessionId
+		tr.OrderRef = order.OrderRef
+
 		if ex == "CZCE" {
 			tr.TradedTradingDay = do.TradingDay
 		}
 		tr.TradeType = int32(pb.TradeType_TT_NORMAL)
+		if minimumVolume == 0 {
+			log.Println("minimumVolue", minimumVolume)
+			return
+		}
 		log.Printf("资管系统撮合成交[%.2f],合约:[%s], 方向:[%d], 开平:[%d],价格:[%.2f],数量:[%d],最小数量:[%d],time[%s] ask[%.4f] bid[%.4f]", tradedAveragePrice,
 			tr.Symbol, tr.Direction, tr.Offset, tr.Price, tr.Volume, minimumVolume, time.Unix(mds.Time, 0).Format("15:04:05"), ask, bid)
 		// 分多次成交
@@ -430,7 +453,7 @@ func (e *DemoEnv) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoO
 				} else {
 					tr.TradeId = e.options.GetUID()
 					rtn := tr
-					e.chTrade <- rtn
+					e.chMsg <- &msg{t: 1, d: rtn}
 					log.Printf("DemoUTC trade index[%d], volume[%d], isCombine[%t], tradedTime[%d], mdsTime[%d] symbol[%s] tradeid[%s]", i, tr.Volume,
 						isCombine, tradedTime, mds.Time, mds.Symbol, tr.TradeId)
 				}
@@ -458,7 +481,7 @@ func (e *DemoEnv) CancelDemoOrder(req *hubpb.ReqCancelOrder) error {
 			order.Status = int32(pb.OrderStatus_CANCELED)
 			order.VolumeCanceled = order.Volume - order.VolumeTraded
 			log.Println("CancelDemoOrder 撤单成功", do.DemoOrderId)
-			e.chDemoOrder <- *do
+			e.chMsg <- &msg{d: *do}
 			return nil
 		}
 	}
@@ -471,7 +494,9 @@ func (e *DemoEnv) CurrentDemoOrderList() []hubpb.DemoOrder {
 	e.demoOrderListLock.Lock()
 	defer e.demoOrderListLock.Unlock()
 	for _, do := range e.demoOrderList {
-		ret = append(ret, *do)
+		if !isDone(do) {
+			ret = append(ret, *do)
+		}
 	}
 	return ret
 }

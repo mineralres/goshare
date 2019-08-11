@@ -1,0 +1,23 @@
+syntax = "proto3";
+package goshare.spider;
+
+option go_package = "github.com/mineralres/goshare/pkg/pb/spider";
+
+message HotStockItem {
+  double change    = 1;
+  string exchange  = 2;
+  string symbol    = 3;
+  double current   = 4;
+  double increment = 5;
+  string name      = 6;
+  double percent   = 7;
+  int32  type      = 8;
+  double value     = 9;
+}
+
+message HotStockList {
+  repeated HotStockItem global_h1  = 1;
+  repeated HotStockItem global_h24 = 2;
+  repeated HotStockItem ashare_h1  = 3;
+  repeated HotStockItem ashare_h24 = 4;
+}

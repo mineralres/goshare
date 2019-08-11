@@ -49,3 +49,5 @@ message Trade {
   int32  trade_type         = 21;
   string exchange_order_id  = 22;
 }
+
+message TradeList { repeated Trade list = 1; }

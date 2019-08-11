@@ -388,3 +388,64 @@ type ReqGetHistoryTransactionData struct {
 	Start  int32
 	Count  uint16
 }
+
+// SecurityQuote 股票报价
+type SecurityQuote struct {
+	Market        uint8
+	Code          string
+	Active1       uint16
+	Price         int
+	LastCloseDiff int
+	OpenDiff      int
+	HighDiff      int
+	LowDiff       int
+	Vol           int
+	CurVol        int
+	RawAmount     uint32
+	Amount        float64
+	SVol          int
+	BVol          int
+	Bid1          int
+	Ask1          int
+	BidVol1       int
+	AskVol1       int
+	Bid2          int
+	Ask2          int
+	BidVol2       int
+	AskVol2       int
+	Bid3          int
+	Ask3          int
+	BidVol3       int
+	AskVol3       int
+	Bid4          int
+	Ask4          int
+	BidVol4       int
+	AskVol4       int
+	Bid5          int
+	Ask5          int
+	BidVol5       int
+	AskVol5       int
+}
+
+// SecurityBar  bar
+type SecurityBar struct {
+	Year           int
+	Mon            int
+	Day            int
+	Hour           int
+	Minute         int
+	PriceOpenDiff  int
+	PriceCloseDiff int
+	PriceHighDiff  int
+	PriceLowDiff   int
+	RawVol         uint32
+	Vol            int
+	RawDBVol       uint32
+	DBVol          int
+	Open           float64
+	Close          float64
+	High           float64
+	Low            float64
+	UpCount        uint16
+	DownCount      uint16
+}
