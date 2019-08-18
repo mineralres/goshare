@@ -167,12 +167,9 @@ type result struct {
 }
 
 // RunTinyGateway 小API入口
-func RunTinyGateway(staticDir string, port int, h func(string, http.ResponseWriter, *http.Request) (interface{}, error)) {
-	if len(staticDir) > 0 {
-		fs := dotFileHidingFileSystem{http.Dir(staticDir)}
-		http.Handle("/", http.FileServer(fs))
-	}
-	http.HandleFunc("/api/", func(w http.ResponseWriter, req *http.Request) {
+func RunTinyGateway(port int, h func(string, http.ResponseWriter, *http.Request) (interface{}, error)) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/api/", func(w http.ResponseWriter, req *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Printf("[%s] panic: %v", req.RequestURI, err)
@@ -201,5 +198,6 @@ func RunTinyGateway(staticDir string, port int, h func(string, http.ResponseWrit
 		}
 		w.Write(jsonBytes)
 	})
-	http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	srv := &http.Server{Addr: fmt.Sprintf(":%d", port), Handler: mux}
+	srv.ListenAndServe()
 }

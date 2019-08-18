@@ -4,31 +4,8 @@ package goshare.goshare;
 import "goshare/common.proto";
 import "goshare/market_data.proto";
 import "goshare/instrument.proto";
+import "spider/sse.proto";
 option go_package = "github.com/mineralres/goshare/pkg/pb/goshare";
-
-// DCenter 数据中心
-service DCenter {
-  // 保存K线数据
-  // rpc SaveKline(ReqSaveKline) returns (RspSaveKline);
-  // 订阅行情
-  rpc Subscribe(ReqSubscribe) returns (stream MarketDataSnapshot);
-  // 推送tick行情
-  // rpc UpdateTick(MarketDataSnapshot) returns (EmptyResponse);
-  // 复杂订阅.同时返回K线
-  rpc CombineSubscribe(ReqCombineSubscribe)
-      returns (stream RspCombineSubscribe);
-  // 数据库情况
-  rpc GetDCenterInfo(ReqGetDCenterInfo) returns (RspGetDCenterInfo);
-  // 合约
-  // rpc SetTradingInstrument(ReqSetTradingInstrument)
-  //     returns (RspSetTradingInstrument);
-  // 读取合约
-  rpc GetTradingInstrument(ReqGetTradingInstrument)
-      returns (RspGetTradingInstrument);
-  // 全部合约
-  rpc GetTradingInstrumentList(ReqGetTradingInstrumentList)
-      returns (RspGetTradingInstrumentList);
-}
 
 message ReqGetTradingInstrumentList { string exchange = 1; }
 message RspGetTradingInstrumentList { repeated Instrument list = 1; }
@@ -42,8 +19,9 @@ message RspSetTradingInstrument {}
 
 message ReqSubscribe {
   string   exchange           = 1;
-  repeated string list        = 2;
-  bool            binary_data = 3;
+  string   symbol             = 2;
+  repeated string list        = 3;
+  bool            binary_data = 4;
 }
 message RspSubscribe {}
 message ReqUnSubscribe {
@@ -61,34 +39,12 @@ message ReqCombineSubscribe {
   repeated PeriodType period_list = 3;
 }
 message RspCombineSubscribe {
-  string exchange = 1;
-  // 合约
-  string symbol = 2;
-  // 历史
-  repeated KlineSeries history = 3;
-  // 最新行情
-  MarketDataSnapshot tick = 4;
-  // 最新K线,按请求时的周期顺序依次返回
-  repeated Kline klines = 5;
+  string   exchange            = 1; // 交易所
+  string   symbol              = 2; // 合约
+  repeated KlineSeries history = 3; // 历史
+  MarketDataSnapshot   tick    = 4; // 行情
+  repeated Kline klines        = 5;
 }
-
-message SymbolCacheSummary {
-  string exchange         = 1;
-  string symbol           = 2;
-  int32  kline_len        = 3;
-  int32  tick_len         = 4;
-  int32  subscriber_count = 5;
-}
-
-message CacheSummary {
-  int32    ks_map_size                    = 1;
-  int32    total_kline_len                = 2;
-  int32    total_tick_len                 = 3;
-  int32    total_subscriber_count         = 4;
-  repeated SymbolCacheSummary symbol_list = 5;
-}
-message ReqGetDCenterInfo {}
-message RspGetDCenterInfo { CacheSummary cache_summary = 1; }
 
 message ReqGetTickSeries {
   string exchange = 1;
@@ -123,3 +79,6 @@ message RspGetKlineSeries {
   int64      lenLimit = 6;
   repeated Kline list = 7;
 }
+
+message ReqSSEStockOptionList {}
+message RspSSEStockOptionList { repeated spider.SSEStockOption list = 1; }

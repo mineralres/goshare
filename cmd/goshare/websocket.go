@@ -12,7 +12,6 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/gorilla/websocket"
 	pb "github.com/mineralres/goshare/pkg/pb/goshare"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
@@ -28,23 +27,6 @@ func makeWsFront(c config) *wsFront {
 	front.grpcEndPoint = fmt.Sprintf("localhost:%d", c.Port)
 	front.port = c.Port
 	return &front
-}
-
-func (front *wsFront) makeGClient() pb.GoShareClient {
-	front.connLock.Lock()
-	defer front.connLock.Unlock()
-	if front.grpcConn != nil {
-		return pb.NewGoShareClient(front.grpcConn)
-	}
-	conn, err := grpc.Dial(front.grpcEndPoint, grpc.WithInsecure())
-	if err != nil {
-		log.Println(err)
-	}
-	if conn == nil {
-		panic("")
-	}
-	front.grpcConn = conn
-	return pb.NewGoShareClient(front.grpcConn)
 }
 
 // 因为grpc-gateway对stream 的实现不是特别成熟,所以此处先用websocket完成stream方式的推送
@@ -66,10 +48,6 @@ func (front *wsFront) uploadTick(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	client := front.makeGClient()
-	if client == nil {
-		return
-	}
 	for {
 		conn.SetReadDeadline(time.Now().Add(15 * time.Second))
 		messageType, p, err := conn.ReadMessage()
@@ -82,10 +60,6 @@ func (front *wsFront) uploadTick(c *gin.Context) {
 				if err := proto.Unmarshal(p, &mds); err == nil {
 					if mds.Symbol == "" {
 						continue
-					}
-					resp, err := client.PushTick(context.Background(), &mds)
-					if err != nil || resp == nil {
-						return
 					}
 				}
 			}

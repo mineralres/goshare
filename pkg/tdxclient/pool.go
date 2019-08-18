@@ -15,7 +15,6 @@ type PoolOptions struct {
 }
 
 // Pool Pool
-// 暂时都采用同步连接
 type Pool struct {
 	clients   []*SyncQuoteClient
 	exclients []*SyncExternClient
@@ -51,16 +50,24 @@ func (p *Pool) checker() {
 		case <-timer.C:
 			p.mu.Lock()
 			clientCount = len(p.clients)
-			for i := range p.clients {
-				if !p.clients[i].ready {
+			for _, c := range p.clients {
+				// 相当于心跳包检查
+				_, err := c.ReqQryStockCount()
+				if err != nil {
+					c.ready = false
+				}
+				if !c.ready {
 					failedClientCount++
 				}
 			}
 			exClientCount = len(p.exclients)
-			for i := range p.exclients {
+			for _, c := range p.exclients {
 				// 相当于心跳包
-				p.exclients[i].GetInstrumentCount()
-				if !p.exclients[i].ready {
+				_, err := c.GetInstrumentCount()
+				if err != nil {
+					c.ready = false
+				}
+				if !c.ready {
 					failedExClientCount++
 				}
 			}

@@ -37,8 +37,9 @@ func main() {
 	// 开启gin api router
 	go func() {
 		time.Sleep(time.Millisecond * 100)
-		gw := NewGateway()
-		gw.Run("./ui-release", 9090)
+		opt := &Options{}
+		gw := NewGateway(opt)
+		gw.Run(9090)
 	}()
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)

@@ -26,23 +26,27 @@ func TestDataSource(t *testing.T) {
 		t.Error("获取上证50ETF期权列表失败")
 	}
 	jsonLog("上证50ETF期权列表[0]", l[0])
-	symbolList := []string{
-		"601398",
+	sl1 := []string{"601398"}
+	sl2 := []string{"000001", "300785"}
+
+	f := func(ex string, sl []string) {
+		for _, code := range sl {
+			// 获取最新盘口数据
+			md, err := ds.GetLastTick(ex, code)
+			if err != nil {
+				t.Error(err)
+			}
+			if len(md.Depths) == 0 {
+				t.Error("获取行情盘口深度为空")
+			}
+			if md.Open == 0 {
+				t.Error("md.Open == 0")
+			}
+			log.Printf("[%s-%s] Price:[%.4f]", ex, md.Symbol, md.Price)
+		}
 	}
-	for i := range symbolList {
-		// 获取最新盘口数据
-		md, err := ds.GetLastTick("SSE", symbolList[i])
-		if err != nil {
-			t.Error(err)
-		}
-		if len(md.Depths) == 0 {
-			t.Error("获取行情盘口深度为空")
-		}
-		if md.Open == 0 {
-			t.Error("md.Open == 0")
-		}
-		log.Printf("[%s] Price:[%.4f]", md.Symbol, md.Price)
-	}
+	f("SSE", sl1)
+	f("SZE", sl2)
 
 }
 func TestIndexTick(t *testing.T) {

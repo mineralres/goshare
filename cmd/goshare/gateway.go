@@ -41,18 +41,23 @@ var (
 type Gateway struct {
 	dsList  []api.DataSource // 常规数据
 	wsIndex int64
+	options *Options
+}
+
+// Options options
+type Options struct {
 }
 
 // NewGateway NewGateway
-func NewGateway() *Gateway {
-	ret := new(Gateway)
+func NewGateway(options *Options) *Gateway {
+	ret := &Gateway{options: options}
 	return ret
 }
 
 // Run Run
-func (g *Gateway) Run(staticDir string, port int) {
+func (g *Gateway) Run(port int) {
 	log.Printf("RunTinyGateway on %d", port)
-	util.RunTinyGateway(staticDir, port, func(path string, w http.ResponseWriter, r *http.Request) (interface{}, error) {
+	util.RunTinyGateway(port, func(path string, w http.ResponseWriter, r *http.Request) (interface{}, error) {
 		switch path {
 		case "/api/v1/ws/stream":
 			g.handleStream(w, r)
@@ -61,6 +66,8 @@ func (g *Gateway) Run(staticDir string, port int) {
 			return g.instrumentList(r)
 		case "/api/v1/md/mainContract":
 			return g.mainContract(r)
+		default:
+
 		}
 		return nil, nil
 	})
