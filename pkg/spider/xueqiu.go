@@ -8,8 +8,11 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
+	"strconv"
 	"strings"
 
+	gspb "github.com/mineralres/goshare/pkg/pb/goshare"
 	pb "github.com/mineralres/goshare/pkg/pb/spider"
 )
 
@@ -131,4 +134,116 @@ func (xq *Xueqiu) StarCount(exchange, symbol string) (int, error) {
 	}
 	err = json.Unmarshal(body, &res)
 	return res.TotalCount, err
+}
+
+// BonusHistory stock bonus
+func (xq *Xueqiu) BonusHistory(exchange, symbol string) ([]*pb.Bonus, error) {
+	if exchange == "SSE" {
+		exchange = "SH"
+	} else if exchange == "SZE" {
+		exchange = "SZ"
+	} else {
+		return nil, errors.New("unsupported exchange")
+	}
+	url := fmt.Sprintf(`https://stock.xueqiu.com/v5/stock/f10/cn/bonus.json?symbol=%s%s&size=70&page=1&extend=true`, exchange, symbol)
+	body, err := xq.getURLContent(url)
+	if err != nil {
+		return nil, err
+	}
+	type bonusItem struct {
+		Ashare_ex_dividend_date int64  `json:"ashare_ex_dividend_date"`
+		Cancle_dividend_date    int64  `json:"cancle_dividend_date"`
+		Dividend_date           int64  `json:"dividend_date"`
+		Dividend_year           string `json:"dividend_year"`
+		Equity_date             int64  `json:"equity_date"`
+		Ex_dividend_date        int64  `json:"ex_dividend_date"`
+		Plan_explain            string `json:"plan_explain"`
+	}
+	var ret struct {
+		Data struct {
+			Items []*bonusItem `json:"items"`
+		} `json:"data"`
+	}
+	err = json.Unmarshal(body, &ret)
+	var l []*pb.Bonus
+	// v1 := regexp.MustCompile(`派([0-9])元`)
+	v2 := regexp.MustCompile(`转([0-9])股`)
+	v1 := regexp.MustCompile(`派([0-9]*.[0-9]*)元`)
+	for _, i := range ret.Data.Items {
+		var b pb.Bonus
+		b.PlanExplain = i.Plan_explain
+		b.ExDividendDate = i.Ex_dividend_date / 1000
+		b.EquityDate = i.Equity_date / 1000
+		b.DividendYear = i.Dividend_year
+		b.DividendDate = i.Dividend_date / 1000
+		b.CancleDividendDate = i.Cancle_dividend_date / 1000
+		b.AshareExDividendDate = i.Ashare_ex_dividend_date / 1000
+		params := v1.FindStringSubmatch(b.PlanExplain)
+		if len(params) == 2 {
+			cash, err := strconv.ParseFloat(params[1], 64)
+			if err == nil {
+				b.DividendCash = cash / 10
+			}
+		}
+		params = v2.FindStringSubmatch(b.PlanExplain)
+		if len(params) == 2 {
+			share, err := strconv.ParseFloat(params[1], 64)
+			if err == nil {
+				b.DividendShare = share / 10
+			}
+		}
+		l = append(l, &b)
+	}
+	for i, j := 0, len(l)-1; i < j; i, j = i+1, j-1 {
+		l[i], l[j] = l[j], l[i]
+	}
+	return l, nil
+}
+
+// KlineSeries kline series
+// xtype 复制类型 before, after, normal
+func (xq *Xueqiu) KlineSeries(exchange, symbol string, period gspb.PeriodType, xtype string, begin, count int64) ([]*gspb.Kline, error) {
+	if exchange == "SSE" {
+		exchange = "SH"
+	} else if exchange == "SZE" {
+		exchange = "SZ"
+	} else {
+		return nil, errors.New("unsupported exchange")
+	}
+	t := "week"
+	switch period {
+	case gspb.PeriodType_D1:
+		t = "day"
+	}
+	var arr []*gspb.Kline
+	url := fmt.Sprintf(`https://stock.xueqiu.com/v5/stock/chart/kline.json?symbol=%s%s&begin=%d&period=%s&type=%s&count=%d&indicator=kline`, exchange, symbol, begin, t, xtype, count)
+	body, err := xq.getURLContent(url)
+	if err != nil {
+		return nil, err
+	}
+	var ret struct {
+		Data struct {
+			Item [][]float64 `json:"item"`
+		} `json:"data"`
+	}
+	err = json.Unmarshal(body, &ret)
+	if err != nil {
+		return arr, err
+	}
+	for i := range ret.Data.Item {
+		row := ret.Data.Item[i]
+		if len(row) < 12 {
+			panic("")
+		}
+		var k gspb.Kline
+		k.Time = int64(row[0] / 1000)
+		k.Volume = int32((row[1]))
+		k.Open = (row[2])
+		k.High = (row[3])
+		k.Low = (row[4])
+		k.Close = (row[5])
+		k.Amount = (row[9])
+		arr = append(arr, &k)
+	}
+	return arr, nil
 }

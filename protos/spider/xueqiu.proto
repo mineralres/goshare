@@ -21,3 +21,16 @@ message HotStockList {
   repeated HotStockItem ashare_h1  = 3;
   repeated HotStockItem ashare_h24 = 4;
 }
+
+// 分红配送
+message Bonus {
+  int64  ashare_ex_dividend_date = 1;
+  int64  cancle_dividend_date    = 2;
+  int64  dividend_date           = 3;
+  string dividend_year           = 4;
+  int64  equity_date             = 5;
+  int64  ex_dividend_date        = 6;
+  string plan_explain            = 7;
+  double dividend_cash           = 8;
+  double dividend_share          = 9;
+}

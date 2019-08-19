@@ -27,21 +27,31 @@ goshare是一个开源的golang量化数据工具集合。(注意:项目当前�
 ### pkg
 
 * pkg/api 尝试集成常用统一访问接口
+
+
 * pkg/hub 集成交易通道
   * adapter.go 配合[ctp-binding](https://github.com/mineralres/ctp-binding) 的一个CTP交易客户端组件
   * demo.go  一个A股和中国期货模拟撮合的组件
   * pool.go 简易的adapter池
   * subscriber.go 与[ctp-binding](https://github.com/mineralres/ctp-binding)配合使用的订阅行情的组件
   * sync.go 一个同步访问的adapter封装
+
+
 * pkg/pb  protobuf生成的文件
+
+
 * pkg/spider 抓取一些网站的数据
   * east_money.go 东方财富相关
   * sina.go 新浪财经相关. 获取期货股票最新报价等
   * sse.go  上证所官网. 获取50ETF期权列表
   * xueqiu.go 雪球网. 如24小时内热度排名top10
+
+
 * pkg/tdxclient TDX数据接口
   * sync_extern_client.go 扩展行情(期货，外盘等)
   * sync_quote_client.go 普通行情(上海,深圳股票)
+
+
 * pkg/util 实用功能.
   * ldb_cache.go 简单的k/v缓存，用来缓存K线数组，最新报价, 合约信息等
   * send_main.go 发送邮件

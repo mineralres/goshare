@@ -1,23 +1,27 @@
 package spider
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
 	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	spiderpb "github.com/mineralres/goshare/pkg/pb/spider"
 	"github.com/mineralres/goshare/pkg/util"
 )
 
-// GetSSEStockList 获取上证股票列表
-func (s *Spider) GetSSEStockList() ([]pb.Instrument, error) {
-	return nil, nil
+// SSE sse
+type SSE struct {
 }
 
 func getURLContent(url, referer string) (string, error) {
@@ -40,8 +44,8 @@ func getURLContent(url, referer string) (string, error) {
 	return string(body), err
 }
 
-// GetSSEStockOptionList 获取上证所网站的 50ETF个股期权列表
-func (s *Spider) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
+// OptionList 获取上证所网站的 50ETF个股期权列表
+func (sse *SSE) OptionList() ([]*spiderpb.SSEStockOption, error) {
 	const url = "http://query.sse.com.cn/commonQuery.do?jsonCallBack=jsonpCallback77327&isPagination=true&expireDate=&securityId=&sqlId=SSE_ZQPZ_YSP_GGQQZSXT_XXPL_DRHY_SEARCH_L&pageHelp.pageSize=10000&pageHelp.pageNo=1&pageHelp.beginPage=1&pageHelp.cacheSize=1&pageHelp.endPage=5&_=1531102881526"
 	str, err := getURLContent(url, "http://www.sse.com.cn/assortment/options/disclo/preinfo/")
 	if err != nil {
@@ -98,13 +102,13 @@ func (s *Spider) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 	if err != nil {
 		return nil, err
 	}
-	var ret []pb.SSEStockOption
+	var ret []*spiderpb.SSEStockOption
 	for i := range rsp.PageHelp.Data {
 		d := &rsp.PageHelp.Data[i]
 		// log.Printf("合约编码[%s] 合约交易代码[%s] 合约简称[%s] 标的券名称及代码[%s] 类型[%s, %s] 行权价[%s] 合约单位[%s] 期权行权日[%s] 行权交收日[%s] 到期日[%s] 新挂[%s] 涨停价[%s] 跌停价[%s] 前结算价[%s] 调整[%s]",
 		// 	d.SECURITY_ID, d.CONTRACT_ID, d.CONTRACT_SYMBOL, d.SECURITYNAMEBYID, d.CALL_OR_PUT, d.OPTION_TYPE, d.EXERCISE_PRICE, d.CONTRACT_UNIT, d.EXERCISE_DATE,
 		// 	d.DELIVERY_DATE, d.EXPIRE_DATE, d.CHANGEFLAG, d.DAILY_PRICE_UPLIMIT, d.DAILY_PRICE_DOWNLIMIT, d.SETTL_PRICE, d.CHANGEFLAG)
-		var op pb.SSEStockOption
+		var op spiderpb.SSEStockOption
 		op.ExercisePrice = d.EXERCISE_PRICE
 		op.UpdateVersion = d.UPDATE_VERSION
 		op.OptionType = d.OPTION_TYPE
@@ -140,23 +144,22 @@ func (s *Spider) GetSSEStockOptionList() ([]pb.SSEStockOption, error) {
 		op.SecurityNameByID = d.SECURITYNAMEBYID
 		op.ContractFlag = d.CONTRACTFLAG
 		op.UnderlyingClosePX = d.UNDERLYING_CLOSEPX
-		ret = append(ret, op)
+		ret = append(ret, &op)
 	}
 	return ret, nil
 }
 
-// GetSSEStockOptionTradingInstrumentList 上证所ETF期权合约列表
-func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.Instrument, error) {
-	list, err := s.GetSSEStockOptionList()
+// OptionInstrumentList 上证所ETF期权合约列表
+func (sse *SSE) OptionInstrumentList() ([]*pb.Instrument, error) {
+	list, err := sse.OptionList()
 	if err != nil {
 		return nil, err
 	}
 	// 期权行情
 	var symbols []string
 	var ret []*pb.Instrument
-	for i := range list {
+	for _, op := range list {
 		ti := new(pb.Instrument)
-		op := &list[i]
 		ti.Exchange = "SSE"
 		ti.Symbol = op.SecurityID
 		symbols = append(symbols, ti.Symbol)
@@ -200,7 +203,8 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.Instrument, err
 		ret = append(ret, ti)
 	}
 
-	mdsList, err := s.BatchGetSSEStockOptionTick(symbols)
+	var sina Sina
+	mdsList, err := sina.BatchGetSSEStockOptionTick(symbols)
 	if err != nil {
 		return ret, err
 	}
@@ -218,8 +222,8 @@ func (s *Spider) GetSSEStockOptionTradingInstrumentList() ([]*pb.Instrument, err
 	return ret, nil
 }
 
-// GetSSE50ETFOptionTQuote 上证所网站的T型报价,50ETF的
-func (s *Spider) GetSSE50ETFOptionTQuote(month string) ([]*pb.OptionTQuoteItem, error) {
+// ETF50OptionTQuote 上证所网站的T型报价,50ETF的
+func (sse *SSE) ETF50OptionTQuote(month string) ([]*pb.OptionTQuoteItem, error) {
 	var ret []*pb.OptionTQuoteItem
 	url := fmt.Sprintf(`http://yunhq.sse.com.cn:32041/v1/sho/list/tstyle/510050_%s?select=contractid,code,last,chg_rate,presetpx,exepx,name,prev_close`, month)
 	str, err := getURLContent(url, "http://www.sse.com.cn/assortment/options/price/")
@@ -295,4 +299,123 @@ func (s *Spider) GetSSE50ETFOptionTQuote(month string) ([]*pb.OptionTQuoteItem, 
 	// log.Println(len(ret), month)
 
 	return ret, nil
+}
+
+func downloadFile(url, target, referer string) error {
+	client := &http.Client{
+		Timeout: time.Second * 5,
+		Transport: &http.Transport{
+			Dial: func(netw, addr string) (net.Conn, error) {
+				deadline := time.Now().Add(30 * time.Second)
+				c, err := net.DialTimeout(netw, addr, time.Second*5)
+				if err != nil {
+					return nil, err
+				}
+				c.SetDeadline(deadline)
+				return c, nil
+			},
+		},
+	}
+
+	req, err := http.NewRequest("GET", url, strings.NewReader(""))
+	if err != nil {
+	}
+	req.Header.Set("Accept", "*/*")
+	req.Header.Set("Accept-Encoding", "gzip, deflate")
+	if referer != "" {
+		req.Header.Set("Referer", referer)
+	}
+	res, err := client.Do(req)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer res.Body.Close()
+	f, err := os.Create(target)
+	if err != nil {
+		log.Println("create file error ", err)
+		return err
+	}
+	io.Copy(f, res.Body)
+	f.Close()
+	return nil
+}
+
+// StockList instrument list
+// name encoding is gb2312
+func (sse *SSE) StockList(toFillPriceInfo bool) ([]*pb.Instrument, error) {
+	excelFileName := fmt.Sprintf("SSE_STOCK_LIST_%s.xlsx", time.Now().Format("20060102"))
+	if _, err := os.Stat(excelFileName); os.IsNotExist(err) {
+		const url = "http://query.sse.com.cn/security/stock/downloadStockListFile.do?csrcCode=&stockCode=&areaName=&stockType=1"
+		log.Println("下载文件", excelFileName, err)
+		err := downloadFile(url, excelFileName, "http://www.sse.com.cn/market/stockdata/overview/monthly/")
+		if err != nil {
+			panic(err)
+		}
+		log.Println("下载完成")
+	}
+	file, err := os.Open(excelFileName)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return nil, err
+	}
+	defer file.Close()
+	reader := csv.NewReader(file)
+	reader.Comment = '#' //可以设置读入文件中的注释符
+	reader.Comma = '	'   //默认是逗号，也可以自己设置
+	var list []*pb.Instrument
+	for {
+		record, err := reader.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			log.Println("Error:", err)
+			return list, err
+		}
+		if len(record) <= 5 {
+			log.Println("格式有变", record, err, len(record))
+			continue
+		}
+
+		var item pb.Instrument
+		item.Exchange = "SSE"
+		item.Symbol = record[2]
+		item.Symbol = strings.TrimSpace(item.Symbol)
+		opendate := strings.Replace(record[4], "-", "", -1)
+		opendate = strings.Trim(opendate, " ")
+		d, err := strconv.Atoi(opendate)
+		if err != nil {
+			log.Println(err, record)
+			continue
+		}
+		item.OpenDate = int32(d)
+
+		item.Product = "SHA"
+		item.PriceTick = 0.01
+		item.Multiple = 1
+		item.Name = util.Decode(record[3])
+		item.UpdateTime = time.Now().Unix()
+		item.ProductType = int32(pb.ProductType_STOCK)
+		item.IsCloseTodayAllowed = false
+		item.MaxLimitOrderVolume = 100000000
+		item.MaxMarketOrderVolume = 100000000
+		item.MinBuyVolume = 100
+		item.MinLimitOrderVolume = 100
+		item.MinMarketOrderVolume = 100
+		item.MinSellVolume = 100
+		item.IsTrading = true
+
+		if strings.Contains(item.Name, "ST") || strings.Contains(item.Name, "*ST") {
+			item.ProductClass = "ST"
+		}
+
+		ud, _ := strconv.Atoi(time.Now().Format("20060102"))
+		item.TradingDay = int32(ud)
+
+		list = append(list, &item)
+	}
+	if toFillPriceInfo {
+		fillPriceInfo("SSE", list)
+	}
+	return list, nil
 }

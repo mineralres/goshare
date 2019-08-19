@@ -93,7 +93,8 @@ func getDateTime(category TdxKlineType, buffer []byte) (int, int, int, int, int)
 	return year, month, day, hour, minute
 }
 
-func toTdxMarket(ex string) uint8 {
+// ToTdxMarket tdx market
+func ToTdxMarket(ex string) uint8 {
 	switch ex {
 	case "SHFE":
 		return 30
@@ -103,8 +104,12 @@ func toTdxMarket(ex string) uint8 {
 		return 29
 	case "CFFEX":
 		return 47
+	case "SSE":
+		return 1
+	case "SZE":
+		return 0
 	}
-	return 0
+	return 0xff
 }
 
 func read(conn net.Conn) (*tdxResponse, error) {
@@ -201,7 +206,8 @@ func ToKlineArr(l []*SecurityBar) ([]*pb.Kline, error) {
 	return ret, nil
 }
 
-func toTdxPeriod(src pb.PeriodType) TdxKlineType {
+// ToTdxPeriod to tdx period
+func ToTdxPeriod(src pb.PeriodType) TdxKlineType {
 	switch src {
 	case pb.PeriodType_M1:
 		return TdxKlineType_EXHQ_1MIN

@@ -183,7 +183,7 @@ func (c *SyncExternClient) GetLastTick(ex, symbol string) (*pb.MarketDataSnapsho
 	}
 	var req ReqGetInstrumentQuote
 	req.Code = strings.ToUpper(symbol)
-	req.Market = toTdxMarket(ex)
+	req.Market = ToTdxMarket(ex)
 
 	cmd := []byte{0x01, 0x01, 0x08, 0x02, 0x02, 0x01, 0x0c, 0x00, 0x0c, 0x00, 0xfa, 0x23}
 	cmd = append(cmd, marshal(req)...)

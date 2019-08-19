@@ -13,8 +13,12 @@ import (
 	"github.com/mineralres/goshare/pkg/util"
 )
 
+// Sina sina
+type Sina struct {
+}
+
 // BatchGetSSEStockOptionTick 取所有行情
-func (s *Spider) BatchGetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSnapshot, error) {
+func (sina *Sina) BatchGetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	all := "http://hq.sinajs.cn/list="
 	for i := range symbols {
@@ -92,7 +96,7 @@ func (s *Spider) BatchGetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSn
 // GetOptionSinaTick 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (s *Spider) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
+func (sina *Sina) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 
 	all := "OP_DOWN_510050" + date
@@ -109,7 +113,7 @@ func (s *Spider) GetOptionSinaTick(date string) ([]pb.MarketDataSnapshot, error)
 // GetOptionTQuote 根据交割月获取t型报价表数据
 /* date 如1808 为8月到期的
  */
-func (s *Spider) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
+func (sina *Sina) GetOptionTQuote(date string) ([]pb.OptionTMarket, error) {
 	rets := []pb.OptionTMarket{}
 
 	all := "OP_DOWN_510050" + date
@@ -262,7 +266,7 @@ func getOptionSSETickT(symbol string) ([]pb.MarketDataSnapshot, []string, error)
 }
 
 // GetSSEStockOptionTick 取所有行情
-func (s *Spider) GetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSnapshot, error) {
+func (sina *Sina) GetSSEStockOptionTick(symbols []string) ([]pb.MarketDataSnapshot, error) {
 	rets := []pb.MarketDataSnapshot{}
 	all := "http://hq.sinajs.cn/list="
 	for _, value := range symbols {
@@ -409,7 +413,7 @@ func getStockLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
 }
 
 // GetIndexLastTick 指数行情
-func (s *Spider) GetIndexLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
+func (sina *Sina) GetIndexLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
 	ret := &pb.MarketDataSnapshot{}
 	resp, err := http.Get("http://hq.sinajs.cn/list=" + symbol)
 	if err == nil {
@@ -428,7 +432,7 @@ func (s *Spider) GetIndexLastTick(ex, symbol string) (*pb.MarketDataSnapshot, er
 }
 
 // GetLastTick 获取最新报价
-func (s *Spider) GetLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
+func (sina *Sina) GetLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
 	if ex == "SSE" || ex == "SZE" {
 		if ex == "SSE" && strings.Index(symbol, "1000") == 0 {
 			// 上证50ETF期权tick
@@ -440,7 +444,7 @@ func (s *Spider) GetLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) 
 
 	if ex == "INDEX" {
 		// 指数tick
-		return s.GetIndexLastTick(ex, symbol)
+		return sina.GetIndexLastTick(ex, symbol)
 	}
 	return nil, errors.New("unsported")
 }

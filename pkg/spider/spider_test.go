@@ -19,20 +19,21 @@ func jsonLog(comment string, o interface{}) {
 }
 
 func TestDataSource(t *testing.T) {
-	var ds Spider
+	var sse SSE
 	// 上证50ETF期权列表
-	l, _ := ds.GetSSEStockOptionList()
+	l, _ := sse.OptionInstrumentList()
 	if len(l) == 0 {
 		t.Error("获取上证50ETF期权列表失败")
 	}
 	jsonLog("上证50ETF期权列表[0]", l[0])
 	sl1 := []string{"601398"}
 	sl2 := []string{"000001", "300785"}
+	var sina Sina
 
 	f := func(ex string, sl []string) {
 		for _, code := range sl {
 			// 获取最新盘口数据
-			md, err := ds.GetLastTick(ex, code)
+			md, err := sina.GetLastTick(ex, code)
 			if err != nil {
 				t.Error(err)
 			}
@@ -61,9 +62,9 @@ func TestIndexTick(t *testing.T) {
 		"日经指数":  "b_TWSE",
 		"新加坡指数": "b_FSSTI",
 	}
-	var s Spider
+	var sina Sina
 	for key, views := range m_index {
-		md, err := s.GetLastTick("INDEX", views)
+		md, err := sina.GetLastTick("INDEX", views)
 		if err != nil {
 			t.Error(err)
 		}
@@ -77,7 +78,7 @@ func TestIndexTick(t *testing.T) {
 
 func TestOptionSSETick(t *testing.T) {
 	return
-	var s Spider
+	var s Sina
 	// 获取sina50etf期权的合约列表：
 	// 同一个月份看涨和看跌: OP_UP_5100501804   OP_DOWN_5100501804
 	sym := "OP_DOWN_5100501807"
@@ -248,8 +249,8 @@ func TestOption(t *testing.T) {
 
 func TestGetSSEStockOptionList(t *testing.T) {
 	return
-	var s Spider
-	ret, err := s.GetSSEStockOptionList()
+	var sse SSE
+	ret, err := sse.OptionInstrumentList()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -259,8 +260,9 @@ func TestGetSSEStockOptionList(t *testing.T) {
 
 	var symbols []string
 	for i := range ret {
-		symbols = append(symbols, ret[i].SecurityID)
+		symbols = append(symbols, ret[i].Symbol)
 	}
-	mds, err := s.GetSSEStockOptionTick(symbols)
+	var sina Sina
+	mds, err := sina.GetSSEStockOptionTick(symbols)
 	log.Println(mds, err)
 }

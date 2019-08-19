@@ -3,6 +3,7 @@ module github.com/mineralres/goshare
 go 1.12
 
 require (
+	github.com/360EntSecGroup-Skylar/excelize/v2 v2.0.1
 	github.com/armon/circbuf v0.0.0-20190214190532-5111143e8da2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.3.0
@@ -16,12 +17,12 @@ require (
 	github.com/micro/util v0.2.0
 	github.com/syndtr/goleveldb v1.0.0
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
-	golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7
+	golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7 // indirect
+	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a // indirect
 	golang.org/x/text v0.3.2
-	golang.org/x/tools v0.0.0-20190814221113-9fae7b2cd541 // indirect
-	golang.org/x/tools/gopls v0.1.3 // indirect
 	google.golang.org/grpc v1.20.1
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 )
 
