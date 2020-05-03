@@ -3,16 +3,16 @@ module github.com/mineralres/goshare
 go 1.13
 
 require (
-	github.com/360EntSecGroup-Skylar/excelize/v2 v2.0.2
+	github.com/360EntSecGroup-Skylar/excelize/v2 v2.1.0
 	github.com/cupcake/rdb v0.0.0-20161107195141-43ba34106c76 // indirect
 	github.com/edsrzf/mmap-go v1.0.0 // indirect
-	github.com/gin-gonic/gin v1.5.0
+	github.com/gin-gonic/gin v1.6.2
 	github.com/glendc/gopher-json v0.0.0-20170414221815-dc4743023d0c // indirect
 	github.com/go-redis/redis/v7 v7.0.0-beta.5
 	github.com/gogo/protobuf v1.2.1
-	github.com/golang/protobuf v1.3.2
+	github.com/golang/protobuf v1.3.3
 	github.com/google/uuid v1.1.1
-	github.com/gorilla/websocket v1.4.1
+	github.com/gorilla/websocket v1.4.2
 	github.com/ledongthuc/pdf v0.0.0-20190830105003-8ac343ec9fdd
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/util v0.2.0
@@ -28,4 +28,3 @@ require (
 	google.golang.org/grpc v1.26.0
 )
 
-replace github.com/mineralres/protos/src/go => c:/develop/github.com/mineralres/protos/src/go
