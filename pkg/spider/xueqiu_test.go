@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	pb "github.com/mineralres/protos/src/go/goshare"
 )
 
 func init() {

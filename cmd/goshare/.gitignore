@@ -1,0 +1,4 @@
+db
+*.exe
+*.xlsx
+bonus_cache.json

@@ -11,7 +11,7 @@ import (
 	"net"
 	"time"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	pb "github.com/mineralres/protos/src/go/goshare"
 )
 
 // GetVolume 转码

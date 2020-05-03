@@ -1,0 +1,3 @@
+package typemap
+
+func Foo() {}

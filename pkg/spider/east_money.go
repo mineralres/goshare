@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	pb "github.com/mineralres/protos/src/go/goshare"
 	"github.com/mineralres/goshare/pkg/util"
 )
 

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	proto "github.com/golang/protobuf/proto"
-	"github.com/mineralres/goshare/pkg/pb/ctp"
+	ctp "github.com/mineralres/protos/src/go/ctp"
 )
 
 // SyncAdapter  sync

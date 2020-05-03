@@ -1,0 +1,7 @@
+{
+    "outputPath": "bonus_result.csv",
+    "cachePath": "bonus_cache.json",
+    "dividendTimeLimit": 5,
+    "averageYear": 3,
+    "lastDividendYearLimit": 2018
+}

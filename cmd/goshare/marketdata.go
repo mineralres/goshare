@@ -10,8 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/mineralres/goshare/pkg/api"
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	pb "github.com/mineralres/protos/src/go/goshare"
 	// "google.golang.org/grpc"
 )
 
@@ -101,17 +100,6 @@ var (
 )
 
 func (g *Gateway) instrumentList(r *http.Request) (interface{}, error) {
-	var req pb.ReqGetTradingInstrumentList
-	var err error
-	if err = json.NewDecoder(r.Body).Decode(&req); err != nil {
-		return nil, err
-	}
-	var ctx api.Context
-	for i := range g.dsList {
-		if resp, err := g.dsList[i].TradingInstrumentList(&ctx, &req); err == nil {
-			return resp, err
-		}
-	}
 	return nil, errUnsported
 }
 

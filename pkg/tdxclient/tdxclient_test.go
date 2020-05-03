@@ -6,7 +6,7 @@ import (
 	"log"
 	"testing"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	pb "github.com/mineralres/protos/src/go/goshare"
 )
 
 func init() {
@@ -148,7 +148,7 @@ func Test_quoteclient(t *testing.T) {
 	var req1 ReqGetInstrumentBars
 	req1.Code = "10001886" // 8月购2850
 	req1.Market = 8        // 上海个股期权
-	req1.Category = toTdxPeriod(pb.PeriodType_D1)
+	req1.Category = ToTdxPeriod(pb.PeriodType_D1)
 	req1.Start = uint32(0)
 	req1.Count = uint16(100)
 	ks, err := exclient.GetInstrumentBars(&req1)

@@ -167,7 +167,7 @@ type result struct {
 }
 
 // RunTinyGateway 小API入口
-func RunTinyGateway(port int, h func(string, http.ResponseWriter, *http.Request) (interface{}, error)) {
+func RunTinyGateway(port int, h func(string, http.ResponseWriter, *http.Request) (interface{}, error)) error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/", func(w http.ResponseWriter, req *http.Request) {
 		defer func() {
@@ -199,5 +199,5 @@ func RunTinyGateway(port int, h func(string, http.ResponseWriter, *http.Request)
 		w.Write(jsonBytes)
 	})
 	srv := &http.Server{Addr: fmt.Sprintf(":%d", port), Handler: mux}
-	srv.ListenAndServe()
+	return srv.ListenAndServe()
 }

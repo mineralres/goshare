@@ -22,6 +22,7 @@ API列表:
 * BonusHistory 历史的分红送配
 * HotStockList 热门股票
 * StarCount    雪球股票关注度
+* KlineSeries  取K线序列
 
 ### east_money
 

@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/mineralres/goshare/pkg/util"
+	pb "github.com/mineralres/protos/src/go/goshare"
 )
 
 // Sina sina
@@ -431,8 +431,14 @@ func (sina *Sina) GetIndexLastTick(ex, symbol string) (*pb.MarketDataSnapshot, e
 	return nil, errors.New("ErrGetIndex")
 }
 
+// MapExchange map to sina exchange code
+func (sina *Sina) MapExchange(ex string) string {
+	return ex
+}
+
 // GetLastTick 获取最新报价
-func (sina *Sina) GetLastTick(ex, symbol string) (*pb.MarketDataSnapshot, error) {
+func (sina *Sina) GetLastTick(exchange, symbol string) (*pb.MarketDataSnapshot, error) {
+	ex := exchange
 	if ex == "SSE" || ex == "SZE" {
 		if ex == "SSE" && strings.Index(symbol, "1000") == 0 {
 			// 上证50ETF期权tick

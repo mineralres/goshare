@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mineralres/goshare/pkg/pb/ctp"
+	ctp "github.com/mineralres/protos/src/go/ctp"
 )
 
 // Subscriber  subscribe tick

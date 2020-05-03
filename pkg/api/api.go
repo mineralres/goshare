@@ -1,7 +1,7 @@
 package api
 
 import (
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
+	pb "github.com/mineralres/protos/src/go/goshare"
 )
 
 // GoshareAPI 平台核心
@@ -25,8 +25,6 @@ type DataSource interface {
 	GetTickSerires(*Context, *pb.ReqGetTickSeries) (*pb.RspGetTickSeries, error)
 	// 读取合约信息
 	GetTradingInstrument(*Context, string, string) (*pb.Instrument, error)
-	// 全部合约信息
-	TradingInstrumentList(*Context, *pb.ReqGetTradingInstrumentList) ([]*pb.Instrument, error)
 	// 反向取K线
 	RGetKlineSeries(*Context, *pb.ReqGetKlineSeries) (*pb.RspGetKlineSeries, error)
 	// K线

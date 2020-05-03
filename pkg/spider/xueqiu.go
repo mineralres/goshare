@@ -11,16 +11,23 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
-	gspb "github.com/mineralres/goshare/pkg/pb/goshare"
-	pb "github.com/mineralres/goshare/pkg/pb/spider"
+	gspb "github.com/mineralres/protos/src/go/goshare"
+	pb "github.com/mineralres/protos/src/go/spider"
 )
 
 // Xueqiu  xueqiu
 type Xueqiu struct {
 }
 
+func timeTrack(start time.Time, name string) {
+	elapsed := time.Since(start)
+	log.Printf("%s took %s", name, elapsed)
+}
+
 func (xq *Xueqiu) getURLContent(url string) ([]byte, error) {
+	start := time.Now()
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, strings.NewReader(""))
 	if err != nil {
@@ -34,6 +41,7 @@ func (xq *Xueqiu) getURLContent(url string) ([]byte, error) {
 	req.Header.Set("Upgrade-Insecure-Requests", "1")
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36")
 	res, err := client.Do(req)
+	timeTrack(start, "getURLContent")
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -202,6 +210,8 @@ func (xq *Xueqiu) BonusHistory(exchange, symbol string) ([]*pb.Bonus, error) {
 
 // KlineSeries kline series
 // xtype 复制类型 before, after, normal
+// begin time_t 格式，开始时间
+// count 要取的K线根数
 func (xq *Xueqiu) KlineSeries(exchange, symbol string, period gspb.PeriodType, xtype string, begin, count int64) ([]*gspb.Kline, error) {
 	if exchange == "SSE" {
 		exchange = "SH"

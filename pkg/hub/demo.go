@@ -11,8 +11,8 @@ import (
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/util"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
-	hubpb "github.com/mineralres/goshare/pkg/pb/hub"
+	pb "github.com/mineralres/protos/src/go/goshare"
+	hubpb "github.com/mineralres/protos/src/go/hub"
 )
 
 type msg struct {
@@ -348,7 +348,7 @@ func (e *DemoEnv) checkDemoOrderDone(mds *pb.MarketDataSnapshot, do *hubpb.DemoO
 		e.chMsg <- &msg{d: *do}
 
 		var tr pb.Trade
-		tr.Direction = order.Direction
+		tr.Direction = pb.DirectionType(order.Direction)
 		tr.ExchangeOrderId = order.DemoOrderId
 		tr.Price = tradedAveragePrice
 		tr.Symbol = order.Symbol

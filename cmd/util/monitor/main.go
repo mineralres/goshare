@@ -6,7 +6,6 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
 	"github.com/mineralres/goshare/pkg/spider"
 	"github.com/mineralres/goshare/pkg/util"
 )
@@ -36,10 +35,9 @@ func main() {
 		panic(err)
 	}
 
-	var spider spider.Spider
-	symbol := &pb.Symbol{Exchange: pb.ExchangeType_SSE, Code: "601698"}
+	var spider spider.Sina
 	for {
-		tick, err := spider.GetLastTick(symbol)
+		tick, err := spider.GetLastTick("SSE", "601398")
 		if err != nil {
 			log.Println(err)
 			continue

@@ -15,8 +15,8 @@ import (
 	"strings"
 	"time"
 
-	pb "github.com/mineralres/goshare/pkg/pb/goshare"
-	spiderpb "github.com/mineralres/goshare/pkg/pb/spider"
+	pb "github.com/mineralres/protos/src/go/goshare"
+	spiderpb "github.com/mineralres/protos/src/go/spider"
 	"github.com/mineralres/goshare/pkg/util"
 )
 
@@ -342,7 +342,6 @@ func downloadFile(url, target, referer string) error {
 }
 
 // StockList instrument list
-// name encoding is gb2312
 func (sse *SSE) StockList(toFillPriceInfo bool) ([]*pb.Instrument, error) {
 	excelFileName := fmt.Sprintf("SSE_STOCK_LIST_%s.xlsx", time.Now().Format("20060102"))
 	if _, err := os.Stat(excelFileName); os.IsNotExist(err) {
@@ -385,7 +384,7 @@ func (sse *SSE) StockList(toFillPriceInfo bool) ([]*pb.Instrument, error) {
 		opendate = strings.Trim(opendate, " ")
 		d, err := strconv.Atoi(opendate)
 		if err != nil {
-			log.Println(err, record)
+			// log.Println(err, record)
 			continue
 		}
 		item.OpenDate = int32(d)
