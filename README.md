@@ -36,11 +36,6 @@
   * xueqiu.go 雪球网. 如24小时内热度排名top10
 
 
-* pkg/tdxclient TDX数据接口
-  * sync_extern_client.go 扩展行情(期货，外盘等)
-  * sync_quote_client.go 普通行情(上海,深圳股票)
-
-
 * pkg/util 实用功能.
   * ldb_cache.go 简单的k/v缓存，用来缓存K线数组，最新报价, 合约信息等
   * send_main.go 发送邮件
