@@ -56,8 +56,4 @@
  * [CTP网关](https://github.com/mineralres/ctp-binding)
  * [UI](https://github.com/mineralres/goshare-ui)
 
-# 交流
 
-![png](https://github.com/mineralres/goshare/blob/master/doc/images/goshare-group.png)
-
-* QQ群 1018983692 
